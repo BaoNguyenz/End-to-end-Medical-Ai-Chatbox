@@ -1,15 +1,7 @@
 """
 convert_pdf_to_md.py
-High-performance, layout-aware PDF to Markdown converter for:
+Bộ chuyển đổi PDF sang Markdown tối ưu cho:
 The Gale Encyclopedia of Medicine (3rd Edition).
-
-Features:
-- Supports multi-column and mixed 1-col / 2-col / 3-col layouts via pymupdf4llm.
-- Mode 'sample': Quickly converts a specific range of pages (e.g. 45-55) for visual inspection.
-- Mode 'entries': Automatically detects medical topics (Diseases, Drugs, Procedures)
-  and saves individual .md files with clean metadata for RAG & GraphRAG.
-- Mode 'chunks': Splits into batch Markdown files (e.g. 100 pages per file).
-- Auto-cleans hyphenated line breaks (e.g. 'anti- \n inflammatory' -> 'anti-inflammatory').
 """
 
 from __future__ import annotations
@@ -26,10 +18,17 @@ import pymupdf as fitz  # PyMuPDF
 import pymupdf4llm
 from tqdm import tqdm
 
+# Cấu hình UTF-8 cho Windows Terminal
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
-# Tự động nhận diện thư mục Data dù script đặt ở đâu (trong Data/ hoặc ở thư mục gốc)
+# Tự động nhận diện thư mục Data dù script đặt ở đâu
 if SCRIPT_DIR.name.lower() == "data":
     DATA_DIR = SCRIPT_DIR
 else:
@@ -44,124 +43,92 @@ else:
 
 DEFAULT_OUTPUT_DIR = DATA_DIR / "markdown_output"
 
+# Danh sách các tên đề mục con cần bỏ qua khi nhận diện Tiêu đề bệnh/thuốc chính
+SECTION_SUBHEADINGS = {
+    "definition", "purpose", "description", "causes and symptoms", "diagnosis",
+    "treatment", "prognosis", "prevention", "key terms", "resources", "precautions",
+    "preparation", "aftercare", "risks", "normal results", "abnormal results",
+    "periodicals", "organizations", "books", "other", "inclusion criteria",
+    "about the contributors", "how to use this book", "scope", "introduction",
+    "advisors", "contributors", "alternative treatment", "demographics",
+    "questions to ask your doctor", "significance", "gale encyclopedia of medicine 3"
+}
+
 
 def clean_markdown_text(text: str) -> str:
     """
-    Clean up common OCR / PDF extraction artifacts in Markdown:
-    - Fix hyphenated word breaks at end of lines (e.g. 'medi-\ncine' -> 'medicine')
-    - Remove standalone running headers/footers
-    - Normalize multiple blank lines
+    Làm sạch văn bản an toàn không làm mất nội dung:
+    - Nối các từ bị ngắt dòng bằng dấu gạch nối (cholesty-\nramine -> cholestyramine)
+    - Chuẩn hóa các dòng trống thừa
     """
     if not text:
         return ""
 
-    # Fix hyphenated words across line breaks (e.g. "cholesty-\nramine" -> "cholestyramine")
+    # Nối từ bị ngắt gạch nối xuống dòng
     text = re.sub(r"(\b\w+)-\n(\w+\b)", r"\1\2", text)
 
-    # Remove repeated header artifacts like "GALE ENCYCLOPEDIA OF MEDICINE 3"
-    text = re.sub(
-        r"(?i)^.*?GALE ENCYCLOPEDIA OF MEDICINE.*?$\n?",
-        "",
-        text,
-        flags=re.MULTILINE,
-    )
-
-    # Normalize 3+ consecutive newlines to 2 newlines
+    # Chuẩn hóa khoảng cách dòng
     text = re.sub(r"\n{3,}", "\n\n", text)
 
     return text.strip()
 
 
-def convert_sample(
-    doc: fitz.Document,
-    start_page: int,
-    end_page: int,
-    output_path: Path,
-) -> None:
+def is_entry_header(line: str) -> Optional[str]:
     """
-    Convert a specific page range into a single Markdown file for inspection.
-    Page numbers are 1-indexed for user friendliness.
+    Kiểm tra xem một dòng có phải là Tiêu đề mục từ Y khoa (Tên Bệnh/Thuốc/Thủ thuật) không.
     """
-    print(f"\n[Sample Mode] Converting pages {start_page} to {end_page}...")
-    page_indices = list(range(start_page - 1, min(end_page, len(doc))))
+    stripped = line.strip()
+    match = re.match(r"^#{1,2}\s+(.+)$", stripped)
+    if not match:
+        return None
 
-    md_text = pymupdf4llm.to_markdown(
-        doc,
-        pages=page_indices,
-        show_progress=True,
-    )
+    title = match.group(1).strip()
+    # Loại bỏ các chữ cái phân chương đơn lẻ như '# A', '# B' hoặc đề mục quá ngắn
+    if len(title) <= 1 or re.match(r"^[A-Z]$", title):
+        return None
 
-    cleaned_md = clean_markdown_text(md_text)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(cleaned_md, encoding="utf-8")
+    # Loại bỏ các đề mục con chuẩn (Definition, Description, Key terms...)
+    clean_title = re.sub(r"[^\w\s]", "", title).strip().lower()
+    if clean_title in SECTION_SUBHEADINGS or title.lower() in SECTION_SUBHEADINGS:
+        return None
 
-    print(f" Saved sample Markdown to: {output_path}")
-    print(f" Total characters: {len(cleaned_md):,}")
-
-
-def convert_chunks(
-    doc: fitz.Document,
-    chunk_size: int,
-    output_dir: Path,
-    start_page: int = 1,
-    end_page: Optional[int] = None,
-) -> None:
-    """
-    Convert PDF in chunks of N pages (e.g. 100 pages per file).
-    """
-    total_pages = len(doc)
-    actual_end = min(end_page or total_pages, total_pages)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    print(f"\n[Chunk Mode] Converting pages {start_page} to {actual_end} in batches of {chunk_size} pages...")
-
-    for chunk_start in range(start_page - 1, actual_end, chunk_size):
-        chunk_end = min(chunk_start + chunk_size, actual_end)
-        pages_to_process = list(range(chunk_start, chunk_end))
-
-        chunk_filename = output_dir / f"pages_{chunk_start + 1:04d}_to_{chunk_end:04d}.md"
-
-        if chunk_filename.exists():
-            print(f"⏩ Skipping existing chunk: {chunk_filename.name}")
-            continue
-
-        print(f"\nProcessing pages {chunk_start + 1} to {chunk_end} ({len(pages_to_process)} pages)...")
-        md_text = pymupdf4llm.to_markdown(
-            doc,
-            pages=pages_to_process,
-            show_progress=False,
-        )
-
-        cleaned_md = clean_markdown_text(md_text)
-        chunk_filename.write_text(cleaned_md, encoding="utf-8")
-        print(f" Saved chunk: {chunk_filename.name}")
+    return title
 
 
 def convert_by_entries(
     doc: fitz.Document,
     output_dir: Path,
-    start_page: int = 25,  # Skip front-matter by default
+    start_page: int = 30,  # Trang 30 bắt đầu mục từ chữ A (Abdominal ultrasound)
     end_page: Optional[int] = None,
+    batch_size: int = 50,
 ) -> None:
     """
-    Converts and splits the encyclopedia into individual topic/disease files.
-    Ideal for Medical RAG and Knowledge Graph extraction.
+    Tự động nhận diện và tách từng mục từ (Bệnh / Thuốc) thành từng file Markdown độc lập.
+    Ghi trực tiếp từng file ra đĩa ngay khi hoàn tất mục từ đó.
     """
     total_pages = len(doc)
     actual_end = min(end_page or total_pages, total_pages)
     entries_dir = output_dir / "entries"
     entries_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"\n[Entries Mode] Converting pages {start_page} to {actual_end} and splitting by medical topic...")
+    print(f"\n[Entries Mode] Đang xử lý từ trang {start_page} đến {actual_end} và tách theo từng mục từ...")
 
-    topic_header_pattern = re.compile(r"^#\s+([A-Z0-9][A-Za-z0-9\s,\-\(\)\/]{2,80})$", re.MULTILINE)
-
-    current_title = "Introduction"
+    current_title: Optional[str] = None
     current_content: list[str] = []
     entry_count = 0
 
-    batch_size = 50
-    pbar = tqdm(total=actual_end - start_page + 1, desc="Converting & Parsing")
+    pbar = tqdm(total=actual_end - start_page + 1, desc="Đang chuyển đổi & tách bài")
+
+    def save_current_entry() -> None:
+        nonlocal entry_count
+        if current_title and current_content:
+            # Tạo tên file an toàn cho hệ điều hành
+            safe_title = re.sub(r'[\\/*?:"<>|]', "", current_title).strip()
+            safe_title = safe_title.replace(" ", "_")[:60]
+            if safe_title:
+                entry_file = entries_dir / f"{safe_title}.md"
+                entry_file.write_text("\n".join(current_content), encoding="utf-8")
+                entry_count += 1
 
     for p_start in range(start_page - 1, actual_end, batch_size):
         p_end = min(p_start + batch_size, actual_end)
@@ -172,80 +139,60 @@ def convert_by_entries(
 
         lines = cleaned_md.splitlines()
         for line in lines:
-            match = topic_header_pattern.match(line)
-            if match:
-                # Flush previous entry
-                if current_content and current_title:
-                    safe_title = re.sub(r'[\\/*?:"<>|]', "", current_title).strip()
-                    safe_title = safe_title.replace(" ", "_")[:60]
-                    if safe_title:
-                        entry_file = entries_dir / f"{safe_title}.md"
-                        entry_file.write_text("\n".join(current_content), encoding="utf-8")
-                        entry_count += 1
+            detected_title = is_entry_header(line)
+            if detected_title:
+                # Ghi mục từ trước đó ra file
+                save_current_entry()
 
-                current_title = match.group(1).strip()
+                # Bắt đầu mục từ mới
+                current_title = detected_title
                 current_content = [f"# {current_title}\n"]
             else:
-                current_content.append(line)
+                if current_title:
+                    current_content.append(line)
 
         pbar.update(len(pages))
 
-    # Flush final entry
-    if current_content and current_title:
-        safe_title = re.sub(r'[\\/*?:"<>|]', "", current_title).strip()
-        safe_title = safe_title.replace(" ", "_")[:60]
-        if safe_title:
-            entry_file = entries_dir / f"{safe_title}.md"
-            entry_file.write_text("\n".join(current_content), encoding="utf-8")
-            entry_count += 1
+    # Ghi mục từ cuối cùng
+    save_current_entry()
 
     pbar.close()
-    print(f"\n Finished! Successfully created {entry_count:,} medical topic files in: {entries_dir}")
+    print(f"\n🎉 Hoàn tất! Đã tạo thành công {entry_count:,} file bệnh học tại: {entries_dir}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Convert Medical Encyclopedia PDF to Markdown")
-    parser.add_argument("--pdf", type=str, default=str(DEFAULT_PDF_PATH), help="Path to input PDF file")
-    parser.add_argument("--output", type=str, default=str(DEFAULT_OUTPUT_DIR), help="Output directory or file path")
+    parser.add_argument("--pdf", type=str, default=str(DEFAULT_PDF_PATH), help="Đường dẫn file PDF")
+    parser.add_argument("--output", type=str, default=str(DEFAULT_OUTPUT_DIR), help="Thư mục xuất kết quả")
     parser.add_argument(
         "--mode",
         type=str,
-        choices=["sample", "chunks", "entries", "all"],
-        default="sample",
-        help="Conversion mode: 'sample' (test a few pages), 'chunks' (batches of pages), 'entries' (split by disease/topic), 'all' (single md file)",
+        choices=["sample", "entries"],
+        default="entries",
+        help="Chế độ: 'entries' (tách theo từng bài bệnh), 'sample' (thử nghiệm vài trang)",
     )
-    parser.add_argument("--start-page", type=int, default=1, help="Start page number (1-indexed)")
-    parser.add_argument("--end-page", type=int, default=10, help="End page number (1-indexed)")
-    parser.add_argument("--chunk-size", type=int, default=100, help="Number of pages per chunk in 'chunks' mode")
+    parser.add_argument("--start-page", type=int, default=30, help="Trang bắt đầu (mục từ bắt đầu từ trang 30)")
+    parser.add_argument("--end-page", type=int, default=None, help="Trang kết thúc (None = hết sách)")
 
     args = parser.parse_args()
 
     pdf_path = Path(args.pdf)
     if not pdf_path.exists():
-        print(f"❌ Error: PDF file not found at: {pdf_path}")
+        print(f"❌ Lỗi: Không tìm thấy file PDF tại: {pdf_path}")
         sys.exit(1)
 
-    print(f"📖 Opening PDF: {pdf_path.name}")
+    print(f"📖 Đang mở file: {pdf_path.name}")
     t0 = time.time()
     doc = fitz.open(str(pdf_path))
-    print(f"📊 Total Pages: {len(doc):,}")
+    print(f"📊 Tổng số trang: {len(doc):,}")
 
     output_path = Path(args.output)
-
-    if args.mode == "sample":
-        out_file = output_path if output_path.suffix == ".md" else output_path / f"sample_pages_{args.start_page}_to_{args.end_page}.md"
-        convert_sample(doc, args.start_page, args.end_page, out_file)
-    elif args.mode == "chunks":
-        convert_chunks(doc, args.chunk_size, output_path, args.start_page, args.end_page)
-    elif args.mode == "entries":
+    if args.mode == "entries":
         convert_by_entries(doc, output_path, args.start_page, args.end_page)
-    elif args.mode == "all":
-        out_file = output_path if output_path.suffix == ".md" else output_path / "full_medical_encyclopedia.md"
-        convert_sample(doc, 1, len(doc), out_file)
 
     doc.close()
     elapsed = time.time() - t0
-    print(f"\n Done in {elapsed:.2f}s!")
+    print(f"\n⏱️ Thời gian thực thi: {elapsed:.2f}s!")
 
 
 if __name__ == "__main__":

@@ -1,10 +1,53 @@
-# Python-generated files
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+*.py[cod]
+*$py.class
 
 # Virtual environments
-.venv
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# uv
+uv.lock
+
+# Data archives
+*.zip
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache
+cache/
+.cache/
+
+# Model cache (sentence-transformers downloads)
+# models/  # uncomment if you want to gitignore downloaded models
+
+# Exam source (not part of submission)
+RAG1/
+
+# Original nested sample_data archive
+sample_data/
+
+document_implement_plan/
+
+Data/
