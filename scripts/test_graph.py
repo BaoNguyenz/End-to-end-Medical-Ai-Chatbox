@@ -19,8 +19,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from openai import OpenAI
 
+# pyrefly: ignore [missing-import]
 from src.config import settings
+# pyrefly: ignore [missing-import]
 from src.graph.knowledge_graph import KnowledgeGraph
+# pyrefly: ignore [missing-import]
 from src.graph.graph_retriever import GraphRetriever
 
 SEP = "=" * 65
