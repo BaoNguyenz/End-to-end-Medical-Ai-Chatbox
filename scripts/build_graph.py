@@ -7,7 +7,7 @@ Run:
 
 What it does:
   1. Load all 20 documents from data/
-  2. Extract entities (Policy, Stakeholder, Product, Regulation, TechnicalDoc)
+  2. Extract entities (Disease, Medication, Symptom, MedicalProcedure, MedicalEntry)
      and relationships using OpenAI LLM (cached in cache/entity_cache.json)
   3. Clear existing graph and re-populate with MERGE statements
   4. Print final node/relationship counts

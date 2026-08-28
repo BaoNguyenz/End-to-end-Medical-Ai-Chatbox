@@ -147,8 +147,8 @@ def main():
     print(SEP)
 
     for q in [
-        "data privacy policy stakeholders",
-        "TechDocs Pro pricing",
+        "data privacy policy symptoms",
+        "What drugs are contraindicated with asthma?",
         "incident response procedures",
     ]:
         print(f'\n  Query: "{q}"')

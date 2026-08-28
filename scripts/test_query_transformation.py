@@ -130,7 +130,7 @@ def test_decomposer(hybrid, client):
     )
 
     complex_queries = [
-        "Compare data privacy policy and remote work policy and list stakeholders for both",
+        "Compare data privacy policy and remote work policy and list symptoms for both",
         "What are the security requirements and compliance regulations mentioned across all policies?",
     ]
 
@@ -170,7 +170,7 @@ def test_transformation_router(store, hybrid, client):
         # (query, expected_class)
         ("authentication",
          "vague"),
-        ("What is the price of TechDocs Pro?",
+        ("What is the price of Medical AI Pro?",
          "simple"),
         ("Compare data privacy policy and information security policy and list their owners",
          "complex"),
@@ -178,7 +178,7 @@ def test_transformation_router(store, hybrid, client):
          "vague"),
         ("How does API rate limiting work?",
          "simple"),
-        ("What are all the policies, their stakeholders, and how do they relate to GDPR?",
+        ("What are all the policies, their symptoms, and how do they relate to Asthma?",
          "complex"),
     ]
 
@@ -199,7 +199,7 @@ def test_transformation_router(store, hybrid, client):
     sample_queries = [
         "data retention",                                     # vague
         "What is the API rate limit per hour?",              # simple
-        "Compare the data privacy and vendor management policies and their GDPR references",  # complex
+        "Compare the data privacy and vendor management policies and their Asthma references",  # complex
     ]
 
     for query in sample_queries:

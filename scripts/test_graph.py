@@ -63,13 +63,13 @@ def main() -> None:
 
     cypher_tests = [
         ("All Policies with owners",
-         "MATCH (p:Policy)-[:OWNED_BY]->(s:Stakeholder) RETURN p.policy_id, p.name, s.name AS owner LIMIT 10"),
-        ("Policies complying with GDPR",
-         "MATCH (p:Policy)-[:COMPLIES_WITH]->(r:Regulation {name: 'GDPR'}) RETURN p.policy_id, p.name LIMIT 10"),
-        ("All Stakeholders",
-         "MATCH (s:Stakeholder) RETURN s.name, s.role LIMIT 10"),
+         "MATCH (p:Policy)-[:OWNED_BY]->(s:Symptom) RETURN p.disease_id, p.name, s.name AS owner LIMIT 10"),
+        ("Policies complying with Asthma",
+         "MATCH (p:Policy)-[:COMPLIES_WITH]->(r:Regulation {name: 'Asthma'}) RETURN p.disease_id, p.name LIMIT 10"),
+        ("All Symptoms",
+         "MATCH (s:Symptom) RETURN s.name, s.role LIMIT 10"),
         ("All Products",
-         "MATCH (p:Product) RETURN p.product_id, p.name, p.category LIMIT 10"),
+         "MATCH (p:Product) RETURN p.drug_id, p.name, p.category LIMIT 10"),
         ("TechnicalDocs with error codes",
          "MATCH (t:TechnicalDoc) WHERE size(t.error_codes) > 0 RETURN t.doc_id, t.title, t.error_codes LIMIT 10"),
     ]
@@ -93,10 +93,10 @@ def main() -> None:
 
     nl_queries = [
         "Who is responsible for data privacy?",
-        "Which policies comply with GDPR?",
-        "What are the stakeholders for the incident response policy?",
+        "Which policies comply with Asthma?",
+        "What are the symptoms for the incident response policy?",
         "Who owns the remote work policy?",
-        "What products does TechDocs offer?",
+        "What products does Medical AI offer?",
         "Which technical documents mention OAuth?",
     ]
 

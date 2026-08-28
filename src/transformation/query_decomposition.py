@@ -3,11 +3,11 @@ query_decomposition.py
 Breaks complex multi-part queries into simpler independent sub-queries.
 
 Example:
-  Input:  "Compare data privacy policy and remote work policy, list stakeholders for both"
-  Output: ["What does the data privacy policy cover?",
-           "What does the remote work policy cover?",
-           "Who are the stakeholders for the data privacy policy?",
-           "Who are the stakeholders for the remote work policy?"]
+  Input:  "Compare asthma and COPD, list symptoms for both"
+  Output: ["What does the asthma cover?",
+           "What does the COPD cover?",
+           "Who are the symptoms for the asthma?",
+           "Who are the symptoms for the COPD?"]
 """
 
 from __future__ import annotations
@@ -35,8 +35,8 @@ Rules:
 - Keep sub-questions focused and specific.
 - Return ONLY a JSON array of strings. No explanations, no markdown.
 
-Example input: "Compare data privacy policy and remote work policy and list their stakeholders"
-Example output: ["What are the main rules in the data privacy policy?", "What are the main rules in the remote work policy?", "Who are the stakeholders for data privacy?", "Who are the stakeholders for remote work?"]
+Example input: "Compare symptoms, causes, and treatment of asthma and COPD"
+Example output: ["What are the main rules in the asthma?", "What are the main rules in the COPD?", "Who are the symptoms for data privacy?", "Who are the symptoms for remote work?"]
 
 Now decompose this question:
 {query}

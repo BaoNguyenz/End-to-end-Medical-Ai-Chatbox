@@ -79,9 +79,9 @@ def test_reranker(store, hybrid, reranker):
     print("      (query, passage) PAIR more accurately. Compare ordering.\n")
 
     queries = [
-        "How does API authentication work?",
-        "What are the data privacy GDPR requirements?",
-        "incident response escalation procedure",
+        "What are the symptoms of asthma?",
+        "How is type 2 diabetes treated?",
+        "What causes appendicitis and how is it diagnosed?",
     ]
 
     for query in queries:

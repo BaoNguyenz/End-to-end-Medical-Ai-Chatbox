@@ -31,14 +31,14 @@ Translate the following question into a valid Cypher query.
 - Return meaningful string fields (names, IDs, descriptions).
 
 Examples:
-  Q: "Who owns the data privacy policy?"
-  A: MATCH (p:Policy {{policy_id: 'POL-001'}})-[:OWNED_BY]->(s:Stakeholder) RETURN s.name, s.role LIMIT 10
+  Q: "What are the symptoms of asthma?"
+  A: MATCH (p:Disease {{disease_id: 'POL-001'}})-[:OWNED_BY]->(s:Symptom) RETURN s.name, s.role LIMIT 10
 
-  Q: "Which policies comply with GDPR?"
-  A: MATCH (p:Policy)-[:COMPLIES_WITH]->(r:Regulation {{name: 'GDPR'}}) RETURN p.policy_id, p.name LIMIT 10
+  Q: "Which medications treat diabetes?"
+  A: MATCH (p:Disease)-[:COMPLIES_WITH]->(r:Regulation {{name: 'asthma'}}) RETURN p.disease_id, p.name LIMIT 10
 
-  Q: "What are the stakeholders for incident response?"
-  A: MATCH (p:Policy)-[:OWNED_BY]->(s:Stakeholder) WHERE toLower(p.name) CONTAINS 'incident' RETURN p.name, s.name, s.role LIMIT 10
+  Q: "What drugs interact with aspirin?"
+  A: MATCH (p:Disease)-[:OWNED_BY]->(s:Symptom) WHERE toLower(p.name) CONTAINS 'incident' RETURN p.name, s.name, s.role LIMIT 10
 
 Question: {query}
 Cypher:"""
@@ -118,12 +118,12 @@ class GraphRetriever:
         cypher = """
         MATCH (n)
         WHERE toLower(n.name) CONTAINS $q
-           OR toLower(coalesce(n.policy_id, '')) CONTAINS $q
+           OR toLower(coalesce(n.disease_id, '')) CONTAINS $q
            OR toLower(coalesce(n.doc_id, '')) CONTAINS $q
-           OR any(r IN coalesce(n.regulations, []) WHERE toLower(r) CONTAINS $q)
-           OR any(f IN coalesce(n.features, []) WHERE toLower(f) CONTAINS $q)
+           OR any(r IN coalesce(n.symptoms, []) WHERE toLower(r) CONTAINS $q)
+           OR any(f IN coalesce(n.indications, []) WHERE toLower(f) CONTAINS $q)
         RETURN labels(n)[0] AS type, n.name AS name,
-               coalesce(n.policy_id, n.product_id, n.doc_id, '') AS id
+               coalesce(n.disease_id, n.drug_id, n.doc_id, '') AS id
         LIMIT 10
         """
         return self.kg.run_cypher(cypher, {"q": q})
