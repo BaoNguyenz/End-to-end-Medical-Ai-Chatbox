@@ -15,7 +15,9 @@ from typing import Optional
 
 from openai import OpenAI
 
+# pyrefly: ignore [missing-import]
 from src.models import Document
+# pyrefly: ignore [missing-import]
 from src.graph.entity_models import (
     ExtractionResult, Policy, Stakeholder, Product,
     Regulation, TechnicalDoc, Relationship,
