@@ -1,6 +1,6 @@
 """
 index_documents.py
-Run the full indexing pipeline: load → chunk → embed → store in Qdrant.
+Run the full MEDICAL indexing pipeline: load → chunk → embed → store in Qdrant.
 """
 
 import sys
@@ -96,9 +96,9 @@ def main() -> None:
     print("QUICK SEARCH TEST")
     print("=" * 60)
     test_queries = [
-        "API authentication",
-        "data privacy policy",
-        "TechDocs Pro pricing",
+        "What are the symptoms of asthma?",
+        "How is diabetes mellitus treated?",
+        "What causes appendicitis?",
     ]
     for q in test_queries:
         results = store.search(q, top_k=3)

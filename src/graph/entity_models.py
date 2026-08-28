@@ -1,8 +1,26 @@
 """
 entity_models.py
-Pydantic models for domain entities extracted from TechDocs Inc. documents.
+Pydantic models for MEDICAL domain entities extracted from
+The Gale Encyclopedia of Medicine (3rd Edition).
 
-These models define the schema for nodes and relationships in the Neo4j graph.
+These models define the schema for nodes and relationships in the Neo4j Knowledge Graph.
+
+Medical Entity Hierarchy:
+  - Disease     → Condition/disorder (e.g. Asthma, Diabetes mellitus)
+  - Medication  → Drug/substance (e.g. Aspirin, Albuterol)
+  - Symptom     → Clinical sign/symptom (e.g. wheezing, chest pain)
+  - MedicalProcedure → Diagnostic/therapeutic procedure (e.g. Appendectomy, MRI)
+  - MedicalEntry     → A document-level reference linking to the vector store chunk
+
+Relationship types:
+  - HAS_SYMPTOM        (Disease → Symptom)
+  - TREATED_BY         (Disease → Medication | MedicalProcedure)
+  - DIAGNOSED_BY       (Disease → MedicalProcedure)
+  - CAUSES_SIDE_EFFECT (Medication → Symptom)
+  - CONTRAINDICATED_WITH (Medication → Disease | Medication)
+  - INTERACTS_WITH     (Medication → Medication)
+  - ALTERNATIVE_TREATMENT (Disease → MedicalProcedure)
+  - RELATED_TO         (Disease → Disease | Medication → Disease)
 """
 
 from __future__ import annotations
@@ -11,117 +29,134 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 
-# ── Node Models ────────────────────────────────────────────────────────────
+# ── Node Models ──────────────────────────────────────────────────────────────
 
-class Policy(BaseModel):
-    """A policy document (e.g. POL-001 Data Privacy Policy)."""
-    policy_id: str                              # e.g. "POL-001"
-    name: str                                   # e.g. "Data Privacy and Protection Policy"
-    owner: str                                  # e.g. "Chief Privacy Officer (CPO)"
-    effective_date: str = ""                    # e.g. "2024-01-01"
-    review_date: str = ""
-    doc_id: str = ""                            # reference to vector store doc_id
-    regulations: list[str] = Field(default_factory=list)  # e.g. ["GDPR", "CCPA"]
-
-
-class Stakeholder(BaseModel):
-    """A person/role mentioned in a document."""
-    name: str                                   # e.g. "Chief Privacy Officer (CPO)"
-    role: str = ""                              # e.g. "CPO"
-    responsibilities: list[str] = Field(default_factory=list)
+class Disease(BaseModel):
+    """A medical condition, disorder, or disease entity."""
+    disease_id: str                                  # e.g. "asthma", "diabetes_mellitus"
+    name: str                                        # e.g. "Asthma"
+    category: str = ""                               # e.g. "Respiratory", "Endocrine"
+    doc_id: str = ""                                 # Reference to vector store doc_id
+    icd_codes: list[str] = Field(default_factory=list)   # e.g. ["J45", "E11"]
+    symptoms: list[str] = Field(default_factory=list)    # Key symptoms (denormalized)
+    causes: list[str] = Field(default_factory=list)      # Main causes/risk factors
+    diagnostic_tests: list[str] = Field(default_factory=list)  # Common diagnostic tests
 
 
-class Product(BaseModel):
-    """A product in the catalog (e.g. TechDocs Pro)."""
-    product_id: str                             # e.g. "TDPRO-2024"
-    name: str                                   # e.g. "TechDocs Pro"
-    category: str = ""                          # e.g. "Enterprise SaaS"
-    version: str = ""
+class Medication(BaseModel):
+    """A drug, medicine, or therapeutic substance."""
+    drug_id: str                                     # e.g. "aspirin", "albuterol"
+    name: str                                        # e.g. "Aspirin"
+    generic_name: str = ""                           # Generic/INN name
+    brand_names: list[str] = Field(default_factory=list)   # e.g. ["Tylenol", "Motrin"]
+    drug_class: str = ""                             # e.g. "NSAID", "Beta-agonist"
     doc_id: str = ""
-    features: list[str] = Field(default_factory=list)
+    indications: list[str] = Field(default_factory=list)   # What diseases/conditions it treats
+    side_effects: list[str] = Field(default_factory=list)  # Known adverse effects
+    contraindications: list[str] = Field(default_factory=list)  # When NOT to use
 
 
-class Regulation(BaseModel):
-    """An external regulatory framework (e.g. GDPR)."""
-    name: str                                   # e.g. "GDPR"
-    articles: list[str] = Field(default_factory=list)  # e.g. ["Article 5", "Article 17"]
+class Symptom(BaseModel):
+    """A clinical sign or symptom experienced by a patient."""
+    symptom_id: str                                  # e.g. "wheezing", "chest_pain"
+    name: str                                        # e.g. "Wheezing"
+    affected_body_part: str = ""                     # e.g. "Respiratory tract", "Chest"
+    severity_levels: list[str] = Field(default_factory=list)  # e.g. ["mild", "moderate", "severe"]
 
 
-class TechnicalDoc(BaseModel):
-    """A technical documentation entry."""
-    doc_id: str                                 # e.g. "tech_001_api_authentication"
-    title: str                                  # e.g. "API Authentication Guide"
-    version: str = ""
-    error_codes: list[str] = Field(default_factory=list)  # e.g. ["ERR_AUTH_001"]
-    technologies: list[str] = Field(default_factory=list) # e.g. ["OAuth 2.0", "JWT"]
+class MedicalProcedure(BaseModel):
+    """A diagnostic test or therapeutic medical procedure."""
+    procedure_id: str                                # e.g. "appendectomy", "mri_scan"
+    name: str                                        # e.g. "Appendectomy"
+    procedure_type: str = ""                         # e.g. "Surgical", "Diagnostic", "Therapeutic"
+    doc_id: str = ""
+    purpose: list[str] = Field(default_factory=list)    # What it's used for
+    risks: list[str] = Field(default_factory=list)      # Associated risks
+    preparation: list[str] = Field(default_factory=list) # Pre-procedure requirements
 
 
-# ── Relationship Model ─────────────────────────────────────────────────────
+class MedicalEntry(BaseModel):
+    """
+    A top-level encyclopedia entry (the Markdown file as a whole).
+    Acts as a document node linking the structured graph entities
+    back to the raw text chunks in the vector store.
+    """
+    entry_id: str                                    # e.g. "Asthma", "Aspirin"
+    title: str                                       # e.g. "Asthma"
+    entry_type: str = ""                             # e.g. "Disease", "Drug", "Procedure", "Test"
+    doc_id: str = ""                                 # Vector store doc_id
+    related_entries: list[str] = Field(default_factory=list)  # Cross-references
+
+
+# ── Relationship Model ───────────────────────────────────────────────────────
 
 class Relationship(BaseModel):
-    """A directed relationship between two nodes."""
-    source_id: str          # node property used as ID (policy_id, name, doc_id, etc.)
-    source_type: str        # "Policy" | "Stakeholder" | "Product" | "Regulation" | "TechnicalDoc"
+    """A directed relationship between two medical entities."""
+    source_id: str       # e.g. "asthma", "aspirin"
+    source_type: str     # "Disease" | "Medication" | "Symptom" | "MedicalProcedure"
     target_id: str
     target_type: str
-    relation_type: str      # e.g. "OWNED_BY", "COMPLIES_WITH", "REFERENCES", "RELATES_TO"
+    relation_type: str   # "HAS_SYMPTOM" | "TREATED_BY" | "DIAGNOSED_BY" |
+                         # "CAUSES_SIDE_EFFECT" | "CONTRAINDICATED_WITH" |
+                         # "INTERACTS_WITH" | "ALTERNATIVE_TREATMENT" | "RELATED_TO"
+    notes: str = ""      # Optional clarification (e.g. "contraindicated in children")
 
 
-# ── Extraction Result ──────────────────────────────────────────────────────
+# ── Extraction Result ────────────────────────────────────────────────────────
 
 class ExtractionResult(BaseModel):
-    """All entities and relationships extracted from one or more documents."""
-    policies: list[Policy] = Field(default_factory=list)
-    stakeholders: list[Stakeholder] = Field(default_factory=list)
-    products: list[Product] = Field(default_factory=list)
-    regulations: list[Regulation] = Field(default_factory=list)
-    technical_docs: list[TechnicalDoc] = Field(default_factory=list)
+    """All entities and relationships extracted from one or more medical documents."""
+    diseases: list[Disease] = Field(default_factory=list)
+    medications: list[Medication] = Field(default_factory=list)
+    symptoms: list[Symptom] = Field(default_factory=list)
+    procedures: list[MedicalProcedure] = Field(default_factory=list)
+    entries: list[MedicalEntry] = Field(default_factory=list)
     relationships: list[Relationship] = Field(default_factory=list)
 
     def merge(self, other: "ExtractionResult") -> None:
         """Merge another extraction result into this one (in-place)."""
-        self.policies.extend(other.policies)
-        self.stakeholders.extend(other.stakeholders)
-        self.products.extend(other.products)
-        self.regulations.extend(other.regulations)
-        self.technical_docs.extend(other.technical_docs)
+        self.diseases.extend(other.diseases)
+        self.medications.extend(other.medications)
+        self.symptoms.extend(other.symptoms)
+        self.procedures.extend(other.procedures)
+        self.entries.extend(other.entries)
         self.relationships.extend(other.relationships)
 
     def deduplicate(self) -> None:
         """Remove duplicate nodes (by ID/name), keeping first occurrence."""
-        seen_policies: set[str] = set()
-        seen_stakeholders: set[str] = set()
-        seen_products: set[str] = set()
-        seen_regulations: set[str] = set()
-        seen_techdocs: set[str] = set()
+        seen_diseases: set[str] = set()
+        seen_medications: set[str] = set()
+        seen_symptoms: set[str] = set()
+        seen_procedures: set[str] = set()
+        seen_entries: set[str] = set()
 
-        self.policies = [
-            p for p in self.policies
-            if p.policy_id not in seen_policies and not seen_policies.add(p.policy_id)  # type: ignore
+        self.diseases = [
+            d for d in self.diseases
+            if d.disease_id not in seen_diseases and not seen_diseases.add(d.disease_id)  # type: ignore
         ]
-        self.stakeholders = [
-            s for s in self.stakeholders
-            if s.name not in seen_stakeholders and not seen_stakeholders.add(s.name)  # type: ignore
+        self.medications = [
+            m for m in self.medications
+            if m.drug_id not in seen_medications and not seen_medications.add(m.drug_id)  # type: ignore
         ]
-        self.products = [
-            p for p in self.products
-            if p.product_id not in seen_products and not seen_products.add(p.product_id)  # type: ignore
+        self.symptoms = [
+            s for s in self.symptoms
+            if s.symptom_id not in seen_symptoms and not seen_symptoms.add(s.symptom_id)  # type: ignore
         ]
-        self.regulations = [
-            r for r in self.regulations
-            if r.name not in seen_regulations and not seen_regulations.add(r.name)  # type: ignore
+        self.procedures = [
+            p for p in self.procedures
+            if p.procedure_id not in seen_procedures and not seen_procedures.add(p.procedure_id)  # type: ignore
         ]
-        self.technical_docs = [
-            t for t in self.technical_docs
-            if t.doc_id not in seen_techdocs and not seen_techdocs.add(t.doc_id)  # type: ignore
+        self.entries = [
+            e for e in self.entries
+            if e.entry_id not in seen_entries and not seen_entries.add(e.entry_id)  # type: ignore
         ]
 
     def summary(self) -> str:
         return (
-            f"Policies={len(self.policies)}, "
-            f"Stakeholders={len(self.stakeholders)}, "
-            f"Products={len(self.products)}, "
-            f"Regulations={len(self.regulations)}, "
-            f"TechnicalDocs={len(self.technical_docs)}, "
+            f"Diseases={len(self.diseases)}, "
+            f"Medications={len(self.medications)}, "
+            f"Symptoms={len(self.symptoms)}, "
+            f"Procedures={len(self.procedures)}, "
+            f"Entries={len(self.entries)}, "
             f"Relationships={len(self.relationships)}"
         )

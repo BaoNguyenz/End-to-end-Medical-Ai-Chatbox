@@ -1,6 +1,7 @@
 """
 entity_extractor.py
-Uses an LLM to extract structured entities and relationships from documents.
+Uses an LLM to extract structured MEDICAL entities and relationships
+from Gale Encyclopedia of Medicine document entries.
 
 Extraction is cached per document to avoid redundant API calls.
 """
@@ -19,44 +20,96 @@ from openai import OpenAI
 from src.models import Document
 # pyrefly: ignore [missing-import]
 from src.graph.entity_models import (
-    ExtractionResult, Policy, Stakeholder, Product,
-    Regulation, TechnicalDoc, Relationship,
+    ExtractionResult, Disease, Medication, Symptom,
+    MedicalProcedure, MedicalEntry, Relationship,
 )
 
 
-_SYSTEM_PROMPT = """You are an expert knowledge graph builder for enterprise documentation.
-Extract all entities and relationships from the provided document.
+_SYSTEM_PROMPT = """\
+You are a clinical medical knowledge graph builder.
+Analyze the provided medical encyclopedia entry and extract all structured entities and relationships.
 Return ONLY valid JSON matching the schema below. No explanations, no markdown fences.
 
 Schema:
 {
-  "policies": [{"policy_id": "POL-XXX", "name": "...", "owner": "...", "effective_date": "...", "review_date": "...", "regulations": ["GDPR", "CCPA"]}],
-  "stakeholders": [{"name": "...", "role": "...", "responsibilities": ["..."]}],
-  "products": [{"product_id": "...", "name": "...", "category": "...", "version": "...", "features": ["..."]}],
-  "regulations": [{"name": "GDPR", "articles": ["Article 5", "Article 17"]}],
-  "technical_docs": [{"doc_id": "...", "title": "...", "version": "...", "error_codes": ["ERR_..."], "technologies": ["OAuth 2.0", "JWT"]}],
+  "diseases": [
+    {
+      "disease_id": "lowercase_snake_case_id",
+      "name": "Disease Name",
+      "category": "e.g. Respiratory / Cardiovascular / Neurological / Infectious",
+      "icd_codes": ["J45"],
+      "symptoms": ["wheezing", "shortness of breath"],
+      "causes": ["allergens", "exercise", "infections"],
+      "diagnostic_tests": ["spirometry", "peak flow measurement"]
+    }
+  ],
+  "medications": [
+    {
+      "drug_id": "lowercase_snake_case_id",
+      "name": "Drug Name",
+      "generic_name": "generic name",
+      "brand_names": ["Tylenol", "Panadol"],
+      "drug_class": "NSAID / Beta-agonist / Antibiotic etc.",
+      "indications": ["pain relief", "fever reduction"],
+      "side_effects": ["nausea", "stomach upset"],
+      "contraindications": ["kidney disease", "children under 12"]
+    }
+  ],
+  "symptoms": [
+    {
+      "symptom_id": "lowercase_snake_case_id",
+      "name": "Symptom Name",
+      "affected_body_part": "e.g. Lungs / Heart / Brain",
+      "severity_levels": ["mild", "moderate", "severe"]
+    }
+  ],
+  "procedures": [
+    {
+      "procedure_id": "lowercase_snake_case_id",
+      "name": "Procedure Name",
+      "procedure_type": "Surgical / Diagnostic / Therapeutic",
+      "purpose": ["detect cancer", "relieve obstruction"],
+      "risks": ["infection", "bleeding"],
+      "preparation": ["fasting 8 hours", "discontinue anticoagulants"]
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "Title of this encyclopedia entry",
+      "title": "Title of this encyclopedia entry",
+      "entry_type": "Disease / Drug / Procedure / Test / Therapy",
+      "related_entries": ["Asthma", "Bronchitis"]
+    }
+  ],
   "relationships": [
-    {"source_id": "POL-001", "source_type": "Policy", "target_id": "Chief Privacy Officer (CPO)", "target_type": "Stakeholder", "relation_type": "OWNED_BY"},
-    {"source_id": "POL-001", "source_type": "Policy", "target_id": "GDPR", "target_type": "Regulation", "relation_type": "COMPLIES_WITH"}
+    {"source_id": "asthma", "source_type": "Disease", "target_id": "wheezing", "target_type": "Symptom", "relation_type": "HAS_SYMPTOM"},
+    {"source_id": "asthma", "source_type": "Disease", "target_id": "albuterol", "target_type": "Medication", "relation_type": "TREATED_BY"},
+    {"source_id": "aspirin", "source_type": "Medication", "target_id": "stomach_upset", "target_type": "Symptom", "relation_type": "CAUSES_SIDE_EFFECT"},
+    {"source_id": "aspirin", "source_type": "Medication", "target_id": "asthma", "target_type": "Disease", "relation_type": "CONTRAINDICATED_WITH", "notes": "can trigger aspirin-sensitive asthma"}
   ]
 }
 
 Relationship types to use:
-- OWNED_BY        : Policy/TechnicalDoc -> Stakeholder (owner)
-- COMPLIES_WITH   : Policy -> Regulation
-- REFERENCES      : Policy/TechnicalDoc -> Policy/TechnicalDoc (cross-references)
-- RESPONSIBLE_FOR : Stakeholder -> Policy/Product (area of responsibility)
-- PART_OF         : Product feature -> Product
-- RELATES_TO      : any -> any (generic)
+- HAS_SYMPTOM           : Disease → Symptom
+- TREATED_BY            : Disease → Medication | MedicalProcedure
+- DIAGNOSED_BY          : Disease → MedicalProcedure
+- CAUSES_SIDE_EFFECT    : Medication → Symptom
+- CONTRAINDICATED_WITH  : Medication → Disease | Medication
+- INTERACTS_WITH        : Medication → Medication
+- ALTERNATIVE_TREATMENT : Disease → MedicalProcedure (complementary/alternative)
+- RELATED_TO            : Disease → Disease | any → any (generic cross-reference)
 
-Include ONLY entities actually mentioned in the document.
-If a field has no data, use an empty string or empty list.
+Rules:
+- Include ONLY entities explicitly mentioned in the document.
+- Use lowercase_snake_case for all IDs (e.g. "diabetes_mellitus", "aspirin").
+- If a field has no data, use an empty string or empty list.
+- If the document is not a clinical medical entry (e.g. biography, index page), return all empty lists.
 """
 
 
 class EntityExtractor:
     """
-    Extracts structured entities from documents using an LLM.
+    Extracts structured medical entities from encyclopedia documents using an LLM.
     Results are cached per document (keyed by doc_id + content hash).
     """
 
@@ -70,7 +123,7 @@ class EntityExtractor:
         self.model = model
         self.cache_dir = cache_dir or Path("cache")
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self._cache_file = self.cache_dir / "entity_cache.json"
+        self._cache_file = self.cache_dir / "medical_entity_cache.json"
         self._cache: dict[str, dict] = self._load_cache()
 
     # ------------------------------------------------------------------
@@ -101,7 +154,7 @@ class EntityExtractor:
 
     def extract_from_document(self, doc: Document) -> ExtractionResult:
         """
-        Extract entities and relationships from a single document.
+        Extract medical entities and relationships from a single document.
         Cached by (doc_id + content hash).
         """
         key = self._cache_key(doc)
@@ -116,10 +169,10 @@ class EntityExtractor:
             model=self.model,
             messages=[
                 {"role": "system", "content": _SYSTEM_PROMPT},
-                {"role": "user", "content": f"Document:\n\n{doc.page_content}"},
+                {"role": "user", "content": f"Medical encyclopedia entry:\n\n{doc.page_content[:4000]}"},
             ],
             temperature=0.0,
-            max_tokens=1500,
+            max_tokens=2000,
             response_format={"type": "json_object"},
         )
 
@@ -138,36 +191,36 @@ class EntityExtractor:
         return self._parse_llm_response(parsed, doc.doc_id)
 
     def _parse_llm_response(self, data: dict, doc_id: str) -> ExtractionResult:
-        """Convert raw LLM JSON dict into validated Pydantic models."""
+        """Convert raw LLM JSON dict into validated Pydantic medical models."""
         result = ExtractionResult()
 
-        for raw in data.get("policies", []):
+        for raw in data.get("diseases", []):
             try:
-                result.policies.append(Policy(doc_id=doc_id, **raw))
+                result.diseases.append(Disease(doc_id=doc_id, **raw))
             except Exception:
                 pass
 
-        for raw in data.get("stakeholders", []):
+        for raw in data.get("medications", []):
             try:
-                result.stakeholders.append(Stakeholder(**raw))
+                result.medications.append(Medication(doc_id=doc_id, **raw))
             except Exception:
                 pass
 
-        for raw in data.get("products", []):
+        for raw in data.get("symptoms", []):
             try:
-                result.products.append(Product(doc_id=doc_id, **raw))
+                result.symptoms.append(Symptom(**raw))
             except Exception:
                 pass
 
-        for raw in data.get("regulations", []):
+        for raw in data.get("procedures", []):
             try:
-                result.regulations.append(Regulation(**raw))
+                result.procedures.append(MedicalProcedure(doc_id=doc_id, **raw))
             except Exception:
                 pass
 
-        for raw in data.get("technical_docs", []):
+        for raw in data.get("entries", []):
             try:
-                result.technical_docs.append(TechnicalDoc(**raw))
+                result.entries.append(MedicalEntry(doc_id=doc_id, **raw))
             except Exception:
                 pass
 
@@ -187,7 +240,7 @@ class EntityExtractor:
         """
         Extract from all documents, merge and deduplicate results.
         """
-        print(f"[EntityExtractor] Extracting from {len(docs)} documents:")
+        print(f"[EntityExtractor] Extracting medical entities from {len(docs)} documents:")
         combined = ExtractionResult()
 
         for doc in docs:

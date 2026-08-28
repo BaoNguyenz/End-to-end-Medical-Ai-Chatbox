@@ -1,13 +1,14 @@
 """
 hyde.py
-Hypothetical Document Embeddings (HyDE) query transformation.
+Hypothetical Document Embeddings (HyDE) query transformation for Medical AI.
 
 Instead of embedding the raw query, HyDE:
-  1. Asks the LLM to write a hypothetical document that would answer the query.
+  1. Asks the LLM to write a hypothetical medical document that would answer the query.
   2. Embeds that hypothetical document.
   3. Uses the resulting embedding for vector search.
 
-This bridges the vocabulary/style gap between short queries and long documents.
+This bridges the vocabulary/style gap between short layperson symptom descriptions
+and formal medical encyclopedia text.
 """
 
 from __future__ import annotations
@@ -26,20 +27,20 @@ from src.indexing.vector_store import VectorStore
 
 
 _HYDE_PROMPT = """\
-You are an expert technical writer at an enterprise software company.
-Write a detailed, realistic paragraph (3-5 sentences) that would appear in
-an official document and directly answers the following question.
-Write in third-person, formal documentation style.
-Do NOT start with "The answer is" or "Here is". Just write the paragraph.
+You are an experienced clinical physician and medical writer.
+Write a factual, concise paragraph (3-5 sentences) that would appear in a
+medical encyclopedia or clinical guideline and directly answers the following question.
+Write in formal, third-person medical documentation style, using appropriate clinical terminology.
+Do NOT start with "The answer is" or "Here is". Just write the medical paragraph.
 
 Question: {query}
 
-Hypothetical document excerpt:"""
+Medical encyclopedia excerpt:"""
 
 
 class HyDE:
     """
-    Hypothetical Document Embeddings transformation.
+    Hypothetical Document Embeddings transformation for Medical AI.
 
     Usage:
         hyde = HyDE(openai_client, model, embedding_model, cache_dir)
@@ -58,7 +59,7 @@ class HyDE:
         self.embedding_model = embedding_model
         self.cache_dir = cache_dir or Path("cache")
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self._cache_file = self.cache_dir / "hyde_cache.json"
+        self._cache_file = self.cache_dir / "medical_hyde_cache.json"
         self._cache: dict[str, str] = self._load_cache()
 
     # ------------------------------------------------------------------
@@ -80,7 +81,7 @@ class HyDE:
         )
 
     def _cache_key(self, query: str) -> str:
-        return hashlib.sha256(f"hyde:{self.model}:{query}".encode()).hexdigest()[:16]
+        return hashlib.sha256(f"medical_hyde:{self.model}:{query}".encode()).hexdigest()[:16]
 
     # ------------------------------------------------------------------
     # Core generation
@@ -88,18 +89,18 @@ class HyDE:
 
     def generate_hypothetical_document(self, query: str) -> str:
         """
-        Ask the LLM to write a hypothetical answer document for the query.
+        Ask the LLM to write a hypothetical medical encyclopedia excerpt for the query.
         Result is cached on disk to avoid repeated API calls.
 
         Returns:
-            A hypothetical document string (not the query itself).
+            A hypothetical medical document string (not the query itself).
         """
         key = self._cache_key(query)
         if key in self._cache:
             print(f"[HyDE] Cache hit for query: '{query[:50]}...'")
             return self._cache[key]
 
-        print(f"[HyDE] Generating hypothetical document for: '{query[:60]}'")
+        print(f"[HyDE] Generating medical hypothetical document for: '{query[:60]}'")
         t = time.time()
 
         response = self.client.chat.completions.create(
@@ -107,8 +108,8 @@ class HyDE:
             messages=[
                 {"role": "user", "content": _HYDE_PROMPT.format(query=query)},
             ],
-            temperature=0.7,
-            max_tokens=300,
+            temperature=0.5,  # Lower temperature for more factual medical content
+            max_tokens=350,
         )
 
         hyp_doc = response.choices[0].message.content.strip()
@@ -131,7 +132,7 @@ class HyDE:
         document_type: Optional[str] = None,
     ) -> tuple[list[SearchResult], str]:
         """
-        HyDE search: generate hypothetical doc -> embed -> vector search.
+        HyDE medical search: generate hypothetical medical doc -> embed -> vector search.
 
         Returns:
             Tuple of (results, hypothetical_document).
