@@ -6,8 +6,8 @@ services:
     image: qdrant/qdrant:latest
     container_name: rag-qdrant
     ports:
-      - "6333:6333"   # HTTP API + Dashboard
-      - "6334:6334"   # gRPC
+      - "6335:6333"   # HTTP API + Dashboard
+      - "6336:6334"   # gRPC
     volumes:
       - qdrant_data:/qdrant/storage
     restart: unless-stopped
@@ -22,8 +22,8 @@ services:
     image: neo4j:5-community
     container_name: rag-neo4j
     ports:
-      - "7474:7474"   # Browser UI
-      - "7687:7687"   # Bolt protocol
+      - "7475:7474"   # Browser UI
+      - "7688:7687"   # Bolt protocol
     environment:
       NEO4J_AUTH: neo4j/password123
       NEO4J_PLUGINS: '["apoc"]'
@@ -47,7 +47,7 @@ services:
       target: runtime        # dùng stage 'runtime' của multi-stage build
     container_name: rag-web
     ports:
-      - "8000:8000"          # FastAPI + Frontend
+      - "8080:8000"          # FastAPI + Frontend
     env_file:
       - .env                 # Load OPENAI_API_KEY và các biến khác từ file .env
     environment:
@@ -56,7 +56,7 @@ services:
       NEO4J_URI: bolt://neo4j:7687
     volumes:
       # Mount thư mục data để persist BM25 index và documents
-      - ./data:/app/data
+      - ./Data:/app/Data
       - ./cache:/app/cache
     depends_on:
       qdrant:
