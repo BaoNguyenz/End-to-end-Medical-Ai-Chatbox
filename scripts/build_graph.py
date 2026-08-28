@@ -86,7 +86,7 @@ def main() -> None:
     print(f"\n  Total time: {time.time()-total_start:.2f}s")
     print()
     print("Next steps:")
-    print("  - Neo4j Browser: http://localhost:7474")
+    print("  - Neo4j Browser: http://localhost:7475")
     print("  - Run query: MATCH (n) RETURN labels(n)[0], count(*)")
     print("  - Verify: uv run python scripts/test_graph.py")
 
