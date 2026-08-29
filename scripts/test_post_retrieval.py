@@ -1,8 +1,9 @@
 """
 test_post_retrieval.py
-Verify Task 4: Cross-Encoder Reranking + MMR + PostRetrievalPipeline.
+Verify Medical Post-Retrieval Pipeline (Cross-Encoder Reranker + MMR Diversification).
 
-Does NOT need OpenAI API key - runs fully locally.
+Requires:
+  - Qdrant running + index_documents.py already run
 
 Run:
     uv run python scripts/test_post_retrieval.py
@@ -32,11 +33,9 @@ from src.post_retrieval.post_retrieval_pipeline import PostRetrievalPipeline
 SEP = "=" * 65
 
 
-# ── Setup ──────────────────────────────────────────────────────────────────
-
 def build_components():
     print(SEP)
-    print("SETUP: Loading components")
+    print("SETUP: Loading components for Medical Post-Retrieval Pipeline")
     print(SEP)
 
     store = VectorStore(
@@ -58,9 +57,8 @@ def build_components():
     print(f"  [OK] BM25 index: {bm25.corpus_size} chunks")
 
     hybrid = HybridSearch(vector_store=store, bm25_retriever=bm25)
-
     reranker = CrossEncoderReranker(model_name=settings.cross_encoder_model)
-    print(f"  [OK] CrossEncoder ready\n")
+    print(f"  [OK] CrossEncoder ready (model={settings.cross_encoder_model})\n")
 
     return store, hybrid, reranker
 
@@ -68,11 +66,9 @@ def build_components():
 def print_results(label, results, max_show=10):
     print(f"  -- {label} ({len(results)} results) --")
     for i, r in enumerate(results[:max_show]):
-        preview = r.chunk.content[:80].replace("\n", " ").encode("ascii", "replace").decode("ascii")
-        print(
-            f"  [{i+1:2d}] score={r.score:7.4f}  "
-            f"doc={r.chunk.doc_id:<35}  {preview}..."
-        )
+        doc_id = str(r.chunk.doc_id).encode("ascii", errors="ignore").decode("ascii")
+        preview = str(r.chunk.content)[:80].replace("\n", " ").encode("ascii", errors="ignore").decode("ascii")
+        print(f"  [{i+1:2d}] score={r.score:7.4f}  doc={doc_id:<35}  {preview}...")
     print()
 
 
@@ -80,31 +76,25 @@ def print_results(label, results, max_show=10):
 
 def test_reranker(store, hybrid, reranker):
     print(SEP)
-    print("TEST 1: CrossEncoder Reranker")
+    print("TEST 1: CrossEncoder Reranker on Medical Documents")
     print(SEP)
     print("Idea: Hybrid search gets 50 candidates, CrossEncoder scores each")
-    print("      (query, passage) PAIR more accurately. Compare ordering.\n")
+    print("      (medical question, passage) PAIR accurately.\n")
 
     queries = [
-        "What are the symptoms of asthma?",
-        "How is type 2 diabetes treated?",
-        "What causes appendicitis and how is it diagnosed?",
+        "What are the symptoms and warning signs of asthma?",
+        "How is type 2 diabetes mellitus diagnosed and treated?",
+        "What causes acute appendicitis and what are the clinical signs?",
     ]
 
     for query in queries:
         print(f'  Query: "{query}"')
-
-        # Get 50 candidates via hybrid
         candidates = hybrid.search(query, top_k=50)
-
-        # Baseline: top-5 before reranking
         print_results("Before rerank (hybrid top-5)", candidates[:5])
 
-        # Rerank to top-10
         t = time.time()
         reranked = reranker.rerank(query, candidates, top_k=10)
         elapsed = time.time() - t
-
         print_results(f"After CrossEncoder rerank ({elapsed:.2f}s, top-10)", reranked)
         print()
 
@@ -113,18 +103,14 @@ def test_reranker(store, hybrid, reranker):
 
 def test_mmr(store, hybrid, reranker):
     print(SEP)
-    print("TEST 2: MMR Diversification")
+    print("TEST 2: MMR Diversification (Avoiding repetitive medical chunks)")
     print(SEP)
-    print("Idea: Pure relevance ranking returns near-duplicate chunks from")
-    print("      the same doc. MMR trades off relevance for diversity.\n")
+    print("Idea: MMR ensures results cover diverse medical aspects (causes, treatments, side effects)\n")
 
-    query = "data privacy policy"
+    query = "asthma symptoms and medical treatments"
     candidates = hybrid.search(query, top_k=30)
+    print_results("Pure relevance (top-10, no MMR diversity)", candidates[:10])
 
-    # Pure relevance (top-10 as-is)
-    print_results("Pure relevance (top-10, no diversity)", candidates[:10])
-
-    # MMR with different lambda values
     for lam in [0.7, 0.5, 0.3]:
         t = time.time()
         mmr_results = mmr_rerank(
@@ -132,14 +118,11 @@ def test_mmr(store, hybrid, reranker):
             lambda_param=lam, top_k=10
         )
         elapsed = time.time() - t
-
-        # Count unique docs in result
         unique_docs = len(set(r.chunk.doc_id for r in mmr_results))
         print_results(
-            f"MMR lambda={lam} ({elapsed:.2f}s, {unique_docs} unique docs)",
+            f"MMR lambda={lam} ({elapsed:.2f}s, {unique_docs} unique medical docs)",
             mmr_results
         )
-
     print()
 
 
@@ -152,7 +135,7 @@ def test_pipeline(store, hybrid, reranker):
     print("Flow A (rerank_first): 50 -> CrossEncoder(top-20) -> MMR(top-10)")
     print("Flow B (mmr_first):    50 -> MMR(top-20) -> CrossEncoder(top-10)\n")
 
-    query = "What security policies apply to remote employees?"
+    query = "What medications are prescribed for asthma and what adverse reactions can occur?"
     candidates = hybrid.search(query, top_k=50)
     print(f'  Query: "{query}"')
     print(f"  Starting with {len(candidates)} hybrid candidates\n")
@@ -187,10 +170,8 @@ def test_pipeline(store, hybrid, reranker):
     ids_a = set(r.chunk.chunk_id for r in results_a)
     ids_b = set(r.chunk.chunk_id for r in results_b)
     overlap = len(ids_a & ids_b)
-    print(f"  Overlap between A and B: {overlap}/10 chunks in common\n")
+    print(f"  Overlap between Pipeline A and B: {overlap}/10 chunks in common\n")
 
-
-# ── Summary ────────────────────────────────────────────────────────────────
 
 def main():
     store, hybrid, reranker = build_components()
@@ -200,17 +181,12 @@ def main():
     test_pipeline(store, hybrid, reranker)
 
     print(SEP)
-    print("TASK 4 VERIFICATION COMPLETE")
+    print("MEDICAL POST-RETRIEVAL VERIFICATION COMPLETE")
     print(SEP)
-    print("  [OK] CrossEncoder: scores (query, passage) pairs accurately")
-    print("  [OK] CrossEncoder: top-k ordering changes significantly vs hybrid")
-    print("  [OK] MMR lambda=0.7: high relevance, some diversity")
-    print("  [OK] MMR lambda=0.5: balanced relevance + diversity")
-    print("  [OK] MMR lambda=0.3: high diversity, lower relevance")
-    print("  [OK] Pipeline rerank_first: CrossEncoder -> MMR")
-    print("  [OK] Pipeline mmr_first:   MMR -> CrossEncoder")
+    print("  [OK] CrossEncoder accurately scores clinical question/passage relevance")
+    print("  [OK] MMR balances relevance with diverse medical topics")
+    print("  [OK] PostRetrievalPipeline is fully integrated")
     print()
-    print("Next: Task 5 - GraphRAG (Neo4j entity extraction)")
 
 
 if __name__ == "__main__":

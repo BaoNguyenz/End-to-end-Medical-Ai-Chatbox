@@ -1,10 +1,10 @@
 """
 test_query_transformation.py
-Verify Task 3: Query Transformation (HyDE + QueryDecomposer + TransformationRouter).
+Verify Medical HyDE + QueryDecomposer + TransformationRouter for Medical AI.
 
 Requires:
+  - Qdrant running + index_documents.py already run
   - OPENAI_API_KEY in .env
-  - Qdrant running with indexed documents (Task 1 done)
 
 Run:
     uv run python scripts/test_query_transformation.py
@@ -36,11 +36,9 @@ from src.transformation.transformation_router import TransformationRouter
 SEP = "=" * 65
 
 
-# ── Setup (same as Task 2) ─────────────────────────────────────────────────
-
 def build_base_components():
     print(SEP)
-    print("SETUP: Building base components")
+    print("SETUP: Building base components for Medical Query Transformation")
     print(SEP)
 
     store = VectorStore(
@@ -63,7 +61,6 @@ def build_base_components():
     print(f"  [OK] BM25 index: {bm25.corpus_size} chunks")
 
     hybrid = HybridSearch(vector_store=store, bm25_retriever=bm25)
-
     client = OpenAI(api_key=settings.openai_api_key)
     print(f"  [OK] OpenAI client ready (model={settings.openai_model})\n")
 
@@ -72,8 +69,9 @@ def build_base_components():
 
 def print_results(results, max_show=5):
     for i, r in enumerate(results[:max_show]):
-        preview = r.chunk.content[:85].replace("\n", " ")
-        print(f"  [{i+1}] score={r.score:.5f}  doc={r.chunk.doc_id} | {preview}...")
+        doc_id = str(r.chunk.doc_id).encode("ascii", errors="ignore").decode("ascii")
+        preview = str(r.chunk.content)[:85].replace("\n", " ").encode("ascii", errors="ignore").decode("ascii")
+        print(f"  [{i+1}] score={r.score:.5f}  doc={doc_id} | {preview}...")
     if len(results) > max_show:
         print(f"  ... (+{len(results)-max_show} more)")
 
@@ -82,10 +80,10 @@ def print_results(results, max_show=5):
 
 def test_hyde(store, hybrid, client):
     print(SEP)
-    print("TEST 1: HyDE -- Hypothetical Document Embeddings")
+    print("TEST 1: Medical HyDE -- Hypothetical Clinical Passage Embeddings")
     print(SEP)
-    print("Idea: For a vague query, HyDE generates a fake 'ideal answer'")
-    print("      then searches using THAT text's embedding instead of the query.\n")
+    print("Idea: For vague symptom queries, HyDE generates a hypothetical clinical paragraph")
+    print("      then searches using THAT embedding instead of the raw short query.\n")
 
     hyde = HyDE(
         openai_client=client,
@@ -94,13 +92,13 @@ def test_hyde(store, hybrid, client):
         cache_dir=settings.cache_dir,
     )
 
-    vague_queries = [
-        "authentication",
-        "remote work",
-        "data breach",
+    vague_medical_queries = [
+        "wheezing and cough",
+        "high blood sugar symptoms",
+        "sudden chest tightness",
     ]
 
-    for query in vague_queries:
+    for query in vague_medical_queries:
         print(f'\n  Query (vague): "{query}"')
         print()
 
@@ -116,7 +114,8 @@ def test_hyde(store, hybrid, client):
         hyde_results, hyp_doc = hyde.search(query, store, top_k=3)
         hyde_time = time.time() - t
         print(f"\n  -- HyDE search ({hyde_time*1000:.0f}ms) --")
-        print(f"  Hypothetical doc preview: \"{hyp_doc[:120]}...\"")
+        clean_hyp = str(hyp_doc[:120]).replace("\n", " ").encode("ascii", errors="ignore").decode("ascii")
+        print(f'  Hypothetical doc preview: "{clean_hyp}..."')
         print_results(hyde_results, max_show=3)
         print()
 
@@ -125,9 +124,9 @@ def test_hyde(store, hybrid, client):
 
 def test_decomposer(hybrid, client):
     print(SEP)
-    print("TEST 2: QueryDecomposer -- Complex query decomposition")
+    print("TEST 2: QueryDecomposer -- Multi-part Medical Query Decomposition")
     print(SEP)
-    print("Idea: Complex queries are split into independent sub-questions,")
+    print("Idea: Complex medical questions are split into independent sub-questions,")
     print("      each searched separately, results merged & deduplicated.\n")
 
     decomposer = QueryDecomposer(
@@ -136,12 +135,12 @@ def test_decomposer(hybrid, client):
         cache_dir=settings.cache_dir,
     )
 
-    complex_queries = [
-        "Compare data privacy policy and remote work policy and list symptoms for both",
-        "What are the security requirements and compliance regulations mentioned across all policies?",
+    complex_medical_queries = [
+        "Compare the symptoms, causes, and treatments of asthma versus chronic bronchitis",
+        "What are the diagnostic criteria, risk factors, and first-line medications for type 2 diabetes?",
     ]
 
-    for query in complex_queries:
+    for query in complex_medical_queries:
         print(f'\n  Query (complex): "{query}"')
         print(f"  is_complex() = {decomposer.is_complex(query)}\n")
 
@@ -162,9 +161,9 @@ def test_decomposer(hybrid, client):
 
 def test_transformation_router(store, hybrid, client):
     print(SEP)
-    print("TEST 3: TransformationRouter -- Auto-classify and route")
+    print("TEST 3: TransformationRouter -- Medical Query Classification & Routing")
     print(SEP)
-    print("Idea: Router detects query type and picks the right transformation.\n")
+    print("Idea: Router detects query complexity and picks the optimal transformation.\n")
 
     router = TransformationRouter(
         openai_client=client,
@@ -174,19 +173,12 @@ def test_transformation_router(store, hybrid, client):
     )
 
     test_cases = [
-        # (query, expected_class)
-        ("authentication",
-         "vague"),
-        ("What is the price of Medical AI Pro?",
-         "simple"),
-        ("Compare data privacy policy and information security policy and list their owners",
-         "complex"),
-        ("remote work",
-         "vague"),
-        ("How does API rate limiting work?",
-         "simple"),
-        ("What are all the policies, their symptoms, and how do they relate to Asthma?",
-         "complex"),
+        ("wheezing", "vague"),
+        ("What is the recommended dosage of aspirin for headache?", "simple"),
+        ("Compare the symptoms, causes, and treatments of asthma and COPD", "complex"),
+        ("chest pain", "vague"),
+        ("How does metformin reduce blood glucose levels?", "simple"),
+        ("What are all diagnostic tests, complications, and drug options for both diabetes and hypertension?", "complex"),
     ]
 
     correct = 0
@@ -195,33 +187,28 @@ def test_transformation_router(store, hybrid, client):
         ok = "[OK]" if detected == expected else "[!!]"
         if detected == expected:
             correct += 1
-        print(f"  {ok}  class={detected:<8}  expected={expected:<8}  query: \"{query[:60]}\"")
+        print(f'  {ok}  class={detected:<8}  expected={expected:<8}  query: "{query[:60]}"')
 
     print(f"\n  Classification accuracy: {correct}/{len(test_cases)}")
     print()
 
-    # Run full pipeline on one of each type
+    # Run full pipeline on sample medical queries
     print("  -- Full pipeline: one query per type --\n")
-
     sample_queries = [
-        "data retention",                                     # vague
-        "What is the API rate limit per hour?",              # simple
-        "Compare the data privacy and vendor management policies and their Asthma references",  # complex
+        "pneumonia symptoms",
+        "What is the standard treatment for acute appendicitis?",
+        "Compare the causes, clinical presentation, and emergency management of asthma vs anaphylaxis",
     ]
 
     for query in sample_queries:
         print(f'  Query: "{query}"')
         t = time.time()
-        results, meta = router.transform_and_search(
-            query, store, hybrid, top_k=5
-        )
+        results, meta = router.transform_and_search(query, store, hybrid, top_k=5)
         elapsed = time.time() - t
         print(f"  -> class={meta['query_class']}, transform={meta['transformation']}, {elapsed:.2f}s, {len(results)} results")
         print_results(results, max_show=3)
         print()
 
-
-# ── Summary ────────────────────────────────────────────────────────────────
 
 def main():
     store, hybrid, client = build_base_components()
@@ -231,16 +218,12 @@ def main():
     test_transformation_router(store, hybrid, client)
 
     print(SEP)
-    print("TASK 3 VERIFICATION COMPLETE")
+    print("MEDICAL QUERY TRANSFORMATION VERIFICATION COMPLETE")
     print(SEP)
-    print("  [OK] HyDE: generates hypothetical doc, embeds, searches")
-    print("  [OK] HyDE: results cached in cache/hyde_cache.json")
-    print("  [OK] QueryDecomposer: breaks complex query into sub-questions")
-    print("  [OK] QueryDecomposer: aggregates & deduplicates by chunk_id")
-    print("  [OK] TransformationRouter: classifies vague/complex/simple")
-    print("  [OK] TransformationRouter: routes to correct transformation")
+    print("  [OK] Medical HyDE generates physician-style hypothetical context")
+    print("  [OK] QueryDecomposer splits multi-clause medical queries")
+    print("  [OK] TransformationRouter routes vague/complex/simple clinical questions")
     print()
-    print("Next: Task 4 - Post-Retrieval (Cross-Encoder Reranker + MMR)")
 
 
 if __name__ == "__main__":
