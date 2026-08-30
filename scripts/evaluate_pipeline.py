@@ -217,6 +217,7 @@ def main() -> None:
 
     # Reload evaluator log from full checkpoint if resuming
     if not pending:
+        # pyrefly: ignore [missing-import]
         from src.orchestrator.evaluator import Evaluator as Ev
         import numpy as np
         embedding_model = SentenceTransformer(settings.embedding_model)
