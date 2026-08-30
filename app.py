@@ -1,0 +1,196 @@
+"""
+app.py
+FastAPI backend for the Enterprise RAG system.
+
+Endpoints:
+  POST /api/query   - Main query endpoint
+  GET  /api/health  - Health check (Qdrant + Neo4j status)
+  GET  /api/stats   - Collection statistics
+  GET  /            - Serve frontend
+"""
+
+from __future__ import annotations
+
+import time
+from contextlib import asynccontextmanager
+from typing import Optional
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, JSONResponse
+from pydantic import BaseModel
+
+# pyrefly: ignore [missing-import]
+from src.config import settings
+# pyrefly: ignore [missing-import]
+from src.orchestrator.pipeline import RAGPipeline
+
+# ── Lifespan: initialize pipeline on startup ───────────────────────────────
+
+pipeline: Optional[RAGPipeline] = None
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global pipeline
+    print("Starting up RAG pipeline...")
+    try:
+        pipeline = RAGPipeline(use_graph=True)
+    except Exception as e:
+        print(f"[WARN] Pipeline init error (graph may be unavailable): {e}")
+        pipeline = RAGPipeline(use_graph=False)
+    yield
+    print("Shutting down.")
+
+
+# ── App ────────────────────────────────────────────────────────────────────
+
+app = FastAPI(
+    title="Enterprise RAG System",
+    description="Advanced RAG with Hybrid Search, GraphRAG, and Query Transformation",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# ── Request / Response models ──────────────────────────────────────────────
+
+class QueryRequest(BaseModel):
+    query: str
+    search_mode: str = "auto"   # auto | hybrid | vector | bm25 | graph
+    top_k: int = 10
+    use_graph: Optional[bool] = None
+
+
+class SourceItem(BaseModel):
+    doc_id: str
+    chunk_id: str
+    score: float
+    source: str
+    content_preview: str
+
+
+class QueryResponse(BaseModel):
+    query: str
+    answer: str
+    sources: list[SourceItem]
+    latency: dict
+    metadata: dict
+
+
+# ── Endpoints ──────────────────────────────────────────────────────────────
+
+@app.post("/api/query", response_model=QueryResponse)
+async def query_endpoint(req: QueryRequest):
+    if pipeline is None:
+        raise HTTPException(status_code=503, detail="Pipeline not initialized")
+
+    try:
+        response = pipeline.process_query(
+            query=req.query,
+            search_mode=req.search_mode,
+            top_k=req.top_k,
+            use_graph=req.use_graph,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    sources = [
+        SourceItem(
+            doc_id=r.chunk.doc_id,
+            chunk_id=r.chunk.chunk_id,
+            score=round(r.score, 4),
+            source=r.source.value,
+            content_preview=r.chunk.content[:200],
+        )
+        for r in response.sources
+    ]
+
+    return QueryResponse(
+        query=response.query,
+        answer=response.answer,
+        sources=sources,
+        latency={k: round(v * 1000, 1) for k, v in response.latency.items()},  # ms
+        metadata=response.metadata,
+    )
+
+
+@app.get("/api/health")
+async def health():
+    status: dict = {"status": "ok", "components": {}}
+
+    # Qdrant
+    try:
+        info = pipeline.vector_store.collection_info() if pipeline else {}
+        status["components"]["qdrant"] = {
+            "status": "ok",
+            "collection": info.get("name"),
+            "points": info.get("points_count"),
+        }
+    except Exception as e:
+        status["components"]["qdrant"] = {"status": "error", "detail": str(e)}
+
+    # Neo4j
+    try:
+        if pipeline and pipeline.graph_retriever:
+            counts = pipeline.graph_retriever.kg.get_node_counts()
+            status["components"]["neo4j"] = {"status": "ok", "counts": counts}
+        else:
+            status["components"]["neo4j"] = {"status": "disabled"}
+    except Exception as e:
+        status["components"]["neo4j"] = {"status": "error", "detail": str(e)}
+
+    # BM25
+    if pipeline:
+        status["components"]["bm25"] = {
+            "status": "ok",
+            "corpus_size": pipeline.bm25.corpus_size,
+        }
+
+    return status
+
+
+@app.get("/api/stats")
+async def stats():
+    if pipeline is None:
+        raise HTTPException(status_code=503, detail="Pipeline not initialized")
+
+    info = pipeline.vector_store.collection_info()
+    result: dict = {
+        "vector_store": info,
+        "bm25_corpus_size": pipeline.bm25.corpus_size,
+        "graph_enabled": pipeline.graph_retriever is not None,
+    }
+
+    if pipeline.graph_retriever:
+        try:
+            result["graph_counts"] = pipeline.graph_retriever.kg.get_node_counts()
+        except Exception:
+            result["graph_counts"] = {}
+
+    return result
+
+
+# ── Frontend static files ──────────────────────────────────────────────────
+
+import os
+_FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend")
+
+if os.path.isdir(_FRONTEND_DIR):
+    app.mount("/static", StaticFiles(directory=_FRONTEND_DIR), name="static")
+
+    @app.get("/")
+    async def serve_frontend():
+        return FileResponse(os.path.join(_FRONTEND_DIR, "index.html"))
+else:
+    @app.get("/")
+    async def root():
+        return {"message": "Enterprise RAG API", "docs": "/docs"}

@@ -1,0 +1,70 @@
+services:
+  # ──────────────────────────────────────────────
+  #  Infrastructure Services
+  # ──────────────────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: rag-qdrant
+    ports:
+      - "6335:6333"   # HTTP API + Dashboard
+      - "6336:6334"   # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'cat < /dev/null > /dev/tcp/localhost/6333' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  neo4j:
+    image: neo4j:5-community
+    container_name: rag-neo4j
+    ports:
+      - "7475:7474"   # Browser UI
+      - "7688:7687"   # Bolt protocol
+    environment:
+      NEO4J_AUTH: neo4j/password123
+      NEO4J_PLUGINS: '["apoc"]'
+    volumes:
+      - neo4j_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "password123", "RETURN 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # ──────────────────────────────────────────────
+  #  Application Service (FastAPI)
+  # ──────────────────────────────────────────────
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime        # dùng stage 'runtime' của multi-stage build
+    container_name: rag-web
+    ports:
+      - "8080:8000"          # FastAPI + Frontend
+    env_file:
+      - .env                 # Load OPENAI_API_KEY và các biến khác từ file .env
+    environment:
+      # Override host để trỏ vào tên service trong Docker network
+      QDRANT_HOST: qdrant
+      NEO4J_URI: bolt://neo4j:7687
+    volumes:
+      # Mount thư mục data để persist BM25 index và documents
+      - ./Data:/app/Data
+      - ./cache:/app/cache
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  qdrant_data:
+  neo4j_data:

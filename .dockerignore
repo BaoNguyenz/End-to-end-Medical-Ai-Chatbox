@@ -1,0 +1,51 @@
+# === Virtual Environments ===
+.venv/
+venv/
+env/
+
+# === Python cache ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# === Git & IDE ===
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Environment files (secrets không được đưa vào image) ===
+.env
+.env.*
+!.env.example
+
+# === Data & model cache (sẽ được mount vào qua volume) ===
+data/
+cache/
+*.zip
+
+# === Logs & reports ===
+*.log
+*.jsonl
+
+# === Dev & test files ===
+RAG1/
+scripts/
+tests/
+document_implement_plan/
+
+# === Docker files (không cần copy vào chính nó) ===
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# === Docs (không cần ở runtime) ===
+*.md
+evaluation_report.md
+submission_answers.md
