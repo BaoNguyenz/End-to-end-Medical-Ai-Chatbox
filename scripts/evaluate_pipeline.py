@@ -32,9 +32,18 @@ from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
 # ── Constants ────────────────────────────────────────────────────────────────
-BENCHMARK_PATH   = Path("Data\medical_benchmark_100.json")
-CHECKPOINT_PATH  = Path("Data\Cache\eval_checkpoint.json")
-REPORT_PATH      = Path("Data\Cache\evaluation_report_100.md")
+ROOT_DIR = Path(__file__).resolve().parent.parent
+
+# Resolve benchmark path (check Data/ or data/)
+if (ROOT_DIR / "Data" / "medical_benchmark_100.json").exists():
+    BENCHMARK_PATH = ROOT_DIR / "Data" / "medical_benchmark_100.json"
+elif (ROOT_DIR / "data" / "medical_benchmark_100.json").exists():
+    BENCHMARK_PATH = ROOT_DIR / "data" / "medical_benchmark_100.json"
+else:
+    BENCHMARK_PATH = ROOT_DIR / "Data" / "medical_benchmark_100.json"
+
+CHECKPOINT_PATH  = ROOT_DIR / "cache" / "eval_checkpoint.json"
+REPORT_PATH      = ROOT_DIR / "evaluation_report_100.md"
 SEP = "=" * 70
 
 
