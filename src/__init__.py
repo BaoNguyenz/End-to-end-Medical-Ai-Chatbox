@@ -1,1 +1,1 @@
-# enterprise-rag-system / src
+# Medical Generative AI / src
