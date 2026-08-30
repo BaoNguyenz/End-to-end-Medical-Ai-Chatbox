@@ -19,6 +19,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
+# pyrefly: ignore [missing-import]
 from src.models import RAGResponse
 
 
