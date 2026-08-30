@@ -91,7 +91,7 @@ _EMERGENCY_RESPONSE = """\
 Based on your query, this may be a medical emergency.
 
 **Please take immediate action:**
-- **Call emergency services immediately: 113 (Vietnam) / 911 (US) / 999 (UK) / 112 (EU)**
+- **Call emergency services immediately: 115 (Vietnam) / 911 (US) / 999 (UK) / 112 (EU)**
 - Go to the nearest emergency room
 - Do NOT wait — seek immediate professional medical help
 
