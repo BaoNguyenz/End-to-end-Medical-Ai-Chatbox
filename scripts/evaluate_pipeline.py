@@ -25,8 +25,11 @@ from pathlib import Path
 # ── Bootstrap path ──────────────────────────────────────────────────────────
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# pyrefly: ignore [missing-import]
 from src.config import settings
+# pyrefly: ignore [missing-import]
 from src.orchestrator.pipeline import RAGPipeline
+# pyrefly: ignore [missing-import]
 from src.orchestrator.evaluator import Evaluator
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
