@@ -32,9 +32,9 @@ from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
 # ── Constants ────────────────────────────────────────────────────────────────
-BENCHMARK_PATH   = Path("Data/medical_benchmark_100.json")
-CHECKPOINT_PATH  = Path("Data/Cache/eval_checkpoint.json")
-REPORT_PATH      = Path("Data/Cache/evaluation_report_100.md")
+BENCHMARK_PATH   = Path("Data\medical_benchmark_100.json")
+CHECKPOINT_PATH  = Path("Data\Cache\eval_checkpoint.json")
+REPORT_PATH      = Path("Data\Cache\evaluation_report_100.md")
 SEP = "=" * 70
 
 
