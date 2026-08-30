@@ -1,117 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enterprise RAG System — TechDocs Inc.</title>
-  <meta name="description" content="Enterprise-grade RAG system with Hybrid Search, GraphRAG, Cross-Encoder reranking, and Query Transformation for TechDocs Inc. documentation." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/style.css" />
-</head>
-<body>
-
-<!-- ── Header ─────────────────────────────────────────────────── -->
-<header class="header">
-  <div class="header-inner">
-    <div class="logo">
-      <div class="logo-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-        </svg>
-      </div>
-      <span class="logo-text">Enterprise <strong>RAG</strong></span>
-    </div>
-    <div class="header-badges">
-      <span class="badge badge-hybrid">Hybrid Search</span>
-      <span class="badge badge-graph">GraphRAG</span>
-      <span class="badge badge-rerank">Cross-Encoder</span>
-    </div>
-    <div class="status-dot" id="status-dot" title="Checking API..."></div>
-  </div>
-</header>
-
-<!-- ── Main layout ────────────────────────────────────────────── -->
-<main class="main-layout">
-
-  <!-- Left: Query panel -->
-  <section class="query-panel">
-    <div class="panel-title">Ask a Question</div>
-
-    <div class="input-wrapper">
-      <textarea
-        id="query-input"
-        placeholder="e.g. How does API authentication work? or ERR_AUTH_001"
-        rows="3"
-      ></textarea>
-      <button id="send-btn" class="btn-primary" onclick="submitQuery()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-        Search
-      </button>
-    </div>
-
-    <!-- Controls -->
-    <div class="controls">
-      <div class="control-group">
-        <label for="mode-select">Search Mode</label>
-        <select id="mode-select">
-          <option value="auto">Auto (recommended)</option>
-          <option value="hybrid">Hybrid</option>
-          <option value="vector">Vector only</option>
-          <option value="bm25">BM25 only</option>
-          <option value="graph">Graph only</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label for="topk-slider">Top-K: <span id="topk-val">10</span></label>
-        <input type="range" id="topk-slider" min="3" max="20" value="10"
-               oninput="document.getElementById('topk-val').textContent=this.value" />
-      </div>
-    </div>
-
-    <!-- Sample queries -->
-    <div class="samples-section">
-      <div class="samples-title">Sample Queries</div>
-      <div class="samples-grid" id="samples-grid"></div>
-    </div>
-
-    <!-- Stats card -->
-    <div class="stats-card" id="stats-card">
-      <div class="stats-title">System Stats</div>
-      <div class="stats-grid" id="stats-grid">
-        <div class="stat-item"><span class="stat-label">Vectors</span><span class="stat-val" id="stat-vectors">—</span></div>
-        <div class="stat-item"><span class="stat-label">BM25 Docs</span><span class="stat-val" id="stat-bm25">—</span></div>
-        <div class="stat-item"><span class="stat-label">Graph Nodes</span><span class="stat-val" id="stat-graph">—</span></div>
-        <div class="stat-item"><span class="stat-label">Graph Rels</span><span class="stat-val" id="stat-rels">—</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Right: Results panel -->
-  <section class="results-panel">
-    <div id="results-area">
-      <!-- Placeholder -->
-      <div class="placeholder" id="placeholder">
-        <div class="placeholder-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </div>
-        <p>Ask a question to get started.<br/>The system will retrieve from <strong>documents</strong> and <strong>knowledge graph</strong>.</p>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- ── Loading overlay ────────────────────────────────────────── -->
-<div class="loading-overlay" id="loading-overlay">
-  <div class="spinner"></div>
-  <div class="loading-text">Retrieving & generating answer...</div>
-</div>
-
-<script src="/static/app.js"></script>
-</body>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GaleMed AI - Clinical GraphRAG Assistant</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#06B6D4',
+              teal: {
+                950: '#042f2e',
+                900: '#134e4a',
+                600: '#0d9488',
+                500: '#14b8a6',
+                400: '#2dd4bf',
+                300: '#5eead4'
+              },
+              cyan: {
+                950: '#083344',
+                900: '#164e63',
+                600: '#0891b2',
+                500: '#06b6d4',
+                400: '#22d3ee',
+                300: '#67e8f9'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#07090E] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

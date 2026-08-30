@@ -47,7 +47,7 @@ async def lifespan(app: FastAPI):
 # ── App ────────────────────────────────────────────────────────────────────
 
 app = FastAPI(
-    title="Enterprise RAG System",
+    title="Medical Generative AI Chatbot",
     description="Advanced RAG with Hybrid Search, GraphRAG, and Query Transformation",
     version="1.0.0",
     lifespan=lifespan,
@@ -181,16 +181,31 @@ async def stats():
 
 # ── Frontend static files ──────────────────────────────────────────────────
 
+# ── Frontend static files & assets ──────────────────────────────────────────
+
 import os
-_FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend")
+_DIST = os.path.join(os.path.dirname(__file__), "frontend", "dist")
+_FRONTEND_DIR = _DIST if os.path.isdir(_DIST) else os.path.join(os.path.dirname(__file__), "frontend")
+_ASSETS_DIR = os.path.join(_FRONTEND_DIR, "assets")
+
+if os.path.isdir(_ASSETS_DIR):
+    app.mount("/assets", StaticFiles(directory=_ASSETS_DIR), name="assets")
 
 if os.path.isdir(_FRONTEND_DIR):
     app.mount("/static", StaticFiles(directory=_FRONTEND_DIR), name="static")
 
     @app.get("/")
     async def serve_frontend():
-        return FileResponse(os.path.join(_FRONTEND_DIR, "index.html"))
+        index_file = os.path.join(_FRONTEND_DIR, "index.html")
+        if os.path.exists(index_file):
+            return FileResponse(index_file)
+        return {"message": "Medical AI API is running", "docs": "/docs"}
 else:
     @app.get("/")
     async def root():
-        return {"message": "Enterprise RAG API", "docs": "/docs"}
+        return {"message": "Medical AI API", "docs": "/docs"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app:app", host="0.0.0.0", port=8080, reload=False)
