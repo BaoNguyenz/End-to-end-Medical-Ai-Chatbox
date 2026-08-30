@@ -20,25 +20,31 @@ from src.models import Chunk, SearchResult, SearchSource
 from src.graph.knowledge_graph import KnowledgeGraph
 
 
-_NL_TO_CYPHER_PROMPT = """You are an expert Neo4j Cypher query writer.
+_NL_TO_CYPHER_PROMPT = """You are an expert Neo4j Cypher query writer for a medical knowledge graph.
 
 {schema}
 
-Translate the following question into a valid Cypher query.
+Translate the following medical question into a valid Cypher query.
+Rules:
 - ONLY output the raw Cypher query. No explanation, no markdown, no backticks.
+- ALWAYS use case-insensitive matching with toLower(...) CONTAINS '...' (e.g., WHERE toLower(d.name) CONTAINS 'asthma').
+- ALWAYS use valid relationship types from the schema: HAS_SYMPTOM, TREATED_BY, INTERACTS_WITH, CONTRAINDICATED_WITH, DIAGNOSED_BY.
 - Use MATCH, WHERE, RETURN. Keep it simple and correct.
-- Always add LIMIT 10 unless the question asks for all.
-- Return meaningful string fields (names, IDs, descriptions).
+- Always add LIMIT 10.
+- Return meaningful string fields (e.g. d.name, s.name, m.name, m.drug_class).
 
 Examples:
   Q: "What are the symptoms of asthma?"
-  A: MATCH (p:Disease {{disease_id: 'POL-001'}})-[:OWNED_BY]->(s:Symptom) RETURN s.name, s.role LIMIT 10
+  A: MATCH (d:Disease)-[:HAS_SYMPTOM]->(s:Symptom) WHERE toLower(d.name) CONTAINS 'asthma' RETURN d.name AS disease, s.name AS symptom LIMIT 10
 
   Q: "Which medications treat diabetes?"
-  A: MATCH (p:Disease)-[:COMPLIES_WITH]->(r:Regulation {{name: 'asthma'}}) RETURN p.disease_id, p.name LIMIT 10
+  A: MATCH (d:Disease)-[:TREATED_BY]->(m:Medication) WHERE toLower(d.name) CONTAINS 'diabetes' RETURN d.name AS disease, m.name AS medication LIMIT 10
 
   Q: "What drugs interact with aspirin?"
-  A: MATCH (p:Disease)-[:OWNED_BY]->(s:Symptom) WHERE toLower(p.name) CONTAINS 'incident' RETURN p.name, s.name, s.role LIMIT 10
+  A: MATCH (m:Medication)-[:INTERACTS_WITH]->(m2:Medication) WHERE toLower(m.name) CONTAINS 'aspirin' RETURN m.name AS drug, m2.name AS interacts_with LIMIT 10
+
+  Q: "What medications are contraindicated with asthma?"
+  A: MATCH (m:Medication)-[:CONTRAINDICATED_WITH]->(d:Disease) WHERE toLower(d.name) CONTAINS 'asthma' RETURN m.name AS drug, d.name AS disease LIMIT 10
 
 Question: {query}
 Cypher:"""
@@ -114,19 +120,23 @@ class GraphRetriever:
 
     def _keyword_search(self, query: str) -> list[dict]:
         """Search node properties for keyword matches (no LLM needed)."""
-        q = query.lower()
+        # Extract main nouns/keywords from query
+        words = [w.lower() for w in re.findall(r"[a-zA-Z]{3,}", query)
+                 if w.lower() not in {"what", "are", "the", "and", "for", "with", "how", "does", "which", "used", "treat"}]
+        search_term = words[0] if words else query.lower()
+
         cypher = """
         MATCH (n)
         WHERE toLower(n.name) CONTAINS $q
            OR toLower(coalesce(n.disease_id, '')) CONTAINS $q
-           OR toLower(coalesce(n.doc_id, '')) CONTAINS $q
+           OR toLower(coalesce(n.drug_id, '')) CONTAINS $q
            OR any(r IN coalesce(n.symptoms, []) WHERE toLower(r) CONTAINS $q)
            OR any(f IN coalesce(n.indications, []) WHERE toLower(f) CONTAINS $q)
         RETURN labels(n)[0] AS type, n.name AS name,
-               coalesce(n.disease_id, n.drug_id, n.doc_id, '') AS id
+               coalesce(n.disease_id, n.drug_id, '') AS id
         LIMIT 10
         """
-        return self.kg.run_cypher(cypher, {"q": q})
+        return self.kg.run_cypher(cypher, {"q": search_term})
 
     # ------------------------------------------------------------------
     # Main search
