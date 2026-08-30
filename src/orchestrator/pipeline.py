@@ -172,7 +172,9 @@ class RAGPipeline:
         self.graph_retriever = None
         if use_graph:
             try:
+                # pyrefly: ignore [missing-import]
                 from src.graph.knowledge_graph import KnowledgeGraph
+                # pyrefly: ignore [missing-import]
                 from src.graph.graph_retriever import GraphRetriever
                 kg = KnowledgeGraph(
                     uri=settings.neo4j_uri,
