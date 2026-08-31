@@ -35,9 +35,11 @@ uv.lock
 .DS_Store
 Thumbs.db
 
-# Cache
-cache/
+# Cache (root-level only, not src/cache module)
+/cache/
 .cache/
+# Keep src/cache Python module
+!src/cache/
 
 # Model cache (sentence-transformers downloads)
 # models/  # uncomment if you want to gitignore downloaded models

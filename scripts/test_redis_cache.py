@@ -13,6 +13,12 @@ Run:
 
 import sys
 import time
+
+# Force UTF-8 on Windows terminals
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except AttributeError:
+    pass
 from pathlib import Path
 
 # Add project root to path
@@ -108,7 +114,7 @@ def main():
     test_stats(cache)
 
     print("\n" + "=" * 60)
-    print("  ALL TESTS PASSED ✓")
+    print("  ALL TESTS PASSED [OK]")
     print("=" * 60 + "\n")
 
 
