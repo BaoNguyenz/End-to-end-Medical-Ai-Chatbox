@@ -42,6 +42,15 @@ class Settings(BaseSettings):
     neo4j_user: str = "neo4j"
     neo4j_password: str = "password123"
 
+
+    # --- Redis Semantic Cache ---
+    redis_host: str = "localhost"
+    redis_port: int = 6379
+    redis_db: int = 0
+    semantic_cache_threshold: float = 0.92  # Cosine similarity >= 92% -> Cache Hit
+    semantic_cache_ttl: int = 86400         # 24 hours TTL
+    semantic_cache_max_entries: int = 10000 # Max cached queries
+
     # --- HNSW Parameters ---
     hnsw_m: int = 32              # Max edges per node in HNSW graph
     hnsw_ef_construct: int = 200  # Search width during graph construction

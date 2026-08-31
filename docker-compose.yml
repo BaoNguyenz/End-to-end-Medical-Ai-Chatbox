@@ -1,18 +1,18 @@
 services:
-  # ──
+  # ──────────────────────────────────────────────
   #  Infrastructure Services
-  # ──
+  # ──────────────────────────────────────────────
   qdrant:
     image: qdrant/qdrant:latest
     container_name: rag-qdrant
     ports:
-      - "6335:6333" # HTTP API + Dashboard (Host: 6335 -> Container: 6333)
-      - "6336:6334" # gRPC
+      - "6335:6333"   # HTTP API + Dashboard
+      - "6336:6334"   # gRPC
     volumes:
       - qdrant_data:/qdrant/storage
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "bash -c 'cat < /dev/null > /dev/tcp/localhost/6333' || exit 1" ]
+      test: ["CMD-SHELL", "bash -c 'cat < /dev/null > /dev/tcp/localhost/6333' || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -22,8 +22,8 @@ services:
     image: neo4j:5-community
     container_name: rag-neo4j
     ports:
-      - "7475:7474" # Browser UI (Host: 7475 -> Container: 7474)
-      - "7688:7687" # Bolt protocol (Host: 7688 -> Container: 7687)
+      - "7475:7474"   # Browser UI
+      - "7688:7687"   # Bolt protocol
     environment:
       NEO4J_AUTH: neo4j/password123
       NEO4J_PLUGINS: '["apoc"]'
@@ -31,32 +31,57 @@ services:
       - neo4j_data:/data
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "cypher-shell", "-u", "neo4j", "-p", "password123", "RETURN 1" ]
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "password123", "RETURN 1"]
       interval: 20s
       timeout: 10s
       retries: 5
       start_period: 30s
 
-  # ──
+  # ──────────────────────────────────────────────
+  #  Caching Layer (Redis Stack + Vector Search)
+  # ──────────────────────────────────────────────
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: rag-redis
+    ports:
+      - "6379:6379"   # Redis API
+    command: >
+      redis-stack-server
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --save 60 1
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ──────────────────────────────────────────────
   #  Application Service (FastAPI)
-  # ──
+  # ──────────────────────────────────────────────
   web:
     build:
       context: .
       dockerfile: Dockerfile
-      target: runtime # Dùng stage 'runtime' của multi-stage build
+      target: runtime        # dung stage 'runtime' cua multi-stage build
     container_name: rag-web
     ports:
-      - "8080:8000" # FastAPI + Frontend (Host: 8080 -> Container: 8000)
+      - "8080:8000"          # FastAPI + Frontend
     env_file:
-      - .env # Load OPENAI_API_KEY và các biến khác từ file .env
+      - .env                 # Load OPENAI_API_KEY va cac bien khac tu file .env
     environment:
-      # Override host và port nội bộ trong Docker network
+      # Override host de tro vao ten service trong Docker network
       QDRANT_HOST: qdrant
       QDRANT_PORT: 6333
       NEO4J_URI: bolt://neo4j:7687
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     volumes:
-      # Mount thư mục data để persist BM25 index và documents
+      # Mount thu muc data de persist BM25 index va documents
       - ./Data:/app/Data
       - ./cache:/app/cache
     depends_on:
@@ -64,8 +89,11 @@ services:
         condition: service_healthy
       neo4j:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
   qdrant_data:
   neo4j_data:
+  redis_data:

@@ -28,6 +28,7 @@ from sentence_transformers import SentenceTransformer
 
 # pyrefly: ignore [missing-import]
 from src.config import settings
+from src.cache.semantic_cache import get_semantic_cache, CacheEntry
 # pyrefly: ignore [missing-import]
 from src.models import SearchResult, RAGResponse
 # pyrefly: ignore [missing-import]
@@ -239,6 +240,27 @@ class RAGPipeline:
                 metadata={"emergency": True, "search_mode": "none"},
             )
 
+        # ── Semantic Cache Check (before any retrieval) ─────────────────
+        _cache = get_semantic_cache()
+        if _cache.available:
+            _cached = _cache.get(query)
+            if _cached is not None:
+                latency["total"] = time.time() - total_start
+                latency["cache_lookup_ms"] = _cached.latency_ms
+                return RAGResponse(
+                    query=query,
+                    answer=_cached.answer,
+                    sources=[],
+                    latency=latency,
+                    metadata={
+                        "search_mode": "cache",
+                        "query_class": "cached",
+                        "cached": True,
+                        "cache_hit_count": _cached.hit_count,
+                        "cache_latency_ms": round(_cached.latency_ms, 2),
+                    },
+                )
+
         # ── Stage 1: Query classification ──────────────────────────────────
         t = time.time()
         _, strategy = self.query_router.classify(query)
@@ -318,6 +340,23 @@ class RAGPipeline:
         metadata["num_graph_results"] = len(graph_results)
         metadata["num_final"] = len(final_results)
 
+        # ── Store in Semantic Cache for future similar queries ──────────────
+        if _cache.available:
+            _cache.set(
+                query=query,
+                answer=answer,
+                sources=[
+                    {
+                        "doc_id": r.chunk.doc_id,
+                        "content_preview": r.chunk.content[:200],
+                        "score": round(r.score, 4),
+                        "source": getattr(r, "source", "hybrid"),
+                    }
+                    for r in final_results
+                ],
+                metadata=metadata,
+            )
+
         return RAGResponse(
             query=query,
             answer=answer,
@@ -325,3 +364,128 @@ class RAGPipeline:
             latency=latency,
             metadata=metadata,
         )
+
+    def process_query_stream(
+        self,
+        query: str,
+        search_mode: str = "auto",
+        top_k: int = 10,
+        use_graph = None,
+        rerank_top_k: int = 20,
+    ):
+        """
+        Generator version of process_query that yields SSE-formatted chunks.
+        Yields dicts with keys: {"type": "token"|"metadata"|"done", ...}
+
+        Cache HIT: yields answer tokens character-by-character from Redis.
+        Cache MISS: streams directly from OpenAI API (stream=True).
+        """
+        import json as _json
+
+        total_start = time.time()
+        latency = {}
+
+        # Emergency check
+        if self._is_emergency(query):
+            yield {"type": "token", "token": _EMERGENCY_RESPONSE, "cached": False}
+            yield {"type": "done", "latency": {"total": 0}, "sources": [], "cached": False}
+            return
+
+        # Check semantic cache first
+        _cache = get_semantic_cache()
+        if _cache.available:
+            _cached = _cache.get(query)
+            if _cached is not None:
+                # Stream cached answer as token chunks (word by word for natural feel)
+                words = _cached.answer.split(" ")
+                for i, word in enumerate(words):
+                    token = word if i == 0 else " " + word
+                    yield {"type": "token", "token": token, "cached": True}
+
+                yield {
+                    "type": "done",
+                    "latency": {"total": round((time.time() - total_start) * 1000, 2)},
+                    "sources": _cached.sources,
+                    "cached": True,
+                    "cache_hit_count": _cached.hit_count,
+                }
+                return
+
+        # Full RAG retrieval (non-streaming part - fast)
+        try:
+            response_obj = self.process_query(
+                query=query,
+                search_mode=search_mode,
+                top_k=top_k,
+                use_graph=use_graph,
+                rerank_top_k=rerank_top_k,
+            )
+            # Build context for streaming LLM call
+            context_parts = []
+            for i, r in enumerate(response_obj.sources):
+                source_label = r.chunk.doc_id.replace("_", " ").title()
+                context_parts.append(
+                    f"[{i+1}] Source: {source_label}\n{r.chunk.content}"
+                )
+            context = "\n\n---\n\n".join(context_parts)
+
+            # Streaming LLM call
+            t = time.time()
+            stream = self.openai_client.chat.completions.create(
+                model=settings.openai_model,
+                messages=[
+                    {"role": "system", "content": _ANSWER_SYSTEM},
+                    {"role": "user", "content": f"Medical Reference Context:\n{context}\n\nPatient Question: {query}"},
+                ],
+                temperature=0.1,
+                max_tokens=800,
+                stream=True,
+            )
+
+            full_answer = ""
+            for chunk in stream:
+                delta = chunk.choices[0].delta
+                if delta.content:
+                    full_answer += delta.content
+                    yield {"type": "token", "token": delta.content, "cached": False}
+
+            latency["generation"] = time.time() - t
+            latency["total"] = round((time.time() - total_start) * 1000, 2)
+
+            # Store in cache for future hits
+            if _cache.available:
+                _cache.set(
+                    query=query,
+                    answer=full_answer,
+                    sources=[
+                        {
+                            "doc_id": r.chunk.doc_id,
+                            "content_preview": r.chunk.content[:200],
+                            "score": round(r.score, 4),
+                            "source": getattr(r, "source", "hybrid"),
+                        }
+                        for r in response_obj.sources
+                    ],
+                    metadata=response_obj.metadata,
+                )
+
+            sources_list = [
+                {
+                    "doc_id": r.chunk.doc_id,
+                    "content_preview": r.chunk.content[:200],
+                    "score": round(r.score, 4),
+                    "source": getattr(r, "source", "hybrid"),
+                }
+                for r in response_obj.sources
+            ]
+
+            yield {
+                "type": "done",
+                "latency": latency,
+                "sources": sources_list,
+                "metadata": response_obj.metadata,
+                "cached": False,
+            }
+
+        except Exception as e:
+            yield {"type": "error", "message": str(e)}

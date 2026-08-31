@@ -13,9 +13,11 @@ from __future__ import annotations
 
 import time
 from contextlib import asynccontextmanager
-from typing import Optional
+from typing import AsyncGenerator, Optional
+import json
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
@@ -182,6 +184,77 @@ async def stats():
 # ── Frontend static files ──────────────────────────────────────────────────
 
 # ── Frontend static files & assets ──────────────────────────────────────────
+
+
+# ── Streaming Query Endpoint (SSE) ────────────────────────────────────────────
+
+class StreamQueryRequest(QueryRequest):
+    """Same as QueryRequest; processed via streaming SSE."""
+    pass
+
+
+@app.post("/api/query/stream")
+async def query_stream_endpoint(req: StreamQueryRequest):
+    """
+    Stream medical AI answer tokens via Server-Sent Events (SSE).
+
+    Frontend reads: response.body.getReader() with TextDecoder.
+    Each event: data: {"type": "token"|"done"|"error", ...}\n\n
+    """
+    if pipeline is None:
+        async def _err():
+            yield b'data: {"type":"error","message":"Pipeline not initialized"}\n\n'
+        return StreamingResponse(_err(), media_type="text/event-stream")
+
+    async def _generate() -> AsyncGenerator[bytes, None]:
+        try:
+            for chunk in pipeline.process_query_stream(
+                query=req.query,
+                search_mode=req.search_mode,
+                top_k=req.top_k,
+                use_graph=req.use_graph,
+            ):
+                event = "data: " + json.dumps(chunk, ensure_ascii=False) + "\n\n"
+                yield event.encode("utf-8")
+        except Exception as e:
+            err_event = f'data: {{"type":"error","message":"{str(e)}"}}\n\n'
+            yield err_event.encode("utf-8")
+
+    return StreamingResponse(
+        _generate(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",   # Disable nginx buffering for SSE
+            "Connection": "keep-alive",
+        },
+    )
+
+
+# ── Redis Semantic Cache Endpoints ─────────────────────────────────────────────
+
+@app.get("/api/cache/stats")
+async def cache_stats():
+    """Return Redis semantic cache performance statistics."""
+    try:
+        from src.cache.semantic_cache import get_semantic_cache
+        cache = get_semantic_cache()
+        return {"status": "ok", "cache": cache.stats()}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
+@app.delete("/api/cache/clear")
+async def cache_clear():
+    """Clear all semantic cache entries."""
+    try:
+        from src.cache.semantic_cache import get_semantic_cache
+        cache = get_semantic_cache()
+        deleted = cache.clear()
+        return {"status": "ok", "deleted": deleted}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 import os
 _DIST = os.path.join(os.path.dirname(__file__), "frontend", "dist")
