@@ -47,5 +47,6 @@ docker-compose.yml
 
 # === Docs (không cần ở runtime) ===
 *.md
+!README.md
 evaluation_report.md
 submission_answers.md
