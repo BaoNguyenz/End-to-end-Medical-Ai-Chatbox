@@ -112,9 +112,10 @@ export default function App() {
                 m.id === aiId ? { ...m, content: fullAnswer, cached: data.cached || false } : m
               ));
             } else if (data.type === 'done') {
+              const finalContent = fullAnswer || data.answer || '';
               setMessages(prev => prev.map(m =>
                 m.id === aiId ? {
-                  ...m, content: fullAnswer, streaming: false,
+                  ...m, content: finalContent, streaming: false,
                   sources: data.sources || [], latency: data.latency || {},
                   metadata: data.metadata || {}, cached: data.cached || false,
                   cache_hit_count: data.cache_hit_count

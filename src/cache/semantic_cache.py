@@ -129,8 +129,7 @@ class RedisSemanticCache:
         Returns CacheEntry if similarity >= threshold, else None.
         Time: ~2-5ms on Cache HIT.
 
-        Note: redis-py v8 Document fields are accessed as attributes (doc.field_name)
-        using the as_name alias set in return_fields(). Dict-style access is not supported.
+        Uses KNN search to find doc.id, then retrieves the full JSON document directly.
         """
         if not self._client:
             return None
@@ -140,12 +139,11 @@ class RedisSemanticCache:
             vec = self._encode(query)
             vec_bytes = self._vec_to_bytes(vec)
 
-            # Return fields using as_name aliases (no "$." prefix in attribute names)
+            # KNN 1 nearest neighbor
             q = (
                 Query("*=>[KNN 1 @query_vector $vec AS dist]")
                 .sort_by("dist")
-                .return_fields("query_text", "answer", "sources", "metadata",
-                               "hit_count", "dist")
+                .return_fields("dist")
                 .dialect(2)
             )
             results = self._client.ft(_INDEX_NAME).search(
@@ -158,7 +156,7 @@ class RedisSemanticCache:
 
             doc = results.docs[0]
 
-            # redis-py v8: Document fields accessed as attributes, not dict keys
+            # Calculate cosine distance & similarity
             raw_dist = getattr(doc, "dist", "2.0")
             distance = float(raw_dist) if raw_dist is not None else 2.0
             similarity = 1.0 - distance
@@ -169,34 +167,42 @@ class RedisSemanticCache:
                              similarity, (time.perf_counter() - t0) * 1000)
                 return None
 
+            # Retrieve full JSON payload directly using Redis key
+            key = doc.id
+            raw_data = self._client.json().get(key)
+            if not raw_data or not isinstance(raw_data, dict):
+                self._stats["misses"] += 1
+                return None
+
             elapsed_ms = (time.perf_counter() - t0) * 1000
             self._stats["hits"] += 1
             logger.info("[SemanticCache] HIT (sim=%.3f) | %.1fms", similarity, elapsed_ms)
 
-            # Refresh TTL and increment hit counter (best-effort)
+            # Refresh TTL and increment hit counter
             try:
-                key = doc.id
-                raw = self._client.json().get(key, "$.hit_count")
-                old_count = int(raw[0]) if raw else 0
+                old_count = int(raw_data.get("hit_count", 0))
                 self._client.json().set(key, "$.hit_count", old_count + 1)
                 self._client.expire(key, settings.semantic_cache_ttl)
             except Exception:
                 pass
 
-            # Access via attribute (redis-py v8 Document API)
-            query_text = getattr(doc, "query_text", "")
-            answer = getattr(doc, "answer", "")
-            sources_raw = getattr(doc, "sources", "[]")
-            meta_raw = getattr(doc, "metadata", "{}")
-            hit_count_raw = getattr(doc, "hit_count", "0")
+            # Extract fields
+            query_text = raw_data.get("query_text", "")
+            answer = raw_data.get("answer", "")
+            sources_raw = raw_data.get("sources", "[]")
+            meta_raw = raw_data.get("metadata", "{}")
+            hit_count = int(raw_data.get("hit_count", 0)) + 1
+
+            sources = json.loads(sources_raw) if isinstance(sources_raw, str) else (sources_raw or [])
+            metadata = json.loads(meta_raw) if isinstance(meta_raw, str) else (meta_raw or {})
 
             return CacheEntry(
                 query_text=query_text or "",
                 answer=answer or "",
-                sources=json.loads(sources_raw) if isinstance(sources_raw, str) else [],
-                metadata=json.loads(meta_raw) if isinstance(meta_raw, str) else {},
+                sources=sources,
+                metadata=metadata,
                 latency_ms=elapsed_ms,
-                hit_count=int(hit_count_raw or 0) + 1,
+                hit_count=hit_count,
             )
 
         except Exception as e:

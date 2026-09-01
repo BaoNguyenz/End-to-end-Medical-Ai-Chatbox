@@ -378,26 +378,31 @@ class RAGPipeline:
         Generator version of process_query that yields SSE-formatted chunks.
         Yields dicts with keys: {"type": "token"|"metadata"|"done", ...}
 
-        Cache HIT: yields answer tokens character-by-character from Redis.
-        Cache MISS: streams directly from OpenAI API (stream=True).
+        Cache HIT: yields cached answer word-by-word, then done event with full answer.
+        Cache MISS: runs multi-stage retrieval, then streams directly from OpenAI API (stream=True).
         """
-        import json as _json
-
         total_start = time.time()
         latency = {}
+        metadata = {"search_mode": search_mode, "query_class": "unknown"}
 
-        # Emergency check
+        # 1. Emergency check
         if self._is_emergency(query):
             yield {"type": "token", "token": _EMERGENCY_RESPONSE, "cached": False}
-            yield {"type": "done", "latency": {"total": 0}, "sources": [], "cached": False}
+            yield {
+                "type": "done",
+                "answer": _EMERGENCY_RESPONSE,
+                "latency": {"total": round((time.time() - total_start) * 1000, 2)},
+                "sources": [],
+                "cached": False,
+            }
             return
 
-        # Check semantic cache first
+        # 2. Check semantic cache first
         _cache = get_semantic_cache()
         if _cache.available:
             _cached = _cache.get(query)
-            if _cached is not None:
-                # Stream cached answer as token chunks (word by word for natural feel)
+            if _cached is not None and _cached.answer:
+                # Stream cached answer in words for smooth UI animation
                 words = _cached.answer.split(" ")
                 for i, word in enumerate(words):
                     token = word if i == 0 else " " + word
@@ -405,32 +410,80 @@ class RAGPipeline:
 
                 yield {
                     "type": "done",
-                    "latency": {"total": round((time.time() - total_start) * 1000, 2)},
+                    "answer": _cached.answer,
+                    "latency": {
+                        "total": round((time.time() - total_start) * 1000, 2),
+                        "cache_lookup_ms": round(_cached.latency_ms, 2),
+                    },
                     "sources": _cached.sources,
+                    "metadata": _cached.metadata,
                     "cached": True,
                     "cache_hit_count": _cached.hit_count,
                 }
                 return
 
-        # Full RAG retrieval (non-streaming part - fast)
+        # 3. Cache MISS: Full RAG retrieval
         try:
-            response_obj = self.process_query(
-                query=query,
-                search_mode=search_mode,
-                top_k=top_k,
-                use_graph=use_graph,
+            # Stage 1: Query classification
+            t = time.time()
+            _, strategy = self.query_router.classify(query)
+            latency["query_classify"] = time.time() - t
+            metadata["strategy"] = strategy.value
+
+            # Stage 2: Query transformation + retrieval
+            t = time.time()
+            if search_mode == "auto":
+                candidates, transform_meta = self.transform_router.transform_and_search(
+                    query, self.vector_store, self.hybrid_search, top_k=50
+                )
+                metadata["query_class"] = transform_meta["query_class"]
+                metadata["transformation"] = transform_meta["transformation"]
+            elif search_mode == "vector":
+                candidates = self.vector_store.search(query, top_k=50)
+                metadata["query_class"] = "simple"
+                metadata["transformation"] = "none"
+            elif search_mode == "bm25":
+                candidates = self.bm25.search(query, top_k=50)
+                metadata["query_class"] = "keyword"
+                metadata["transformation"] = "none"
+            else:
+                candidates = self.hybrid_search.search(query, top_k=50)
+                metadata["query_class"] = "simple"
+                metadata["transformation"] = "none"
+            latency["retrieval"] = time.time() - t
+
+            # Stage 3: Graph retrieval
+            graph_results = []
+            _use_graph = use_graph if use_graph is not None else (self.use_graph and self.graph_retriever is not None)
+            if _use_graph and self.graph_retriever and search_mode in ("auto", "graph"):
+                t = time.time()
+                try:
+                    graph_results = self.graph_retriever.search(query)
+                except Exception as e:
+                    print(f"[RAGPipeline] Medical graph search failed: {e}")
+                latency["graph_search"] = time.time() - t
+
+            # Merge vector + graph candidates
+            all_candidates = candidates + graph_results
+
+            # Stage 4: Post-retrieval reranking + MMR
+            t = time.time()
+            final_results = self.post_pipeline.process(
+                query, all_candidates,
                 rerank_top_k=rerank_top_k,
+                final_top_k=top_k,
             )
-            # Build context for streaming LLM call
+            latency["post_retrieval"] = time.time() - t
+
+            # Stage 5: Build context and stream OpenAI response
             context_parts = []
-            for i, r in enumerate(response_obj.sources):
+            for i, r in enumerate(final_results):
                 source_label = r.chunk.doc_id.replace("_", " ").title()
                 context_parts.append(
-                    f"[{i+1}] Source: {source_label}\n{r.chunk.content}"
+                    f"[{i+1}] Source: {source_label} (doc_id: {r.chunk.doc_id})\n{r.chunk.content}"
                 )
             context = "\n\n---\n\n".join(context_parts)
 
-            # Streaming LLM call
             t = time.time()
             stream = self.openai_client.chat.completions.create(
                 model=settings.openai_model,
@@ -451,24 +504,7 @@ class RAGPipeline:
                     yield {"type": "token", "token": delta.content, "cached": False}
 
             latency["generation"] = time.time() - t
-            latency["total"] = round((time.time() - total_start) * 1000, 2)
-
-            # Store in cache for future hits
-            if _cache.available:
-                _cache.set(
-                    query=query,
-                    answer=full_answer,
-                    sources=[
-                        {
-                            "doc_id": r.chunk.doc_id,
-                            "content_preview": r.chunk.content[:200],
-                            "score": round(r.score, 4),
-                            "source": getattr(r, "source", "hybrid"),
-                        }
-                        for r in response_obj.sources
-                    ],
-                    metadata=response_obj.metadata,
-                )
+            latency["total"] = time.time() - total_start
 
             sources_list = [
                 {
@@ -477,14 +513,28 @@ class RAGPipeline:
                     "score": round(r.score, 4),
                     "source": getattr(r, "source", "hybrid"),
                 }
-                for r in response_obj.sources
+                for r in final_results
             ]
+
+            metadata["num_candidates"] = len(candidates)
+            metadata["num_graph_results"] = len(graph_results)
+            metadata["num_final"] = len(final_results)
+
+            # Store in Redis Semantic Cache
+            if _cache.available:
+                _cache.set(
+                    query=query,
+                    answer=full_answer,
+                    sources=sources_list,
+                    metadata=metadata,
+                )
 
             yield {
                 "type": "done",
+                "answer": full_answer,
                 "latency": latency,
                 "sources": sources_list,
-                "metadata": response_obj.metadata,
+                "metadata": metadata,
                 "cached": False,
             }
 

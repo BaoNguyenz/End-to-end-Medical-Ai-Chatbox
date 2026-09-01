@@ -84,6 +84,9 @@ services:
       # Mount thu muc data de persist BM25 index va documents
       - ./Data:/app/Data
       - ./cache:/app/cache
+      - ./src:/app/src
+      - ./app.py:/app/app.py
+      - ./frontend/dist:/app/frontend/dist
     depends_on:
       qdrant:
         condition: service_healthy
