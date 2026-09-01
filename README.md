@@ -45,69 +45,54 @@ An advanced, production-grade Clinical Retrieval-Augmented Generation (RAG) syst
 
 ## 🏗️ Architecture Overview
 
-The system operates on an End-to-End pipeline combining Vector Search, Keyword Search, and Graph Databases:
+The system operates on an End-to-End pipeline combining Vector Search, Keyword Search, Knowledge Graph Traversal, and Semantic In-Memory Caching:
 
 ```mermaid
-flowchart TD
-    %% Theme Styling
-    classDef storage fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#0d47a1;
-    classDef action fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#1b5e20;
-    classDef routing fill:#fffde7,stroke:#fbc02d,stroke-width:2px,color:#f57f17;
-    classDef input fill:#ffe0b2,stroke:#fb8c00,stroke-width:2px,color:#e65100;
-    classDef output fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#4a148c;
+graph TD
+    %% 1. Ingestion
+    Docs["Gale Medical Encyclopedia"] --> Chunk["Semantic Section Chunking"]
+    Chunk --> Embed["Text Embeddings (all-MiniLM-L6-v2)"]
+    Embed --> VecDB[("Qdrant Vector DB")]
+    Chunk --> BM25Index["BM25 Indexing"]
+    BM25Index --> BM25DB[("BM25 Keyword Store")]
+    Chunk --> GraphExtract["LLM Clinical Entity Extraction"]
+    GraphExtract --> GraphDB[("Neo4j Knowledge Graph")]
 
-    subgraph INGESTION ["OFFLINE DATA INGESTION PIPELINE"]
-        Docs[Gale Medical Encyclopedia] --> Chunk[Semantic Chunking]
-        
-        %% Vector & BM25
-        Chunk --> Embed[Text Embeddings] --> VecDB[(Qdrant Vector DB)]
-        Chunk --> BuildBM25[BM25 Indexing] --> BM25DB[(BM25 Retriever)]
-        
-        %% GraphRAG
-        Chunk --> GraphExtract[LLM Entity-Relation Extract] --> GraphDB[(Neo4j Graph DB)]
-    end
+    %% 2. User Query & Caching
+    UserQuery["Clinician / Patient Query"] --> SafetyCheck{"Emergency Triage Check"}
+    SafetyCheck -->|Critical / Red Flag| EmergencyTriage["Immediate 911 Triage Advice"]
+    SafetyCheck -->|Standard Inquiry| RedisCache[("Redis Semantic Cache")]
+    
+    %% 3. Cache HIT / MISS
+    RedisCache -->|Cache HIT (under 10ms)| FastAnswer["Instant Cached Stream"]
+    RedisCache -->|Cache MISS| QueryRouter{"Query Router"}
 
-    subgraph RETRIEVAL ["ONLINE RETRIEVAL PIPELINE (Real-Time)"]
-        Q[User Query] --> Router{Query Router}
-        
-        %% Redis Cache HIT branch
-        Router -- "Semantic Cache HIT" --> CacheHit([Redis Cache Output - under 10ms])
-        
-        %% Vector / Hybrid
-        Router -- "Hybrid Search" --> QTrans[Query Transformation]
-        QTrans --> HyDE[HyDE - Hypothetical Document]
-        QTrans --> Decompose[Decomposer - Subqueries]
-        
-        HyDE & Decompose --> SearchEngine(Hybrid Search Engine)
-        SearchEngine --> |Vector Search| VecDB
-        SearchEngine --> |Keyword Search| BM25DB
-        
-        %% Merging & Reranking
-        VecDB & BM25DB --> RRF[RRF Fusion]
-        RRF --> |Top 50 Chunks| Merge[Merge Candidates]
+    %% 4. Retrieval Layer
+    QueryRouter -->|Transform / HyDE| HyDE["HyDE Generator"]
+    QueryRouter -->|Decomposition| Decomp["Query Decomposer"]
+    QueryRouter -->|Dense Search| VecDB
+    QueryRouter -->|Keyword Search| BM25DB
+    QueryRouter -->|Graph Traversal| GraphDB
 
-        %% GraphRAG
-        Router -- "GraphRAG" --> GraphSearch[GraphRAG Search]
-        GraphSearch --> |Entity Linking| GraphDB
-        GraphDB --> |Top 10 Results| Merge
+    HyDE --> VecDB
+    Decomp --> VecDB
 
-        %% Post-Retrieval Pipeline
-        Merge --> |60 Chunks| Rerank[Cross-Encoder Reranker]
-        Rerank --> |Top 20 Chunks| MMR[MMR Diversity Filter]
-        MMR --> |Top 10 Chunks| Context[Final Context]
-    end
+    VecDB --> RRF["RRF Fusion (Dense + Sparse)"]
+    BM25DB --> RRF
 
-    subgraph GENERATION ["GENERATION PIPELINE"]
-        Context --> Assemble[Prompt Assembly]
-        Assemble --> LLM[GPT-4o Generator]
-        LLM --> Ans([Answer Output - SSE Stream])
-    end
+    RRF --> CandidateMerge["Candidate Aggregator"]
+    GraphDB --> CandidateMerge
 
-    class VecDB,BM25DB,GraphDB storage;
-    class Chunk,Embed,BuildBM25,GraphExtract,RRF,Rerank,MMR,GraphSearch,Assemble,Merge action;
-    class Router,QTrans,HyDE,Decompose routing;
-    class Q input;
-    class LLM,Ans,CacheHit output;
+    %% 5. Post Retrieval
+    CandidateMerge --> CrossEncoder["Cross-Encoder Reranker"]
+    CrossEncoder --> MMR["MMR Diversity Filter"]
+    MMR --> ContextAssembly["Medical Context Assembly"]
+
+    %% 6. Generation & Output
+    ContextAssembly --> LLMGen["OpenAI GPT-4o-mini"]
+    LLMGen --> StreamOutput["SSE Token Stream to Web UI"]
+    LLMGen -.-> SaveCache["Store New Q&A in Cache"]
+    SaveCache -.-> RedisCache
 ```
 
 ---
