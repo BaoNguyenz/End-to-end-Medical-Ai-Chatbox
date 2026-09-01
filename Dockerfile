@@ -3,18 +3,22 @@
 # ============================================================
 FROM python:3.11-slim AS builder
 
-# Cai uv (package manager nhanh hon pip)
+# Cai uv
 RUN pip install --no-cache-dir uv
 
 WORKDIR /app
 
-# Copy file khai bao dependencies truoc (tan dung Docker layer cache)
+# Copy khai bao dependencies
 COPY pyproject.toml uv.lock ./
+COPY src/ ./src/
+COPY README.md ./
 
-# Cai tat ca dependencies vao venv rieng
-# --relocatable: dam bao symlinks trong venv hoat dong sau khi copy sang stage khac
+# Tao venv va cai dat toan bo package
 RUN uv venv /app/.venv && \
-    VIRTUAL_ENV=/app/.venv uv pip install --no-cache -e ".[dev]"
+    VIRTUAL_ENV=/app/.venv uv pip install --no-cache .
+
+# Pre-download NLTK data ngay trong stage builder
+RUN /app/.venv/bin/python -m nltk.downloader -d /root/nltk_data punkt punkt_tab
 
 
 # ============================================================
@@ -22,32 +26,29 @@ RUN uv venv /app/.venv && \
 # ============================================================
 FROM python:3.11-slim AS runtime
 
-# Tao user khong phai root voi home dir de tang bao mat
+# Tao user khong phai root voi home dir
 RUN groupadd -r appuser && useradd -r -g appuser -m -d /home/appuser appuser
 
 WORKDIR /app
 
-# Sao chep venv da build tu stage builder
+# Sao chep venv va NLTK data tu builder
 COPY --from=builder /app/.venv /app/.venv
+COPY --from=builder /root/nltk_data /home/appuser/nltk_data
+RUN chown -R appuser:appuser /home/appuser/nltk_data
 
 # Sao chep toan bo source code
 COPY --chown=appuser:appuser . .
 
-# ── QUAN TRONG: Set PATH truoc khi dung python tu venv ───────────────────────
-# uv venv tao symlinks tuong doi (/app/.venv/bin/python -> python3.11)
-# Ca builder va runtime deu dung python:3.11-slim nen symlinks van hop le.
+# Cau hinh moi truong su dung venv va NLTK data
 ENV PATH="/app/.venv/bin:$PATH" \
+    VIRTUAL_ENV="/app/.venv" \
+    NLTK_DATA="/home/appuser/nltk_data" \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    VIRTUAL_ENV=/app/.venv \
-    # Tro cac host toi service name trong docker-compose
     QDRANT_HOST=qdrant \
-    NEO4J_URI=bolt://neo4j:7687
-
-# Pre-download NLTK data trong luc build (tranh permission error luc runtime)
-# Dung "python" sau khi PATH da duoc set -> tim thay /app/.venv/bin/python
-RUN python -m nltk.downloader -d /home/appuser/nltk_data punkt punkt_tab && \
-    chown -R appuser:appuser /home/appuser/nltk_data
+    NEO4J_URI=bolt://neo4j:7687 \
+    REDIS_HOST=redis \
+    REDIS_PORT=6379
 
 # Cong FastAPI
 EXPOSE 8000
@@ -55,7 +56,7 @@ EXPOSE 8000
 # Chuyen sang user an toan
 USER appuser
 
-# Healthcheck de docker-compose biet app da san sang
+# Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"
 
