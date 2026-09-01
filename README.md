@@ -47,52 +47,87 @@ An advanced, production-grade Clinical Retrieval-Augmented Generation (RAG) syst
 
 The system operates on an End-to-End pipeline combining Vector Search, Keyword Search, Knowledge Graph Traversal, and Semantic In-Memory Caching:
 
-```mermaid
-graph TD
-    %% 1. Ingestion
-    Docs["Gale Medical Encyclopedia"] --> Chunk["Semantic Section Chunking"]
-    Chunk --> Embed["Text Embeddings (all-MiniLM-L6-v2)"]
-    Embed --> VecDB[("Qdrant Vector DB")]
-    Chunk --> BM25Index["BM25 Indexing"]
-    BM25Index --> BM25DB[("BM25 Keyword Store")]
-    Chunk --> GraphExtract["LLM Clinical Entity Extraction"]
-    GraphExtract --> GraphDB[("Neo4j Knowledge Graph")]
+```text
+========================================================================================================================
+                                       OFFLINE DATA INGESTION PIPELINE
+========================================================================================================================
+  [ The Gale Encyclopedia of Medicine (3rd Ed) ]
+                       │
+                       ▼
+         [ Semantic Section Chunking ]
+          (Definition, Causes, Symptoms, Treatments)
+                       │
+         ┌─────────────┼──────────────────────────────┐
+         │             │                              │
+         ▼             ▼                              ▼
+  [ all-MiniLM-L6-v2 ] [ BM25 Tokenizer ]    [ LLM Entity & Relation Extraction ]
+         │             │                              │
+         ▼             ▼                              ▼
+   [( Qdrant DB )]  [( BM25 Store )]           [( Neo4j Graph Database )]
+    13,350 Vectors    Lexical Index             288 Diseases · 333 Meds · 508 Symptoms
 
-    %% 2. User Query & Caching
-    UserQuery["Clinician / Patient Query"] --> SafetyCheck{"Emergency Triage Check"}
-    SafetyCheck -->|Critical / Red Flag| EmergencyTriage["Immediate 911 Triage Advice"]
-    SafetyCheck -->|Standard Inquiry| RedisCache[("Redis Semantic Cache")]
-    
-    %% 3. Cache HIT / MISS
-    RedisCache -->|Cache HIT (under 10ms)| FastAnswer["Instant Cached Stream"]
-    RedisCache -->|Cache MISS| QueryRouter{"Query Router"}
+========================================================================================================================
+                               ONLINE RETRIEVAL & ACCELERATION PIPELINE
+========================================================================================================================
+  [ Clinician / Patient Query ]
+         │
+         ▼
+  { 🚨 Emergency Triage Check } ── (Critical / Anaphylaxis) ──► [ 🚑 Immediate 911 Triage Advice ]
+         │
+         │ (Standard Query)
+         ▼
+  { ⚡ Redis Semantic Cache (HNSW Index) } ── (Similarity ≥ 92%) ──► [ ⚡ Instant Cache HIT (< 10ms) ]
+         │
+         │ (Cache MISS)
+         ▼
+  { Query Router & Transformation }
+   ├── HyDE (Hypothetical Clinical Document)
+   ├── Query Decomposition (Multi-part Breakdown)
+   └── Direct Hybrid / Graph Dispatch
+         │
+         ├────────────────────────────────────────┬────────────────────────────────────────┐
+         │                                        │                                        │
+         ▼                                        ▼                                        ▼
+  [( Qdrant Vector DB )]                   [( BM25 Index )]                 [( Neo4j Knowledge Graph )]
+   Dense Semantic Match                     Exact Keyword Search             Multi-hop Clinical Traversal
+         │                                        │                                        │
+         └───────────────────┬────────────────────┘                                        │
+                             ▼                                                             │
+                  [ Reciprocal Rank Fusion ]                                               │
+                   (RRF Top 50 Candidates)                                                 │
+                             │                                                             │
+                             └──────────────────────┬──────────────────────────────────────┘
+                                                    ▼
+                                       [ Candidate Aggregator ]
+                                                    │
+                                                    ▼
+                                    [ Cross-Encoder Reranker ]
+                                    (ms-marco-MiniLM-L-6-v2)
+                                                    │
+                                                    ▼
+                                    [ MMR Diversity Filtering ]
+                                          (lambda = 0.7)
+                                                    │
+                                                    ▼
+                                     [ Verified Medical Context ]
 
-    %% 4. Retrieval Layer
-    QueryRouter -->|Transform / HyDE| HyDE["HyDE Generator"]
-    QueryRouter -->|Decomposition| Decomp["Query Decomposer"]
-    QueryRouter -->|Dense Search| VecDB
-    QueryRouter -->|Keyword Search| BM25DB
-    QueryRouter -->|Graph Traversal| GraphDB
-
-    HyDE --> VecDB
-    Decomp --> VecDB
-
-    VecDB --> RRF["RRF Fusion (Dense + Sparse)"]
-    BM25DB --> RRF
-
-    RRF --> CandidateMerge["Candidate Aggregator"]
-    GraphDB --> CandidateMerge
-
-    %% 5. Post Retrieval
-    CandidateMerge --> CrossEncoder["Cross-Encoder Reranker"]
-    CrossEncoder --> MMR["MMR Diversity Filter"]
-    MMR --> ContextAssembly["Medical Context Assembly"]
-
-    %% 6. Generation & Output
-    ContextAssembly --> LLMGen["OpenAI GPT-4o-mini"]
-    LLMGen --> StreamOutput["SSE Token Stream to Web UI"]
-    LLMGen -.-> SaveCache["Store New Q&A in Cache"]
-    SaveCache -.-> RedisCache
+========================================================================================================================
+                                      GENERATION & STREAMING PIPELINE
+========================================================================================================================
+  [ Verified Medical Context ]
+         │
+         ▼
+  [ Medical Prompt Assembly + Clinical Disclaimers ]
+         │
+         ▼
+  [ OpenAI GPT-4o-mini (stream=True) ] ───► (Async Write-Back) ───► [( Redis Semantic Cache )]
+         │
+         ▼
+  [ Server-Sent Events (SSE) Stream ]
+         │
+         ▼
+  [ 🌐 React 19 + Vite Clinical UI (Telemetry & Real-Time Typing) ]
+========================================================================================================================
 ```
 
 ---
