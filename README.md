@@ -23,6 +23,9 @@
     <img src="https://img.shields.io/badge/React-19_Vite-61DAFB?logo=react&logoColor=black" alt="React">
   </a>
   <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/UI_Design-Stitch_MCP-6366F1?logo=google&logoColor=white" alt="Stitch MCP">
+  </a>
+  <a href="#-technology-stack">
     <img src="https://img.shields.io/badge/Qdrant-Vector_DB-red" alt="Qdrant">
   </a>
   <a href="#-technology-stack">
@@ -64,7 +67,8 @@ The system operates on an End-to-End clinical pipeline combining Vector Search, 
 | **Embeddings & Reranking** | SentenceTransformers (`all-MiniLM-L6-v2`, `cross-encoder/ms-marco-MiniLM-L-6-v2`) | Local dense embedding generation and Cross-Encoder passage reranking. |
 | **Orchestration / LLM** | OpenAI API (`gpt-4o-mini`), LangChain | Clinical intent classification, query decomposition, HyDE, and real-time streaming generation. |
 | **Backend Framework** | FastAPI, Uvicorn (Python 3.13) | Production-ready asynchronous API server with Server-Sent Events (SSE) streaming endpoints. |
-| **Frontend UI** | React 19, Vite, Vanilla CSS | Modern clinical dashboard with real-time token streaming, cache telemetry, and source inspection. |
+| **Frontend UI** | React 19, Vite, Tailwind CSS | Modern clinical dashboard with real-time token streaming, cache telemetry, and source inspection. |
+| **UI Design & Prototyping** | Google Stitch (MCP Protocol) | AI-assisted Design System creation, layout generation, and interactive component scaffolding via Model Context Protocol. |
 
 ---
 
