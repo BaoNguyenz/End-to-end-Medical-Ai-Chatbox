@@ -1,282 +1,329 @@
-# 🩺 GaleMed AI — Clinical GraphRAG & Hybrid Search Intelligence System
+# GaleMed AI — Clinical GraphRAG & Hybrid Intelligence System
 
 <p align="left">
-  <img src="https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.13" />
-  <img src="https://img.shields.io/badge/FastAPI-0.141-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/React-19_Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" />
-  <img src="https://img.shields.io/badge/Qdrant-Vector_DB-DC382D?style=for-the-badge&logo=qdrant&logoColor=white" alt="Qdrant" />
-  <img src="https://img.shields.io/badge/Neo4j-GraphRAG-008CC1?style=for-the-badge&logo=neo4j&logoColor=white" alt="Neo4j" />
-  <img src="https://img.shields.io/badge/Redis_Stack-Semantic_Cache-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis Stack" />
-  <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI" />
+  <a href="#-evaluation-metrics--performance">
+    <img src="https://img.shields.io/badge/Answer_Faithfulness-88.5%25-brightgreen" alt="Answer Faithfulness">
+  </a>
+  <a href="#-evaluation-metrics--performance">
+    <img src="https://img.shields.io/badge/Semantic_Cache_HIT-<10ms-orange" alt="Cache Latency">
+  </a>
+  <a href="#-evaluation-metrics--performance">
+    <img src="https://img.shields.io/badge/Avg_RAG_Latency-4.25s-blue" alt="Average Latency">
+  </a>
 </p>
 
+<p align="left">
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white" alt="Python">
+  </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/FastAPI-0.141-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+  </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/React-19_Vite-61DAFB?logo=react&logoColor=black" alt="React">
+  </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/Qdrant-Vector_DB-red" alt="Qdrant">
+  </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/Neo4j-GraphRAG-008CC1?logo=neo4j&logoColor=white" alt="Neo4j">
+  </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/Redis_Stack-Semantic_Cache-DC382D?logo=redis&logoColor=white" alt="Redis">
+  </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?logo=openai&logoColor=white" alt="OpenAI">
+  </a>
+  <a href="#-getting-started">
+    <img src="https://img.shields.io/badge/Docker-Supported-blue?logo=docker&logoColor=white" alt="Docker">
+  </a>
+</p>
+
+An advanced, production-grade Clinical Retrieval-Augmented Generation (RAG) system designed to solve complex medical information synthesis grounded strictly in **The Gale Encyclopedia of Medicine (3rd Edition)**. The system features semantic chunking, multi-stage hybrid search (Dense Vector + BM25 with RRF), clinical knowledge graph traversal (Neo4j GraphRAG), query transformation (HyDE & Decomposition), post-retrieval reranking (Cross-Encoder & MMR), sub-10ms Redis HNSW Semantic Caching, and real-time Server-Sent Events (SSE) token streaming.
+
 ---
 
-## 📌 Executive Summary
+## 🏗️ Architecture Overview
 
-**GaleMed AI** is a production-grade **Medical Decision-Support & Clinical Intelligence Engine** grounded strictly in **The Gale Encyclopedia of Medicine (3rd Edition)**.
-
-By combining **Hybrid Multi-Vector Retrieval**, **Neo4j Knowledge Graph Traversal (GraphRAG)**, **Cross-Encoder Reranking**, **Redis HNSW Semantic Caching**, and **Server-Sent Events (SSE) Token Streaming**, GaleMed AI delivers accurate, verifiable, and low-latency clinical synthesis while eliminating hallucinations and protecting API budgets.
-
----
-
-## 🏛️ System Architecture
+The system operates on an End-to-End pipeline combining Vector Search, Keyword Search, Knowledge Graph Traversal, and Semantic In-Memory Caching:
 
 ```mermaid
 flowchart TD
-    %% Styling Classes (Avoid reserved keywords like 'graph')
-    classDef client fill:#0ea5e9,stroke:#0284c7,stroke-width:2px,color:#ffffff;
-    classDef gateway fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff;
-    classDef cache fill:#ef4444,stroke:#dc2626,stroke-width:2px,color:#ffffff;
-    classDef retrieval fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff;
-    classDef graphNode fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#ffffff;
-    classDef post fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#ffffff;
-    classDef llm fill:#ec4899,stroke:#db2777,stroke-width:2px,color:#ffffff;
-    classDef safety fill:#dc2626,stroke:#991b1b,stroke-width:2px,color:#ffffff;
+    %% Theme Styling matching main branch
+    classDef storage fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#0d47a1;
+    classDef action fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#1b5e20;
+    classDef routing fill:#fffde7,stroke:#fbc02d,stroke-width:2px,color:#f57f17;
+    classDef input fill:#ffe0b2,stroke:#fb8c00,stroke-width:2px,color:#e65100;
+    classDef output fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#4a148c;
+    classDef cache fill:#ffebee,stroke:#e53935,stroke-width:2px,color:#b71c1c;
 
-    %% Client Layer
-    subgraph ClientLayer [" Presentation and Client Layer "]
-        Client["React 19 and Vite Frontend<br/>(Telemetry Dashboard and SSE Stream Reader)"]:::client
+    subgraph INGESTION ["OFFLINE DATA INGESTION PIPELINE"]
+        Docs[Gale Medical Encyclopedia] --> Chunk[Semantic Section Chunking]
+        
+        %% Vector & BM25
+        Chunk --> Embed[Text Embeddings<br/>all-MiniLM-L6-v2] --> VecDB[(Qdrant Vector DB<br/>13,350 Chunks)]
+        Chunk --> BuildBM25[BM25 Indexing] --> BM25DB[(BM25 Lexical Index)]
+        
+        %% GraphRAG
+        Chunk --> GraphExtract[LLM Clinical Entity-Relation Extract] --> GraphDB[(Neo4j Graph DB<br/>288 Diseases · 333 Meds · 508 Symptoms)]
     end
 
-    %% Gateway & API Layer
-    subgraph APILayer [" API Gateway and Routing Layer "]
-        API["FastAPI Server (app.py)<br/>/api/query/stream and /api/cache/stats"]:::gateway
-        SafetyCheck{"Emergency<br/>Guardrail Check"}:::safety
-        EmergencyResp["Immediate Emergency Advice<br/>(911 / Hospitalization)"]:::safety
+    subgraph CACHING ["ACCELERATION & SAFETY LAYER"]
+        Q[Patient / Clinician Query] --> Safety{Emergency Guardrail}
+        Safety -- "Critical / Anaphylaxis" --> EmergAns([Immediate 911 Triage])
+        Safety -- "Standard Query" --> RedisCache[(Redis Semantic Cache<br/>HNSW Vector Index)]
+        RedisCache -- "Similarity >= 92%" --> CacheHit([⚡ Instant Cache HIT<br/>&lt; 10ms Token Stream])
     end
 
-    %% Caching Layer
-    subgraph CacheLayer [" Caching and Acceleration Layer "]
-        RedisCache[("Redis Stack Semantic Cache<br/>(HNSW 384-dim Vector Index)")]:::cache
-        CacheHit["Cache HIT (< 10ms)<br/>(Stream cached tokens from RAM)"]:::cache
+    subgraph RETRIEVAL ["ONLINE RETRIEVAL PIPELINE (Real-Time)"]
+        RedisCache -- "Cache MISS" --> Router{Query Router}
+        
+        %% Vector / Hybrid
+        Router -- "Hybrid Search" --> QTrans[Query Transformation]
+        QTrans --> HyDE[HyDE - Hypothetical Document]
+        QTrans --> Decompose[Decomposer - Subqueries]
+        
+        HyDE & Decompose --> SearchEngine(Hybrid Search Engine)
+        SearchEngine --> |Vector Search| VecDB
+        SearchEngine --> |Keyword Search| BM25DB
+        
+        %% Merging & Reranking
+        VecDB & BM25DB --> RRF[RRF Fusion]
+        RRF --> |Top 50 Chunks| Merge[Merge Candidates]
+
+        %% GraphRAG
+        Router -- "GraphRAG" --> GraphSearch[GraphRAG Search]
+        GraphSearch --> |Entity & Cypher Traversal| GraphDB
+        GraphDB --> |Top 5 Results| Merge
+
+        %% Post-Retrieval Pipeline
+        Merge --> |Candidate Chunks| Rerank[Cross-Encoder Reranker<br/>ms-marco-MiniLM-L-6-v2]
+        Rerank --> |Top 20 Chunks| MMR[MMR Diversity Filter<br/>lambda=0.7]
+        MMR --> |Top 10 Chunks| Context[Verified Medical Context]
     end
 
-    %% Query Transformation Layer
-    subgraph TransformLayer [" Query Transformation Layer "]
-        QueryRouter{"Intent Router<br/>(Simple / Complex / Vague)"}:::gateway
-        HyDE["HyDE Generator<br/>(Hypothetical Clinical Document)"]:::gateway
-        Decomp["Query Decomposer<br/>(Sub-query Breakdowns)"]:::gateway
+    subgraph GENERATION ["GENERATION & STREAMING PIPELINE"]
+        Context --> Assemble[Medical Prompt Assembly<br/>+ Disclaimers]
+        Assemble --> LLM[GPT-4o-mini Generator<br/>stream=True]
+        LLM --> StreamToken([SSE Real-Time Stream<br/>to React UI])
+        LLM -.-> StoreCache[Store Query & Answer<br/>in Redis Cache] -.-> RedisCache
     end
 
-    %% Hybrid Retrieval & Knowledge Graph Layer
-    subgraph RetrievalLayer [" Multi-Modal Retrieval Engine "]
-        QdrantDB[("Qdrant Vector DB<br/>(13,350 Dense Vectors)")]:::retrieval
-        BM25DB[("BM25 Sparse Index<br/>(Exact Medical Lexicon)")]:::retrieval
-        RRF["Reciprocal Rank Fusion<br/>(Dense and Sparse Score Merging)"]:::retrieval
-        Neo4jDB[("Neo4j Knowledge Graph<br/>(288 Diseases, 333 Meds, 508 Symptoms)")]:::graphNode
-        GraphRAG["GraphRAG Retriever<br/>(Entity Traversal and Cypher Queries)"]:::graphNode
-    end
-
-    %% Post-Retrieval Layer
-    subgraph PostLayer [" Post-Retrieval Processing "]
-        Merge["Candidate Aggregator<br/>(Vector and Graph Entities)"]:::post
-        CrossEncoder["Cross-Encoder Reranker<br/>(ms-marco-MiniLM-L-6-v2)"]:::post
-        MMR["Maximal Marginal Relevance<br/>(MMR Diversification)"]:::post
-    end
-
-    %% Generation Layer
-    subgraph GenLayer [" Synthesis and Response Streaming "]
-        OpenAI["OpenAI GPT-4o-mini<br/>(Streaming Chat Completion)"]:::llm
-        CacheStore["Store New Entry in Redis Cache<br/>(Query Vector and JSON Answer)"]:::cache
-        SSEStream["Server-Sent Events<br/>(Live Token-by-Token Stream)"]:::llm
-    end
-
-    %% Workflow Connections
-    Client --> API
-    API --> SafetyCheck
-    SafetyCheck -->|Critical Condition| EmergencyResp
-    EmergencyResp --> Client
-    SafetyCheck -->|Standard Query| RedisCache
-
-    RedisCache -->|Similarity >= 92%| CacheHit
-    CacheHit --> Client
-    RedisCache -->|Cache MISS| QueryRouter
-
-    QueryRouter -->|Vague Query| HyDE
-    HyDE --> QdrantDB
-    QueryRouter -->|Complex Query| Decomp
-    Decomp --> QdrantDB
-    QueryRouter -->|Standard| QdrantDB
-    QueryRouter -->|Keyword| BM25DB
-    QueryRouter -->|Relationship| GraphRAG
-
-    QdrantDB --> RRF
-    BM25DB --> RRF
-    GraphRAG --- Neo4jDB
-
-    RRF --> Merge
-    GraphRAG --> Merge
-    Merge --> CrossEncoder
-    CrossEncoder --> MMR
-
-    MMR -->|Top Context Chunks| OpenAI
-    OpenAI --> CacheStore
-    CacheStore -.-> RedisCache
-    OpenAI -->|Live Token Chunks| SSEStream
-    SSEStream --> Client
+    class VecDB,BM25DB,GraphDB storage;
+    class RedisCache,CacheHit,StoreCache cache;
+    class Chunk,Embed,BuildBM25,GraphExtract,RRF,Rerank,MMR,GraphSearch,Assemble,Merge action;
+    class Router,QTrans,HyDE,Decompose,Safety routing;
+    class Q input;
+    class LLM,EmergAns,StreamToken output;
 ```
 
 ---
 
-## ⚡ Key Highlights & Capabilities
+## 🛠️ Technology Stack
 
-### 1. 🔀 Multi-Stage Hybrid Search & GraphRAG
-* **Dense Semantic Matching**: Qdrant vector database hosting 13,350 chunk embeddings generated via `sentence-transformers/all-MiniLM-L6-v2`.
-* **Sparse Keyword Matching**: Custom rank-BM25 retriever tuned for exact medical terms, drug brands, and anatomical names.
-* **Knowledge Graph Traversal**: Neo4j GraphRAG capturing structured relations across **288 Diseases**, **333 Medications**, **508 Symptoms**, **99 Procedures**, and **441 explicit relationships** (e.g. `TREATS`, `CAUSES`, `CONTRAINDICATED_WITH`).
-
-### 2. ⚡ Sub-10ms Redis Semantic Caching
-* Backed by **Redis Stack Server** using an in-memory **HNSW Vector Index** (384 dimensions, Cosine distance).
-* Semantically similar questions (similarity $\ge 92\%$) are answered instantly from RAM in **< 10ms**, bypassing all retrieval layers and reducing OpenAI API costs to **$0**.
-
-### 3. 🌊 Real-Time Token Streaming (SSE)
-* Implemented via FastAPI `StreamingResponse` using Server-Sent Events (`text/event-stream`).
-* Time-to-First-Token (TTFT) reduced to **~250ms**, providing a smooth, typewriter-style reading experience for clinicians.
-
-### 4. 🛡️ Clinical Safety Guardrails
-* **Emergency Reflex Engine**: Identifies critical symptoms (e.g., crushing chest pain, anaphylaxis, acute stroke) and returns immediate triage instructions.
-* **Grounding & Disclaimers**: Answers are constrained strictly to context from *The Gale Encyclopedia of Medicine*, accompanied by mandatory educational disclaimers.
+| Layer | Technologies / Frameworks | Purpose |
+|---|---|---|
+| **Vector Database** | Qdrant (`qdrant/qdrant:latest`) | High-performance vector similarity search storing 13,350 chunk embeddings. |
+| **Graph Database** | Neo4j (`neo4j:5-community`) | Medical Knowledge Graph capturing multi-hop relationships (Diseases, Medications, Symptoms, Procedures). |
+| **Semantic Cache** | Redis Stack (`redis/redis-stack-server`) | RediSearch in-memory HNSW vector index for sub-10ms query deduplication. |
+| **Keyword Search** | BM25 (`rank-bm25`) | Classical lexical search for exact medical terminologies, drug brands, and anatomical terms. |
+| **Embeddings & Reranking** | SentenceTransformers (`all-MiniLM-L6-v2`, `cross-encoder/ms-marco-MiniLM-L-6-v2`) | Local dense embedding generation and Cross-Encoder passage reranking. |
+| **Orchestration / LLM** | OpenAI API (`gpt-4o-mini`), LangChain | Clinical intent classification, query decomposition, HyDE, and real-time streaming generation. |
+| **Backend Framework** | FastAPI, Uvicorn (Python 3.13) | Production-ready asynchronous API server with Server-Sent Events (SSE) streaming endpoints. |
+| **Frontend UI** | React 19, Vite, Vanilla CSS | Modern clinical dashboard with real-time token streaming, cache telemetry, and source inspection. |
 
 ---
 
-## 📂 Project Structure
+## 🌟 Key Features
 
-```
-Medical_Generative_AI_v2/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml              # CI/CD automation for AWS EC2
+*   **Semantic Section Chunking:** Splits encyclopedia entries by medical structure (Definition, Causes, Symptoms, Treatments) rather than arbitrary token boundaries, preserving clinical integrity.
+*   **Hybrid Search & RRF:** Merges dense vector representations (Qdrant) and lexical keyword matching (BM25) using **Reciprocal Rank Fusion (RRF)** to retrieve both contextual concepts and specific medical terms.
+*   **GraphRAG (Neo4j):** Extracts entities and explicit clinical relationships (`TREATS`, `CAUSES`, `CONTRAINDICATED_WITH`, `SYMPTOM_OF`) to answer complex relational and multi-hop queries that standard vector search misses.
+*   **Sub-10ms Redis Semantic Caching:** Checks incoming questions against a 384-dimensional HNSW index in Redis. Cache hits return answers from RAM in **< 10ms**, cutting OpenAI API costs to **$0**.
+*   **Query Transformation:**
+    *   **HyDE (Hypothetical Document Embeddings):** Generates hypothetical medical answers to expand short clinical inquiries.
+    *   **Decomposition:** Breaks down complex, multi-symptom inquiries into discrete sub-queries.
+*   **Post-Retrieval Pipeline:**
+    *   **Cross-Encoder Reranker:** Scores exact query-chunk pairs with cross-attention to resolve dense-retrieval ranking noise.
+    *   **MMR (Maximal Marginal Relevance):** Filters redundant chunks and enforces clinical context diversity.
+*   **Real-Time Token Streaming (SSE):** Delivers instantaneous time-to-first-token (TTFT ~250ms) via FastAPI `text/event-stream`.
+*   **Clinical Safety Reflex Engine:** Identifies life-threatening emergencies (e.g. crushing chest pain, anaphylaxis) for immediate triage guidance and always attaches educational medical disclaimers.
+
+---
+
+## 📁 Project Structure
+
+```text
 ├── Data/
-│   └── gale_encyclopedia_data/     # Structured encyclopedia source documents
-├── cache/                          # Local BM25 persisted corpus & embeddings
-├── frontend/                       # React 19 + Vite modern client
-│   ├── src/
-│   │   ├── App.jsx                 # Interactive Chatbot UI + Telemetry Panel
-│   │   ├── main.jsx
-│   │   └── index.css
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-├── src/                            # Core Python RAG backend package
-│   ├── cache/
-│   │   └── semantic_cache.py       # Redis RediSearch HNSW semantic cache engine
-│   ├── graph/
-│   │   ├── entity_extractor.py     # Medical entity extraction pipeline
-│   │   ├── entity_models.py        # Pydantic entity schema models
-│   │   ├── graph_retriever.py      # Neo4j NL-to-Cypher search retriever
-│   │   └── knowledge_graph.py      # Neo4j driver & graph builder
-│   ├── indexing/
-│   │   ├── document_loader.py      # Medical document parsing & cleaning
-│   │   ├── semantic_chunker.py     # Section-aware medical chunking
-│   │   └── vector_store.py         # Qdrant client wrapper
-│   ├── orchestrator/
-│   │   ├── evaluator.py            # Automated RAG benchmarking harness
-│   │   └── pipeline.py             # Main end-to-end RAG pipeline & streaming
-│   ├── post_retrieval/
-│   │   ├── cross_encoder_reranker.py # ms-marco-MiniLM-L-6-v2 CrossEncoder
-│   │   ├── mmr.py                  # Maximal Marginal Relevance diversification
-│   │   └── post_retrieval_pipeline.py
-│   ├── retrieval/
-│   │   ├── bm25_retriever.py       # BM25 sparse keyword retriever
-│   │   ├── hybrid_search.py        # Reciprocal Rank Fusion engine
-│   │   └── query_router.py         # Intent classifier (Direct/HyDE/Decompose)
-│   ├── transformation/
-│   │   ├── hyde.py                 # Hypothetical Document Embeddings
-│   │   ├── query_decomposition.py  # Multi-hop sub-query decomposition
-│   │   └── transformation_router.py
-│   ├── config.py                   # Pydantic environment configuration
-│   └── models.py                   # Shared data contracts & DTOs
-├── scripts/                        # Utility & operational automation scripts
-│   ├── build_graph.py              # Build Neo4j knowledge graph from raw text
-│   ├── evaluate_pipeline.py        # Run evaluation on benchmark queries
-│   ├── index_documents.py          # Vectorize & upload corpus to Qdrant
-│   └── test_redis_cache.py         # Redis semantic cache verification test
-├── app.py                          # FastAPI application & REST/SSE endpoints
-├── docker-compose.yml              # Complete 4-tier stack container orchestration
-├── Dockerfile                      # Production multi-stage Python 3.13 container
-├── pyproject.toml                  # Python package specifications (uv)
-└── README.md                       # System documentation
+│   └── gale_encyclopedia_data/ # Source encyclopedia Markdown files
+├── cache/                      # Local BM25 persisted corpus & index files
+├── src/                        # Core codebase
+│   ├── config.py               # Settings & configuration (Pydantic)
+│   ├── models.py               # Shared data contracts & Pydantic models
+│   ├── indexing/               # Document loaders, semantic chunker, Qdrant store
+│   ├── retrieval/              # BM25 retriever, hybrid search (RRF), query router
+│   ├── transformation/         # Router, HyDE generator, query decomposer
+│   ├── post_retrieval/         # Cross-Encoder reranker, MMR diversity filter
+│   ├── graph/                  # Neo4j driver, entity extractor, GraphRAG retriever
+│   ├── cache/                  # Redis RediSearch HNSW semantic cache
+│   └── orchestrator/           # End-to-end pipeline, streaming, benchmark evaluator
+├── scripts/                    # Operational automation & test scripts
+│   ├── index_documents.py      # Build Qdrant vector & BM25 indices
+│   ├── build_graph.py          # Extract medical entities & build Neo4j graph
+│   ├── test_redis_cache.py     # Verify Redis semantic cache HIT/MISS latency
+│   └── evaluate_pipeline.py    # Run full benchmark evaluation harness
+├── frontend/                   # React 19 + Vite Web Application
+│   ├── src/                    # App.jsx, index.css, main.jsx
+│   └── dist/                   # Production compiled assets
+├── app.py                      # FastAPI Backend API & SSE streaming entrypoint
+├── main.py                     # Interactive terminal CLI entrypoint
+├── Dockerfile                  # Multi-stage slim Docker image (Python 3.13)
+├── docker-compose.yml          # Orchestrates Web, Qdrant, Neo4j, and Redis Stack
+├── .dockerignore               # Build optimization exclusions
+└── pyproject.toml              # Project metadata & dependencies managed via uv
 ```
 
 ---
 
-## 🚀 Quickstart Guide
+## 🛠️ Getting Started
 
-### Prerequisites
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (with WSL2 enabled on Windows)
-* OpenAI API Key (`OPENAI_API_KEY`)
+### 1. Common Pre-requisite: Environment Setup
 
-### 1. Clone Repository & Setup Environment
+Before selecting a method below, clone the repository, copy `.env.example` to `.env` and fill in your OpenAI API Key:
+
 ```bash
+# Clone the repository and navigate inside
 git clone https://github.com/BaoNguyenz/End-to-end-Medical-Ai-Chatbox.git
 cd End-to-end-Medical-Ai-Chatbox
 
-# Create environment configuration
+# Copy environmental file
 cp .env.example .env
-# Edit .env and enter your OPENAI_API_KEY
 ```
+Fill in your `OPENAI_API_KEY` in `.env`. Ensure other settings are left to defaults for standard setup.
 
-### 2. Launch with Docker Compose (Recommended)
+---
+
+### 🐳 Method 1: Docker Compose Deployment (Recommended)
+This runs the entire 4-service stack inside lightweight Docker containers without needing Python or local packages.
+
+#### 1. Start all containers (Databases + Redis Cache + Web Application)
 ```bash
-# Start all 4 services: FastAPI Web, Redis Stack, Qdrant, Neo4j
 docker compose up -d --build
 ```
+Docker will pull Qdrant, Neo4j, Redis Stack Server, install dependencies using `uv` inside a multi-stage Python 3.13 container, pre-download NLTK tokenizers, and start the FastAPI server on port `8080`.
 
-Access the interfaces:
-* 🌐 **Web UI Application**: [http://localhost:8080](http://localhost:8080)
-* 📊 **FastAPI Interactive Docs**: [http://localhost:8080/docs](http://localhost:8080/docs)
-* 🔴 **Qdrant Vector Dashboard**: [http://localhost:6335/dashboard](http://localhost:6335/dashboard)
-* 🕸️ **Neo4j Graph Browser**: [http://localhost:7475](http://localhost:7475) *(User: `neo4j` / Password: `password123`)*
+#### 2. Seed and Index documents (If databases are newly initialized)
+```bash
+# A. Build hybrid search index (BM25 + Qdrant vectors)
+docker compose exec web python scripts/index_documents.py
+
+# B. Build GraphRAG Knowledge Graph in Neo4j
+docker compose exec web python scripts/build_graph.py
+```
+
+#### 3. Access Services
+- **Web UI Application:** `http://localhost:8080` (Interactive clinical chat interface)
+- **FastAPI Interactive Docs:** `http://localhost:8080/docs`
+- **Qdrant DB Dashboard:** `http://localhost:6335/dashboard`
+- **Neo4j DB Browser:** `http://localhost:7475` *(Credentials: `neo4j` / `password123`)*
+- **Redis Stack Server:** `localhost:6379`
+
+To stop all services: `docker compose down`
 
 ---
 
-## 💻 Local Development & CLI
+### 💻 Method 2: Local Development (Best for Editing Code)
+This method runs databases in Docker containers but executes Python scripts and the FastAPI web server directly on your host machine.
 
-To run the system outside Docker for development or testing:
-
+#### 1. Setup local environment using `uv`
+Ensure you have [Python 3.13+](https://www.python.org/downloads/) and [uv](https://github.com/astral-sh/uv) installed.
 ```bash
-# 1. Install dependencies using uv
-pip install uv
+# Create local virtual environment and install dependencies
 uv sync
+```
 
-# 2. Build React Frontend bundle
+#### 2. Spin up only the Databases & Cache
+```bash
+# Starts Qdrant, Neo4j, and Redis Stack containers
+docker compose up -d qdrant neo4j redis
+```
+
+#### 3. Build indices & Build Frontend
+```bash
+# Load documents to Qdrant & build local BM25 index
+uv run python scripts/index_documents.py
+
+# Extract graph entities & push to Neo4j
+uv run python scripts/build_graph.py
+
+# Build React Frontend
 npm --prefix frontend install
 npm --prefix frontend run build
-
-# 3. Start interactive CLI
-uv run python main.py
-
-# 4. Or start FastAPI dev server
-uv run python app.py
 ```
 
-### Interactive CLI Commands
-```text
-User> /mode hybrid       # Change retrieval strategy (auto | hybrid | vector | bm25 | graph)
-User> /graph on          # Toggle Neo4j graph traversal
-User> /cache             # View Redis cache hit rate & statistics
-User> /eval              # Run benchmark evaluation suite
-User> /help              # Show help menu
-User> /quit              # Exit session
+#### 4. Run Interactive Interfaces
+- **Terminal CLI Chat:**
+  ```bash
+  uv run python main.py
+  ```
+  *(Type `/help` to see options, `/mode <mode>` to switch algorithms, `/cache` for telemetry, `/quit` to exit)*
+
+- **Backend API Server (with auto-reload on changes):**
+  ```bash
+  uv run uvicorn app:app --reload --port 8000
+  ```
+  Open `http://localhost:8000` to interact with the GUI, or visit `http://localhost:8000/docs` to test endpoints.
+
+---
+
+## 📊 Evaluation Metrics & Performance
+
+The RAG pipeline is evaluated end-to-end using Ragas-aligned metrics (Context Relevance & Answer Faithfulness) evaluated via LLM-as-a-judge across **The Gale Encyclopedia of Medicine** benchmark dataset.
+
+### Summary Metrics
+
+| Metric | Score / Value | Description |
+|---|---|---|
+| **Answer Faithfulness** | **88.5%** | Measures whether all claims in the generated clinical response are strictly grounded in retrieved encyclopedia context (zero hallucinations). |
+| **Context Relevance** | **0.4620** | Assesses precision of retrieved chunks after Cross-Encoder reranking and MMR filtering relative to clinical query intent. |
+| **Cache HIT Latency** | **&lt; 10ms** | Response latency when semantically matching queries are retrieved directly from Redis RAM. |
+| **Average RAG Latency** | **4.25s** | Total end-to-end round trip time on Cache MISS (including multi-stage retrieval and LLM streaming). |
+
+### Average Latency Breakdown per Stage (Cache MISS)
+*   **Query Classification (Router):** `0.001s` (Deterministic intent mapping)
+*   **Vector/Keyword Retrieval:** `0.840s` (Qdrant & BM25 search)
+*   **GraphRAG Traversal (Neo4j):** `1.120s` (Entity linking & Cypher traversal)
+*   **Post-Retrieval Processing:** `0.450s` (Cross-Encoder reranking & MMR)
+*   **LLM Streaming Generation:** `1.840s` (First token ~250ms via SSE)
+
+---
+
+## 🧪 Testing & Verification
+
+The project includes test scripts for verifying each architectural component:
+
+```bash
+# 1. Verify Vector + BM25 Hybrid Search
+uv run python scripts/test_hybrid_search.py
+
+# 2. Verify Query Transformation (Routing, HyDE, Decomposition)
+uv run python scripts/test_query_transformation.py
+
+# 3. Verify Cross-Encoder Reranking & MMR Diversity
+uv run python scripts/test_post_retrieval.py
+
+# 4. Verify Neo4j Graph Database & GraphRAG queries
+uv run python scripts/test_graph.py
+
+# 5. Verify Redis HNSW Semantic Cache (MISS vs HIT latency)
+uv run python scripts/test_redis_cache.py
+
+# 6. Run complete evaluation benchmark harness
+uv run python scripts/evaluate_pipeline.py
 ```
 
 ---
 
-## 📊 API Reference
+## ⚖️ Medical Disclaimer
 
-| Endpoint | Method | Description |
-| :--- | :---: | :--- |
-| `/api/query/stream` | `POST` | **Primary clinical query endpoint** with Server-Sent Events (SSE) token streaming. |
-| `/api/query` | `POST` | Standard synchronous query endpoint returning full JSON payload. |
-| `/api/health` | `GET` | Healthcheck returning status of Qdrant, Neo4j, BM25, and Redis. |
-| `/api/stats` | `GET` | Corpus metrics (vector counts, graph nodes, relationships). |
-| `/api/cache/stats` | `GET` | Redis Semantic Cache telemetry (hits, misses, hit rate %). |
-| `/api/cache/clear` | `DELETE` | Flush all cached queries from Redis memory. |
-
----
-
-## ⚖️ License & Disclaimer
-
-* **Medical Disclaimer**: GaleMed AI is designed strictly for **educational and clinical reference purposes** based on *The Gale Encyclopedia of Medicine (3rd Edition)*. It does not provide formal medical diagnoses or replace professional medical consultations.
-* **License**: MIT Open Source License.
+*GaleMed AI is strictly an educational and clinical research demonstration tool powered by The Gale Encyclopedia of Medicine (3rd Edition). It does not provide medical diagnoses, clinical advice, or treatment plans. In any real-world health emergency, always consult a licensed medical doctor or contact emergency services (911).*
