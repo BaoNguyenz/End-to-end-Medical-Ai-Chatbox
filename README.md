@@ -1,294 +1,254 @@
-# Enterprise RAG System for TechDocs Inc.
+# 🩺 GaleMed AI — Clinical GraphRAG & Hybrid Search Intelligence System
 
 <p align="left">
-  <a href="#-evaluation-metrics--performance">
-    <img src="https://img.shields.io/badge/Context_Relevance-0.4130-green" alt="Context Relevance">
-  </a>
-  <a href="#-evaluation-metrics--performance">
-    <img src="https://img.shields.io/badge/Faithfulness-83.3%25-brightgreen" alt="Answer Faithfulness">
-  </a>
-  <a href="#-evaluation-metrics--performance">
-    <img src="https://img.shields.io/badge/Avg_Latency-4.91s-orange" alt="Average Latency">
-  </a>
+  <img src="https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.13" />
+  <img src="https://img.shields.io/badge/FastAPI-0.141-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/React-19_Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" />
+  <img src="https://img.shields.io/badge/Qdrant-Vector_DB-DC382D?style=for-the-badge&logo=qdrant&logoColor=white" alt="Qdrant" />
+  <img src="https://img.shields.io/badge/Neo4j-GraphRAG-008CC1?style=for-the-badge&logo=neo4j&logoColor=white" alt="Neo4j" />
+  <img src="https://img.shields.io/badge/Redis_Stack-Semantic_Cache-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis Stack" />
+  <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI" />
 </p>
-
-<p align="left">
-  <a href="#-technology-stack">
-    <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white" alt="Python">
-  </a>
-  <a href="#-technology-stack">
-    <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?logo=fastapi&logoColor=white" alt="FastAPI">
-  </a>
-  <a href="#-technology-stack">
-    <img src="https://img.shields.io/badge/Qdrant-Vector_DB-red" alt="Qdrant">
-  </a>
-  <a href="#-technology-stack">
-    <img src="https://img.shields.io/badge/Neo4j-Graph_DB-008CC1?logo=neo4j&logoColor=white" alt="Neo4j">
-  </a>
-  <a href="#-technology-stack">
-    <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?logo=openai&logoColor=white" alt="OpenAI">
-  </a>
-  <a href="#-getting-started">
-    <img src="https://img.shields.io/badge/Docker-Supported-blue?logo=docker&logoColor=white" alt="Docker">
-  </a>
-</p>
-
-An advanced, production-grade Retrieval-Augmented Generation (RAG) system designed to solve search challenges in large technical repositories. The system features semantic chunking, hybrid search (Vector + BM25 with RRF), query transformation (HyDE & Decomposition), post-retrieval processing (Cross-Encoder Reranker & MMR), and GraphRAG (Neo4j).
-
 
 ---
 
-## 🏗️ Architecture Overview
+## 📌 Executive Summary
 
-The system operates on an End-to-End pipeline combining Vector Search, Keyword Search, and Graph Databases:
+**GaleMed AI** is a production-grade **Medical Decision-Support & Clinical Intelligence Engine** grounded strictly in **The Gale Encyclopedia of Medicine (3rd Edition)**.
 
-```mermaid
-flowchart TD
-    %% Theme Styling
-    classDef storage fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#0d47a1;
-    classDef action fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#1b5e20;
-    classDef routing fill:#fffde7,stroke:#fbc02d,stroke-width:2px,color:#f57f17;
-    classDef input fill:#ffe0b2,stroke:#fb8c00,stroke-width:2px,color:#e65100;
-    classDef output fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#4a148c;
+By combining **Hybrid Multi-Vector Retrieval**, **Neo4j Knowledge Graph Traversal (GraphRAG)**, **Cross-Encoder Reranking**, **Redis HNSW Semantic Caching**, and **Server-Sent Events (SSE) Token Streaming**, GaleMed AI delivers accurate, verifiable, and low-latency clinical synthesis while eliminating hallucinations and protecting API budgets.
 
-    subgraph INGESTION ["OFFLINE DATA INGESTION PIPELINE"]
-        Docs[Technical Docs] --> Chunk[Semantic Chunking]
-        
-        %% Vector & BM25
-        Chunk --> Embed[Text Embeddings] --> VecDB[(Qdrant Vector DB)]
-        Chunk --> BuildBM25[BM25 Indexing] --> BM25DB[(BM25 Retriever)]
-        
-        %% GraphRAG
-        Chunk --> GraphExtract[LLM Entity-Relation Extract] --> GraphDB[(Neo4j Graph DB)]
-    end
+---
 
-    subgraph RETRIEVAL ["ONLINE RETRIEVAL PIPELINE (Real-Time)"]
-        Q[User Query] --> Router{Query Router}
-        
-        %% Vector / Hybrid
-        Router -- "Hybrid Search" --> QTrans[Query Transformation]
-        QTrans --> HyDE[HyDE - Hypothetical Document]
-        QTrans --> Decompose[Decomposer - Subqueries]
-        
-        HyDE & Decompose --> SearchEngine(Hybrid Search Engine)
-        SearchEngine --> |Vector Search| VecDB
-        SearchEngine --> |Keyword Search| BM25DB
-        
-        %% Merging & Reranking
-        VecDB & BM25DB --> RRF[RRF Fusion]
-        RRF --> |Top 50 Chunks| Merge[Merge Candidates]
+## 🏛️ System Architecture
 
-        %% GraphRAG
-        Router -- "GraphRAG" --> GraphSearch[GraphRAG Search]
-        GraphSearch --> |Entity Linking| GraphDB
-        GraphDB --> |Top 10 Results| Merge
-
-        %% Post-Retrieval Pipeline
-        Merge --> |60 Chunks| Rerank[Cross-Encoder Reranker]
-        Rerank --> |Top 20 Chunks| MMR[MMR Diversity Filter]
-        MMR --> |Top 10 Chunks| Context[Final Context]
-    end
-
-    subgraph GENERATION ["GENERATION PIPELINE"]
-        Context --> Assemble[Prompt Assembly]
-        Assemble --> LLM[GPT-4o Generator]
-        LLM --> Ans([Answer Output])
-    end
-
-    class VecDB,BM25DB,GraphDB storage;
-    class Chunk,Embed,BuildBM25,GraphExtract,RRF,Rerank,MMR,GraphSearch,Assemble,Merge action;
-    class Router,QTrans,HyDE,Decompose routing;
-    class Q input;
-    class LLM,Ans output;
+```
+                                  ┌───────────────────────────┐
+                                  │   User / Clinical Client  │
+                                  │   (React 19 + Vite Web)   │
+                                  └─────────────┬─────────────┘
+                                                │ HTTP / SSE Stream (:8080)
+                                                ▼
+                                  ┌───────────────────────────┐
+                                  │     FastAPI Application   │
+                                  │  (app.py / RAG Pipeline)  │
+                                  └─────────────┬─────────────┘
+                                                │
+                 ┌──────────────────────────────┴──────────────────────────────┐
+                 │                                                             │
+                 ▼                                                             ▼
+    ┌──────────────────────────┐                                  ┌──────────────────────────┐
+    │  🚨 Emergency Detector   │ ── (Life-threatening?) ────────► │ Instant Emergency Advice │
+    └────────────┬─────────────┘                                  └──────────────────────────┘
+                 │ (Normal Query)
+                 ▼
+    ┌──────────────────────────┐
+    │  Redis Semantic Cache    │ ── (Cosine Sim ≥ 92%) ─────────► ⚡ Cache HIT (< 10ms)
+    │  (HNSW 384-dim Index)    │
+    └────────────┬─────────────┘
+                 │ (Cache MISS)
+                 ▼
+    ┌──────────────────────────┐
+    │   Query & Transformation │
+    │   Router (HyDE / Decomp) │
+    └────────────┬─────────────┘
+                 │
+       ┌─────────┴───────────────────────────────┐
+       │                                         │
+       ▼                                         ▼
+┌───────────────┐                         ┌───────────────┐
+│ Dense Vector  │                         │ Sparse Search │
+│    Qdrant     │                         │     BM25      │
+│ (13,350 Pts)  │                         │ (13,350 Pts)  │
+└───────┬───────┘                         └───────┬───────┘
+        │                                         │
+        └────────────────┬────────────────────────┘
+                         │ Reciprocal Rank Fusion (RRF)
+                         ▼
+        ┌────────────────────────────────┐
+        │   Neo4j Clinical GraphRAG      │ ◄── Entities & Multi-hop Relations
+        │ (Diseases, Meds, Symptoms)     │     (288 Diseases, 333 Meds, 508 Symptoms)
+        └────────────────┬───────────────┘
+                         │ Merge Candidates
+                         ▼
+        ┌────────────────────────────────┐
+        │   Cross-Encoder Reranker       │
+        │ (ms-marco-MiniLM-L-6-v2) + MMR │
+        └────────────────┬───────────────┘
+                         │ Top Context Chunks
+                         ▼
+        ┌────────────────────────────────┐
+        │   OpenAI GPT-4o-mini           │ ──► Store answer in Redis Semantic Cache
+        │   Streaming Generator (SSE)    │
+        └────────────────┬───────────────┘
+                         │
+                         ▼
+        ┌────────────────────────────────┐
+        │   Verified Medical Answer      │
+        │   + Citations & Disclaimers    │
+        └────────────────────────────────┘
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## ⚡ Key Highlights & Capabilities
 
-| Layer | Technologies / Frameworks | Purpose |
-|---|---|---|
-| **Programming Language** | Python 3.10+, JavaScript (Vanilla) | Backend logic, pipeline, and interactive web frontend. |
-| **Package Manager** | `uv` (by Astral) | Fast dependency management and virtual environments. |
-| **Vector Database** | Qdrant | Dense vector retrieval using HNSW indexing. |
-| **Graph Database** | Neo4j (GraphRAG) | Knowledge Graph representation of documents, entities, and relations. |
-| **Keyword Search** | BM25 (Rank-BM25) | Classical lexical search for error codes, API URLs, and product catalogs. |
-| **Embeddings & Reranking** | SentenceTransformers (`all-MiniLM-L6-v2`, `cross-encoder/ms-marco-MiniLM-L-6-v2`) | Local embedding generation and Cross-Encoder passage reranking. |
-| **Orchestration / LLM** | OpenAI API (`gpt-4o-mini`), LangChain | Intent routing, query decomposition, HyDE, entity extraction, and final generation. |
-| **Backend Framework** | FastAPI, Uvicorn | Production-ready asynchronous API server. |
-| **Frontend UI** | HTML5, Vanilla CSS (Modern glassmorphic theme), JavaScript | Sleek web chat UI with real-time response streams and source citations. |
+### 1. 🔀 Multi-Stage Hybrid Search & GraphRAG
+* **Dense Semantic Matching**: Qdrant vector database hosting 13,350 chunk embeddings generated via `sentence-transformers/all-MiniLM-L6-v2`.
+* **Sparse Keyword Matching**: Custom rank-BM25 retriever tuned for exact medical terms, drug brands, and anatomical names.
+* **Knowledge Graph Traversal**: Neo4j GraphRAG capturing structured relations across **288 Diseases**, **333 Medications**, **508 Symptoms**, **99 Procedures**, and **441 explicit relationships** (e.g. `TREATS`, `CAUSES`, `CONTRAINDICATED_WITH`).
 
----
+### 2. ⚡ Sub-10ms Redis Semantic Caching
+* Backed by **Redis Stack Server** using an in-memory **HNSW Vector Index** (384 dimensions, Cosine distance).
+* Semantically similar questions (similarity $\ge 92\%$) are answered instantly from RAM in **< 10ms**, bypassing all retrieval layers and reducing OpenAI API costs to **$0**.
 
-## 🌟 Key Features
+### 3. 🌊 Real-Time Token Streaming (SSE)
+* Implemented via FastAPI `StreamingResponse` using Server-Sent Events (`text/event-stream`).
+* Time-to-First-Token (TTFT) reduced to **~250ms**, providing a smooth, typewriter-style reading experience for clinicians.
 
-*   **Semantic Chunking:** Cuts documents based on semantic similarity of contiguous sentences instead of static token length, preserving context boundaries.
-*   **Hybrid Search & RRF:** Merges dense vector representations (Qdrant) and lexical keyword matching (BM25) using **Reciprocal Rank Fusion (RRF)** to retrieve both semantic meaning and technical terms (e.g., error codes, API methods).
-*   **Query Transformation:** 
-    *   **HyDE (Hypothetical Document Embeddings):** Generates hypothetical answers to enrich short user queries before searching.
-    *   **Decomposition:** Breaks down complex, multi-part questions into simpler sub-queries.
-*   **Post-Retrieval Processing:**
-    *   **Cross-Encoder Reranker:** Scores the exact query-chunk pairs using a cross-attention transformer, correcting ordering flaws.
-    *   **MMR (Maximal Marginal Relevance):** Filters out duplicate information and enforces context diversity.
-*   **GraphRAG (Neo4j):** Extracts entities (Policies, Stakeholders, Products, etc.) and relations to answer global, macro-level questions that traditional vector databases struggle with.
-*   **FastAPI & Modern Web UI:** Serves a production-ready HTTP API accompanied by a modern, responsive web chat client.
+### 4. 🛡️ Clinical Safety Guardrails
+* **Emergency Reflex Engine**: Identifies critical symptoms (e.g., crushing chest pain, anaphylaxis, acute stroke) and returns immediate triage instructions.
+* **Grounding & Disclaimers**: Answers are constrained strictly to context from *The Gale Encyclopedia of Medicine*, accompanied by mandatory educational disclaimers.
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 
-```text
-├── data/                       # Seeded documents (.md files)
-├── sample_data/                # Raw sample documents
-├── src/                        # Core codebase
-│   ├── config.py               # Settings & configuration (Pydantic)
-│   ├── indexing/               # loaders, semantic chunker, vector store
-│   ├── retrieval/              # BM25, hybrid search
-│   ├── query_transformation/   # Router, HyDE, Decomposer
-│   ├── post_retrieval/         # Cross-Encoder reranker, MMR
-│   ├── graph/                  # Neo4j Graph DB operations, entity extraction
-│   └── orchestrator/           # End-to-end pipeline, evaluator
-├── scripts/                    # Utilities for seeding, indexing & validation
-├── frontend/                   # HTML/CSS/JS Chat Interface
-├── app.py                      # FastAPI Backend API entrypoint
-├── main.py                     # Interactive terminal CLI entrypoint
-├── Dockerfile                  # Multi-stage slim Docker image configuration
-├── docker-compose.yml          # Orchestrates backend, Qdrant, and Neo4j services
-├── .dockerignore               # Excludes virtual environments and temporary caches from builds
-└── pyproject.toml              # Project metadata & dependencies managed via uv
+```
+Medical_Generative_AI_v2/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml              # CI/CD automation for AWS EC2
+├── Data/
+│   └── gale_encyclopedia_data/     # Structured encyclopedia source documents
+├── cache/                          # Local BM25 persisted corpus & embeddings
+├── frontend/                       # React 19 + Vite modern client
+│   ├── src/
+│   │   ├── App.jsx                 # Interactive Chatbot UI + Telemetry Panel
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+├── src/                            # Core Python RAG backend package
+│   ├── cache/
+│   │   └── semantic_cache.py       # Redis RediSearch HNSW semantic cache engine
+│   ├── graph/
+│   │   ├── entity_extractor.py     # Medical entity extraction pipeline
+│   │   ├── entity_models.py        # Pydantic entity schema models
+│   │   ├── graph_retriever.py      # Neo4j NL-to-Cypher search retriever
+│   │   └── knowledge_graph.py      # Neo4j driver & graph builder
+│   ├── indexing/
+│   │   ├── document_loader.py      # Medical document parsing & cleaning
+│   │   ├── semantic_chunker.py     # Section-aware medical chunking
+│   │   └── vector_store.py         # Qdrant client wrapper
+│   ├── orchestrator/
+│   │   ├── evaluator.py            # Automated RAG benchmarking harness
+│   │   └── pipeline.py             # Main end-to-end RAG pipeline & streaming
+│   ├── post_retrieval/
+│   │   ├── cross_encoder_reranker.py # ms-marco-MiniLM-L-6-v2 CrossEncoder
+│   │   ├── mmr.py                  # Maximal Marginal Relevance diversification
+│   │   └── post_retrieval_pipeline.py
+│   ├── retrieval/
+│   │   ├── bm25_retriever.py       # BM25 sparse keyword retriever
+│   │   ├── hybrid_search.py        # Reciprocal Rank Fusion engine
+│   │   └── query_router.py         # Intent classifier (Direct/HyDE/Decompose)
+│   ├── transformation/
+│   │   ├── hyde.py                 # Hypothetical Document Embeddings
+│   │   ├── query_decomposition.py  # Multi-hop sub-query decomposition
+│   │   └── transformation_router.py
+│   ├── config.py                   # Pydantic environment configuration
+│   └── models.py                   # Shared data contracts & DTOs
+├── scripts/                        # Utility & operational automation scripts
+│   ├── build_graph.py              # Build Neo4j knowledge graph from raw text
+│   ├── evaluate_pipeline.py        # Run evaluation on benchmark queries
+│   ├── index_documents.py          # Vectorize & upload corpus to Qdrant
+│   └── test_redis_cache.py         # Redis semantic cache verification test
+├── app.py                          # FastAPI application & REST/SSE endpoints
+├── docker-compose.yml              # Complete 4-tier stack container orchestration
+├── Dockerfile                      # Production multi-stage Python 3.13 container
+├── pyproject.toml                  # Python package specifications (uv)
+└── README.md                       # System documentation
 ```
 
 ---
 
-## 🛠️ Getting Started
+## 🚀 Quickstart Guide
 
-### 1. Common Pre-requisite: Environment Setup
+### Prerequisites
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (with WSL2 enabled on Windows)
+* OpenAI API Key (`OPENAI_API_KEY`)
 
-Before selecting a method below, clone the repository, copy `.env.example` to `.env` and fill in your OpenAI API Key:
-
+### 1. Clone Repository & Setup Environment
 ```bash
-# Clone the repository and navigate inside
-git clone https://github.com/BaoNguyenz/Enterprise_RAG_system.git
-cd "Enterprise RAG system"
+git clone https://github.com/BaoNguyenz/End-to-end-Medical-Ai-Chatbox.git
+cd End-to-end-Medical-Ai-Chatbox
 
-# Copy environmental file
+# Create environment configuration
 cp .env.example .env
+# Edit .env and enter your OPENAI_API_KEY
 ```
-Fill in the `OPENAI_API_KEY` in `.env`. Ensure other settings are left to defaults for standard setup.
+
+### 2. Launch with Docker Compose (Recommended)
+```bash
+# Start all 4 services: FastAPI Web, Redis Stack, Qdrant, Neo4j
+docker compose up -d --build
+```
+
+Access the interfaces:
+* 🌐 **Web UI Application**: [http://localhost:8080](http://localhost:8080)
+* 📊 **FastAPI Interactive Docs**: [http://localhost:8080/docs](http://localhost:8080/docs)
+* 🔴 **Qdrant Vector Dashboard**: [http://localhost:6335/dashboard](http://localhost:6335/dashboard)
+* 🕸️ **Neo4j Graph Browser**: [http://localhost:7475](http://localhost:7475) *(User: `neo4j` / Password: `password123`)*
 
 ---
 
-### 🐳 Method 1: Docker Compose Deployment (Recommended)
-This runs the entire stack inside lightweight Docker containers without needing Python or local packages.
+## 💻 Local Development & CLI
 
-#### 1. Start all containers (Databases + Web Application)
+To run the system outside Docker for development or testing:
+
 ```bash
-docker compose up -d
-```
-Docker will pull Qdrant, Neo4j, download dependencies using `uv` inside a multi-stage container, download NLTK data, and start the FastAPI server on port `8000`.
+# 1. Install dependencies using uv
+pip install uv
+uv sync
 
-#### 2. Seed and Index documents
-Since the databases are blank, you must run the indexing scripts. You can run them directly inside the running container:
-```bash
-# A. Seed documents
-docker compose exec web python scripts/seed_data.py
+# 2. Build React Frontend bundle
+npm --prefix frontend install
+npm --prefix frontend run build
 
-# B. Build hybrid search index (BM25 + Qdrant vectors)
-docker compose exec web python scripts/index_documents.py
+# 3. Start interactive CLI
+uv run python main.py
 
-# C. Build GraphRAG Knowledge Graph in Neo4j
-docker compose exec web python scripts/build_graph.py
+# 4. Or start FastAPI dev server
+uv run python app.py
 ```
 
-#### 3. Access Services
-- **Web UI:** `http://localhost:8000` (Directly interactive web chat!)
-- **FastAPI OpenAPI Docs:** `http://localhost:8000/docs`
-- **Qdrant DB Console:** `http://localhost:6333/dashboard`
-- **Neo4j DB Browser:** `http://localhost:7474` (Credentials: `neo4j` / `password123`)
-
-To stop the services: `docker compose down`
+### Interactive CLI Commands
+```text
+User> /mode hybrid       # Change retrieval strategy (auto | hybrid | vector | bm25 | graph)
+User> /graph on          # Toggle Neo4j graph traversal
+User> /cache             # View Redis cache hit rate & statistics
+User> /eval              # Run benchmark evaluation suite
+User> /help              # Show help menu
+User> /quit              # Exit session
+```
 
 ---
 
-### 💻 Method 2: Local Development (Best for Editing Code)
-This method runs databases in Docker containers but executes Python scripts and the FastAPI web server directly on your host machine.
+## 📊 API Reference
 
-#### 1. Setup local environment using `uv`
-Ensure you have [Python 3.10+](https://www.python.org/downloads/) and [uv](https://github.com/astral-sh/uv) installed.
-```bash
-# Create local virtual environment and install dependencies
-uv venv
-uv pip install -e ".[dev]"
-```
-
-#### 2. Spin up only the Databases
-```bash
-# Starts Qdrant and Neo4j containers
-docker compose up -d qdrant neo4j
-```
-
-#### 3. Seed & Index documents locally
-```bash
-# Seed documents to directory
-uv run python scripts/seed_data.py
-
-# Load documents to Qdrant & build local BM25 index
-uv run python scripts/index_documents.py
-
-# Extract graph entities & push to Neo4j
-uv run python scripts/build_graph.py
-```
-
-#### 4. Run Interactive Interfaces
-- **Terminal CLI Chat:**
-  ```bash
-  uv run python main.py
-  ```
-  *(Type `/help` to see options, `/mode <mode>` to switch algorithms, `/eval` to benchmark, `/quit` to exit)*
-
-- **Backend API Server (with auto-reload on changes):**
-  ```bash
-  uv run uvicorn app:app --reload
-  ```
-  Open `http://localhost:8000` to interact with the GUI, or visit `http://localhost:8000/docs` to test endpoints.
+| Endpoint | Method | Description |
+| :--- | :---: | :--- |
+| `/api/query/stream` | `POST` | **Primary clinical query endpoint** with Server-Sent Events (SSE) token streaming. |
+| `/api/query` | `POST` | Standard synchronous query endpoint returning full JSON payload. |
+| `/api/health` | `GET` | Healthcheck returning status of Qdrant, Neo4j, BM25, and Redis. |
+| `/api/stats` | `GET` | Corpus metrics (vector counts, graph nodes, relationships). |
+| `/api/cache/stats` | `GET` | Redis Semantic Cache telemetry (hits, misses, hit rate %). |
+| `/api/cache/clear` | `DELETE` | Flush all cached queries from Redis memory. |
 
 ---
 
-## 📊 Evaluation Metrics & Performance
+## ⚖️ License & Disclaimer
 
-The RAG pipeline is evaluated end-to-end using Ragas-like metrics (Context Relevance & Answer Faithfulness) evaluated via LLM-as-a-judge.
-
-### Summary Metrics (Average across 6 benchmark queries)
-
-| Metric | Score / Value | Description |
-|---|---|---|
-| **Context Relevance** | **0.4130** | Assesses how relevant the retrieved context chunks (after Post-Retrieval MMR and Reranking) are to the user query. |
-| **Answer Faithfulness** | **0.8333** | Measures whether all claims in the generated response are strictly grounded in the retrieved context (no hallucinations). |
-| **Average Latency** | **4.91s** | Total end-to-end round trip time. |
-
-### Average Latency Breakdown per Stage
-*   **Query Classification (Router):** `0.000s` (Deterministic/Fast prompt mapping)
-*   **Vector/Keyword Retrieval:** `1.018s` (Qdrant & BM25)
-*   **GraphRAG Search (Neo4j):** `1.509s` (Entity extraction & traversal)
-*   **Post-Retrieval Processing:** `0.583s` (Cross-Encoder & MMR)
-*   **LLM Generation:** `1.803s` (Response generation)
-
----
-
-## 🧪 Testing & Verification
-
-The project includes test scripts for verifying each task separately:
-
-```bash
-# Verify Task 2: Vector + BM25 Hybrid Search (no API key needed)
-uv run python scripts/test_hybrid_search.py
-
-# Verify Task 3: Query Routing, HyDE, and Decomposition
-uv run python scripts/test_query_transformation.py
-
-# Verify Task 4: Cross-Encoder Reranking and MMR (no API key needed)
-uv run python scripts/test_post_retrieval.py
-
-# Verify Task 5: Neo4j Graph Database extraction and GraphRAG queries
-uv run python scripts/test_graph.py
-```
+* **Medical Disclaimer**: GaleMed AI is designed strictly for **educational and clinical reference purposes** based on *The Gale Encyclopedia of Medicine (3rd Edition)*. It does not provide formal medical diagnoses or replace professional medical consultations.
+* **License**: MIT Open Source License.
