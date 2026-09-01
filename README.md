@@ -49,7 +49,7 @@ The system operates on an End-to-End pipeline combining Vector Search, Keyword S
 
 ```mermaid
 flowchart TD
-    %% Theme Styling matching main branch
+    %% Theme Styling
     classDef storage fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#0d47a1;
     classDef action fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#1b5e20;
     classDef routing fill:#fffde7,stroke:#fbc02d,stroke-width:2px,color:#f57f17;
@@ -58,58 +58,64 @@ flowchart TD
     classDef cache fill:#ffebee,stroke:#e53935,stroke-width:2px,color:#b71c1c;
 
     subgraph INGESTION ["OFFLINE DATA INGESTION PIPELINE"]
-        Docs[Gale Medical Encyclopedia] --> Chunk[Semantic Section Chunking]
+        Docs["Gale Medical Encyclopedia"] --> Chunk["Semantic Section Chunking"]
         
         %% Vector & BM25
-        Chunk --> Embed[Text Embeddings<br/>all-MiniLM-L6-v2] --> VecDB[(Qdrant Vector DB<br/>13,350 Chunks)]
-        Chunk --> BuildBM25[BM25 Indexing] --> BM25DB[(BM25 Lexical Index)]
+        Chunk --> Embed["Text Embeddings<br/>all-MiniLM-L6-v2"]
+        Embed --> VecDB[("Qdrant Vector DB<br/>13,350 Chunks")]
+        Chunk --> BuildBM25["BM25 Indexing"]
+        BuildBM25 --> BM25DB[("BM25 Lexical Index")]
         
         %% GraphRAG
-        Chunk --> GraphExtract[LLM Clinical Entity-Relation Extract] --> GraphDB[(Neo4j Graph DB<br/>288 Diseases · 333 Meds · 508 Symptoms)]
+        Chunk --> GraphExtract["LLM Clinical Entity-Relation Extract"]
+        GraphExtract --> KgDB[("Neo4j Graph DB<br/>288 Diseases, 333 Meds, 508 Symptoms")]
     end
 
-    subgraph CACHING ["ACCELERATION & SAFETY LAYER"]
-        Q[Patient / Clinician Query] --> Safety{Emergency Guardrail}
-        Safety -- "Critical / Anaphylaxis" --> EmergAns([Immediate 911 Triage])
-        Safety -- "Standard Query" --> RedisCache[(Redis Semantic Cache<br/>HNSW Vector Index)]
-        RedisCache -- "Similarity >= 92%" --> CacheHit([⚡ Instant Cache HIT<br/>&lt; 10ms Token Stream])
+    subgraph CACHING ["ACCELERATION AND SAFETY LAYER"]
+        Q["Patient / Clinician Query"] --> Safety{"Emergency Guardrail"}
+        Safety -->|Critical Condition| EmergAns(["Immediate 911 Triage"])
+        Safety -->|Standard Query| RedisCache[("Redis Semantic Cache<br/>HNSW Vector Index")]
+        RedisCache -->|Similarity >= 92%| CacheHit(["Instant Cache HIT (under 10ms)<br/>Stream cached tokens"])
     end
 
     subgraph RETRIEVAL ["ONLINE RETRIEVAL PIPELINE (Real-Time)"]
-        RedisCache -- "Cache MISS" --> Router{Query Router}
+        RedisCache -->|Cache MISS| Router{"Query Router"}
         
         %% Vector / Hybrid
-        Router -- "Hybrid Search" --> QTrans[Query Transformation]
-        QTrans --> HyDE[HyDE - Hypothetical Document]
-        QTrans --> Decompose[Decomposer - Subqueries]
+        Router -->|Hybrid Search| QTrans["Query Transformation"]
+        QTrans --> HyDE["HyDE - Hypothetical Document"]
+        QTrans --> Decompose["Decomposer - Subqueries"]
         
-        HyDE & Decompose --> SearchEngine(Hybrid Search Engine)
-        SearchEngine --> |Vector Search| VecDB
-        SearchEngine --> |Keyword Search| BM25DB
+        HyDE --> SearchEngine["Hybrid Search Engine"]
+        Decompose --> SearchEngine
+        SearchEngine -->|Vector Search| VecDB
+        SearchEngine -->|Keyword Search| BM25DB
         
         %% Merging & Reranking
-        VecDB & BM25DB --> RRF[RRF Fusion]
-        RRF --> |Top 50 Chunks| Merge[Merge Candidates]
+        VecDB --> RRF["RRF Fusion"]
+        BM25DB --> RRF
+        RRF -->|Top 50 Chunks| Merge["Merge Candidates"]
 
         %% GraphRAG
-        Router -- "GraphRAG" --> GraphSearch[GraphRAG Search]
-        GraphSearch --> |Entity & Cypher Traversal| GraphDB
-        GraphDB --> |Top 5 Results| Merge
+        Router -->|GraphRAG| GraphSearch["GraphRAG Search"]
+        GraphSearch -->|Entity and Cypher Traversal| KgDB
+        KgDB -->|Top 5 Results| Merge
 
         %% Post-Retrieval Pipeline
-        Merge --> |Candidate Chunks| Rerank[Cross-Encoder Reranker<br/>ms-marco-MiniLM-L-6-v2]
-        Rerank --> |Top 20 Chunks| MMR[MMR Diversity Filter<br/>lambda=0.7]
-        MMR --> |Top 10 Chunks| Context[Verified Medical Context]
+        Merge -->|Candidate Chunks| Rerank["Cross-Encoder Reranker<br/>ms-marco-MiniLM-L-6-v2"]
+        Rerank -->|Top 20 Chunks| MMR["MMR Diversity Filter<br/>lambda = 0.7"]
+        MMR -->|Top 10 Chunks| Context["Verified Medical Context"]
     end
 
-    subgraph GENERATION ["GENERATION & STREAMING PIPELINE"]
-        Context --> Assemble[Medical Prompt Assembly<br/>+ Disclaimers]
-        Assemble --> LLM[GPT-4o-mini Generator<br/>stream=True]
-        LLM --> StreamToken([SSE Real-Time Stream<br/>to React UI])
-        LLM -.-> StoreCache[Store Query & Answer<br/>in Redis Cache] -.-> RedisCache
+    subgraph GENERATION ["GENERATION AND STREAMING PIPELINE"]
+        Context --> Assemble["Medical Prompt Assembly<br/>+ Disclaimers"]
+        Assemble --> LLM["GPT-4o-mini Generator<br/>stream=True"]
+        LLM --> StreamToken(["SSE Real-Time Stream<br/>to React UI"])
+        LLM -.-> StoreCache["Store Query and Answer<br/>in Redis Cache"]
+        StoreCache -.-> RedisCache
     end
 
-    class VecDB,BM25DB,GraphDB storage;
+    class VecDB,BM25DB,KgDB storage;
     class RedisCache,CacheHit,StoreCache cache;
     class Chunk,Embed,BuildBM25,GraphExtract,RRF,Rerank,MMR,GraphSearch,Assemble,Merge action;
     class Router,QTrans,HyDE,Decompose,Safety routing;
