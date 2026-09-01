@@ -28,6 +28,7 @@ from sentence_transformers import SentenceTransformer
 
 # pyrefly: ignore [missing-import]
 from src.config import settings
+# pyrefly: ignore [missing-import]
 from src.cache.semantic_cache import get_semantic_cache, CacheEntry
 # pyrefly: ignore [missing-import]
 from src.models import SearchResult, RAGResponse
