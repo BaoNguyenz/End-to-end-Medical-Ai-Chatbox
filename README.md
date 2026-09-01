@@ -24,89 +24,97 @@ By combining **Hybrid Multi-Vector Retrieval**, **Neo4j Knowledge Graph Traversa
 
 ```mermaid
 flowchart TD
-    %% Styling Classes
+    %% Styling Classes (Avoid reserved keywords like 'graph')
     classDef client fill:#0ea5e9,stroke:#0284c7,stroke-width:2px,color:#ffffff;
     classDef gateway fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#ffffff;
     classDef cache fill:#ef4444,stroke:#dc2626,stroke-width:2px,color:#ffffff;
     classDef retrieval fill:#10b981,stroke:#059669,stroke-width:2px,color:#ffffff;
-    classDef graph fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#ffffff;
+    classDef graphNode fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#ffffff;
     classDef post fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#ffffff;
     classDef llm fill:#ec4899,stroke:#db2777,stroke-width:2px,color:#ffffff;
     classDef safety fill:#dc2626,stroke:#991b1b,stroke-width:2px,color:#ffffff;
 
     %% Client Layer
-    subgraph ClientLayer [" 💻 Presentation & Client Layer "]
-        Client["React 19 + Vite Frontend<br/>(Telemetry Dashboard & SSE Stream Reader)"]:::client
+    subgraph ClientLayer [" Presentation and Client Layer "]
+        Client["React 19 and Vite Frontend<br/>(Telemetry Dashboard and SSE Stream Reader)"]:::client
     end
 
     %% Gateway & API Layer
-    subgraph APILayer [" ⚡ API Gateway & Routing Layer "]
-        API["FastAPI Server (app.py)<br/>/api/query/stream · /api/cache/stats"]:::gateway
-        SafetyCheck{"🚨 Emergency<br/>Guardrail Check"}:::safety
-        EmergencyResp["Immediate Emergency Advice<br/>(911 / Immediate Hospitalization)"]:::safety
+    subgraph APILayer [" API Gateway and Routing Layer "]
+        API["FastAPI Server (app.py)<br/>/api/query/stream and /api/cache/stats"]:::gateway
+        SafetyCheck{"Emergency<br/>Guardrail Check"}:::safety
+        EmergencyResp["Immediate Emergency Advice<br/>(911 / Hospitalization)"]:::safety
     end
 
     %% Caching Layer
-    subgraph CacheLayer [" ⚡ Caching & Acceleration Layer "]
+    subgraph CacheLayer [" Caching and Acceleration Layer "]
         RedisCache[("Redis Stack Semantic Cache<br/>(HNSW 384-dim Vector Index)")]:::cache
-        CacheHit["⚡ Cache HIT (&lt; 10ms)<br/>(Stream cached tokens from RAM)"]:::cache
+        CacheHit["Cache HIT (< 10ms)<br/>(Stream cached tokens from RAM)"]:::cache
     end
 
     %% Query Transformation Layer
-    subgraph TransformLayer [" 🧠 Query Transformation Layer "]
+    subgraph TransformLayer [" Query Transformation Layer "]
         QueryRouter{"Intent Router<br/>(Simple / Complex / Vague)"}:::gateway
         HyDE["HyDE Generator<br/>(Hypothetical Clinical Document)"]:::gateway
         Decomp["Query Decomposer<br/>(Sub-query Breakdowns)"]:::gateway
     end
 
     %% Hybrid Retrieval & Knowledge Graph Layer
-    subgraph RetrievalLayer [" 🔍 Multi-Modal Retrieval Engine "]
+    subgraph RetrievalLayer [" Multi-Modal Retrieval Engine "]
         QdrantDB[("Qdrant Vector DB<br/>(13,350 Dense Vectors)")]:::retrieval
         BM25DB[("BM25 Sparse Index<br/>(Exact Medical Lexicon)")]:::retrieval
-        RRF["Reciprocal Rank Fusion<br/>(Dense + Sparse Score Merging)"]:::retrieval
-        Neo4jDB[("Neo4j Knowledge Graph<br/>(288 Diseases · 333 Meds · 508 Symptoms)")]:::graph
-        GraphRAG["GraphRAG Retriever<br/>(Entity Traversal & Cypher Queries)"]:::graph
+        RRF["Reciprocal Rank Fusion<br/>(Dense and Sparse Score Merging)"]:::retrieval
+        Neo4jDB[("Neo4j Knowledge Graph<br/>(288 Diseases, 333 Meds, 508 Symptoms)")]:::graphNode
+        GraphRAG["GraphRAG Retriever<br/>(Entity Traversal and Cypher Queries)"]:::graphNode
     end
 
     %% Post-Retrieval Layer
-    subgraph PostLayer [" 🎯 Post-Retrieval Processing "]
-        Merge["Candidate Aggregator<br/>(Vector + Graph Entities)"]:::post
+    subgraph PostLayer [" Post-Retrieval Processing "]
+        Merge["Candidate Aggregator<br/>(Vector and Graph Entities)"]:::post
         CrossEncoder["Cross-Encoder Reranker<br/>(ms-marco-MiniLM-L-6-v2)"]:::post
-        MMR["Maximal Marginal Relevance<br/>(MMR Diversification, λ=0.7)"]:::post
+        MMR["Maximal Marginal Relevance<br/>(MMR Diversification)"]:::post
     end
 
     %% Generation Layer
-    subgraph GenLayer [" 🤖 Synthesis & Response Streaming "]
+    subgraph GenLayer [" Synthesis and Response Streaming "]
         OpenAI["OpenAI GPT-4o-mini<br/>(Streaming Chat Completion)"]:::llm
-        CacheStore["Store New Entry in Redis Cache<br/>(Query Vector + Full JSON Answer)"]:::cache
-        SSEStream["Server-Sent Events (SSE)<br/>(Live Token-by-Token Stream)"]:::llm
+        CacheStore["Store New Entry in Redis Cache<br/>(Query Vector and JSON Answer)"]:::cache
+        SSEStream["Server-Sent Events<br/>(Live Token-by-Token Stream)"]:::llm
     end
 
     %% Workflow Connections
-    Client -->|"HTTP POST /api/query/stream"| API
+    Client --> API
     API --> SafetyCheck
-    SafetyCheck -- "Critical Condition" --> EmergencyResp --> Client
-    SafetyCheck -- "Standard Query" --> RedisCache
+    SafetyCheck -->|Critical Condition| EmergencyResp
+    EmergencyResp --> Client
+    SafetyCheck -->|Standard Query| RedisCache
 
-    RedisCache -->|"Similarity &ge; 92%"| CacheHit --> Client
-    RedisCache -->|"Cache MISS"| QueryRouter
+    RedisCache -->|Similarity >= 92%| CacheHit
+    CacheHit --> Client
+    RedisCache -->|Cache MISS| QueryRouter
 
-    QueryRouter -->|"Vague Query"| HyDE --> QdrantDB
-    QueryRouter -->|"Complex Query"| Decomp --> QdrantDB
-    QueryRouter -->|"Standard"| QdrantDB
-    QueryRouter -->|"Keyword"| BM25DB
-    QueryRouter -->|"Relationship"| GraphRAG
+    QueryRouter -->|Vague Query| HyDE
+    HyDE --> QdrantDB
+    QueryRouter -->|Complex Query| Decomp
+    Decomp --> QdrantDB
+    QueryRouter -->|Standard| QdrantDB
+    QueryRouter -->|Keyword| BM25DB
+    QueryRouter -->|Relationship| GraphRAG
 
-    QdrantDB & BM25DB --> RRF
-    GraphRAG <--> Neo4jDB
+    QdrantDB --> RRF
+    BM25DB --> RRF
+    GraphRAG --- Neo4jDB
 
-    RRF & GraphRAG --> Merge
+    RRF --> Merge
+    GraphRAG --> Merge
     Merge --> CrossEncoder
     CrossEncoder --> MMR
 
-    MMR -->|"Top Context Chunks"| OpenAI
-    OpenAI --> CacheStore -.-> RedisCache
-    OpenAI -->|"Live Token Chunks"| SSEStream --> Client
+    MMR -->|Top Context Chunks| OpenAI
+    OpenAI --> CacheStore
+    CacheStore -.-> RedisCache
+    OpenAI -->|Live Token Chunks| SSEStream
+    SSEStream --> Client
 ```
 
 ---
