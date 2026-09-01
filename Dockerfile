@@ -1,7 +1,7 @@
 # ============================================================
-#  Stage 1: Builder - cai dependencies voi uv
+#  Stage 1: Builder - cai dependencies voi uv (Python 3.13)
 # ============================================================
-FROM python:3.11-slim AS builder
+FROM python:3.13-slim AS builder
 
 # Cai uv
 RUN pip install --no-cache-dir uv
@@ -13,38 +13,36 @@ COPY pyproject.toml uv.lock ./
 COPY src/ ./src/
 COPY README.md ./
 
-# Tao venv va cai dat toan bo package
-RUN uv venv /app/.venv && \
-    VIRTUAL_ENV=/app/.venv uv pip install --no-cache .
+# Cai dat truc tiep vao system site-packages cua Python 3.13
+RUN uv pip install --system --no-cache .
 
 # Pre-download NLTK data ngay trong stage builder
-RUN /app/.venv/bin/python -m nltk.downloader -d /root/nltk_data punkt punkt_tab
+RUN python -m nltk.downloader -d /root/nltk_data punkt punkt_tab
 
 
 # ============================================================
-#  Stage 2: Runtime - image gon nhe cho production
+#  Stage 2: Runtime - image gon nhe cho production (Python 3.13)
 # ============================================================
-FROM python:3.11-slim AS runtime
+FROM python:3.13-slim AS runtime
 
 # Tao user khong phai root voi home dir
 RUN groupadd -r appuser && useradd -r -g appuser -m -d /home/appuser appuser
 
 WORKDIR /app
 
-# Sao chep venv va NLTK data tu builder
-COPY --from=builder /app/.venv /app/.venv
+# Sao chep Python packages va binaries tu stage builder (Python 3.13)
+COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /root/nltk_data /home/appuser/nltk_data
 RUN chown -R appuser:appuser /home/appuser/nltk_data
 
 # Sao chep toan bo source code
 COPY --chown=appuser:appuser . .
 
-# Cau hinh moi truong su dung venv va NLTK data
-ENV PATH="/app/.venv/bin:$PATH" \
-    VIRTUAL_ENV="/app/.venv" \
-    NLTK_DATA="/home/appuser/nltk_data" \
-    PYTHONDONTWRITEBYTECODE=1 \
+# Cau hinh moi truong
+ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
+    NLTK_DATA="/home/appuser/nltk_data" \
     QDRANT_HOST=qdrant \
     NEO4J_URI=bolt://neo4j:7687 \
     REDIS_HOST=redis \
@@ -60,5 +58,5 @@ USER appuser
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"
 
-# Khoi dong FastAPI server
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
+# Khoi dong FastAPI server bang python module syntax
+CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
