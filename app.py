@@ -237,6 +237,7 @@ async def query_stream_endpoint(req: StreamQueryRequest):
 async def cache_stats():
     """Return Redis semantic cache performance statistics."""
     try:
+        # pyrefly: ignore [missing-import]
         from src.cache.semantic_cache import get_semantic_cache
         cache = get_semantic_cache()
         return {"status": "ok", "cache": cache.stats()}
@@ -248,6 +249,7 @@ async def cache_stats():
 async def cache_clear():
     """Clear all semantic cache entries."""
     try:
+        # pyrefly: ignore [missing-import]
         from src.cache.semantic_cache import get_semantic_cache
         cache = get_semantic_cache()
         deleted = cache.clear()
