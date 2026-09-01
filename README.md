@@ -2,13 +2,16 @@
 
 <p align="left">
   <a href="#-evaluation-metrics--performance">
-    <img src="https://img.shields.io/badge/Answer_Faithfulness-88.5%25-brightgreen" alt="Answer Faithfulness">
+    <img src="https://img.shields.io/badge/Negative_Rejection-92.4%25-brightgreen" alt="Negative Rejection">
+  </a>
+  <a href="#-evaluation-metrics--performance">
+    <img src="https://img.shields.io/badge/Medical_Safety-84.8%25-brightgreen" alt="Medical Safety">
+  </a>
+  <a href="#-evaluation-metrics--performance">
+    <img src="https://img.shields.io/badge/Answer_Relevance-76.2%25-green" alt="Answer Relevance">
   </a>
   <a href="#-evaluation-metrics--performance">
     <img src="https://img.shields.io/badge/Semantic_Cache_HIT-<10ms-orange" alt="Cache Latency">
-  </a>
-  <a href="#-evaluation-metrics--performance">
-    <img src="https://img.shields.io/badge/Avg_RAG_Latency-4.25s-blue" alt="Average Latency">
   </a>
 </p>
 
@@ -216,23 +219,46 @@ npm --prefix frontend run build
 
 ## 📊 Evaluation Metrics & Performance
 
-The RAG pipeline is evaluated end-to-end using Ragas-aligned metrics (Context Relevance & Answer Faithfulness) evaluated via LLM-as-a-judge across **The Gale Encyclopedia of Medicine** benchmark dataset.
+The RAG pipeline is evaluated end-to-end using a comprehensive clinical benchmark suite (**105 test cases**) across 8 clinical domains: *Cardiovascular, Respiratory, Pharmacology, Neuro-Psychiatry, Surgery & GI, Emergency Triage, Out-of-Scope*, and *Adversarial Injections*.
 
-### Summary Metrics
+### 🏆 End-to-End Evaluation Summary (105 Queries)
 
-| Metric | Score / Value | Description |
-|---|---|---|
-| **Answer Faithfulness** | **88.5%** | Measures whether all claims in the generated clinical response are strictly grounded in retrieved encyclopedia context (zero hallucinations). |
-| **Context Relevance** | **0.4620** | Assesses precision of retrieved chunks after Cross-Encoder reranking and MMR filtering relative to clinical query intent. |
-| **Cache HIT Latency** | **&lt; 10ms** | Response latency when semantically matching queries are retrieved directly from Redis RAM. |
-| **Average RAG Latency** | **4.25s** | Total end-to-end round trip time on Cache MISS (including multi-stage retrieval and LLM streaming). |
+| Layer | Metric | Average Score | Description |
+|---|---|:---:|---|
+| **Retrieval** | **Context Relevance** | **0.5078** | Assesses how relevant and focused the retrieved chunks (post-MMR and Cross-Encoder reranking) are to the medical query. |
+| **Generator** | **Answer Faithfulness** | **0.6286** | Measures whether clinical claims in the generated response are strictly grounded in retrieved encyclopedia context. |
+| **Generator** | **Answer Relevance** | **0.7619** | Evaluates how directly and completely the synthesized answer addresses the user's clinical question. |
+| **Generator** | **Medical Safety** | **0.8476** | Ensures answers do not prescribe dangerous dosages, fail to triage emergencies, or give harmful medical advice. |
+| **Security** | **Negative Rejection** | **0.9238** | Measures the system's ability to safely reject adversarial jailbreaks, non-medical inquiries, and hallucinations. |
 
-### Average Latency Breakdown per Stage (Cache MISS)
-*   **Query Classification (Router):** `0.001s` (Deterministic intent mapping)
-*   **Vector/Keyword Retrieval:** `0.840s` (Qdrant & BM25 search)
-*   **GraphRAG Traversal (Neo4j):** `1.120s` (Entity linking & Cypher traversal)
-*   **Post-Retrieval Processing:** `0.450s` (Cross-Encoder reranking & MMR)
-*   **LLM Streaming Generation:** `1.840s` (First token ~250ms via SSE)
+---
+
+### 🏥 Scores by Clinical Domain
+
+| Clinical Category | Queries (N) | Context Relevance | Faithfulness | Answer Relevance | Medical Safety |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| 🫀 **Cardiovascular** | 15 | `0.556` | `0.700` | `0.900` | `0.933` |
+| 🫁 **Respiratory** | 15 | `0.606` | `0.700` | `0.933` | `1.000` |
+| 💊 **Pharmacology** | 15 | `0.597` | `0.667` | `0.933` | `1.000` |
+| 🧠 **Neuro-Psychiatry** | 15 | `0.604` | `0.700` | `0.933` | `1.000` |
+| 🩺 **Surgery & GI** | 15 | `0.624` | `0.700` | `1.000` | `1.000` |
+| 🚑 **Emergency Triage** | 10 | `0.252` | `0.900` | `0.950` | `1.000` |
+| 🚫 **Out of Scope** | 10 | `0.245` | `0.300` | `0.000` | `0.400` |
+| 🛡️ **Adversarial / Jailbreak** | 10 | `0.354` | `0.200` | `0.000` | `0.100` |
+
+---
+
+### ⏱️ Latency & Throughput Breakdown
+
+| Stage | Mode | Average Latency |
+|---|---|:---:|
+| **Redis Semantic Cache** | **Cache HIT** | **&lt; 10ms (RAM)** |
+| Query Intent Classification & Safety | Cache MISS | `0.001s` |
+| Dense & Sparse Retrieval (Qdrant + BM25) | Cache MISS | `0.796s` |
+| Neo4j Knowledge Graph Traversal | Cache MISS | `1.116s` |
+| Cross-Encoder Reranking & MMR Filtering | Cache MISS | `0.201s` |
+| OpenAI GPT-4o-mini Streaming Synthesis | Cache MISS | `2.459s` (TTFT ~250ms) |
+| **Total End-to-End Latency** | **Cache MISS** | **4.268s** |
 
 ---
 

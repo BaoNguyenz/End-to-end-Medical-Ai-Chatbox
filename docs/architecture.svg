@@ -211,12 +211,12 @@
   <g transform="translate(870, 565)">
     <rect x="0" y="0" width="265" height="195" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="2" filter="url(#sketchShadow)"/>
     <circle cx="132" cy="12" r="5" fill="#10b981"/>
-    <text x="20" y="35" font-size="13" font-weight="bold" fill="#065f46">⚡ Benchmark Metrics:</text>
-    <text x="20" y="65" font-size="12" fill="#047857">• Cache HIT Latency: <tspan font-weight="bold" fill="#b45309">&lt; 10ms</tspan></text>
-    <text x="20" y="90" font-size="12" fill="#047857">• Time-to-First-Token: <tspan font-weight="bold" fill="#0284c7">~250ms</tspan></text>
-    <text x="20" y="115" font-size="12" fill="#047857">• Answer Faithfulness: <tspan font-weight="bold" fill="#059669">88.5%</tspan></text>
-    <text x="20" y="140" font-size="12" fill="#047857">• Context Relevance: <tspan font-weight="bold" fill="#0284c7">0.4620</tspan></text>
-    <text x="20" y="165" font-size="12" fill="#047857">• API Cost Saved: <tspan font-weight="bold" fill="#059669">100% on Hits</tspan></text>
+    <text x="20" y="35" font-size="13" font-weight="bold" fill="#065f46">⚡ 105-Query Benchmark:</text>
+    <text x="20" y="65" font-size="12" fill="#047857">• Negative Rejection: <tspan font-weight="bold" fill="#059669">92.4%</tspan></text>
+    <text x="20" y="90" font-size="12" fill="#047857">• Medical Safety: <tspan font-weight="bold" fill="#059669">84.8%</tspan></text>
+    <text x="20" y="115" font-size="12" fill="#047857">• Answer Relevance: <tspan font-weight="bold" fill="#0284c7">76.2%</tspan></text>
+    <text x="20" y="140" font-size="12" fill="#047857">• Context Relevance: <tspan font-weight="bold" fill="#0284c7">0.5078</tspan></text>
+    <text x="20" y="165" font-size="12" fill="#047857">• Cache HIT Latency: <tspan font-weight="bold" fill="#b45309">&lt; 10ms</tspan></text>
   </g>
 
 </svg>
