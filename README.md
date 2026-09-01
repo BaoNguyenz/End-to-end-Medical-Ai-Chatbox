@@ -45,90 +45,11 @@ An advanced, production-grade Clinical Retrieval-Augmented Generation (RAG) syst
 
 ## 🏗️ Architecture Overview
 
-The system operates on an End-to-End pipeline combining Vector Search, Keyword Search, Knowledge Graph Traversal, and Semantic In-Memory Caching:
+The system operates on an End-to-End clinical pipeline combining Vector Search, Keyword Search, Knowledge Graph Traversal, and Semantic In-Memory Caching:
 
-```text
-========================================================================================================================
-                                       OFFLINE DATA INGESTION PIPELINE
-========================================================================================================================
-  [ The Gale Encyclopedia of Medicine (3rd Ed) ]
-                       │
-                       ▼
-         [ Semantic Section Chunking ]
-          (Definition, Causes, Symptoms, Treatments)
-                       │
-         ┌─────────────┼──────────────────────────────┐
-         │             │                              │
-         ▼             ▼                              ▼
-  [ all-MiniLM-L6-v2 ] [ BM25 Tokenizer ]    [ LLM Entity & Relation Extraction ]
-         │             │                              │
-         ▼             ▼                              ▼
-   [( Qdrant DB )]  [( BM25 Store )]           [( Neo4j Graph Database )]
-    13,350 Vectors    Lexical Index             288 Diseases · 333 Meds · 508 Symptoms
-
-========================================================================================================================
-                               ONLINE RETRIEVAL & ACCELERATION PIPELINE
-========================================================================================================================
-  [ Clinician / Patient Query ]
-         │
-         ▼
-  { 🚨 Emergency Triage Check } ── (Critical / Anaphylaxis) ──► [ 🚑 Immediate 911 Triage Advice ]
-         │
-         │ (Standard Query)
-         ▼
-  { ⚡ Redis Semantic Cache (HNSW Index) } ── (Similarity ≥ 92%) ──► [ ⚡ Instant Cache HIT (< 10ms) ]
-         │
-         │ (Cache MISS)
-         ▼
-  { Query Router & Transformation }
-   ├── HyDE (Hypothetical Clinical Document)
-   ├── Query Decomposition (Multi-part Breakdown)
-   └── Direct Hybrid / Graph Dispatch
-         │
-         ├────────────────────────────────────────┬────────────────────────────────────────┐
-         │                                        │                                        │
-         ▼                                        ▼                                        ▼
-  [( Qdrant Vector DB )]                   [( BM25 Index )]                 [( Neo4j Knowledge Graph )]
-   Dense Semantic Match                     Exact Keyword Search             Multi-hop Clinical Traversal
-         │                                        │                                        │
-         └───────────────────┬────────────────────┘                                        │
-                             ▼                                                             │
-                  [ Reciprocal Rank Fusion ]                                               │
-                   (RRF Top 50 Candidates)                                                 │
-                             │                                                             │
-                             └──────────────────────┬──────────────────────────────────────┘
-                                                    ▼
-                                       [ Candidate Aggregator ]
-                                                    │
-                                                    ▼
-                                    [ Cross-Encoder Reranker ]
-                                    (ms-marco-MiniLM-L-6-v2)
-                                                    │
-                                                    ▼
-                                    [ MMR Diversity Filtering ]
-                                          (lambda = 0.7)
-                                                    │
-                                                    ▼
-                                     [ Verified Medical Context ]
-
-========================================================================================================================
-                                      GENERATION & STREAMING PIPELINE
-========================================================================================================================
-  [ Verified Medical Context ]
-         │
-         ▼
-  [ Medical Prompt Assembly + Clinical Disclaimers ]
-         │
-         ▼
-  [ OpenAI GPT-4o-mini (stream=True) ] ───► (Async Write-Back) ───► [( Redis Semantic Cache )]
-         │
-         ▼
-  [ Server-Sent Events (SSE) Stream ]
-         │
-         ▼
-  [ 🌐 React 19 + Vite Clinical UI (Telemetry & Real-Time Typing) ]
-========================================================================================================================
-```
+<p align="center">
+  <img src="docs/architecture.svg" alt="GaleMed AI Clinical Architecture Diagram" width="100%" />
+</p>
 
 ---
 
