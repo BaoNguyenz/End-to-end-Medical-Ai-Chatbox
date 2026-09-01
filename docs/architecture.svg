@@ -1,261 +1,222 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 860" width="100%" height="100%" style="background:#0b0f19; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 880" width="100%" height="100%" style="background:#ffffff; font-family:'Virgil', 'Caveat', 'Segoe Print', 'Comic Sans MS', 'Segoe UI', -apple-system, sans-serif;">
   <defs>
-    <!-- Background Grid Pattern -->
-    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e293b" stroke-width="0.5" opacity="0.6"/>
-    </pattern>
-
-    <!-- Gradients -->
-    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="50%" stop-color="#818cf8"/>
-      <stop offset="100%" stop-color="#c084fc"/>
-    </linearGradient>
-
-    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9"/>
-    </linearGradient>
-
-    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0284c7"/>
-      <stop offset="100%" stop-color="#0369a1"/>
-    </linearGradient>
-
-    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ef4444"/>
-      <stop offset="100%" stop-color="#b91c1c"/>
-    </linearGradient>
-
-    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#047857"/>
-    </linearGradient>
-
-    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#8b5cf6"/>
-      <stop offset="100%" stop-color="#6d28d9"/>
-    </linearGradient>
-
-    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f59e0b"/>
-      <stop offset="100%" stop-color="#b45309"/>
-    </linearGradient>
-
-    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ec4899"/>
-      <stop offset="100%" stop-color="#be185d"/>
-    </linearGradient>
-
-    <!-- Filters & Shadows -->
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    <!-- Sketch Arrow Markers -->
+    <marker id="sketchArrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M1,1 L8,4 L1,7" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="sketchArrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M1,1 L8,4 L1,7" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="sketchArrowPurple" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M1,1 L8,4 L1,7" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="sketchArrowAmber" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M1,1 L8,4 L1,7" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="sketchArrowRed" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M1,1 L8,4 L1,7" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    
+    <!-- Subtle Drop Shadow for sticky notes -->
+    <filter id="sketchShadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="3" dy="4" stdDeviation="2" flood-color="#000000" flood-opacity="0.08"/>
     </filter>
-    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-
-    <!-- Markers for Arrows -->
-    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L6,3 z" fill="#38bdf8"/>
-    </marker>
-    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L6,3 z" fill="#34d399"/>
-    </marker>
-    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L6,3 z" fill="#a78bfa"/>
-    </marker>
-    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L6,3 z" fill="#f87171"/>
-    </marker>
-    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L6,3 z" fill="#fbbf24"/>
-    </marker>
   </defs>
 
-  <!-- Background Grid -->
-  <rect width="1200" height="860" fill="#0b0f19"/>
-  <rect width="1200" height="860" fill="url(#grid)"/>
+  <!-- Canvas Background -->
+  <rect width="1200" height="880" fill="#fcfcfb"/>
 
   <!-- ==================== HEADER ==================== -->
-  <g transform="translate(60, 35)">
-    <text x="540" y="24" text-anchor="middle" font-size="24" font-weight="800" fill="url(#headerGrad)" letter-spacing="1">
-      GALEMED AI — CLINICAL GRAPHRAG &amp; SEMANTIC CACHE ARCHITECTURE
+  <g transform="translate(60, 25)">
+    <text x="540" y="35" text-anchor="middle" font-size="28" font-weight="bold" fill="#1e293b" letter-spacing="0.5">
+      🩺 GaleMed AI — Clinical GraphRAG &amp; Semantic Cache
     </text>
-    <text x="540" y="48" text-anchor="middle" font-size="13" font-weight="500" fill="#94a3b8">
+    <text x="540" y="65" text-anchor="middle" font-size="14" font-weight="500" fill="#64748b">
       The Gale Encyclopedia of Medicine (3rd Ed) · Qdrant · Neo4j · Redis Stack · CrossEncoder · SSE Stream
     </text>
+    <!-- Doodle Hand-drawn Underline -->
+    <path d="M 280 75 Q 540 82 800 75" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
   </g>
 
   <!-- ==================== SECTION 1: INGESTION ==================== -->
-  <rect x="40" y="110" width="310" height="710" rx="16" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
-  <rect x="40" y="110" width="310" height="40" rx="16" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-  <text x="195" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#38bdf8" letter-spacing="0.5">
+  <!-- Container Box -->
+  <rect x="40" y="115" width="320" height="725" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="8,6" filter="url(#sketchShadow)"/>
+  <rect x="65" y="100" width="220" height="32" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="175" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#0369a1">
     📥 1. OFFLINE DATA INGESTION
   </text>
 
-  <!-- Raw Docs -->
-  <rect x="65" y="170" width="260" height="60" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
-  <text x="195" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Gale Medical Encyclopedia</text>
-  <text x="195" y="214" text-anchor="middle" font-size="11" fill="#94a3b8">6,400+ Articles · 3rd Edition</text>
+  <!-- Encyclopedia Docs Card -->
+  <rect x="65" y="155" width="270" height="65" rx="14" fill="#ffffff" stroke="#334155" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="200" y="183" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Gale Medical Encyclopedia</text>
+  <text x="200" y="203" text-anchor="middle" font-size="12" fill="#64748b">6,400+ Articles · 3rd Edition</text>
 
-  <!-- Down Arrow -->
-  <line x1="195" y1="230" x2="195" y2="265" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <!-- Arrow -->
+  <path d="M 200 220 Q 200 245 200 255" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#sketchArrowBlue)"/>
 
-  <!-- Semantic Chunking -->
-  <rect x="65" y="265" width="260" height="60" rx="10" fill="#1e293b" stroke="#818cf8" stroke-width="1.5"/>
-  <text x="195" y="291" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Semantic Section Chunking</text>
-  <text x="195" y="309" text-anchor="middle" font-size="11" fill="#94a3b8">Preserve Medical Structure (13,350 Pts)</text>
+  <!-- Semantic Chunking Card -->
+  <rect x="65" y="260" width="270" height="65" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="200" y="288" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">Semantic Section Chunking</text>
+  <text x="200" y="308" text-anchor="middle" font-size="12" fill="#475569">Preserve Medical Context Boundaries</text>
 
   <!-- Split Branch Lines -->
-  <path d="M 195 325 L 195 365 M 105 365 L 285 365 L 285 410 M 105 365 L 105 410 M 195 365 L 195 410" fill="none" stroke="#64748b" stroke-width="1.5"/>
+  <path d="M 200 325 L 200 360 M 110 360 L 290 360 L 290 395 M 110 360 L 110 395 M 200 360 L 200 395" fill="none" stroke="#64748b" stroke-width="2"/>
 
   <!-- Store 1: Qdrant -->
-  <rect x="60" y="410" width="80" height="90" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
-  <text x="100" y="435" text-anchor="middle" font-size="16">🔴</text>
-  <text x="100" y="455" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Qdrant</text>
-  <text x="100" y="472" text-anchor="middle" font-size="9" fill="#94a3b8">13,350 Pts</text>
-  <text x="100" y="488" text-anchor="middle" font-size="9" fill="#64748b">MiniLM-L6</text>
+  <rect x="60" y="395" width="85" height="105" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="102" y="423" text-anchor="middle" font-size="20">🔴</text>
+  <text x="102" y="445" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">Qdrant</text>
+  <text x="102" y="465" text-anchor="middle" font-size="10" fill="#7f1d1d">13,350 Pts</text>
+  <text x="102" y="483" text-anchor="middle" font-size="10" fill="#991b1b">MiniLM-L6</text>
 
   <!-- Store 2: BM25 -->
-  <rect x="155" y="410" width="80" height="90" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
-  <text x="195" y="435" text-anchor="middle" font-size="16">🟢</text>
-  <text x="195" y="455" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">BM25</text>
-  <text x="195" y="472" text-anchor="middle" font-size="9" fill="#94a3b8">Keyword Index</text>
-  <text x="195" y="488" text-anchor="middle" font-size="9" fill="#64748b">Exact Match</text>
+  <rect x="157" y="395" width="85" height="105" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="200" y="423" text-anchor="middle" font-size="20">🟢</text>
+  <text x="200" y="445" text-anchor="middle" font-size="12" font-weight="bold" fill="#166534">BM25</text>
+  <text x="200" y="465" text-anchor="middle" font-size="10" fill="#14532d">Lexical Index</text>
+  <text x="200" y="483" text-anchor="middle" font-size="10" fill="#166534">Exact Terms</text>
 
   <!-- Store 3: Neo4j -->
-  <rect x="250" y="410" width="80" height="90" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
-  <text x="290" y="435" text-anchor="middle" font-size="16">🟣</text>
-  <text x="290" y="455" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Neo4j</text>
-  <text x="290" y="472" text-anchor="middle" font-size="9" fill="#94a3b8">GraphRAG</text>
-  <text x="290" y="488" text-anchor="middle" font-size="9" fill="#64748b">288 Diseases</text>
+  <rect x="255" y="395" width="85" height="105" rx="12" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="297" y="423" text-anchor="middle" font-size="20">🟣</text>
+  <text x="297" y="445" text-anchor="middle" font-size="12" font-weight="bold" fill="#581c87">Neo4j</text>
+  <text x="297" y="465" text-anchor="middle" font-size="10" fill="#4c1d95">GraphRAG</text>
+  <text x="297" y="483" text-anchor="middle" font-size="10" fill="#581c87">288 Diseases</text>
 
-  <!-- Ingestion Summary Badge -->
-  <rect x="65" y="535" width="260" height="150" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-  <text x="80" y="565" font-size="12" font-weight="700" fill="#38bdf8">📊 Ingested Knowledge Base:</text>
-  <text x="80" y="590" font-size="11" fill="#cbd5e1">• 13,350 Chunk Embeddings (384-d)</text>
-  <text x="80" y="612" font-size="11" fill="#cbd5e1">• 288 Diseases · 333 Medications</text>
-  <text x="80" y="634" font-size="11" fill="#cbd5e1">• 508 Symptoms · 99 Procedures</text>
-  <text x="80" y="656" font-size="11" fill="#cbd5e1">• 441 Multi-hop Clinical Relations</text>
+  <!-- Sticky Note: Stats Badge -->
+  <g transform="translate(65, 530)">
+    <rect x="0" y="0" width="270" height="175" rx="14" fill="#fef9c3" stroke="#ca8a04" stroke-width="2" filter="url(#sketchShadow)"/>
+    <!-- Pin Circle -->
+    <circle cx="135" cy="12" r="5" fill="#ef4444"/>
+    <text x="20" y="35" font-size="13" font-weight="bold" fill="#854d0e">📌 Ingested Knowledge Stats:</text>
+    <text x="20" y="65" font-size="12" fill="#713f12">• 13,350 Chunk Vectors (384-d)</text>
+    <text x="20" y="90" font-size="12" fill="#713f12">• 288 Diseases · 333 Medications</text>
+    <text x="20" y="115" font-size="12" fill="#713f12">• 508 Symptoms · 99 Procedures</text>
+    <text x="20" y="140" font-size="12" fill="#713f12">• 441 Multi-hop Clinical Relations</text>
+  </g>
 
-  <!-- ==================== SECTION 2 & 3: ONLINE PIPELINE ==================== -->
-  <rect x="380" y="110" width="440" height="710" rx="16" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
-  <rect x="380" y="110" width="440" height="40" rx="16" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-  <text x="600" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#34d399" letter-spacing="0.5">
+
+  <!-- ==================== SECTION 2: RETRIEVAL & CACHE ==================== -->
+  <rect x="390" y="115" width="430" height="725" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="8,6" filter="url(#sketchShadow)"/>
+  <rect x="440" y="100" width="280" height="32" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="580" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">
     ⚡ 2. ONLINE RETRIEVAL &amp; REDIS CACHING
   </text>
 
-  <!-- User Query -->
-  <rect x="420" y="170" width="360" height="50" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
-  <text x="600" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">User / Clinical Query Input</text>
-  <text x="600" y="210" text-anchor="middle" font-size="10" fill="#94a3b8">POST /api/query/stream</text>
+  <!-- User Query Card -->
+  <rect x="420" y="155" width="370" height="55" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="605" y="180" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Clinician / Patient Query</text>
+  <text x="605" y="198" text-anchor="middle" font-size="11" fill="#64748b">POST /api/query/stream</text>
 
-  <!-- Arrow down -->
-  <line x1="600" y1="220" x2="600" y2="245" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <!-- Arrow -->
+  <path d="M 605 210 Q 605 228 605 238" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#sketchArrowBlue)"/>
 
-  <!-- Emergency & Cache Split Box -->
-  <rect x="405" y="245" width="390" height="135" rx="12" fill="#0f172a" stroke="#dc2626" stroke-width="1.5"/>
-  <text x="420" y="270" font-size="12" font-weight="700" fill="#f87171">🚨 Emergency Guardrail &amp; Redis Semantic Cache</text>
+  <!-- Emergency & Cache Box -->
+  <rect x="410" y="240" width="390" height="130" rx="16" fill="#ffffff" stroke="#ef4444" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="430" y="265" font-size="12" font-weight="bold" fill="#dc2626">🚨 Emergency Guardrail &amp; Redis Semantic Cache</text>
 
-  <!-- Cache HIT Badge -->
-  <rect x="420" y="285" width="170" height="75" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
-  <text x="505" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#34d399">⚡ Redis Cache HIT</text>
-  <text x="505" y="328" text-anchor="middle" font-size="10" fill="#cbd5e1">Cosine Sim ≥ 92%</text>
-  <text x="505" y="346" text-anchor="middle" font-size="11" font-weight="800" fill="#fbbf24">&lt; 10ms (Zero LLM Cost)</text>
+  <!-- Cache HIT Box -->
+  <rect x="425" y="280" width="170" height="75" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="510" y="305" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">⚡ Redis Cache HIT</text>
+  <text x="510" y="323" text-anchor="middle" font-size="10" fill="#166534">Cosine Sim ≥ 92%</text>
+  <text x="510" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#d97706">&lt; 10ms (Zero Cost)</text>
 
-  <!-- Cache MISS Path -->
-  <rect x="610" y="285" width="170" height="75" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-  <text x="695" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#fbbf24">🔍 Cache MISS</text>
-  <text x="695" y="328" text-anchor="middle" font-size="10" fill="#cbd5e1">Trigger Full GraphRAG</text>
-  <text x="695" y="346" text-anchor="middle" font-size="10" fill="#94a3b8">Intent Routing &amp; HyDE</text>
+  <!-- Cache MISS Box -->
+  <rect x="615" y="280" width="170" height="75" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="700" y="305" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">🔍 Cache MISS</text>
+  <text x="700" y="323" text-anchor="middle" font-size="10" fill="#78350f">Execute Full GraphRAG</text>
+  <text x="700" y="342" text-anchor="middle" font-size="10" fill="#92400e">Intent Routing &amp; HyDE</text>
 
-  <!-- Arrow down from MISS to Search Engine -->
-  <line x1="695" y1="360" x2="695" y2="410" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowAmber)"/>
+  <!-- Arrow down from MISS -->
+  <path d="M 700 355 Q 700 380 700 395" fill="none" stroke="#d97706" stroke-width="2.5" marker-end="url(#sketchArrowAmber)"/>
 
-  <!-- Retrieval & RRF Box -->
-  <rect x="405" y="410" width="390" height="150" rx="12" fill="#1e293b" stroke="#818cf8" stroke-width="1.5"/>
-  <text x="600" y="435" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Hybrid Multi-Vector &amp; Graph Retrieval</text>
+  <!-- Retrieval Layer Box -->
+  <rect x="410" y="400" width="390" height="150" rx="16" fill="#ffffff" stroke="#6366f1" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="605" y="425" text-anchor="middle" font-size="13" font-weight="bold" fill="#4338ca">Hybrid Multi-Vector &amp; Graph Retrieval</text>
 
-  <rect x="420" y="450" width="110" height="40" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
-  <text x="475" y="475" text-anchor="middle" font-size="10" font-weight="600" fill="#cbd5e1">Dense Vector (Qdrant)</text>
+  <rect x="425" y="440" width="110" height="40" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="480" y="465" text-anchor="middle" font-size="10" font-weight="bold" fill="#991b1b">Dense (Qdrant)</text>
 
-  <rect x="545" y="450" width="110" height="40" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
-  <text x="600" y="475" text-anchor="middle" font-size="10" font-weight="600" fill="#cbd5e1">Sparse Keyword (BM25)</text>
+  <rect x="550" y="440" width="110" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="605" y="465" text-anchor="middle" font-size="10" font-weight="bold" fill="#166534">Sparse (BM25)</text>
 
-  <rect x="670" y="450" width="110" height="40" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
-  <text x="725" y="475" text-anchor="middle" font-size="10" font-weight="600" fill="#cbd5e1">GraphRAG (Neo4j)</text>
+  <rect x="675" y="440" width="110" height="40" rx="8" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="730" y="465" text-anchor="middle" font-size="10" font-weight="bold" fill="#581c87">Graph (Neo4j)</text>
 
-  <rect x="420" y="505" width="360" height="40" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-  <text x="600" y="530" text-anchor="middle" font-size="11" font-weight="700" fill="#38bdf8">Reciprocal Rank Fusion (RRF) &amp; Candidate Merge</text>
+  <rect x="425" y="495" width="360" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="605" y="520" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e40af">Reciprocal Rank Fusion (RRF) &amp; Candidate Merge</text>
 
   <!-- Arrow down to Reranker -->
-  <line x1="600" y1="560" x2="600" y2="590" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <path d="M 605 550 Q 605 565 605 575" fill="none" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#sketchArrowPurple)"/>
 
   <!-- Post Retrieval (Cross-Encoder + MMR) -->
-  <rect x="405" y="590" width="390" height="110" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-  <text x="600" y="615" text-anchor="middle" font-size="13" font-weight="700" fill="#fbbf24">Post-Retrieval Reranking &amp; Diversification</text>
+  <rect x="410" y="580" width="390" height="110" rx="16" fill="#ffffff" stroke="#f59e0b" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="605" y="605" text-anchor="middle" font-size="13" font-weight="bold" fill="#b45309">Post-Retrieval Reranking &amp; Diversification</text>
 
-  <rect x="420" y="630" width="170" height="55" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
-  <text x="505" y="652" text-anchor="middle" font-size="11" font-weight="700" fill="#cbd5e1">Cross-Encoder</text>
-  <text x="505" y="670" text-anchor="middle" font-size="9" fill="#94a3b8">ms-marco-MiniLM-L-6-v2</text>
+  <rect x="425" y="620" width="170" height="55" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="510" y="642" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400e">Cross-Encoder</text>
+  <text x="510" y="660" text-anchor="middle" font-size="9" fill="#78350f">ms-marco-MiniLM-L-6</text>
 
-  <rect x="610" y="630" width="170" height="55" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
-  <text x="695" y="652" text-anchor="middle" font-size="11" font-weight="700" fill="#cbd5e1">MMR Diversity</text>
-  <text x="695" y="670" text-anchor="middle" font-size="9" fill="#94a3b8">Lambda = 0.7 (De-duplicate)</text>
+  <rect x="615" y="620" width="170" height="55" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="700" y="642" text-anchor="middle" font-size="11" font-weight="bold" fill="#166534">MMR Diversity</text>
+  <text x="700" y="660" text-anchor="middle" font-size="9" fill="#14532d">Lambda = 0.7</text>
 
-  <!-- Arrow to Generation -->
-  <line x1="600" y1="700" x2="600" y2="735" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <!-- Arrow to Verified Context -->
+  <path d="M 605 690 Q 605 708 605 718" fill="none" stroke="#16a34a" stroke-width="2.5" marker-end="url(#sketchArrowGreen)"/>
 
-  <!-- Verified Context Output -->
-  <rect x="420" y="735" width="360" height="50" rx="8" fill="#047857" stroke="#34d399" stroke-width="1.5"/>
-  <text x="600" y="765" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">✓ Top 10 Verified Medical Context Chunks</text>
+  <!-- Verified Context Badge -->
+  <rect x="420" y="720" width="370" height="50" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="605" y="750" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">✓ Top 10 Verified Medical Context Chunks</text>
+
 
   <!-- ==================== SECTION 3: GENERATION & STREAMING ==================== -->
-  <rect x="850" y="110" width="310" height="710" rx="16" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
-  <rect x="850" y="110" width="310" height="40" rx="16" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-  <text x="1005" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#c084fc" letter-spacing="0.5">
+  <rect x="845" y="115" width="315" height="725" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="8,6" filter="url(#sketchShadow)"/>
+  <rect x="880" y="100" width="245" height="32" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="1002" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#6d28d9">
     🤖 3. GENERATION &amp; STREAMING
   </text>
 
-  <!-- Generator LLM -->
-  <rect x="875" y="170" width="260" height="85" rx="10" fill="#1e293b" stroke="#ec4899" stroke-width="1.5"/>
-  <text x="1005" y="200" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">OpenAI GPT-4o-mini</text>
-  <text x="1005" y="220" text-anchor="middle" font-size="11" fill="#cbd5e1">Clinical System Prompt</text>
-  <text x="1005" y="238" text-anchor="middle" font-size="10" fill="#f472b6">stream=True (Tokens &lt; 250ms)</text>
+  <!-- Generator LLM Card -->
+  <rect x="870" y="155" width="265" height="85" rx="14" fill="#fdf2f8" stroke="#db2777" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="1002" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#9d174d">OpenAI GPT-4o-mini</text>
+  <text x="1002" y="205" text-anchor="middle" font-size="11" fill="#475569">Clinical Grounding Prompt</text>
+  <text x="1002" y="223" text-anchor="middle" font-size="11" font-weight="bold" fill="#db2777">stream=True (First Token ~250ms)</text>
 
-  <!-- Line from Generator down -->
-  <line x1="1005" y1="255" x2="1005" y2="295" stroke="#ec4899" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <!-- Arrow down -->
+  <path d="M 1002 240 Q 1002 260 1002 270" fill="none" stroke="#db2777" stroke-width="2.5" marker-end="url(#sketchArrowRed)"/>
 
-  <!-- SSE Streaming -->
-  <rect x="875" y="295" width="260" height="80" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-  <text x="1005" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#38bdf8">Server-Sent Events (SSE)</text>
-  <text x="1005" y="345" text-anchor="middle" font-size="11" fill="#cbd5e1">text/event-stream Protocol</text>
-  <text x="1005" y="362" text-anchor="middle" font-size="10" fill="#94a3b8">Chunked Token Delivery</text>
+  <!-- SSE Streaming Protocol -->
+  <rect x="870" y="275" width="265" height="75" rx="14" fill="#eff6ff" stroke="#0284c7" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="1002" y="303" text-anchor="middle" font-size="13" font-weight="bold" fill="#0369a1">Server-Sent Events (SSE)</text>
+  <text x="1002" y="323" text-anchor="middle" font-size="11" fill="#334155">text/event-stream Protocol</text>
+  <text x="1002" y="339" text-anchor="middle" font-size="10" fill="#64748b">Low Latency Chunk Delivery</text>
 
-  <!-- Line to Client UI -->
-  <line x1="1005" y1="375" x2="1005" y2="415" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <!-- Arrow down to React UI -->
+  <path d="M 1002 350 Q 1002 372 1002 385" fill="none" stroke="#0284c7" stroke-width="2.5" marker-end="url(#sketchArrowBlue)"/>
 
-  <!-- React 19 Frontend Card -->
-  <rect x="875" y="415" width="260" height="150" rx="12" fill="#1e293b" stroke="#61dafb" stroke-width="2"/>
-  <text x="1005" y="445" text-anchor="middle" font-size="14" font-weight="800" fill="#61dafb">React 19 + Vite UI</text>
-  <text x="1005" y="468" text-anchor="middle" font-size="11" fill="#cbd5e1">Live Typewriter Token Rendering</text>
-  <text x="1005" y="490" text-anchor="middle" font-size="11" fill="#cbd5e1">Real-time Telemetry Drawer</text>
-  <text x="1005" y="512" text-anchor="middle" font-size="11" fill="#cbd5e1">⚡ Cache Hit Badge &amp; Speedup</text>
-  <text x="1005" y="535" text-anchor="middle" font-size="10" fill="#94a3b8">Inspect Retrieved Source Documents</text>
+  <!-- React 19 Frontend Card (Stitch MCP Built) -->
+  <rect x="870" y="390" width="265" height="155" rx="14" fill="#ffffff" stroke="#0284c7" stroke-width="2" filter="url(#sketchShadow)"/>
+  <text x="1002" y="420" text-anchor="middle" font-size="14" font-weight="bold" fill="#0284c7">React 19 + Vite UI</text>
+  <text x="1002" y="440" text-anchor="middle" font-size="11" font-weight="bold" fill="#7c3aed">(Designed via Stitch MCP)</text>
+  <text x="1002" y="465" text-anchor="middle" font-size="11" fill="#334155">Live Typewriter Token Streaming</text>
+  <text x="1002" y="488" text-anchor="middle" font-size="11" fill="#334155">Real-time Telemetry Drawer</text>
+  <text x="1002" y="511" text-anchor="middle" font-size="11" font-weight="bold" fill="#16a34a">⚡ Cache Hit Badge &amp; Speedup</text>
+  <text x="1002" y="533" text-anchor="middle" font-size="10" fill="#64748b">Source Citations &amp; Inspection</text>
 
-  <!-- Redis Cache Save Path (Dotted) -->
-  <path d="M 1005 255 L 1005 275 L 820 275 L 820 320" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4"/>
-  <text x="895" y="270" text-anchor="middle" font-size="9" fill="#f87171">Async Write to Redis Cache</text>
+  <!-- Redis Cache Save Path (Curved Dotted line) -->
+  <path d="M 1002 240 Q 1002 260 815 260" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="895" y="255" text-anchor="middle" font-size="9" font-weight="bold" fill="#dc2626">Async Save to Cache</text>
 
-  <!-- Performance Badge -->
-  <rect x="875" y="595" width="260" height="190" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-  <text x="890" y="625" font-size="12" font-weight="700" fill="#34d399">⚡ Performance Telemetry:</text>
-  <text x="890" y="655" font-size="11" fill="#cbd5e1">• Cache HIT Latency: <tspan font-weight="700" fill="#fbbf24">&lt; 10ms</tspan></text>
-  <text x="890" y="680" font-size="11" fill="#cbd5e1">• Time-to-First-Token: <tspan font-weight="700" fill="#38bdf8">~250ms</tspan></text>
-  <text x="890" y="705" font-size="11" fill="#cbd5e1">• Answer Faithfulness: <tspan font-weight="700" fill="#34d399">88.5%</tspan></text>
-  <text x="890" y="730" font-size="11" fill="#cbd5e1">• Context Relevance: <tspan font-weight="700" fill="#38bdf8">0.4620</tspan></text>
-  <text x="890" y="755" font-size="11" fill="#cbd5e1">• Cache Cost Savings: <tspan font-weight="700" fill="#34d399">100% on Hits</tspan></text>
+  <!-- Sticky Note: Telemetry -->
+  <g transform="translate(870, 565)">
+    <rect x="0" y="0" width="265" height="195" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="2" filter="url(#sketchShadow)"/>
+    <circle cx="132" cy="12" r="5" fill="#10b981"/>
+    <text x="20" y="35" font-size="13" font-weight="bold" fill="#065f46">⚡ Benchmark Metrics:</text>
+    <text x="20" y="65" font-size="12" fill="#047857">• Cache HIT Latency: <tspan font-weight="bold" fill="#b45309">&lt; 10ms</tspan></text>
+    <text x="20" y="90" font-size="12" fill="#047857">• Time-to-First-Token: <tspan font-weight="bold" fill="#0284c7">~250ms</tspan></text>
+    <text x="20" y="115" font-size="12" fill="#047857">• Answer Faithfulness: <tspan font-weight="bold" fill="#059669">88.5%</tspan></text>
+    <text x="20" y="140" font-size="12" fill="#047857">• Context Relevance: <tspan font-weight="bold" fill="#0284c7">0.4620</tspan></text>
+    <text x="20" y="165" font-size="12" fill="#047857">• API Cost Saved: <tspan font-weight="bold" fill="#059669">100% on Hits</tspan></text>
+  </g>
 
 </svg>
