@@ -12,10 +12,6 @@
     <marker id="arrowRed" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
       <path d="M0,0 L0,6 L6,3 z" fill="#f87171"/>
     </marker>
-    <!-- Arrow Marker Purple (Graph Flow) -->
-    <marker id="arrowPurple" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L6,3 z" fill="#c084fc"/>
-    </marker>
   </defs>
 
   <!-- Background -->
@@ -112,12 +108,6 @@
   <!-- Pill Label: Top 50 Chunks -->
   <rect x="80" y="675" width="70" height="18" rx="3" fill="#30363d"/>
   <text x="115" y="688" text-anchor="middle" font-size="9" fill="#c9d1d9">Top 50 Chunks</text>
-
-  <!-- CÁCH 2: Direct Arrow from GraphRAG Search down to Merge Candidates -->
-  <path d="M 450 504 L 450 705 L 365 705" fill="none" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
-  <!-- Pill Label: Top 10 Results -->
-  <rect x="415" y="600" width="70" height="18" rx="3" fill="#30363d"/>
-  <text x="450" y="613" text-anchor="middle" font-size="9" fill="#d8b4fe">Top 10 Results</text>
 
   <!-- 1.8 Merge Candidates (Green Box) -->
   <rect x="230" y="690" width="130" height="34" rx="3" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
@@ -217,22 +207,34 @@
 
 
   <!-- ========================================================================= -->
-  <!-- 3. CÁCH 2: CLEAN 2-WAY DATABASE INTERACTIONS                              -->
+  <!-- 3. REQUEST & RESPONSE CROSS-CONNECTIONS (EXACT HARMONY)                  -->
   <!-- ========================================================================= -->
-  <!-- Vector Search: Hybrid Engine <-> Qdrant DB -->
-  <path d="M 260 482 L 635 550" fill="none" stroke="#8b949e" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#arrow)"/>
-  <rect x="395" y="500" width="70" height="18" rx="3" fill="#30363d"/>
-  <text x="430" y="513" text-anchor="middle" font-size="9" fill="#c9d1d9">Vector Search</text>
+  <!-- REQUEST 1: Vector Search (Hybrid Engine -> Qdrant DB) -->
+  <path d="M 160 499 L 160 530 L 635 545" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="280" y="525" width="70" height="18" rx="3" fill="#30363d"/>
+  <text x="315" y="538" text-anchor="middle" font-size="9" fill="#c9d1d9">Vector Search</text>
 
-  <!-- Keyword Search: Hybrid Engine <-> BM25 DB -->
-  <path d="M 260 492 L 815 555" fill="none" stroke="#8b949e" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#arrow)"/>
-  <rect x="515" y="515" width="75" height="18" rx="3" fill="#30363d"/>
-  <text x="552" y="528" text-anchor="middle" font-size="9" fill="#c9d1d9">Keyword Search</text>
+  <!-- REQUEST 2: Keyword Search (Hybrid Engine -> BM25 DB) -->
+  <path d="M 230 499 L 230 545 L 815 555" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="460" y="525" width="75" height="18" rx="3" fill="#30363d"/>
+  <text x="497" y="538" text-anchor="middle" font-size="9" fill="#c9d1d9">Keyword Search</text>
 
-  <!-- Entity Linking: 2-Way Query line between GraphRAG Search & Neo4j DB -->
-  <path d="M 515 487 L 995 550" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrowPurple)"/>
-  <rect x="710" y="505" width="85" height="18" rx="3" fill="#30363d"/>
-  <text x="752" y="518" text-anchor="middle" font-size="9" fill="#d8b4fe">Cypher Query &amp; Link</text>
+  <!-- REQUEST 3: Entity Linking (GraphRAG Search -> Neo4j DB) -->
+  <path d="M 450 504 L 450 515 L 995 545" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="430" y="510" width="70" height="18" rx="3" fill="#30363d"/>
+  <text x="465" y="523" text-anchor="middle" font-size="9" fill="#c9d1d9">Entity Linking</text>
+
+  <!-- RESPONSE 1: Qdrant DB -> RRF Fusion -->
+  <path d="M 685 580 L 685 615 L 165 630" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- RESPONSE 2: BM25 DB -> RRF Fusion -->
+  <path d="M 865 580 L 865 610 L 165 635" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- RESPONSE 3: Neo4j Graph DB -> Merge Candidates -->
+  <path d="M 1045 580 L 1045 660 L 365 700" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Pill Label: Top 10 Results -->
+  <rect x="450" y="640" width="65" height="18" rx="3" fill="#30363d"/>
+  <text x="482" y="653" text-anchor="middle" font-size="9" fill="#c9d1d9">Top 10 Results</text>
 
 
   <!-- ========================================================================= -->
