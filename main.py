@@ -27,8 +27,11 @@ try:
 except AttributeError:
     pass
 
+# pyrefly: ignore [missing-import]
 from src.orchestrator.pipeline import RAGPipeline
+# pyrefly: ignore [missing-import]
 from src.orchestrator.evaluator import Evaluator
+# pyrefly: ignore [missing-import]
 from src.cache.semantic_cache import get_semantic_cache
 
 BANNER = """
