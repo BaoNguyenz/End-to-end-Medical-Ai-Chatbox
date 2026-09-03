@@ -51,11 +51,91 @@ An advanced, production-grade Clinical Retrieval-Augmented Generation (RAG) syst
 
 ## 🏗️ Architecture Overview
 
-The system operates on an End-to-End clinical pipeline combining Vector Search, Keyword Search, Knowledge Graph Traversal, and Semantic In-Memory Caching:
+The system operates on an authentic **Dual-Pipeline Architecture** separating **Offline Medical Knowledge Ingestion** from **Online Real-Time Clinical Retrieval & Generation**:
 
 <p align="center">
-  <img src="docs/architecture.svg" alt="GaleMed AI Clinical Architecture Diagram" width="100%" />
+  <img src="docs/architecture.svg" alt="GaleMed AI Dual-Pipeline System Architecture" width="100%" />
 </p>
+
+<details>
+<summary><b>🔍 Click to view / copy raw Mermaid.js source code</b></summary>
+
+```mermaid
+flowchart TD
+    %% Theme Styling
+    classDef storage fill:#e3f2fd,stroke:#1e88e5,stroke-width:1.5px,color:#0d47a1;
+    classDef action fill:#e8f5e9,stroke:#43a047,stroke-width:1.5px,color:#1b5e20;
+    classDef routing fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px,color:#f57f17;
+    classDef input fill:#ffe0b2,stroke:#fb8c00,stroke-width:1.5px,color:#e65100;
+    classDef output fill:#f3e5f5,stroke:#8e24aa,stroke-width:1.5px,color:#4a148c;
+    classDef cache fill:#fee2e2,stroke:#dc2626,stroke-width:1.5px,color:#991b1b;
+    classDef fasthit fill:#dcfce7,stroke:#16a34a,stroke-width:1px,color:#14532d;
+    classDef save fill:#fef2f2,stroke:#ef4444,stroke-width:1px,stroke-dasharray:4 4,color:#7f1d1d;
+
+    subgraph INGESTION ["OFFLINE DATA INGESTION PIPELINE"]
+        Docs[Gale Medical Docs] --> Chunk[Semantic Chunking]
+        
+        Chunk --> Embed[Text Embeddings]
+        Chunk --> BuildBM25[BM25 Indexing]
+        Chunk --> GraphExtract[LLM Entity Extract]
+        
+        Embed --> VecDB[(Qdrant Vector DB)]
+        BuildBM25 --> BM25DB[(BM25 Retriever)]
+        GraphExtract --> GraphDB[(Neo4j Graph DB)]
+    end
+
+    subgraph RETRIEVAL ["ONLINE RETRIEVAL PIPELINE (Real-Time)"]
+        Q[User Query] --> CacheDB[(⚡ Redis Semantic Cache)]
+        
+        %% Cache HIT Branch
+        CacheDB --> HitBox[⚡ Cache HIT - <10ms]
+        
+        %% Cache MISS Branch
+        CacheDB -- "Cache MISS" --> Router{Query Router}
+        
+        %% Vector & Hybrid Search
+        Router -- "Hybrid Search" --> QTrans[Query Transformation]
+        QTrans --> HyDE[HyDE Document]
+        QTrans --> Decompose[Decomposer Subqueries]
+        
+        HyDE & Decompose --> SearchEngine(Hybrid Search Engine)
+        SearchEngine --> |Vector Search| VecDB
+        SearchEngine --> |Keyword Search| BM25DB
+        
+        %% RRF Fusion
+        VecDB & BM25DB --> RRF[RRF Fusion]
+        RRF --> |Top 50 Chunks| Merge[Merge Candidates]
+
+        %% GraphRAG Search
+        Router -- "GraphRAG" --> GraphSearch[GraphRAG Search]
+        GraphSearch --> |Entity Linking| GraphDB
+        GraphDB --> |Top 10 Results| Merge
+
+        %% Post-Retrieval Pipeline
+        Merge --> |60 Chunks| Rerank[Cross-Encoder Reranker]
+        Rerank --> |Top 20 Chunks| MMR[MMR Diversity Filter]
+        MMR --> |Top 10 Chunks| Context[Final Context]
+    end
+
+    subgraph GENERATION ["GENERATION PIPELINE"]
+        Context --> Assemble[Prompt Assembly]
+        Assemble --> LLM[GPT-4o Generator]
+        LLM --> Ans([Answer Output - SSE Stream])
+        
+        HitBox --> Ans
+        LLM -.-> SaveBox[Async Cache Save] -.-> CacheDB
+    end
+
+    class VecDB,BM25DB,GraphDB storage;
+    class Chunk,Embed,BuildBM25,GraphExtract,RRF,Rerank,MMR,GraphSearch,Assemble,Merge action;
+    class Router,QTrans,HyDE,Decompose,SearchEngine routing;
+    class Q input;
+    class LLM,Ans output;
+    class CacheDB cache;
+    class HitBox fasthit;
+    class SaveBox save;
+```
+</details>
 
 ---
 
