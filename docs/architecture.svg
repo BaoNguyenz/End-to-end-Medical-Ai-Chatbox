@@ -46,8 +46,8 @@
   <rect x="35" y="180" width="130" height="34" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.0"/>
   <text x="100" y="201" text-anchor="middle" font-size="11" fill="#14532d">⚡ Cache HIT (&lt;10ms)</text>
 
-  <!-- Cache HIT Box -> Answer Output (Long gentle curve down to Answer Output) -->
-  <path d="M 100 214 C 100 700, 50 1100, 235 1250" fill="none" stroke="#16a34a" stroke-width="1.0" stroke-dasharray="6,4" marker-end="url(#arrowGreen)"/>
+  <!-- Cache HIT Box -> Answer Output (Thin green curve down to Answer Output) -->
+  <path d="M 100 214 C 100 700, 50 1100, 235 1250" fill="none" stroke="#16a34a" stroke-width="1.0" stroke-dasharray="5,4" marker-end="url(#arrowGreen)"/>
 
   <!-- Arrow down to Query Router (Cache MISS) -->
   <line x1="305" y1="166" x2="305" y2="200" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
@@ -80,18 +80,17 @@
 
   <!-- HyDE Box -->
   <rect x="70" y="380" width="120" height="42" rx="3" fill="#fffde7" stroke="#fb8c00" stroke-width="1.5"/>
-  <text x="130" y="398" text-anchor="middle" font-size="10" fill="#e65100">HyDE - Hypothetical</text>
-  <text x="130" y="412" text-anchor="middle" font-size="10" fill="#e65100">Document</text>
+  <text x="130" y="398" text-anchor="middle" font-size="10" fill="#e65100">HyDE Document</text>
 
   <!-- Decomposer Box -->
-  <rect x="200" y="380" width="120" height="42" rx="3" fill="#fffde7" stroke="#fb8c00" stroke-width="1.5"/>
-  <text x="260" y="405" text-anchor="middle" font-size="10" fill="#e65100">Decomposer - Subqueries</text>
+  <rect x="200" y="380" width="130" height="42" rx="3" fill="#fffde7" stroke="#fb8c00" stroke-width="1.5"/>
+  <text x="265" y="405" text-anchor="middle" font-size="10" fill="#e65100">Decomposer Subqueries</text>
 
   <!-- Merge curves to Hybrid Search Engine -->
   <path d="M 130 422 C 130 445, 190 445, 190 465" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <path d="M 260 422 C 260 445, 190 445, 190 465" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+  <path d="M 265 422 C 265 445, 190 445, 190 465" fill="none" stroke="#8b949e" stroke-width="1.2"/>
 
-  <!-- 1.5 Hybrid Search Engine (Dark Pill/Box) -->
+  <!-- 1.5 Hybrid Search Engine -->
   <rect x="120" y="465" width="140" height="34" rx="3" fill="#1c2128" stroke="#444c56" stroke-width="1.5"/>
   <text x="190" y="487" text-anchor="middle" font-size="11" fill="#adbac7">Hybrid Search Engine</text>
 
@@ -99,10 +98,7 @@
   <rect x="375" y="470" width="130" height="34" rx="3" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
   <text x="440" y="492" text-anchor="middle" font-size="11" fill="#1b5e20">GraphRAG Search</text>
 
-  <!-- Smooth Curve from Hybrid Engine down to RRF -->
-  <path d="M 190 499 C 190 570, 115 570, 115 645" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
-
-  <!-- 1.7 RRF Fusion (Green Box) -->
+  <!-- 1.7 RRF Fusion (Green Box - ĐƯỢC NẠP DỮ LIỆU TỪ 2 DATABASE) -->
   <rect x="70" y="645" width="90" height="34" rx="3" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
   <text x="115" y="667" text-anchor="middle" font-size="11" fill="#1b5e20">RRF Fusion</text>
 
@@ -208,7 +204,7 @@
 
 
   <!-- ========================================================================= -->
-  <!-- 3. REQUEST & RESPONSE LANES (CLEAN UNCLUTTERED)                          -->
+  <!-- 3. REQUEST & RESPONSE LANES (NO DIRECT ENGINE->RRF LINE!)                -->
   <!-- ========================================================================= -->
   <!-- REQUEST 1: Vector Search (Hybrid Engine -> Qdrant DB) -->
   <path d="M 260 480 C 450 480, 550 540, 645 545" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
@@ -225,13 +221,13 @@
   <rect x="425" y="445" width="70" height="18" rx="3" fill="#30363d"/>
   <text x="460" y="458" text-anchor="middle" font-size="9" fill="#c9d1d9">Entity Linking</text>
 
-  <!-- RESPONSE 1: Qdrant DB -> RRF Fusion -->
+  <!-- RESPONSE 1: Qdrant DB -> RRF Fusion (Low Lane: sweeps cleanly below) -->
   <path d="M 695 580 C 695 640, 250 620, 165 650" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
 
-  <!-- RESPONSE 2: BM25 DB -> RRF Fusion -->
+  <!-- RESPONSE 2: BM25 DB -> RRF Fusion (Low Lane: sweeps cleanly below) -->
   <path d="M 875 580 C 875 645, 270 630, 165 655" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
 
-  <!-- RESPONSE 3: Neo4j Graph DB -> Merge Candidates -->
+  <!-- RESPONSE 3: Neo4j Graph DB -> Merge Candidates (Clear sweeping path) -->
   <path d="M 1055 580 C 1055 700, 500 710, 365 735" fill="none" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arrow)"/>
   <rect x="450" y="660" width="65" height="18" rx="3" fill="#30363d"/>
   <text x="482" y="673" text-anchor="middle" font-size="9" fill="#c9d1d9">Top 10 Results</text>
@@ -266,7 +262,7 @@
   <rect x="440" y="1157" width="120" height="30" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="1.0" stroke-dasharray="4,4"/>
   <text x="500" y="1176" text-anchor="middle" font-size="10" fill="#991b1b">Async Cache Save</text>
 
-  <!-- Hộp Async Cache Save -> chạy vòng lên Redis Semantic Cache -->
+  <!-- Hộp Async Cache Save -> chạy vòng lên Redis Semantic Cache (Mỏng 1.0px) -->
   <path d="M 560 1172 L 1160 1172 L 1160 148 L 380 148" fill="none" stroke="#ef4444" stroke-width="1.0" stroke-dasharray="4,4" marker-end="url(#arrowRed)"/>
 
   <!-- Line from GPT-4o to Answer Output -->
