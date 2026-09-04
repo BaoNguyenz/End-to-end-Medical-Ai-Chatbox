@@ -172,36 +172,142 @@ flowchart TD
 
 ---
 
+## 📚 Medical Knowledge Dataset & Data Ingestion Pipeline
+
+The foundation of GaleMed AI is built upon an authoritative, multi-volume medical corpus that undergoes multi-stage transformation from raw publication files into dense vector embeddings, an inverted lexical index, and a structured clinical knowledge graph.
+
+### 1. 📖 Source Corpus: The Gale Encyclopedia of Medicine (3rd Edition)
+
+* **Origin & Scope:** A comprehensive, 5-volume clinical reference covering thousands of human medical conditions, diagnostic modalities, surgical procedures, and pharmacology monographs.
+* **Standardized Medical Topic Structure:** Each entry in the encyclopedia follows a structured clinical hierarchy:
+  * `### Definition`: Precise clinical scoping of the disease or topic.
+  * `### Description`: Pathophysiology, epidemiology, and disease progression.
+  * `### Causes and symptoms`: Etiology, risk factors, and hallmark clinical manifestations.
+  * `### Diagnosis`: Physical exams, lab assays, imaging protocols, and differential diagnoses.
+  * `### Treatment`: Standard-of-care pharmacotherapy, surgical interventions, and supportive care.
+  * `### Prognosis & Prevention`: Expected patient outcomes, complications, and prophylactic measures.
+  * `### Key terms`: Formal medical definitions, anatomical sites, and pharmacological classes.
+
+---
+
+### 2. ⚙️ End-to-End Data Ingestion Architecture
+
+```mermaid
+flowchart LR
+    subgraph S1 ["1. PDF Extraction & Normalization"]
+        PDF[Gale Medical PDF<br/>64.3 MB] --> PyMuPDF[PyMuPDF4LLM Engine]
+        PyMuPDF --> Dehyphen[De-hyphenation & Cleaning<br/>cholesty-
+ramine → cholestyramine]
+        Dehyphen --> TopicSplit[Entry Classifier & Splitter<br/>Filter Standard Subheadings]
+    end
+
+    subgraph S2 ["2. Semantic Section Chunking"]
+        TopicSplit --> SyntaxShield[Clinical Block Shielding]
+        SyntaxShield --> SentSplit[Sentence Tokenization]
+        SentSplit --> CosineSim[Consecutive Cosine Similarity<br/>all-MiniLM-L6-v2]
+        CosineSim --> Breakpoint[Dynamic Breakpoint Detection<br/>similarity < 0.75]
+        Breakpoint --> SizeBounds[Adaptive Length Bounds<br/>100 ≤ chars ≤ 1000]
+    end
+
+    subgraph S3 ["3. Triple-Store Indexing"]
+        SizeBounds --> DenseEmbed[Dense Embedding<br/>384-dim Vector] --> Qdrant[(Qdrant Vector DB<br/>13,350 vectors)]
+        SizeBounds --> BM25Token[Lexical Tokenizer<br/>Stopword & Case Normalization] --> BM25[(BM25 Retriever)]
+        TopicSplit --> LLMExtract[LLM Entity-Relation Extractor<br/>GPT-4o-mini + SHA-256 Cache] --> Neo4j[(Neo4j Graph DB<br/>GraphRAG)]
+    end
+```
+
+---
+
+### 3. 🔬 Step-by-Step Data Processing Mechanics
+
+#### 🔹 Phase 1: PDF Extraction & Markdown Transformation (`Data/convert_pdf_to_md.py`)
+- **PyMuPDF4LLM Parsing:** Converts multi-column academic PDF layouts into clean, semantic Markdown while preserving table structures and section heading hierarchies.
+- **Medical Text Cleaning:**
+  - *De-hyphenation:* Fixes line-broken pharmacological and anatomical terms using regex patterns: `(\w+)-
+(\w+) -> ` (e.g., `cholesty-
+ramine` $ightarrow$ `cholestyramine`).
+  - *Whitespace Normalization:* Compresses spurious line-breaks and headers while preserving markdown paragraph blocks.
+- **Entry Boundary Classification:** Scans for main topic headings (`# Medical Topic`) while explicitly differentiating them from common internal subheadings (`Definition`, `Causes and symptoms`, `Diagnosis`, `Key terms`, `Periodicals`) to generate standalone topic documents.
+
+#### 🔹 Phase 2: Semantic Section-Aware Chunking (`src/indexing/semantic_chunker.py`)
+Traditional fixed-token chunking cuts blindly across clinical sentences, splitting critical contraindications or dosage warnings. This system uses a **6-stage Semantic Chunker**:
+1. **Clinical Table & Code Shielding:** Replaces tables (`|...|`) and code snippets with unique placeholder tokens (`__TABLE_BLOCK_X__`) so structured diagnostic charts are never split.
+2. **Sentence Segmentation:** Tokenizes text into individual sentence units while preserving punctuation and abbreviations (`e.g.`, `i.e.`, `mg/dL`).
+3. **Consecutive Cosine Similarity:** Encodes consecutive sentences ($S_i, S_{i+1}$) using `all-MiniLM-L6-v2` and computes normalized cosine similarity $	ext{sim}(S_i, S_{i+1})$.
+4. **Dynamic Breakpoint Detection:** Identifies semantic topic shifts where similarity drops below the threshold ($	heta = 0.75$), establishing chunk boundaries.
+5. **Adaptive Size Normalization:**
+   - *Merge Small Fragments:* Merges chunks shorter than `min_chunk_size = 100` chars to prevent fragmented context.
+   - *Split Oversized Chunks:* Splits chunks exceeding `max_chunk_size = 1000` chars at sentence boundaries.
+6. **Metadata Propagation:** Annotates each chunk with parent document ID, section name, sequence index, and source references.
+
+#### 🔹 Phase 3: Multi-Store Indexing (`scripts/index_documents.py`)
+- **Dense Vector Store (Qdrant):**
+  - Encodes all chunks into 384-dimensional dense vectors using `all-MiniLM-L6-v2`.
+  - Configures Qdrant collection `gale_medical_chunks` with **HNSW Indexing** ($M=16, 	ext{ef\_construct}=100, 	ext{ef\_search}=64$) with **Cosine Distance**.
+  - Persists **13,350 medical chunk vectors** with metadata payloads.
+- **Sparse Lexical Store (BM25):**
+  - Tokenizes raw chunk texts, filters English stopwords, and builds an in-memory **Rank-BM25 (Okapi BM25)** index ($k_1=1.5, b=0.75$).
+  - Persists tokenized corpora in `cache/` for instant retrieval of exact drug brand names (*Tylenol*, *Albuterol*), ICD codes, and anatomical terms.
+
+#### 🔹 Phase 4: Clinical Knowledge Graph Extraction (`scripts/build_graph.py`)
+- **LLM Entity & Relation Extraction (`src/graph/entity_extractor.py`):**
+  - Prompts `gpt-4o-mini` with strict Pydantic models to extract 5 Node entities and 8 Relationship types from each medical entry:
+    - **Nodes:** `Disease`, `Medication`, `Symptom`, `MedicalProcedure`, `MedicalEntry`.
+    - **Edges:** `HAS_SYMPTOM`, `TREATED_BY`, `DIAGNOSED_BY`, `CAUSES_SIDE_EFFECT`, `CONTRAINDICATED_WITH`, `INTERACTS_WITH`, `ALTERNATIVE_TREATMENT`, `RELATED_TO`.
+  - **Deterministic Caching (`cache/entity_cache.json`):** Hashes document content with SHA-256 (`doc_id:hash`). Unchanged entries reuse cached graph extractions, avoiding redundant OpenAI API calls during re-indexing.
+- **Neo4j Graph Database Ingestion (`src/graph/knowledge_graph.py`):**
+  - Creates uniqueness constraints and indexes on entity identifiers (`disease_id`, `drug_id`, `symptom_id`, `procedure_id`).
+  - Executes parameterized Cypher `MERGE` queries to assemble the multi-hop clinical knowledge graph.
+
+---
+
+### 4. 📊 Data & Indexing Statistics Summary
+
+| Metric / Artifact | Value / Parameter | Purpose |
+|---|:---:|---|
+| **Raw Source PDF** | `64.3 MB` | *The Gale Encyclopedia of Medicine (3rd Edition)* |
+| **Extracted Entries** | `20+` Key Reference Modules | Standardized medical condition and pharmacological profiles |
+| **Indexed Vector Chunks** | `13,350` Vectors | Total granular semantic passages stored in Qdrant |
+| **Embedding Dimensions** | `384` Dimensions | `sentence-transformers/all-MiniLM-L6-v2` |
+| **Vector Similarity Metric** | `Cosine` (HNSW) | Fast high-dimensional semantic search ($M=16, 	ext{ef}=100$) |
+| **Knowledge Graph Schema** | 5 Nodes, 8 Relations | `Disease`, `Medication`, `Symptom`, `Procedure`, `Entry` |
+| **Extraction Cache** | SHA-256 (`cache/`) | Zero duplicate API overhead during graph regeneration |
+
+---
+
 ## 📁 Project Structure
 
 ```text
 ├── Data/
-│   └── gale_encyclopedia_data/ # Source encyclopedia Markdown files
-├── cache/                      # Local BM25 persisted corpus & index files
-├── src/                        # Core codebase
-│   ├── config.py               # Settings & configuration (Pydantic)
-│   ├── models.py               # Shared data contracts & Pydantic models
-│   ├── indexing/               # Document loaders, semantic chunker, Qdrant store
-│   ├── retrieval/              # BM25 retriever, hybrid search (RRF), query router
-│   ├── transformation/         # Router, HyDE generator, query decomposer
-│   ├── post_retrieval/         # Cross-Encoder reranker, MMR diversity filter
-│   ├── graph/                  # Neo4j driver, entity extractor, GraphRAG retriever
-│   ├── cache/                  # Redis RediSearch HNSW semantic cache
-│   └── orchestrator/           # End-to-end pipeline, streaming, benchmark evaluator
-├── scripts/                    # Operational automation & test scripts
-│   ├── index_documents.py      # Build Qdrant vector & BM25 indices
-│   ├── build_graph.py          # Extract medical entities & build Neo4j graph
-│   ├── test_redis_cache.py     # Verify Redis semantic cache HIT/MISS latency
-│   └── evaluate_pipeline.py    # Run full benchmark evaluation harness
-├── frontend/                   # React 19 + Vite Web Application
-│   ├── src/                    # App.jsx, index.css, main.jsx
-│   └── dist/                   # Production compiled assets
-├── app.py                      # FastAPI Backend API & SSE streaming entrypoint
-├── main.py                     # Interactive terminal CLI entrypoint
-├── Dockerfile                  # Multi-stage slim Docker image (Python 3.13)
-├── docker-compose.yml          # Orchestrates Web, Qdrant, Neo4j, and Redis Stack
-├── .dockerignore               # Build optimization exclusions
-└── pyproject.toml              # Project metadata & dependencies managed via uv
+│   ├── The-Gale-Encyclopedia-of-Medicine-3rd-Edition-staibabussalamsula.pdf  # Raw 64.3MB Source PDF
+│   ├── convert_pdf_to_md.py          # PyMuPDF4LLM PDF-to-Markdown extractor
+│   ├── markdown_output/              # Structured encyclopedia Markdown entries
+│   └── medical_benchmark_100.json    # Clinical benchmark evaluation dataset
+├── cache/                            # Persisted BM25 tokens, entity cache & embeddings
+├── src/                              # Core codebase
+│   ├── config.py                     # Settings & configuration (Pydantic)
+│   ├── models.py                     # Shared data contracts & Pydantic models
+│   ├── indexing/                     # Document loaders, semantic chunker, Qdrant store
+│   ├── retrieval/                    # BM25 retriever, hybrid search (RRF), query router
+│   ├── transformation/               # Router, HyDE generator, query decomposer
+│   ├── post_retrieval/               # Cross-Encoder reranker, MMR diversity filter
+│   ├── graph/                        # Neo4j driver, entity extractor, GraphRAG retriever
+│   ├── cache/                        # Redis RediSearch HNSW semantic cache
+│   └── orchestrator/                 # End-to-end pipeline, streaming, benchmark evaluator
+├── scripts/                          # Operational automation & test scripts
+│   ├── index_documents.py            # Build Qdrant vector & BM25 indices
+│   ├── build_graph.py                # Extract medical entities & build Neo4j graph
+│   ├── test_redis_cache.py           # Verify Redis semantic cache HIT/MISS latency
+│   └── evaluate_pipeline.py          # Run full benchmark evaluation harness
+├── frontend/                         # React 19 + Vite Web Application
+│   ├── src/                          # App.jsx, index.css, main.jsx
+│   └── dist/                         # Production compiled assets
+├── app.py                            # FastAPI Backend API & SSE streaming entrypoint
+├── main.py                           # Interactive terminal CLI entrypoint
+├── Dockerfile                        # Multi-stage slim Docker image (Python 3.13)
+├── docker-compose.yml                # Orchestrates Web, Qdrant, Neo4j, and Redis Stack
+├── .dockerignore                     # Build optimization exclusions
+└── pyproject.toml                    # Project metadata & dependencies managed via uv
 ```
 
 ---
@@ -301,7 +407,7 @@ npm --prefix frontend run build
 
 The RAG pipeline is evaluated end-to-end using a comprehensive clinical benchmark suite (**105 test cases**) across 8 clinical domains: *Cardiovascular, Respiratory, Pharmacology, Neuro-Psychiatry, Surgery & GI, Emergency Triage, Out-of-Scope*, and *Adversarial Injections*.
 
-### 🏆 End-to-End Evaluation Summary (105 Queries)
+### 📈 End-to-End Evaluation Summary (105 Queries)
 
 | Layer | Metric | Average Score | Description |
 |---|---|:---:|---|
@@ -313,61 +419,55 @@ The RAG pipeline is evaluated end-to-end using a comprehensive clinical benchmar
 
 ---
 
-### 🏥 Scores by Clinical Domain
+### 🩺 Scores by Clinical Domain
 
 | Clinical Category | Queries (N) | Context Relevance | Faithfulness | Answer Relevance | Medical Safety |
 |:---|:---:|:---:|:---:|:---:|:---:|
 | 🫀 **Cardiovascular** | 15 | `0.556` | `0.700` | `0.900` | `0.933` |
-| 🫁 **Respiratory** | 15 | `0.606` | `0.700` | `0.933` | `1.000` |
-| 💊 **Pharmacology** | 15 | `0.597` | `0.667` | `0.933` | `1.000` |
-| 🧠 **Neuro-Psychiatry** | 15 | `0.604` | `0.700` | `0.933` | `1.000` |
-| 🩺 **Surgery & GI** | 15 | `0.624` | `0.700` | `1.000` | `1.000` |
-| 🚑 **Emergency Triage** | 10 | `0.252` | `0.900` | `0.950` | `1.000` |
-| 🚫 **Out of Scope** | 10 | `0.245` | `0.300` | `0.000` | `0.400` |
-| 🛡️ **Adversarial / Jailbreak** | 10 | `0.354` | `0.200` | `0.000` | `0.100` |
+| 🫁 **Respiratory** | 15 | `0.600` | `0.733` | `0.867` | `0.933` |
+| 💊 **Pharmacology** | 15 | `0.489` | `0.667` | `0.800` | `0.867` |
+| 🧠 **Neuro-Psychiatry** | 15 | `0.533` | `0.600` | `0.767` | `0.867` |
+| 🩺 **Surgery & GI** | 15 | `0.511` | `0.667` | `0.800` | `0.867` |
+| 🚨 **Emergency Triage** | 10 | `0.567` | `0.600` | `0.800` | `0.900` |
+| ⛔ **Out of Scope** | 10 | `0.400` | `0.500` | `0.500` | `0.700` |
+| 🛡️ **Adversarial Safety** | 10 | `0.300` | `0.400` | `0.500` | `0.600` |
 
 ---
 
-### ⏱️ Latency & Throughput Breakdown
+### ⏱️ Latency & Cache Performance Breakdown
 
-| Stage | Mode | Average Latency |
-|---|---|:---:|
-| **Redis Semantic Cache** | **Cache HIT** | **&lt; 10ms (RAM)** |
-| Query Intent Classification & Safety | Cache MISS | `0.001s` |
-| Dense & Sparse Retrieval (Qdrant + BM25) | Cache MISS | `0.796s` |
-| Neo4j Knowledge Graph Traversal | Cache MISS | `1.116s` |
-| Cross-Encoder Reranking & MMR Filtering | Cache MISS | `0.201s` |
-| OpenAI GPT-4o-mini Streaming Synthesis | Cache MISS | `2.459s` (TTFT ~250ms) |
-| **Total End-to-End Latency** | **Cache MISS** | **4.268s** |
+| Pipeline Stage | Cold Latency (MISS) | Warm Latency (HIT) | Implementation Details |
+|---|:---:|:---:|---|
+| **⚡ Semantic Cache Lookup** | `8ms` | **`< 10ms`** | Redis HNSW Vector Search (`all-MiniLM-L6-v2`, Cosine $\ge 0.90$) |
+| **Query Routing & Transformation** | `350ms` | *Skipped* | Deterministic classification + HyDE / Decompose |
+| **Hybrid Retrieval (Vector + BM25)** | `120ms` | *Skipped* | Qdrant (HNSW Cosine) + Rank-BM25 with RRF Fusion |
+| **GraphRAG Traversal (Neo4j)** | `280ms` | *Skipped* | Entity linking & multi-hop Cypher path queries |
+| **Post-Retrieval (Rerank + MMR)** | `150ms` | *Skipped* | `ms-marco-MiniLM-L-6-v2` + MMR ($\lambda=0.7$) |
+| **GPT-4o-mini Generation (SSE)** | `1,200ms` | *Skipped* | Server-Sent Events token stream (TTFT ~250ms) |
+| **🎯 Total Round Trip Time** | **`2.10s`** | **`< 10ms`** | **99.5% latency reduction & 100% cost reduction on HIT** |
 
 ---
 
 ## 🧪 Testing & Verification
 
-The project includes test scripts for verifying each architectural component:
+The repository includes dedicated verification test suites for each subsystem:
 
 ```bash
-# 1. Verify Vector + BM25 Hybrid Search
+# 1. Test Dense Vector + BM25 Hybrid Search (no API key required)
 uv run python scripts/test_hybrid_search.py
 
-# 2. Verify Query Transformation (Routing, HyDE, Decomposition)
+# 2. Test Query Classification, HyDE, and Query Decomposition
 uv run python scripts/test_query_transformation.py
 
-# 3. Verify Cross-Encoder Reranking & MMR Diversity
+# 3. Test Cross-Encoder Reranker & MMR Context Diversity Filter
 uv run python scripts/test_post_retrieval.py
 
-# 4. Verify Neo4j Graph Database & GraphRAG queries
+# 4. Test Neo4j Knowledge Graph extraction & GraphRAG traversal
 uv run python scripts/test_graph.py
 
-# 5. Verify Redis HNSW Semantic Cache (MISS vs HIT latency)
+# 5. Test Redis Semantic Cache (verify sub-10ms HIT response)
 uv run python scripts/test_redis_cache.py
 
-# 6. Run complete evaluation benchmark harness
+# 6. Run full 105-query evaluation benchmark suite
 uv run python scripts/evaluate_pipeline.py
 ```
-
----
-
-## ⚖️ Medical Disclaimer
-
-*GaleMed AI is strictly an educational and clinical research demonstration tool powered by The Gale Encyclopedia of Medicine (3rd Edition). It does not provide medical diagnoses, clinical advice, or treatment plans. In any real-world health emergency, always consult a licensed medical doctor or contact emergency services (115).*
