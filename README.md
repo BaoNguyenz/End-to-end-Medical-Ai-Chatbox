@@ -138,51 +138,9 @@ ramine → cholestyramine]
 
 ---
 
-### 3. 🔬 Step-by-Step Data Processing Mechanics
-
-#### 🔹 Phase 1: PDF Extraction & Markdown Transformation (`Data/convert_pdf_to_md.py`)
-- **PyMuPDF4LLM Parsing:** Converts multi-column academic PDF layouts into clean, semantic Markdown while preserving table structures and section heading hierarchies.
-- **Medical Text Cleaning:**
-  - *De-hyphenation:* Fixes line-broken pharmacological and anatomical terms using regex patterns: `(\w+)-
-(\w+) -> ` (e.g., `cholesty-
-ramine` $
-ightarrow$ `cholestyramine`).
-  - *Whitespace Normalization:* Compresses spurious line-breaks and headers while preserving markdown paragraph blocks.
-- **Entry Boundary Classification:** Scans for main topic headings (`# Medical Topic`) while explicitly differentiating them from common internal subheadings (`Definition`, `Causes and symptoms`, `Diagnosis`, `Key terms`, `Periodicals`) to generate standalone topic documents.
-
-#### 🔹 Phase 2: Semantic Section-Aware Chunking (`src/indexing/semantic_chunker.py`)
-Traditional fixed-token chunking cuts blindly across clinical sentences, splitting critical contraindications or dosage warnings. This system uses a **6-stage Semantic Chunker**:
-1. **Clinical Table & Code Shielding:** Replaces tables (`|...|`) and code snippets with unique placeholder tokens (`__TABLE_BLOCK_X__`) so structured diagnostic charts are never split.
-2. **Sentence Segmentation:** Tokenizes text into individual sentence units while preserving punctuation and abbreviations (`e.g.`, `i.e.`, `mg/dL`).
-3. **Consecutive Cosine Similarity:** Encodes consecutive sentences ($S_i, S_{i+1}$) using `all-MiniLM-L6-v2` and computes normalized cosine similarity $	ext{sim}(S_i, S_{i+1})$.
-4. **Dynamic Breakpoint Detection:** Identifies semantic topic shifts where similarity drops below the threshold ($	heta = 0.75$), establishing chunk boundaries.
-5. **Adaptive Size Normalization:**
-   - *Merge Small Fragments:* Merges chunks shorter than `min_chunk_size = 100` chars to prevent fragmented context.
-   - *Split Oversized Chunks:* Splits chunks exceeding `max_chunk_size = 1000` chars at sentence boundaries.
-6. **Metadata Propagation:** Annotates each chunk with parent document ID, section name, sequence index, and source references.
-
-#### 🔹 Phase 3: Multi-Store Indexing (`scripts/index_documents.py`)
-- **Dense Vector Store (Qdrant):**
-  - Encodes all chunks into 384-dimensional dense vectors using `all-MiniLM-L6-v2`.
-  - Configures Qdrant collection `gale_medical_chunks` with **HNSW Indexing** ($M=16, 	ext{ef\_construct}=100, 	ext{ef\_search}=64$) with **Cosine Distance**.
-  - Persists **13,350 medical chunk vectors** with metadata payloads.
-- **Sparse Lexical Store (BM25):**
-  - Tokenizes raw chunk texts, filters English stopwords, and builds an in-memory **Rank-BM25 (Okapi BM25)** index ($k_1=1.5, b=0.75$).
-  - Persists tokenized corpora in `cache/` for instant retrieval of exact drug brand names (*Tylenol*, *Albuterol*), ICD codes, and anatomical terms.
-
-#### 🔹 Phase 4: Clinical Knowledge Graph Extraction (`scripts/build_graph.py`)
-- **LLM Entity & Relation Extraction (`src/graph/entity_extractor.py`):**
-  - Prompts `gpt-4o-mini` with strict Pydantic models to extract 5 Node entities and 8 Relationship types from each medical entry:
-    - **Nodes:** `Disease`, `Medication`, `Symptom`, `MedicalProcedure`, `MedicalEntry`.
-    - **Edges:** `HAS_SYMPTOM`, `TREATED_BY`, `DIAGNOSED_BY`, `CAUSES_SIDE_EFFECT`, `CONTRAINDICATED_WITH`, `INTERACTS_WITH`, `ALTERNATIVE_TREATMENT`, `RELATED_TO`.
-  - **Deterministic Caching (`cache/entity_cache.json`):** Hashes document content with SHA-256 (`doc_id:hash`). Unchanged entries reuse cached graph extractions, avoiding redundant OpenAI API calls during re-indexing.
-- **Neo4j Graph Database Ingestion (`src/graph/knowledge_graph.py`):**
-  - Creates uniqueness constraints and indexes on entity identifiers (`disease_id`, `drug_id`, `symptom_id`, `procedure_id`).
-  - Executes parameterized Cypher `MERGE` queries to assemble the multi-hop clinical knowledge graph.
-
 ---
 
-### 4. 📊 Data & Indexing Statistics Summary
+### 3. 📊 Data & Indexing Statistics Summary
 
 | Metric / Artifact | Value / Parameter | Purpose |
 |---|:---:|---|
