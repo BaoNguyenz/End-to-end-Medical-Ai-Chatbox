@@ -67,7 +67,7 @@ The system operates on an authentic **Dual-Pipeline Architecture** separating **
 | **Graph Database** | Neo4j (`neo4j:5-community`) | Medical Knowledge Graph capturing multi-hop relationships (Diseases, Medications, Symptoms, Procedures). |
 | **Semantic Cache** | Redis Stack (`redis/redis-stack-server`) | RediSearch in-memory HNSW vector index for sub-10ms query deduplication. |
 | **Keyword Search** | BM25 (`rank-bm25`) | Classical lexical search for exact medical terminologies, drug brands, and anatomical terms. |
-| **Embeddings & Reranking** | SentenceTransformers (`all-MiniLM-L6-v2`, `cross-encoder/ms-marco-MiniLM-L-6-v2`) | Local dense embedding generation and Cross-Encoder passage reranking. |
+| **Embeddings & Reranking** | SentenceTransformers (`all-MiniLM-L6-v2`) | Local dense embedding generation and Cross-Encoder passage reranking. |
 | **Orchestration / LLM** | OpenAI API (`gpt-4o-mini`), LangChain | Clinical intent classification, query decomposition, HyDE, and real-time streaming generation. |
 | **Backend Framework** | FastAPI, Uvicorn (Python 3.13) | Production-ready asynchronous API server with Server-Sent Events (SSE) streaming endpoints. |
 | **Frontend UI** | React 19, Vite, Tailwind CSS | Modern clinical dashboard with real-time token streaming, cache telemetry, and source inspection. |
