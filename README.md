@@ -63,7 +63,7 @@ The knowledge base is constructed from verified medical encyclopedias and clinic
 | :--- | :---: | :--- |
 | **Medical Reference Documents** | **292** entries | Disease (107), Drug (54), General (84), Procedure (34), Test (13) |
 | **Indexed Vector Chunks** | **13,350** chunks | Semantic-chunked (avg. 164 chars) with normalized embeddings |
-| **Vector Store Collection** | `enterprise_docs` | Qdrant HNSW Index (M=16, ef_construct=100)
+| **Vector Store Collection** | medical_docs | Qdrant HNSW Index (M=16, ef_construct=100)
 | **Graph Entities (Nodes)** | **1,465** nodes | Disease (288), Medication (333), Symptom (508), Procedure (99), Entry (237) |
 | **Graph Relationships (Edges)** | **441** relations | `TREATS`, `HAS_SYMPTOM`, `REQUIRES_PROCEDURE`, `BELONGS_TO` |
 
