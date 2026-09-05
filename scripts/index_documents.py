@@ -10,9 +10,13 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+# pyrefly: ignore [missing-import]
 from src.config import settings
+# pyrefly: ignore [missing-import]
 from src.indexing.document_loader import load_all_documents
+# pyrefly: ignore [missing-import]
 from src.indexing.semantic_chunker import SemanticChunker
+# pyrefly: ignore [missing-import]
 from src.indexing.vector_store import VectorStore
 
 
