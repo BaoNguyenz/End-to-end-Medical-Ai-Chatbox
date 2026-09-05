@@ -36,7 +36,6 @@ cache/
 
 # === Dev & test files ===
 RAG1/
-scripts/
 tests/
 document_implement_plan/
 

@@ -85,7 +85,9 @@ services:
       - ./Data:/app/Data
       - ./cache:/app/cache
       - ./src:/app/src
+      - ./scripts:/app/scripts
       - ./app.py:/app/app.py
+      - ./main.py:/app/main.py
       - ./frontend/dist:/app/frontend/dist
     depends_on:
       qdrant:
