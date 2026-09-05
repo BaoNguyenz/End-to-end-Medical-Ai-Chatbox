@@ -45,15 +45,12 @@ The system operates on an authentic **Dual-Pipeline Architecture** separating **
 
 ## 🌟 Key Features
 
-*   **⚡ L1 Redis Semantic Caching:** Pre-checks user questions against past queries using vector similarity ($\text{threshold} \ge 0.92$). Repeated or paraphrased queries are answered in **$<10\text{ ms}$** without querying LLMs or databases.
-*   **🧬 Medical Knowledge Graph (Neo4j GraphRAG):** Extracts and models complex relationships between diseases, drugs, symptoms, and surgical procedures. Solves multi-hop medical queries (e.g., *"Which antibiotics treat infections associated with appendicitis complications?"*).
-*   **🔍 Hybrid Search with Reciprocal Rank Fusion (RRF):** Combines dense semantic retrieval (**Qdrant HNSW**) with exact medical keyword matching (**BM25**) to accurately match both symptom descriptions and strict pharmaceutical names or ICD/clinical terms.
-*   **🎯 Cross-Encoder Precision Reranking:** Re-scores retrieved candidate passages using `cross-encoder/ms-marco-MiniLM-L-6-v2` to filter out irrelevant context and maximize answer faithfulness.
-*   **🔄 Query Transformation:**
-    *   **HyDE (Hypothetical Document Embeddings):** Expands short clinical questions into hypothetical medical summaries before vector search.
-    *   **Query Decomposition:** Breaks multi-faceted clinical scenarios into modular sub-queries.
-*   **📊 Clinical Evidence Citations:** Answers strictly ground each claim with verifiable document source IDs, sections, and relevance scores.
-
+*   **⚡ L1 Redis Semantic Cache:** Cosine similarity ($\ge 0.92$) • Sub-10ms latency • Zero-cost query reuse.
+*   **🧬 Neo4j GraphRAG:** Multi-hop reasoning • 1,465 entities (Disease, Drug, Symptom) • 441 relationships.
+*   **🔍 Hybrid Search & RRF:** Dense Vector (Qdrant HNSW) + Sparse Lexical (BM25) • Reciprocal Rank Fusion ($k=60$).
+*   **🎯 Cross-Encoder Reranker:** Precision passage scoring (`ms-marco-MiniLM-L-6-v2`) • MMR diversity filter.
+*   **🔄 Query Transformation:** HyDE (Hypothetical Embeddings) • Multi-query Decomposition • Intent Routing.
+*   **📊 Clinical Grounding:** Verifiable document IDs • Section-level citations • Strict zero-hallucination prompt.
 ---
 
 ## 📊 Dataset & Knowledge Graph Statistics
@@ -66,7 +63,7 @@ The knowledge base is constructed from verified medical encyclopedias and clinic
 | :--- | :---: | :--- |
 | **Medical Reference Documents** | **292** entries | Disease (107), Drug (54), General (84), Procedure (34), Test (13) |
 | **Indexed Vector Chunks** | **13,350** chunks | Semantic-chunked (avg. 164 chars) with normalized embeddings |
-| **Vector Store Collection** | `enterprise_docs` | Qdrant HNSW Index ($M=16, \text{ef\_construct}=100$) |
+| **Vector Store Collection** | `enterprise_docs` | Qdrant HNSW Index (M=16, ef_construct=100)
 | **Graph Entities (Nodes)** | **1,465** nodes | Disease (288), Medication (333), Symptom (508), Procedure (99), Entry (237) |
 | **Graph Relationships (Edges)** | **441** relations | `TREATS`, `HAS_SYMPTOM`, `REQUIRES_PROCEDURE`, `BELONGS_TO` |
 
