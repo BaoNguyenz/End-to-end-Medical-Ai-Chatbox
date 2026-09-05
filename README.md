@@ -34,78 +34,13 @@
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ Architecture Overview
 
-The end-to-end architecture integrates an offline ingestion and knowledge-graph pipeline with a multi-stage online retrieval engine:
+The system operates on an authentic **Dual-Pipeline Architecture** separating **Offline Medical Knowledge Ingestion** from **Online Real-Time Clinical Retrieval & Generation**:
 
-```mermaid
-flowchart TD
-    %% Theme Styling
-    classDef storage fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#0d47a1;
-    classDef action fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#1b5e20;
-    classDef routing fill:#fffde7,stroke:#fbc02d,stroke-width:2px,color:#f57f17;
-    classDef input fill:#ffe0b2,stroke:#fb8c00,stroke-width:2px,color:#e65100;
-    classDef output fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#4a148c;
-    classDef cache fill:#ffebee,stroke:#e53935,stroke-width:2px,color:#b71c1c;
-
-    subgraph INGESTION ["1. OFFLINE DATA INGESTION & GRAPH PIPELINE"]
-        Docs[292 Medical Documents] --> Chunk[Semantic Chunking\nall-MiniLM-L6-v2]
-        
-        %% Vector & BM25
-        Chunk -->|13,350 Chunks| Embed[Dense Embeddings] --> VecDB[(Qdrant Vector DB\nHNSW Collection)]
-        Chunk -->|13,350 Chunks| BuildBM25[Sparse Tokenization] --> BM25DB[(BM25 In-Memory Index)]
-        
-        %% GraphRAG
-        Docs --> GraphExtract[Medical Entity & Relation Extraction\nDiseases, Drugs, Symptoms] --> GraphDB[(Neo4j Graph DB\nKnowledge Graph)]
-    end
-
-    subgraph RETRIEVAL ["2. ONLINE MULTI-TIER RETRIEVAL PIPELINE"]
-        Q([👤 User Clinical Query]) --> CacheCheck{Redis Semantic Cache\nCosine Sim >= 0.92}
-        
-        %% Cache Hit
-        CacheCheck -- "⚡ Cache Hit (<10ms)" --> InstantAns([Direct Cached Response])
-        
-        %% Cache Miss
-        CacheCheck -- "Cache Miss" --> Router{Query Router}
-        
-        %% Vector / Hybrid Search
-        Router -- "Hybrid Search" --> QTrans[Query Transformation]
-        QTrans --> HyDE[HyDE - Hypothetical Clinical Doc]
-        QTrans --> Decompose[Query Decomposition]
-        
-        HyDE & Decompose --> SearchEngine(Hybrid Fusion Engine)
-        SearchEngine --> |Dense Vector Search| VecDB
-        SearchEngine --> |Sparse Lexical Search| BM25DB
-        
-        VecDB & BM25DB --> RRF[Reciprocal Rank Fusion\nRRF k=60]
-        RRF --> |Top 50 Chunks| Merge[Candidate Aggregator]
-
-        %% GraphRAG
-        Router -- "GraphRAG" --> GraphSearch[Graph Entity Linker & Traversal]
-        GraphSearch --> |Multi-Hop Traversal| GraphDB
-        GraphDB --> |Top 10 Entities & Paths| Merge
-
-        %% Post-Retrieval Pipeline
-        Merge --> |60 Chunks| Rerank[Cross-Encoder Reranker\nms-marco-MiniLM-L-6-v2]
-        Rerank --> |Top 20 Chunks| MMR[MMR Context Diversity Filter]
-        MMR --> |Top 10 Verified Chunks| Context[Clinical Evidence Context]
-    end
-
-    subgraph GENERATION ["3. GENERATION & CACHING"]
-        Context --> Assemble[Prompt Assembly with Grounding Guidelines]
-        Assemble --> LLM[OpenAI GPT-4o-mini Generator]
-        LLM --> SaveCache[(Save to Redis Semantic Cache)]
-        LLM --> Ans([✨ Clinical Answer with Citations])
-    end
-
-    class VecDB,BM25DB,GraphDB storage;
-    class SaveCache cache;
-    class Chunk,Embed,BuildBM25,GraphExtract,RRF,Rerank,MMR,GraphSearch,Assemble,Merge action;
-    class Router,QTrans,HyDE,Decompose,CacheCheck routing;
-    class Q input;
-    class LLM,Ans,InstantAns output;
-```
-
+<p align="center">
+  <img src="docs/architecture.svg" alt="GaleMed AI Dual-Pipeline System Architecture" width="100%" />
+</p>
 ---
 
 ## 🌟 Key Features
