@@ -1,0 +1,154 @@
+# Anti-insomnia drugs
+
+
+### Definition 
+
+Anti-insomnia drugs are medicines that help people fall asleep or stay asleep. 
+
+### Purpose 
+
+Physicians prescribe anti-insomnia drugs for shortterm treatment of insomnia—a sleep problem in which people have trouble falling asleep or staying asleep or wakeuptooearlyandcan’tgobacktosleep.Thesedrugs should be used only for occasional treatment of temporarysleepproblemsandshouldnotbetakenformorethan aweekortwoatatime.Peoplewhosesleepproblemslast longer than this should see a physician. Their sleep problems could be a sign of another medical problem. 
+
+### Description 
+
+The anti-insomnia drug described here, zolpidem (Ambien), is a classified as a central nervous system (CNS) depressant. CNS depressants are medicines that slow the nervous system. Physicians also prescribe medicines in the benzodiazepine family, such as flurazepam (Dalmane), quazepam (Doral), triazolam (Halcion), estazolam (ProSom), and temazepam (Restoril), for insomnia. Benzodiazepine drugs are described in the essay on antianxiety drugs. Zaleplon (Sonata) is another anti-insomnia drug that is not related to other drugs with the same effect. The barbiturates, such as pentobarbital (Nembutal) and secobarbital (Seconal) are no longer commonly used to treat insomnia because they are too dangerous if they are taken in overdoses. For patients with mild insomnia, some antihistamines, such as diphenhydramine (Benadryl) or hydroxyzine (Atarax) may be used, since these also cause sleepiness. 
+
+Zolpidem is available only with a physician’s prescription and comes in tablet form. 
+
+317 
+
+G A L E E N C Y C L O P E D I A O F M E D I C I N E 
+
+### Precautions 
+
+Anti-Insomnia Drugs Brand Name (Generic Possible Common Side Effects Include: Name) Ambien (zolpidem tartrate) Daytime drowsiness, dizziness, headache Dalmane (flurazepam Decreased coordination, lightheadedness, hydrochloride) dizziness Doral (quazepam) Daytime drowsiness, headache, dry mouth, fatigue Halcion (triazolam) Decreased coordination, chest pain, memory impairment ProSom (estazolam) Dizziness, headache, nausea, weakness Restoril (temazepam) Dizziness, fatigue, nausea, headache, sluggishness 
+
+## KEY TERMS 
+
+Asthma—A disease in which the air passages of the lungs become inflamed and narrowed. 
+
+Bronchitis—Inflammation of the air passages of the lungs. 
+
+Emphysema—A lung disease in which breathing becomes difficult. 
+
+Hallucination—A false or distorted perception of objects, sounds, or events that seems real. Hallucinations usually result from drugs or mental disorders. 
+
+Sleep apnea—A condition in which a person temporarily stops breathing during sleep. 
+
+Withdrawal symptoms—A group of physical or mental symptoms that may occur when a person suddenly stops using a drug to which he or she has become dependent. 
+
+### Recommended dosage 
+
+The recommended dose for adults is 5-10 mg just before bedtime. The medicine works quickly, often within 20 minutes, so it should be taken right before going to bed. 
+
+For older people and others who may be more sensitive to the drug’s effects, the recommended starting dosage is 5 mg just before bedtime. 
+
+Zolpidem may be taken with food or on an empty stomach, but it may work faster when taken on an empty stomach. Check with a physician or pharmacists for instructions on how to take the medicine. 
+
+Zolpidem is meant only for short-term treatment of insomnia. If sleep problems last more than seven to 10 days, check with a physician. Longer-lasting sleep problems could be a sign of another medical problem. Also, this drug may lose its effectiveness when taken every night for more than a few weeks. 
+
+Some people feel drowsy, dizzy, confused, lightheaded, or less alert the morning after they have taken zolpidem. The medicine may also cause clumsiness, unsteadiness, double vision, or other vision problems the next day. For these reasons, anyone who takes these drugs should not drive, use machines or do anything else that might be dangerous until they have found out how zolpidem affects them. 
+
+This medicine has caused cause behavior changes in some people, similar to those seen in people whose behavior changes when they drink alcohol. Examples include giddiness and rage. More extreme changes, such as confusion, agitation, and hallucinations, also are possible. Anyone who starts having strange or unusual thoughts or behavior while taking this medicine should get in touch with his or her physician. 
+
+Zolpidem and other sleep medicines may cause a special type of temporary memory loss, in which the person does not remember what happens between the time they take the medicine and the time its effects wear off. This is usually not a problem, because people go to sleep right after taking the medicine and stay asleep until its effects wear off. But it could be a problem for anyone who has to wake up before getting a full night’s sleep (seven to eight hours). In particular, travelers should not take this medicine on airplane flights of less than seven to eight hours. 
+
+Because zolpidem works work on the central nervous system, it may add to the effects of alcohol and other drugs that slow down the central nervous system, such as antihistamines, cold medicine, allergy medicine, medicine for seizures, tranquilizers, some pain relievers, and muscle relaxants. Zolpidem may also add to the effects of anesthetics, including those used for dental procedures. The combined effects of zolpidem and alcohol or other CNS depressants (drugs that slow the central nervous system) can be very dangerous, leading to unconsciousness or even death. People who take zolpidem should not drink alcohol and should check with their physicians before taking any other CNS depressant. Anyone who shows signs of an overdose or of the effects of combining zolpidem drugs with alcohol or other drugs should have immediate emergency help. Warning signs include 
+
+318 
+
+G A L E E N C Y C L O P E D I A O F M E D I C I N E 
+
+severe drowsiness, severe nausea or vomiting, breathing problems, and staggering. 
+
+Anyone who takes zolpidem for more than 1–2 weeks should not stop taking it without first checking with a physician. Stopping the drug abruptly may cause rebound insomnia; increased difficulty falling asleep for the first one of two nights after the drug has been discontinued. In rare cases, withdrawal symptoms, such as vomiting, cramps, and unpleasant feelings may occur. Gradual tapering may be necessary. 
+
+Older people may be more sensitive to the effects of zolpidem. This may increase the chance of side effects, such as confusion, and may also increase the risk of falling. 
+
+In people with breathing problems, zolpidem may worsen the symptoms. 
+
+USE OF CERTAIN MEDICINES. Taking zolpidem with certain other drugs may affect the way the drugs work or may increase the chance of side effects. 
+
+### Side effects 
+
+The most common minor side effects are daytime drowsiness or a ‘‘drugged’’ feeling, vision problems, memory problems, nightmares or unusual dreams, vomiting, nausea, abdominal or stomach pain, diarrhea, dry mouth, headache, and general feeling of discomfort or illness. These problems usually go away as the body adjusts to the drug and do not require medical treatment. 
+
+More serious side effects are not common, but may occur. If any of the following side effects occur, check with the physician who prescribed the medicine as soon as possible: 
+
+- Confusion 
+
+#### Special conditions 
+
+People with certain other medical conditions or who are taking certain other medicines can have problems if they take zolpidem. Before taking this medicine, be sure to let the physician know about any of these conditions: 
+
+ALLERGIES. Anyone who has had unusual reactions to zolpidem in the past should let his or her physician know before taking the drugs again. The physician should also be told about any allergies to foods, dyes, preservatives, or other substances. 
+
+PREGNANCY. Women who are pregnant or who may become pregnant should check with their physicians about the safety of using zolpidem during pregnancy. 
+
+BREASTFEEDING. Women who are breastfeeding should check with their physicians before using zolpidem. 
+
+OTHER MEDICAL CONDITIONS. Before using zolpidem, people with any of these medical problems should make sure their physicians are aware of their conditions: 
+
+- Chronic lung diseases (emphysema, asthma, or chronic bronchitis) 
+
+- Liver disease 
+
+- Kidney disease 
+
+- Current or past alcohol or drug abuse 
+
+- Depression 
+
+- Sleep apnea 
+
+- Depression 
+
+- Clumsiness or unsteadiness 
+
+Patients who take zolpidem may notice side effects for several weeks after they stop taking the drug. They should check with their physicians if these or other troublesome symptoms occur: 
+
+- Agitation, nervousness, feelings of panic 
+
+- Uncontrolled crying 
+
+- Worsening of mental or emotional problems 
+
+- Seizures 
+
+- Tremors 
+
+- Lightheadedness 
+
+- Sweating 
+
+- Flushing 
+
+- Nausea or abdominal or stomach cramps 
+
+- Muscle cramps 
+
+- Unusual tiredness or weakness 
+
+Other rare side effects may occur. Anyone who has unusual symptoms after taking zolpidem should get in touch with his or her physician. 
+
+### Interactions 
+
+Zolpidem may interact with other medicines. When this happens, the effects of one or both of the drugs may change or the risk of side effects may be greater. Anyone who takes zolpidem should let the physician know all other medicines he or she is 
+
+319 
+
+G A L E E N C Y C L O P E D I A O F M E D I C I N E 
+
+taking. Among the drugs that may interact with zolpidem are: 
+
+- Other central nervous system (CNS) depressants such as medicine for allergies, colds, hay fever, and asthma; sedatives; tranquilizers; prescription pain medicine; muscle relaxants; medicine for seizures; barbiturates; and anesthetics. 
+
+- The major tranquilizer chlorpromazine (Thorazine). 
+
+## KEY TERMS 
+
+Anesthesia—Treatment with medicine that causes a loss of feeling, especially pain. Local anesthesia numbs only part of the body; general anesthesia causes loss of consciousness. 
+
+Antihistamine—Medicine that prevents or relieves allergy symptoms. 
+
+- Tricyclic antidepressants such as imipramine (Tofranil) and amitriptyline (Elavil). 

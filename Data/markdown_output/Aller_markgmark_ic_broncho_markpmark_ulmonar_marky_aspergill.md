@@ -1,0 +1,124 @@
+# Aller <mark>g</mark> ic broncho <mark>p</mark> ulmonar <mark>y aspergillosis</mark>
+
+
+### Definition 
+
+Allergic bronchopulmonary aspergillosis, or ABPA, is one of four major types of infections in humans caused by Aspergillus fungi. ABPA is a hypersensitivity reaction that occurs in asthma patients who are allergic to this specific fungus. 
+
+### Description 
+
+ABPA is an allergic reaction to a species of Aspergillus called Aspergillus fumigatus. It is sometimes grouped together with other lung disorders characterized by eosinophilia–an abnormal increase of a certain type of white blood cell in the blood– under the heading of eosinophilic pneumonia. These disorders are also called hypersensitivity lung diseases. 
+
+ABPA appears to be increasing in frequency in the United States, although the reasons for the increase are not clear. The disorder is most likely to occur in adult asthmatics aged 20-40. It affects males and females equally. 
+
+### Causes and symptoms 
+
+ABPA develops when the patient breathes air containing Aspergillus spores. These spores are found worldwide, especially around riverbanks, marshes, bogs, forests, and wherever there is wet or decaying vegetation. They are also found on wet paint, construction materials, and in air conditioning systems. ABPA is a nosocomial infection, which means that a patient can get it in a hospital. When Aspergillus spores reach the bronchi, which are the branches of the windpipe that lead into the lungs, the bronchi react by contracting spasmodically. So the patient has difficulty breathing and usually wheezes or coughs. Many patients with ABPA also run a low-grade fever and lose their appetites. 
+
+#### Complications 
+
+Patients with ABPA sometimes cough up large amounts of blood, a condition that is called hemoptysis. They may also develop a serious long-term form of bronchiectasis, the formation of fibrous tissue in the lungs. Bronchiectasis is a chronic bronchial disorder caused by repeated inflammation of the airway, and 
+
+## KEY TERMS 
+
+Antifungal—A medicine used to treat infections caused by a fungus. 
+
+Antigen—A substance that stimulates the production of antibodies. 
+
+Bronchiectasis—A disorder of the bronchial tubes marked by abnormal stretching, enlargement, or destruction of the walls. Bronchiectasis is usually caused by recurrent inflammation of the airway and is a diagnostic criterion of ABPA. 
+
+Bronchodilator— A medicine used to open up the bronchial tubes (air passages) of the lungs. 
+
+Eosinophil—A type of white blood cell containing granules that can be stained by eosin (a chemical that produces a red stain). 
+
+Eosinophilia—An abnormal increase in the number of eosinophils in the blood. 
+
+Hemoptysis—The coughing up of large amounts of blood. Hemoptysis can occur as a complication of ABPA. 
+
+Hypersensitivity—An excessive response by the body to a foreign substance. 
+
+Immunoglobulin E (IgE)—A type of protein in blood plasma that acts as an antibody to activate allergic reactions. About 50% of patients with allergic disorders have increased IgE levels in their blood serum. 
+
+Nosocomial infection—An infection that can be acquired in a hospital. ABPA is a nosocomial infection. 
+
+Precipitin—An antibody in blood that combines with an antigen to form a solid that separates from the rest of the blood. 
+
+Spirometer—An instrument used to test a patient’s lung capacity. 
+
+‘‘Wheal and flare’’ reaction—A rapid response to a skin allergy test characterized by the development of a red, itching spot in the area where the allergen was injected. 
+
+Wheezing—A whistling or musical sound caused by tightening of the air passages inside the patient’s chest. 
+
+marked by the abnormal enlargement of, or damage to, the bronchial walls. ABPA sometimes occurs as a complication of cystic fibrosis. 
+
+114 
+
+G A L E E N C Y C L O P E D I A O F M E D I C I N E 
+
+### Diagnosis 
+
+The diagnosis of ABPA is based on a combination of the patient’s history and the results of blood tests, sputum tests, skin tests, and diagnostic imaging. The doctor will be concerned to distinguish between ABPA andaworseningofthepatient’s asthma, cysticfibrosis,or other lung disorders. There are seven major criteria for a diagnosis of allergic bronchopulmonary aspergillosis: 
+
+- a history of asthma. 
+
+- an accumulation of fluid in the lung that is visible on a chest x ray. 
+
+- bronchiectasis (abnormal stretching, enlarging, or destruction of the walls of the bronchial tubes). 
+
+- skin reaction to Aspergillus antigen. 
+
+- eosinophilia in the patient’s blood and sputum. 
+
+- Aspergillus precipitins in the patient’s blood. Precipitins are antibodies that react with the antigen to form a solid that separates from the rest of the solution in the test tube. 
+
+- � a high level of IgE in the patient’s blood. IgE refers to a class of antibodies in blood plasma that activate allergic reactions to foreign particles. 
+
+Other criteria that may be used to support the diagnosis include the presence of Aspergillus in samples of the patient’s sputum, the coughing up of plugs of brown mucus, or a late skin reaction to the Aspergillus antigen. 
+
+#### Laboratory tests 
+
+The laboratory tests that are done to obtain this information include a complete blood count (CBC), a sputum culture, a blood serum test of IgE levels, and a skin test for the Aspergillus antigen. In the skin test, a small amount of antigen is injected into the upper layer of skin on the patient’s forearm about four inches below the elbow. If the patient has a high level of IgE antibodies in the tissue, he or she will develop what is called a ‘‘wheal and flare’’ reaction in about 15-20 minutes. A ‘‘wheal and flare’’ reaction is characterized by the eruption of a reddened, itching spot on the skin. Some patients with ABPA will develop the so-called late reaction to the skin test, in which a red, sore, swollen area develops about six to eight hours after the initial reaction. 
+
+#### Diagnostic imaging 
+
+Chest x rays and CT scans are used to check for the presence of fluid accumulation in the lungs and signs of bronchiectasis. 
+
+### Treatment 
+
+ABPA is usually treated with prednisone (Meticorten) or other corticosteroids taken by mouth, and with bronchodilators. 
+
+Antifungal drugs are not used to treat ABPA because it is caused by an allergic reaction to Aspergillus rather than by direct infection of tissue. 
+
+#### Follow-up care 
+
+Patients with ABPA should be given periodic checkupswithchestxraysandaspirometertest.Aspirometeris an instrument that evaluates the patient’s lung capacity. 
+
+### Prognosis 
+
+Most patients with ABPA respond well to corticosteroid treatment. Others have a chronic course with gradual improvement over time. The best indicator of a good prognosis is a long-term fall in the patient’s IgE level. Patients with lung complications from ABPA may develop severe airway obstruction. 
+
+### Prevention 
+
+ABPA is difficult to prevent because Aspergillus is a common fungus; it can be found in the saliva and sputum of most healthy individuals. Patients with ABPA can protect themselves somewhat by avoiding haystacks, compost piles, bogs, marshes, and other locations with wet or rotting vegetation; by avoiding construction sites or newly painted surfaces; and by having their air conditioners cleaned regularly. Some patients may be helped by air filtration systems for their bedrooms or offices. 
+
+#### Resources 
+
+##### BOOKS 
+
+- Stauffer, John L. ‘‘Lung.’’ In Current Medical Diagnosis and Treatment, 1998, edited by Stephen McPhee, et al., 37th ed. Stamford: Appleton & Lange,1997. 
+
+##### ORGANIZATIONS 
+
+Centers for Disease Control and Prevention. 1600 Clifton Rd., NE, Atlanta, GA 30333. (800) 311-3435, (404) 639-3311. <http://www.cdc.gov>. 
+
+- National Institute of Allergy and Infectious Disease. Building 31, Room 7A-50, 31 Center Drive MSC 2520, Bethesda, MD 20892-2520. (301) 496-5717. <http:// www.niaid.nih.gov/default.htm>. 
+
+- National Organization for Rare Disorders. P.O. Box 8923, New Fairfield, CT 06812-8923. (800) 999-6673. 
+
+   - <http://www.rarediseases.org>. 
+
+Rebecca J. Frey, PhD 
+
+115 
+
+G A L E E N C Y C L O P E D I A O F M E D I C I N E 
