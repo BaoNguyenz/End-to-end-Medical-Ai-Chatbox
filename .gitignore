@@ -57,3 +57,6 @@ sample_data/
 document_implement_plan/
 
 Data/
+# SSH Keys and secrets
+*.pem
+*.key
