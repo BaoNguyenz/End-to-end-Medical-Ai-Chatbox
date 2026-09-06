@@ -1,2 +1,0 @@
-# Amikiacin see Aminoglycosides
-

@@ -1,2 +1,0 @@
-# Astrocytoma see Brain tumor
-

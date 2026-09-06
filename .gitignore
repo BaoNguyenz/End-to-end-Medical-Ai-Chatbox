@@ -42,3 +42,5 @@ document_implement_plan/
 # SSH Keys and secrets
 *.pem
 *.key
+.secrets/
+Data/markdown_output/

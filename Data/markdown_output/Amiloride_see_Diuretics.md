@@ -1,2 +1,0 @@
-# Amiloride see Diuretics
-

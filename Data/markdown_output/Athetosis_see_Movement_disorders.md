@@ -1,2 +1,0 @@
-# Athetosis see Movement disorders
-

@@ -1,2 +1,0 @@
-# Ataxia see Movement disorders
-

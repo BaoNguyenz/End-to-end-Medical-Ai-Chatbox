@@ -1,2 +1,0 @@
-# Alteplase see Thrombolytic therapy
-
