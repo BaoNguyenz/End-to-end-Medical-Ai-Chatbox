@@ -1,2 +1,0 @@
-# Antibiotic prophylaxis see Prophylaxis
-

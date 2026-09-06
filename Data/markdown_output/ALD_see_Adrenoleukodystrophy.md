@@ -1,2 +1,0 @@
-# ALD see Adrenoleukodystrophy
-

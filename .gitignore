@@ -43,3 +43,4 @@ document_implement_plan/
 *.pem
 *.key
 .secrets/
+Data/markdown_output/

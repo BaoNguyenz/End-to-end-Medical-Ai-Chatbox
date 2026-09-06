@@ -1,2 +1,0 @@
-# Atenolol see Beta blockers
-
