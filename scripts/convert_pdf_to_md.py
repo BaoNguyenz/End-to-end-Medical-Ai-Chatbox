@@ -35,13 +35,19 @@ else:
     DATA_DIR = SCRIPT_DIR / "Data"
 
 # Tự động tìm file PDF trong thư mục Data
-_pdf_candidates = list(DATA_DIR.glob("*.pdf"))
+# Auto-detect ROOT and Data directory
+ROOT_DIR = SCRIPT_DIR if SCRIPT_DIR.name.lower() != "scripts" else SCRIPT_DIR.parent
+DATA_DIR = ROOT_DIR / "Data"
+RAW_DATA_DIR = DATA_DIR / "raw"
+
+# Search for PDF in Data/raw or Data/
+_pdf_candidates = list(RAW_DATA_DIR.glob("*.pdf")) + list(DATA_DIR.glob("*.pdf"))
 if _pdf_candidates:
     DEFAULT_PDF_PATH = _pdf_candidates[0]
 else:
-    DEFAULT_PDF_PATH = DATA_DIR / "The-Gale-Encyclopedia-of-Medicine-3rd-Edition-staibabussalamsula.pdf"
+    DEFAULT_PDF_PATH = RAW_DATA_DIR / "The-Gale-Encyclopedia-of-Medicine-3rd-Edition-staibabussalamsula.pdf"
 
-DEFAULT_OUTPUT_DIR = DATA_DIR / "markdown_output"
+DEFAULT_OUTPUT_DIR = DATA_DIR / "markdown_output" 
 
 # Danh sách các tên đề mục con cần bỏ qua khi nhận diện Tiêu đề bệnh/thuốc chính
 SECTION_SUBHEADINGS = {
