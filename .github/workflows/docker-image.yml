@@ -2,9 +2,12 @@ name: GaleMed AI - CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   # ── 1. CI: Lint & Code Quality ───────────────────────────
@@ -34,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USER }}
