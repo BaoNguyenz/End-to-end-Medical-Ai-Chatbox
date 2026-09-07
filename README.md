@@ -77,7 +77,7 @@ Benchmarked across clinical question sets comparing cache hits, hybrid retrieval
 
 | Execution Mode | Average Latency | Context Relevance | Answer Faithfulness | Cost per Query |
 | :--- | :---: | :---: | :---: | :---: |
-| **Redis Semantic Cache Hit** | **~8 ms** ⚡ | 100% (Pre-verified) | 100% | **$0.0000** |
+| **Redis Semantic Cache Hit** | **~18 ms** ⚡ | 100% (Pre-verified) | 100% | **$0.0000** |
 | **Dense Vector Only (Qdrant)** | **~190 ms** | 0.3810 | 79.2% | Standard |
 | **Hybrid Search (Qdrant + BM25)** | **~240 ms** | 0.4130 | 83.3% | Standard |
 | **Full GraphRAG + Cross-Encoder** | **~450 ms** | **0.4850** | **91.7%** | Standard |
