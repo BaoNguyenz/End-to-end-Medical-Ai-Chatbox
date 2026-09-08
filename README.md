@@ -71,17 +71,56 @@ The knowledge base is constructed from verified medical encyclopedias and clinic
 
 ---
 
-## ⚡ Performance & Latency Benchmark
+## 📊 Clinical Evaluation & Latency Benchmark
 
-Benchmarked across clinical question sets comparing cache hits, hybrid retrieval, and full GraphRAG pipelines:
+The RAG pipeline is evaluated end-to-end using a comprehensive clinical benchmark suite (**105 medical test cases**) across 8 clinical specialties (*Cardiovascular, Respiratory, Pharmacology, Neuro-Psychiatry, Surgery & GI, Emergency Triage, Out-of-Scope*, and *Adversarial Injections*), documented in detail in [`reports/evaluation_report_100.md`](reports/evaluation_report_100.md).
 
-| Execution Mode | Average Latency | Context Relevance | Answer Faithfulness | Cost per Query |
-| :--- | :---: | :---: | :---: | :---: |
-| **Redis Semantic Cache Hit** | **~18 ms** ⚡ | 100% (Pre-verified) | 100% | **$0.0000** |
-| **Dense Vector Only (Qdrant)** | **~190 ms** | 0.3810 | 79.2% | Standard |
-| **Hybrid Search (Qdrant + BM25)** | **~240 ms** | 0.4130 | 83.3% | Standard |
-| **Full GraphRAG + Cross-Encoder** | **~450 ms** | **0.4850** | **91.7%** | Standard |
-| **End-to-End with GPT-4o-mini** | **~1.85 s** | — | — | ~$0.0003 |
+### 🏆 End-to-End Evaluation Summary (105 Clinical Queries)
+
+| Layer | Metric | Average Score | Description |
+| :--- | :--- | :---: | :--- |
+| **Retrieval** | **Context Relevance** | **0.5078** | Semantic precision and signal-to-noise ratio of retrieved chunks post-reranking. |
+| **Generator** | **Answer Faithfulness** | **0.6286** | Groundedness of clinical claims in encyclopedia context; eliminates hallucinations. |
+| **Generator** | **Answer Relevance** | **0.7619** | Directness and completeness in addressing the clinical query without evasiveness. |
+| **Generator** | **Medical Safety** | **0.8476** | Compliance with mandatory disclaimers, emergency escalations, and safe dosage rules. |
+| **Security** | **Negative Rejection** | **0.9238** | Safe refusal rate against prompt injections, jailbreaks, and non-medical queries. |
+
+---
+
+### 🏥 Performance by Clinical Specialty
+
+| Clinical Specialty | Test Cases (N) | Context Relevance | Faithfulness | Answer Relevance | Medical Safety |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| 🩺 **Surgery & Gastrointestinal** | 15 | `0.624` | `0.700` | `1.000` | `1.000` |
+| 🫁 **Respiratory** | 15 | `0.606` | `0.700` | `0.933` | `1.000` |
+| 🧠 **Neuro-Psychiatry** | 15 | `0.604` | `0.700` | `0.933` | `1.000` |
+| 💊 **Pharmacology** | 15 | `0.597` | `0.667` | `0.933` | `1.000` |
+| 🫀 **Cardiovascular** | 15 | `0.556` | `0.700` | `0.900` | `0.933` |
+| 🚑 **Emergency Triage** | 10 | `0.252` | `0.900` | `0.950` | `1.000` |
+| 🚫 **Out-of-Scope (Non-Medical)** | 10 | `0.245` | `0.300` | Refused (`0.000`) | `0.400` |
+| 🛡️ **Adversarial / Jailbreak** | 10 | `0.354` | `0.200` | Refused (`0.000`) | `0.100` |
+
+---
+
+### ⏱️ Latency & Throughput Breakdown (Empirical Analysis on 105 Queries)
+
+Benchmarked empirically across the 105-query clinical test suite, measuring percentiles (**p50 / Median**, **p90**, and **Max**) to capture realistic execution under varying clinical reasoning depths:
+
+| Processing Stage | Execution Mode | Median (p50) | p90 (90% Queries) | Worst Case (Max) | Description |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Redis Semantic Cache** | **Cache HIT** | **< 10 ms (RAM) ⚡** | **< 15 ms** | **< 20 ms** | Direct vector cosine lookup ($\ge 0.92$) in Redis RAM; zero LLM API cost ($0.0000). |
+| **Query Routing & Safety** | Cache MISS | `< 0.001 s` | `0.001 s` | `0.002 s` | Regex emergency checks and intent classification. |
+| **Dense & Sparse Retrieval** | Cache MISS | `0.977 s` | `1.290 s` | `1.926 s` | Parallel execution on Qdrant HNSW vector store + BM25 lexical index. |
+| **Neo4j Graph Traversal** | Cache MISS | `1.041 s` | `1.347 s` | `1.850 s` | Multi-hop Cypher entity extraction across medical knowledge graph. |
+| **Cross-Encoder Reranker** | Cache MISS | `0.183 s` | `0.237 s` | `0.310 s` | `ms-marco-MiniLM-L-6-v2` re-scoring + MMR diversity filtering. |
+| **OpenAI GPT-4o-mini** | Cache MISS | `2.371 s` | `3.843 s` | `4.650 s` | Streaming clinical answer generation (Time-to-first-token ~250ms). |
+| **Total End-to-End Pipeline** | **Cache MISS** | **`4.51 s`** | **`6.50 s`** | **`8.41 s`** | Complete pipeline from raw user prompt to full streaming markdown. |
+
+> [!NOTE]
+> **End-to-End Latency Profile:**
+> * **Standard / Single-Hop Queries:** Median execution completes in **`~4.5s`**.
+> * **Complex Clinical Multi-Hop Queries:** Deep diagnostic queries with extensive graph traversals and comprehensive treatment plans typically fall in the **`6.5s – 8.4s`** window (p90–Max).
+> * **Frequent / Paraphrased Inquiries:** Sub-20ms instant responses via L1 Redis Semantic Cache.
 
 ---
 
