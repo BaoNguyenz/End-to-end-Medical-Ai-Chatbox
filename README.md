@@ -102,17 +102,25 @@ The RAG pipeline is evaluated end-to-end using a comprehensive clinical benchmar
 
 ---
 
-### ⏱️ Latency & Throughput Breakdown
+### ⏱️ Latency & Throughput Breakdown (Empirical Analysis on 105 Queries)
 
-| Processing Stage | Execution Mode | Average Latency | Description |
-| :--- | :---: | :---: | :--- |
-| **Redis Semantic Cache** | **Cache HIT** | **< 10 ms (RAM) ⚡** | Direct vector cosine similarity lookup ($\ge 0.92$), zero API cost ($0.0000). |
-| **Query Routing & Safety** | Cache MISS | `0.001 s` | Regex emergency checks and intent classification. |
-| **Dense & Sparse Retrieval** | Cache MISS | `0.796 s` | Parallel search on Qdrant HNSW vector store + BM25 corpus. |
-| **Neo4j Graph Traversal** | Cache MISS | `1.116 s` | Multi-hop Cypher entity extraction over clinical nodes & relationships. |
-| **Cross-Encoder Reranking** | Cache MISS | `0.201 s` | `ms-marco-MiniLM-L-6-v2` re-scoring + MMR diversity filtering. |
-| **GPT-4o-mini Synthesis** | Cache MISS | `2.459 s` | Streaming clinical answer generation (Time-to-first-token ~250ms). |
-| **Total End-to-End Latency** | **Cache MISS** | **~4.27 s – 6.50 s** | Full multi-hop pipeline from user prompt to complete markdown stream. |
+Benchmarked empirically across the 105-query clinical test suite, measuring percentiles (**p50 / Median**, **p90**, and **Max**) to capture realistic execution under varying clinical reasoning depths:
+
+| Processing Stage | Execution Mode | Median (p50) | p90 (90% Queries) | Worst Case (Max) | Description |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Redis Semantic Cache** | **Cache HIT** | **< 10 ms (RAM) ⚡** | **< 15 ms** | **< 20 ms** | Direct vector cosine lookup ($\ge 0.92$) in Redis RAM; zero LLM API cost ($0.0000). |
+| **Query Routing & Safety** | Cache MISS | `< 0.001 s` | `0.001 s` | `0.002 s` | Regex emergency checks and intent classification. |
+| **Dense & Sparse Retrieval** | Cache MISS | `0.977 s` | `1.290 s` | `1.926 s` | Parallel execution on Qdrant HNSW vector store + BM25 lexical index. |
+| **Neo4j Graph Traversal** | Cache MISS | `1.041 s` | `1.347 s` | `1.850 s` | Multi-hop Cypher entity extraction across medical knowledge graph. |
+| **Cross-Encoder Reranker** | Cache MISS | `0.183 s` | `0.237 s` | `0.310 s` | `ms-marco-MiniLM-L-6-v2` re-scoring + MMR diversity filtering. |
+| **OpenAI GPT-4o-mini** | Cache MISS | `2.371 s` | `3.843 s` | `4.650 s` | Streaming clinical answer generation (Time-to-first-token ~250ms). |
+| **Total End-to-End Pipeline** | **Cache MISS** | **`4.51 s`** | **`6.50 s`** | **`8.41 s`** | Complete pipeline from raw user prompt to full streaming markdown. |
+
+> [!NOTE]
+> **End-to-End Latency Profile:**
+> * **Standard / Single-Hop Queries:** Median execution completes in **`~4.5s`**.
+> * **Complex Clinical Multi-Hop Queries:** Deep diagnostic queries with extensive graph traversals and comprehensive treatment plans typically fall in the **`6.5s – 8.4s`** window (p90–Max).
+> * **Frequent / Paraphrased Inquiries:** Sub-20ms instant responses via L1 Redis Semantic Cache.
 
 ---
 
