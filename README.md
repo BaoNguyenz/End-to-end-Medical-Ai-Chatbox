@@ -71,17 +71,48 @@ The knowledge base is constructed from verified medical encyclopedias and clinic
 
 ---
 
-## ⚡ Performance & Latency Benchmark
+## 📊 Clinical Evaluation & Latency Benchmark
 
-Benchmarked across clinical question sets comparing cache hits, hybrid retrieval, and full GraphRAG pipelines:
+The RAG pipeline is evaluated end-to-end using a comprehensive clinical benchmark suite (**105 medical test cases**) across 8 clinical specialties (*Cardiovascular, Respiratory, Pharmacology, Neuro-Psychiatry, Surgery & GI, Emergency Triage, Out-of-Scope*, and *Adversarial Injections*), documented in detail in [`reports/evaluation_report_100.md`](reports/evaluation_report_100.md).
 
-| Execution Mode | Average Latency | Context Relevance | Answer Faithfulness | Cost per Query |
-| :--- | :---: | :---: | :---: | :---: |
-| **Redis Semantic Cache Hit** | **~18 ms** ⚡ | 100% (Pre-verified) | 100% | **$0.0000** |
-| **Dense Vector Only (Qdrant)** | **~190 ms** | 0.3810 | 79.2% | Standard |
-| **Hybrid Search (Qdrant + BM25)** | **~240 ms** | 0.4130 | 83.3% | Standard |
-| **Full GraphRAG + Cross-Encoder** | **~450 ms** | **0.4850** | **91.7%** | Standard |
-| **End-to-End with GPT-4o-mini** | **~1.85 s** | — | — | ~$0.0003 |
+### 🏆 End-to-End Evaluation Summary (105 Clinical Queries)
+
+| Layer | Metric | Average Score | Description |
+| :--- | :--- | :---: | :--- |
+| **Retrieval** | **Context Relevance** | **0.5078** | Assesses how relevant and focused the retrieved chunks (post-MMR and Cross-Encoder reranking) are to the medical query. |
+| **Generator** | **Answer Faithfulness** | **0.6286** | Measures whether clinical claims in the generated response are strictly grounded in retrieved encyclopedia context (`0.700`–`0.900` across core clinical domains). |
+| **Generator** | **Answer Relevance** | **0.7619** | Evaluates how directly and completely the synthesized answer addresses the user's clinical question (`0.933`–`1.000` on in-scope clinical queries). |
+| **Generator** | **Medical Safety** | **0.8476** | Ensures answers provide emergency escalation contacts, avoid dangerous dosages, and include medical disclaimers (`0.933`–`1.000` on clinical domains). |
+| **Security** | **Negative Rejection** | **0.9238** | Measures the system's ability to safely reject adversarial jailbreaks, prompt injections, and non-medical inquiries. |
+
+---
+
+### 🏥 Performance by Clinical Specialty
+
+| Clinical Specialty | Test Cases (N) | Context Relevance | Faithfulness | Answer Relevance | Medical Safety |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| 🩺 **Surgery & Gastrointestinal** | 15 | `0.624` | `0.700` | `1.000` | `1.000` |
+| 🫁 **Respiratory** | 15 | `0.606` | `0.700` | `0.933` | `1.000` |
+| 🧠 **Neuro-Psychiatry** | 15 | `0.604` | `0.700` | `0.933` | `1.000` |
+| 💊 **Pharmacology** | 15 | `0.597` | `0.667` | `0.933` | `1.000` |
+| 🫀 **Cardiovascular** | 15 | `0.556` | `0.700` | `0.900` | `0.933` |
+| 🚑 **Emergency Triage** | 10 | `0.252` | `0.900` | `0.950` | `1.000` |
+| 🚫 **Out-of-Scope (Non-Medical)** | 10 | `0.245` | `0.300` | Refused (`0.000`) | `0.400` |
+| 🛡️ **Adversarial / Jailbreak** | 10 | `0.354` | `0.200` | Refused (`0.000`) | `0.100` |
+
+---
+
+### ⏱️ Latency & Throughput Breakdown
+
+| Processing Stage | Execution Mode | Average Latency | Description |
+| :--- | :---: | :---: | :--- |
+| **Redis Semantic Cache** | **Cache HIT** | **< 10 ms (RAM) ⚡** | Direct vector cosine similarity lookup ($\ge 0.92$), zero API cost ($0.0000). |
+| **Query Routing & Safety** | Cache MISS | `0.001 s` | Regex emergency checks and intent classification. |
+| **Dense & Sparse Retrieval** | Cache MISS | `0.796 s` | Parallel search on Qdrant HNSW vector store + BM25 corpus. |
+| **Neo4j Graph Traversal** | Cache MISS | `1.116 s` | Multi-hop Cypher entity extraction over clinical nodes & relationships. |
+| **Cross-Encoder Reranking** | Cache MISS | `0.201 s` | `ms-marco-MiniLM-L-6-v2` re-scoring + MMR diversity filtering. |
+| **GPT-4o-mini Synthesis** | Cache MISS | `2.459 s` | Streaming clinical answer generation (Time-to-first-token ~250ms). |
+| **Total End-to-End Latency** | **Cache MISS** | **~4.27 s – 6.50 s** | Full multi-hop pipeline from user prompt to complete markdown stream. |
 
 ---
 
