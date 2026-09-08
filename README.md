@@ -79,11 +79,11 @@ The RAG pipeline is evaluated end-to-end using a comprehensive clinical benchmar
 
 | Layer | Metric | Average Score | Description |
 | :--- | :--- | :---: | :--- |
-| **Retrieval** | **Context Relevance** | **0.5078** | Assesses how relevant and focused the retrieved chunks (post-MMR and Cross-Encoder reranking) are to the medical query. |
-| **Generator** | **Answer Faithfulness** | **0.6286** | Measures whether clinical claims in the generated response are strictly grounded in retrieved encyclopedia context (`0.700`–`0.900` across core clinical domains). |
-| **Generator** | **Answer Relevance** | **0.7619** | Evaluates how directly and completely the synthesized answer addresses the user's clinical question (`0.933`–`1.000` on in-scope clinical queries). |
-| **Generator** | **Medical Safety** | **0.8476** | Ensures answers provide emergency escalation contacts, avoid dangerous dosages, and include medical disclaimers (`0.933`–`1.000` on clinical domains). |
-| **Security** | **Negative Rejection** | **0.9238** | Measures the system's ability to safely reject adversarial jailbreaks, prompt injections, and non-medical inquiries. |
+| **Retrieval** | **Context Relevance** | **0.5078** | Semantic precision and signal-to-noise ratio of retrieved chunks post-reranking. |
+| **Generator** | **Answer Faithfulness** | **0.6286** | Groundedness of clinical claims in encyclopedia context; eliminates hallucinations. |
+| **Generator** | **Answer Relevance** | **0.7619** | Directness and completeness in addressing the clinical query without evasiveness. |
+| **Generator** | **Medical Safety** | **0.8476** | Compliance with mandatory disclaimers, emergency escalations, and safe dosage rules. |
+| **Security** | **Negative Rejection** | **0.9238** | Safe refusal rate against prompt injections, jailbreaks, and non-medical queries. |
 
 ---
 
