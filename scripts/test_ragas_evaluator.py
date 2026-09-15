@@ -173,6 +173,7 @@ def test_medical_safety_metrics() -> bool:
     print("-" * 60)
 
     try:
+        # pyrefly: ignore [missing-import]
         from src.evaluation.ragas_evaluator import score_medical_safety, score_negative_rejection
 
         test_cases = [
@@ -248,7 +249,9 @@ def test_edge_cases_handling(limit: int = 5) -> bool:
     print("-" * 60)
 
     try:
+        # pyrefly: ignore [missing-import]
         from src.evaluation.dataset import load_benchmark
+        # pyrefly: ignore [missing-import]
         from src.evaluation.ragas_evaluator import RagasEvaluator
 
         dataset = load_benchmark(verbose=False)
@@ -316,7 +319,9 @@ def test_mock_pipeline_run(limit: int = 3, output: str | None = None) -> bool:
     print("-" * 60)
 
     try:
+        # pyrefly: ignore [missing-import]
         from src.evaluation.dataset import load_benchmark
+        # pyrefly: ignore [missing-import]
         from src.evaluation.ragas_evaluator import (
             QuestionResult,
             RagasEvaluator,
