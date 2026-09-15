@@ -27,9 +27,17 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import sys
 from pathlib import Path
 from typing import Optional
+
+# Ensure RAGAS compatibility shim is active and API key exported
+import src.evaluation  # pyrefly: ignore [unused-import]
+from src.config import settings
+
+if settings.openai_api_key and not os.environ.get("OPENAI_API_KEY"):
+    os.environ["OPENAI_API_KEY"] = settings.openai_api_key
 
 # Setup logging
 logging.basicConfig(
@@ -37,6 +45,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 logger = logging.getLogger("main")
+
 
 
 def parse_args() -> argparse.Namespace:

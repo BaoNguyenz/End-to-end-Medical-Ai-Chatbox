@@ -2,289 +2,65 @@
   "naive_architecture": "naive_rag",
   "full_architecture": "full_galemed",
   "naive_scores": {
-    "faithfulness": 1.0,
-    "answer_relevancy": null,
-    "context_precision": null,
-    "context_recall": null,
-    "medical_safety": 1.0,
-    "negative_rejection": 0.8333333333333334,
-    "avg_latency_ms": 0.010300000212737359,
-    "total_cost_usd": 0.0062247
-  },
-  "full_scores": {
-    "faithfulness": 1.0,
-    "answer_relevancy": null,
-    "context_precision": null,
-    "context_recall": null,
+    "faithfulness": 0.5401635401635402,
+    "answer_relevancy": 0.9884060045656257,
+    "context_precision": 0.0,
+    "context_recall": 0.5,
     "medical_safety": 1.0,
     "negative_rejection": 1.0,
-    "avg_latency_ms": 0.03909999880609879,
-    "total_cost_usd": 0.02823164999999999
+    "avg_latency_ms": 1557.0492666665814,
+    "total_cost_usd": 0.00020220000000000004
+  },
+  "full_scores": {
+    "faithfulness": 0.09523809523809523,
+    "answer_relevancy": 0.9776546682702122,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "medical_safety": 1.0,
+    "negative_rejection": 1.0,
+    "avg_latency_ms": 2192.4667000009017,
+    "total_cost_usd": 0.0
   },
   "deltas": {
-    "faithfulness": 0.0,
-    "answer_relevancy": null,
-    "context_precision": null,
-    "context_recall": null,
+    "faithfulness": -0.444925,
+    "answer_relevancy": -0.010751,
+    "context_precision": 0.0,
+    "context_recall": -0.5,
     "medical_safety": 0.0,
-    "negative_rejection": 0.166667,
-    "avg_latency_ms": 0.0288
+    "negative_rejection": 0.0,
+    "avg_latency_ms": 635.417433
   },
   "category_breakdown": {
-    "adversarial": {
-      "faithfulness": {
-        "naive": 1.0,
-        "full": 1.0,
-        "delta": 0.0
-      },
-      "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "medical_safety": {
-        "naive": 1.0,
-        "full": 1.0,
-        "delta": 0.0
-      },
-      "negative_rejection": {
-        "naive": 0.0,
-        "full": 1.0,
-        "delta": 1.0
-      }
-    },
-    "cardiovascular": {
-      "faithfulness": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "medical_safety": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "negative_rejection": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      }
-    },
-    "emergency": {
-      "faithfulness": {
-        "naive": 1.0,
-        "full": 1.0,
-        "delta": 0.0
-      },
-      "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "medical_safety": {
-        "naive": 1.0,
-        "full": 1.0,
-        "delta": 0.0
-      },
-      "negative_rejection": {
-        "naive": 1.0,
-        "full": 1.0,
-        "delta": 0.0
-      }
-    },
-    "neuro_psych": {
-      "faithfulness": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "medical_safety": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "negative_rejection": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      }
-    },
-    "out_of_scope": {
-      "faithfulness": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "medical_safety": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "negative_rejection": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      }
-    },
-    "pharmacology": {
-      "faithfulness": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "medical_safety": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "negative_rejection": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      }
-    },
     "respiratory": {
       "faithfulness": {
-        "naive": null,
-        "full": null,
-        "delta": null
+        "naive": 0.5402,
+        "full": 0.0952,
+        "delta": -0.445
       },
       "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
+        "naive": 0.9884,
+        "full": 0.9777,
+        "delta": -0.0107
       },
       "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
       },
       "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
+        "naive": 0.5,
+        "full": 0.0,
+        "delta": -0.5
       },
       "medical_safety": {
-        "naive": null,
-        "full": null,
-        "delta": null
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
       },
       "negative_rejection": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      }
-    },
-    "surgery_gi": {
-      "faithfulness": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "answer_relevancy": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_precision": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "context_recall": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "medical_safety": {
-        "naive": null,
-        "full": null,
-        "delta": null
-      },
-      "negative_rejection": {
-        "naive": null,
-        "full": null,
-        "delta": null
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
       }
     }
   }

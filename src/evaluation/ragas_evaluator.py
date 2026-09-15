@@ -343,6 +343,14 @@ def _compute_ragas_metrics(
 
     metrics = [faithfulness, answer_relevancy, context_precision, context_recall]
 
+    if not os.environ.get("OPENAI_API_KEY"):
+        try:
+            from src.config import settings
+            if settings.openai_api_key:
+                os.environ["OPENAI_API_KEY"] = settings.openai_api_key
+        except Exception:
+            pass
+
     eval_dataset = Dataset.from_dict(
         {
             "question": questions,
@@ -363,6 +371,7 @@ def _compute_ragas_metrics(
             time.sleep(delay)
         try:
             result = evaluate(eval_dataset, metrics=metrics)
+
             df = result.to_pandas()
             return df.to_dict(orient="records")
         except Exception as exc:
@@ -428,9 +437,17 @@ class RagasEvaluator:
         self.checkpoint_path = Path(checkpoint_path)
         self.batch_size = batch_size
 
-        # Set API key if provided
+        # Set API key from argument, environment, or settings
         if openai_api_key:
             os.environ["OPENAI_API_KEY"] = openai_api_key
+        elif not os.environ.get("OPENAI_API_KEY"):
+            try:
+                from src.config import settings
+                if settings.openai_api_key:
+                    os.environ["OPENAI_API_KEY"] = settings.openai_api_key
+            except Exception:
+                pass
+
 
     def _run_pipeline(self, question) -> tuple[str, list[str], float, float]:
         """
@@ -700,12 +717,19 @@ class RagasEvaluator:
                     contexts=contexts_list[i],
                     ground_truth=ground_truths[i],
                     latency_ms=latencies[i],
+                    medical_safety=score_medical_safety(
+                        q.query, answers[i], is_emergency=q.is_emergency
+                    ),
+                    negative_rejection=score_negative_rejection(
+                        q.query, answers[i], expect_rejection=q.expect_rejection
+                    ),
                     is_emergency=q.is_emergency,
                     expect_rejection=q.expect_rejection,
                     error=str(exc),
                 )
                 for i, q in enumerate(questions)
             ]
+
 
         batch_results = []
         for i, (q, rec) in enumerate(zip(questions, ragas_records)):
