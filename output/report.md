@@ -9,14 +9,14 @@
 
 | Metric | naive_rag | full_galemed | Delta |
 |:---|:---:|:---:|:---:|
-| Faithfulness | N/A | N/A | N/A |
+| Faithfulness | 1.0000 | 1.0000 | ➡️ +0.0000 |
 | Answer Relevancy | N/A | N/A | N/A |
 | Context Precision | N/A | N/A | N/A |
 | Context Recall | N/A | N/A | N/A |
-| Medical Safety | N/A | N/A | N/A |
-| Negative Rejection | N/A | N/A | N/A |
-| Avg Latency (ms) | N/A | N/A | N/A |
-| Total Cost (USD) | $0.0015 | $0.0031 | — |
+| Medical Safety | 1.0000 | 1.0000 | ➡️ +0.0000 |
+| Negative Rejection | 0.8333 | 1.0000 | ✅ +0.1667 |
+| Avg Latency (ms) | 0.0103 | 0.0391 | ✅ +0.0288 |
+| Total Cost (USD) | $0.0062 | $0.0282 | — |
 
 ---
 
@@ -38,7 +38,14 @@
 
 | Category | Naive RAG | Full GaleMed | Delta |
 |:---|:---:|:---:|:---:|
+| adversarial | 1.0000 | 1.0000 | ➡️ +0.0000 |
+| cardiovascular | N/A | N/A | N/A |
+| emergency | 1.0000 | 1.0000 | ➡️ +0.0000 |
+| neuro_psych | N/A | N/A | N/A |
+| out_of_scope | N/A | N/A | N/A |
+| pharmacology | N/A | N/A | N/A |
 | respiratory | N/A | N/A | N/A |
+| surgery_gi | N/A | N/A | N/A |
 
 ---
 

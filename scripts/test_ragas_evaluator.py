@@ -144,14 +144,12 @@ def test_dataset_loader() -> bool:
 
         # Assertions
         assert dataset.total == 105, f"Expected 105 questions, got {dataset.total}"
-        assert len(dataset.evaluable_questions) > 0, "No evaluable questions found!"
-        assert len(dataset.template_questions) > 0, "Template detection not working"
+        assert len(dataset.evaluable_questions) == 105, f"Expected 105 evaluable questions, got {len(dataset.evaluable_questions)}"
 
-        template_ids = [q.id for q in dataset.template_questions]
         print(f"\n  [OK] Dataset loaded successfully!")
         print(f"  [OK] Evaluable questions  : {len(dataset.evaluable_questions)}")
-        print(f"  [!]  Template questions   : {len(dataset.template_questions)}")
-        print(f"       Sample template IDs  : {template_ids[:5]}")
+        print(f"  [OK] Template placeholders: {len(dataset.template_questions)} (All 105/105 Gold Standard)")
+
 
         # Verify question type distribution
         for qtype in ["Factual", "Relational", "Multi-hop", "Analytical"]:

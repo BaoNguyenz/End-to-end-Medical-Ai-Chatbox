@@ -42,7 +42,25 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
+# ── LangChain Community 0.4+ Compatibility Shim for RAGAS ─────────────────────
+import sys
+import types
+
+if "langchain_community.chat_models.vertexai" not in sys.modules:
+    _vmod = types.ModuleType("langchain_community.chat_models.vertexai")
+    _vmod.ChatVertexAI = object
+    sys.modules["langchain_community.chat_models.vertexai"] = _vmod
+
+if "langchain_community.llms.vertexai" not in sys.modules:
+    _vmod_llm = types.ModuleType("langchain_community.llms.vertexai")
+    _vmod_llm.VertexAI = object
+    sys.modules["langchain_community.llms.vertexai"] = _vmod_llm
+
+if "langchain_community.chat_models" in sys.modules:
+    setattr(sys.modules["langchain_community.chat_models"], "vertexai", _vmod)
+
 # ── Constants ─────────────────────────────────────────────────────────────────
+
 EMERGENCY_KEYWORDS = [
     "chest pain", "heart attack", "myocardial infarction", "stroke",
     "anaphylaxis", "anaphylactic shock", "unconscious", "not breathing",
