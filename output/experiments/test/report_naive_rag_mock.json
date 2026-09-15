@@ -1,0 +1,69 @@
+{
+  "architecture": "naive_rag_mock",
+  "total_questions": 3,
+  "evaluated_questions": 3,
+  "failed_questions": 0,
+  "aggregates": {
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "context_precision": null,
+    "context_recall": null,
+    "medical_safety": null,
+    "negative_rejection": null,
+    "avg_latency_ms": null,
+    "total_cost_usd": 0.00045
+  },
+  "results": [
+    {
+      "question_id": "R01",
+      "query": "What are the primary symptoms and clinical signs of asthma?",
+      "question_type": "Factual",
+      "category": "respiratory",
+      "answer": "Naive RAG answer for: What are the primary symptoms and clinical signs o. According to The Gale Encyclopedia, this condition involves specific clinical features and evidence-based management. Please consult a qualified healthcare professional.",
+      "latency_ms": 0.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "context_precision": null,
+      "context_recall": null,
+      "medical_safety": null,
+      "negative_rejection": null,
+      "is_emergency": false,
+      "expect_rejection": false,
+      "error": "RAGAS packages required. Install with: uv add ragas datasets"
+    },
+    {
+      "question_id": "R02",
+      "query": "What environmental triggers can precipitate an acute asthma attack?",
+      "question_type": "Factual",
+      "category": "respiratory",
+      "answer": "Naive RAG answer for: What environmental triggers can precipitate an acu. According to The Gale Encyclopedia, this condition involves specific clinical features and evidence-based management. Please consult a qualified healthcare professional.",
+      "latency_ms": 0.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "context_precision": null,
+      "context_recall": null,
+      "medical_safety": null,
+      "negative_rejection": null,
+      "is_emergency": false,
+      "expect_rejection": false,
+      "error": "RAGAS packages required. Install with: uv add ragas datasets"
+    },
+    {
+      "question_id": "R03",
+      "query": "What bronchodilator and corticosteroid medications are used to manage asthma?",
+      "question_type": "Factual",
+      "category": "respiratory",
+      "answer": "Naive RAG answer for: What bronchodilator and corticosteroid medications. According to The Gale Encyclopedia, this condition involves specific clinical features and evidence-based management. Please consult a qualified healthcare professional.",
+      "latency_ms": 0.0,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "context_precision": null,
+      "context_recall": null,
+      "medical_safety": null,
+      "negative_rejection": null,
+      "is_emergency": false,
+      "expect_rejection": false,
+      "error": "RAGAS packages required. Install with: uv add ragas datasets"
+    }
+  ]
+}

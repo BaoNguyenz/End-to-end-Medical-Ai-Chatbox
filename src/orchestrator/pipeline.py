@@ -46,6 +46,10 @@ from src.transformation.transformation_router import TransformationRouter
 from src.post_retrieval.cross_encoder_reranker import CrossEncoderReranker
 # pyrefly: ignore [missing-import]
 from src.post_retrieval.post_retrieval_pipeline import PostRetrievalPipeline
+# pyrefly: ignore [missing-import]
+from src.observability.langfuse_tracker import get_tracer
+# pyrefly: ignore [missing-import]
+from src.observability.cost_calculator import CostCalculator, TokenUsage
 
 
 # ── Medical System Prompt ─────────────────────────────────────────────────────
@@ -230,6 +234,8 @@ class RAGPipeline:
         total_start = time.time()
         latency: dict[str, float] = {}
         metadata: dict = {"search_mode": search_mode, "query_class": "unknown"}
+        _cost_calc = CostCalculator()
+        total_cost_usd: float = 0.0
 
         # ── Emergency check ────────────────────────────────────────────────
         if self._is_emergency(query):
@@ -241,13 +247,28 @@ class RAGPipeline:
                 metadata={"emergency": True, "search_mode": "none"},
             )
 
-        # ── Semantic Cache Check (before any retrieval) ─────────────────
-        _cache = get_semantic_cache()
-        if _cache.available:
-            _cached = _cache.get(query)
+        tracer = get_tracer()
+        with tracer.trace(
+            "rag-query",
+            user_id="anon",
+            input={"query": query, "search_mode": search_mode},
+        ) as root:
+
+            # ── Span 1: Redis Cache Lookup ─────────────────────────────────
+            with root.span("RedisCacheLookup", input={"query": query}) as s_cache:
+                _cache = get_semantic_cache()
+                _cached = None
+                if _cache.available:
+                    _cached = _cache.get(query)
+                s_cache.set_output({"cache_hit": _cached is not None})
+
             if _cached is not None:
                 latency["total"] = time.time() - total_start
                 latency["cache_lookup_ms"] = _cached.latency_ms
+                root.update(
+                    output={"cached": True},
+                    metadata={"cache_hit_count": _cached.hit_count},
+                )
                 return RAGResponse(
                     query=query,
                     answer=_cached.answer,
@@ -262,86 +283,129 @@ class RAGPipeline:
                     },
                 )
 
-        # ── Stage 1: Query classification ──────────────────────────────────
-        t = time.time()
-        _, strategy = self.query_router.classify(query)
-        latency["query_classify"] = time.time() - t
-        metadata["strategy"] = strategy.value
+            # ── Span 2: Query Transformation + Retrieval ───────────────────
+            with root.span("QueryTransformation", input={"query": query, "mode": search_mode}) as s_qt:
+                t = time.time()
+                _, strategy = self.query_router.classify(query)
+                latency["query_classify"] = time.time() - t
+                metadata["strategy"] = strategy.value
 
-        # ── Stage 2: Query transformation + retrieval ─────────────────────
-        t = time.time()
-        if search_mode == "auto":
-            candidates, transform_meta = self.transform_router.transform_and_search(
-                query, self.vector_store, self.hybrid_search, top_k=50
+                t = time.time()
+                if search_mode == "auto":
+                    candidates, transform_meta = self.transform_router.transform_and_search(
+                        query, self.vector_store, self.hybrid_search, top_k=50
+                    )
+                    metadata["query_class"] = transform_meta["query_class"]
+                    metadata["transformation"] = transform_meta["transformation"]
+                elif search_mode == "vector":
+                    candidates = self.vector_store.search(query, top_k=50)
+                    metadata["query_class"] = "simple"
+                    metadata["transformation"] = "none"
+                elif search_mode == "bm25":
+                    candidates = self.bm25.search(query, top_k=50)
+                    metadata["query_class"] = "keyword"
+                    metadata["transformation"] = "none"
+                else:  # "hybrid" or fallback
+                    candidates = self.hybrid_search.search(query, top_k=50)
+                    metadata["query_class"] = "simple"
+                    metadata["transformation"] = "none"
+                latency["retrieval"] = time.time() - t
+                s_qt.set_output({
+                    "strategy": metadata.get("strategy"),
+                    "transformation": metadata.get("transformation"),
+                    "num_candidates": len(candidates),
+                })
+
+            # ── Span 3: Hybrid Search (already done above, log metadata) ──
+            with root.span("HybridSearch", input={"query": query}) as s_hs:
+                s_hs.set_output({
+                    "num_candidates": len(candidates),
+                    "search_mode": search_mode,
+                })
+
+            # ── Span 4: Neo4j Graph Search ─────────────────────────────────
+            graph_results: list[SearchResult] = []
+            _use_graph = use_graph if use_graph is not None else (
+                self.use_graph and self.graph_retriever is not None
             )
-            metadata["query_class"] = transform_meta["query_class"]
-            metadata["transformation"] = transform_meta["transformation"]
-        elif search_mode == "vector":
-            candidates = self.vector_store.search(query, top_k=50)
-            metadata["query_class"] = "simple"
-            metadata["transformation"] = "none"
-        elif search_mode == "bm25":
-            candidates = self.bm25.search(query, top_k=50)
-            metadata["query_class"] = "keyword"
-            metadata["transformation"] = "none"
-        else:  # "hybrid" or fallback
-            candidates = self.hybrid_search.search(query, top_k=50)
-            metadata["query_class"] = "simple"
-            metadata["transformation"] = "none"
-        latency["retrieval"] = time.time() - t
+            with root.span("Neo4jGraph", input={"enabled": _use_graph}) as s_graph:
+                if _use_graph and self.graph_retriever and search_mode in ("auto", "graph"):
+                    t = time.time()
+                    try:
+                        graph_results = self.graph_retriever.search(query)
+                    except Exception as e:
+                        print(f"[RAGPipeline] Medical graph search failed: {e}")
+                        s_graph.set_level("WARNING")
+                    latency["graph_search"] = time.time() - t
+                s_graph.set_output({"num_graph_results": len(graph_results)})
 
-        # ── Stage 3: Graph retrieval (merge) ──────────────────────────────
-        graph_results: list[SearchResult] = []
-        _use_graph = use_graph if use_graph is not None else (self.use_graph and self.graph_retriever is not None)
-        if _use_graph and self.graph_retriever and search_mode in ("auto", "graph"):
-            t = time.time()
-            try:
-                graph_results = self.graph_retriever.search(query)
-            except Exception as e:
-                print(f"[RAGPipeline] Medical graph search failed: {e}")
-            latency["graph_search"] = time.time() - t
+            all_candidates = candidates + graph_results
 
-        # Merge: vector candidates first, then graph results appended
-        all_candidates = candidates + graph_results
+            # ── Span 5: CrossEncoder Reranking ─────────────────────────────
+            with root.span("CrossEncoderReranking", input={"num_candidates": len(all_candidates)}) as s_re:
+                t = time.time()
+                final_results = self.post_pipeline.process(
+                    query, all_candidates,
+                    rerank_top_k=rerank_top_k,
+                    final_top_k=top_k,
+                )
+                latency["post_retrieval"] = time.time() - t
+                s_re.set_output({"num_final": len(final_results)})
 
-        # ── Stage 4: Post-retrieval (rerank + MMR) ────────────────────────
-        t = time.time()
-        final_results = self.post_pipeline.process(
-            query, all_candidates,
-            rerank_top_k=rerank_top_k,
-            final_top_k=top_k,
-        )
-        latency["post_retrieval"] = time.time() - t
+            # ── Span 6: LLM Generation ─────────────────────────────────────
+            context_parts = []
+            for i, r in enumerate(final_results):
+                source_label = r.chunk.doc_id.replace("_", " ").title()
+                context_parts.append(
+                    f"[{i+1}] Source: {source_label} (doc_id: {r.chunk.doc_id})\n{r.chunk.content}"
+                )
+            context = "\n\n---\n\n".join(context_parts)
 
-        # ── Stage 5: Answer generation ────────────────────────────────────
-        t = time.time()
-        context_parts = []
-        for i, r in enumerate(final_results):
-            # Include the encyclopedia entry title in the source label
-            source_label = r.chunk.doc_id.replace("_", " ").title()
-            context_parts.append(
-                f"[{i+1}] Source: {source_label} (doc_id: {r.chunk.doc_id})\n{r.chunk.content}"
+            with root.span(
+                "LLMGeneration",
+                input={"model": settings.openai_model, "num_context_chunks": len(final_results)},
+            ) as s_llm:
+                t = time.time()
+                llm_response = self.openai_client.chat.completions.create(
+                    model=settings.openai_model,
+                    messages=[
+                        {"role": "system", "content": _ANSWER_SYSTEM},
+                        {"role": "user", "content": f"Medical Reference Context:\n{context}\n\nPatient Question: {query}"},
+                    ],
+                    temperature=0.1,
+                    max_tokens=800,
+                )
+                answer = llm_response.choices[0].message.content.strip()
+                latency["generation"] = time.time() - t
+
+                # ── Cost tracking ──────────────────────────────────────────
+                usage = TokenUsage.from_openai_response(llm_response)
+                call_cost = _cost_calc.calculate(usage, model=settings.openai_model)
+                total_cost_usd += call_cost
+                s_llm.set_output({"answer_length": len(answer)})
+                s_llm.set_metadata({
+                    "prompt_tokens": usage.prompt_tokens,
+                    "completion_tokens": usage.completion_tokens,
+                    "cost_usd": round(call_cost, 8),
+                    "model": settings.openai_model,
+                })
+
+            latency["total"] = time.time() - total_start
+            metadata["num_candidates"] = len(candidates)
+            metadata["num_graph_results"] = len(graph_results)
+            metadata["num_final"] = len(final_results)
+            metadata["cost_usd"] = round(total_cost_usd, 8)
+
+            root.update(
+                output={"answer_length": len(answer), "cached": False},
+                metadata={
+                    "total_latency_ms": round(latency["total"] * 1000, 2),
+                    "cost_usd": round(total_cost_usd, 8),
+                    "model": settings.openai_model,
+                },
             )
-        context = "\n\n---\n\n".join(context_parts)
 
-        llm_response = self.openai_client.chat.completions.create(
-            model=settings.openai_model,
-            messages=[
-                {"role": "system", "content": _ANSWER_SYSTEM},
-                {"role": "user", "content": f"Medical Reference Context:\n{context}\n\nPatient Question: {query}"},
-            ],
-            temperature=0.1,   # Very low temperature for factual medical answers
-            max_tokens=800,
-        )
-        answer = llm_response.choices[0].message.content.strip()
-        latency["generation"] = time.time() - t
-
-        latency["total"] = time.time() - total_start
-        metadata["num_candidates"] = len(candidates)
-        metadata["num_graph_results"] = len(graph_results)
-        metadata["num_final"] = len(final_results)
-
-        # ── Store in Semantic Cache for future similar queries ──────────────
+        # ── Store in Semantic Cache ────────────────────────────────────────
         if _cache.available:
             _cache.set(
                 query=query,

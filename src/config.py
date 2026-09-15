@@ -42,6 +42,10 @@ class Settings(BaseSettings):
     neo4j_user: str = "neo4j"
     neo4j_password: str = "password123"
 
+    # --- Langfuse Observability (Cloud) ---
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+    langfuse_host: str = "https://cloud.langfuse.com"
 
     # --- Redis Semantic Cache ---
     redis_host: str = "localhost"
