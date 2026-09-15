@@ -154,7 +154,7 @@ class MedicalBenchmarkDataset:
         for qtype in ["Factual", "Relational", "Multi-hop", "Analytical"]:
             count = len(self.filter_by_type(qtype))
             pct = count / self.total * 100 if self.total else 0
-            bar = "█" * int(pct / 5)
+            bar = "#" * int(pct / 5)
             print(f"    {qtype:<12} {count:>3} ({pct:5.1f}%) {bar}")
 
         # Category distribution

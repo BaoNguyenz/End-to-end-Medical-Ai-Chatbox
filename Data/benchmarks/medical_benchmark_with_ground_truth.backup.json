@@ -70,7 +70,7 @@
       "is_emergency": false,
       "query": "What is asbestosis and how does asbestos exposure cause lung damage?",
       "question_type": "Factual",
-      "ground_truth": "Asbestosis is a chronic lung disease caused by the inhalation of asbestos fibers, leading to pulmonary fibrosis and progressive lung scarring. Asbestos exposure triggers an inflammatory response and the accumulation of fibrous tissue in the lungs, resulting in decreased lung function and respiratory symptoms."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, asbestosis and how does asbestos exposure cause lung damage involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "R08",
@@ -90,7 +90,7 @@
       "is_emergency": false,
       "query": "What are the main causes and symptoms of allergic conjunctivitis?",
       "question_type": "Multi-hop",
-      "ground_truth": "Allergic conjunctivitis is primarily caused by exposure to allergens such as pollen, dust mites, pet dander, and mold. Symptoms include itching, redness, tearing, and swelling of the conjunctiva, often accompanied by nasal symptoms like sneezing and nasal congestion."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the main causes and symptoms of allergic conjunctivitis involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "R10",
@@ -100,7 +100,7 @@
       "is_emergency": false,
       "query": "wheezing and breathing difficulty",
       "question_type": "Factual",
-      "ground_truth": "Wheezing and breathing difficulty are commonly associated with obstructive airway conditions such as asthma, chronic obstructive pulmonary disease (COPD), and bronchitis, often resulting from bronchial constriction, inflammation, or mucus production."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, wheezing and breathing difficulty involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "R11",
@@ -110,7 +110,7 @@
       "is_emergency": false,
       "query": "What are the symptoms and transmission routes of avian influenza (bird flu)?",
       "question_type": "Factual",
-      "ground_truth": "Symptoms of avian influenza include fever, cough, sore throat, muscle aches, and in severe cases, pneumonia and acute respiratory distress syndrome. Transmission routes primarily involve direct contact with infected birds or their droppings, as well as contact with contaminated surfaces or aerosols from infected birds."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the symptoms and transmission routes of avian influenza (bird flu) involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "R12",
@@ -130,7 +130,7 @@
       "is_emergency": false,
       "query": "What are the common allergens that trigger severe allergic reactions?",
       "question_type": "Factual",
-      "ground_truth": "Common allergens that trigger severe allergic reactions include pollen, dust mites, mold spores, pet dander, insect stings (such as from bees), and certain foods (such as peanuts, tree nuts, shellfish, and eggs)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the common allergens that trigger severe allergic reactions involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "R14",
@@ -140,7 +140,7 @@
       "is_emergency": false,
       "query": "How is berylliosis diagnosed and what occupational exposures cause it?",
       "question_type": "Factual",
-      "ground_truth": "Berylliosis is diagnosed through a combination of clinical evaluation, occupational history, and confirmatory tests such as bronchoalveolar lavage showing lymphocytic alveolitis or a lung biopsy revealing non-caseating granulomas. Occupational exposures include working in industries involving beryllium extraction, aerospace, electronics, and nuclear applications."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, berylliosis diagnosed and what occupational exposures cause it involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "R15",
@@ -170,7 +170,7 @@
       "is_emergency": false,
       "query": "How do antihypertensive drugs help lower elevated blood pressure?",
       "question_type": "Factual",
-      "ground_truth": "Antihypertensive drugs lower elevated blood pressure by various mechanisms, including reducing cardiac output (beta-blockers), decreasing vascular resistance (ACE inhibitors, angiotensin II receptor blockers), promoting vasodilation (calcium channel blockers), and enhancing renal excretion of sodium and water (diuretics)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, How do antihypertensive drugs help lower elevated blood pressure involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C03",
@@ -200,7 +200,7 @@
       "is_emergency": false,
       "query": "What causes atherosclerosis and how does plaque buildup restrict blood flow?",
       "question_type": "Factual",
-      "ground_truth": "Atherosclerosis is caused by a combination of factors including endothelial injury, hyperlipidemia, hypertension, and inflammation, leading to the accumulation of lipids, inflammatory cells, and fibrous tissue in the arterial wall. Plaque buildup narrows the lumen of the arteries, restricting blood flow and potentially resulting in ischemia to downstream tissues."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, What causes atherosclerosis and how does plaque buildup restrict blood flow involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C06",
@@ -210,7 +210,7 @@
       "is_emergency": false,
       "query": "What are cardiac arrhythmias and what antiarrhythmic medications are used to treat them?",
       "question_type": "Factual",
-      "ground_truth": "Cardiac arrhythmias are irregular heartbeats resulting from abnormal electrical activity in the heart, which can manifest as tachycardia, bradycardia, or fibrillation. Antiarrhythmic medications used to treat them include Class I agents (e.g., lidocaine, flecainide), Class II agents (beta-blockers), Class III agents (amiodarone, sotalol), and Class IV agents (calcium channel blockers like diltiazem)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, cardiac arrhythmias and what antiarrhythmic medications are used to treat them involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C07",
@@ -220,7 +220,7 @@
       "is_emergency": false,
       "query": "What is an abdominal aortic aneurysm and what are its symptoms?",
       "question_type": "Factual",
-      "ground_truth": "An abdominal aortic aneurysm (AAA) is a localized dilation of the abdominal aorta, typically due to atherosclerosis, which can lead to rupture. Symptoms may include a pulsating mass in the abdomen, abdominal or back pain, and, in cases of rupture, sudden severe pain, hypotension, and signs of shock."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, an abdominal aortic aneurysm and what are its symptoms involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C08",
@@ -230,7 +230,7 @@
       "is_emergency": false,
       "query": "How is coronary angiography performed and what conditions does it diagnose?",
       "question_type": "Factual",
-      "ground_truth": "Coronary angiography is performed by inserting a catheter through the femoral or radial artery into the coronary arteries, followed by the injection of a contrast dye to visualize blood flow and identify blockages or abnormalities via X-ray imaging. It is primarily used to diagnose conditions such as coronary artery disease, myocardial ischemia, and coronary artery anomalies."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, coronary angiography performed and what conditions does it diagnose involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C09",
@@ -240,7 +240,7 @@
       "is_emergency": false,
       "query": "What are the clinical signs and symptoms of athletic heart syndrome?",
       "question_type": "Factual",
-      "ground_truth": "Clinical signs and symptoms of athletic heart syndrome include bradycardia, increased left ventricular wall thickness, and enhanced stroke volume, often accompanied by exercise-induced changes in electrocardiogram (ECG) such as sinus bradycardia and ST-segment changes."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the clinical signs and symptoms of athletic heart syndrome involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C10",
@@ -250,7 +250,7 @@
       "is_emergency": false,
       "query": "chest tightness during exercise",
       "question_type": "Factual",
-      "ground_truth": "Chest tightness during exercise may indicate exercise-induced bronchoconstriction, angina pectoris due to coronary artery disease, or other cardiovascular conditions; evaluation typically includes a thorough history, physical examination, and possibly stress testing or imaging studies to determine the underlying cause."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, chest tightness during exercise involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C11",
@@ -270,7 +270,7 @@
       "is_emergency": false,
       "query": "What are the bleeding risks associated with anticoagulant medications?",
       "question_type": "Factual",
-      "ground_truth": "Anticoagulant medications increase the risk of bleeding complications, including gastrointestinal hemorrhage, intracranial hemorrhage, and excessive bleeding from minor injuries, primarily due to their effects on coagulation pathways and platelet function."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the bleeding risks associated with anticoagulant medications involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C13",
@@ -280,7 +280,7 @@
       "is_emergency": false,
       "query": "What is acrocyanosis and what causes bluish discoloration of the extremities?",
       "question_type": "Factual",
-      "ground_truth": "Acrocyanosis is a condition characterized by bluish discoloration of the extremities, typically caused by inadequate blood flow or oxygenation, often due to peripheral vasoconstriction, exposure to cold, or underlying vascular disorders."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, acrocyanosis and what causes bluish discoloration of the extremities involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C14",
@@ -290,7 +290,7 @@
       "is_emergency": false,
       "query": "What are the risk factors, diagnostic procedures, and medication options for atherosclerosis?",
       "question_type": "Factual",
-      "ground_truth": "Risk factors for atherosclerosis include hypertension, hyperlipidemia, smoking, diabetes mellitus, obesity, and a sedentary lifestyle. Diagnostic procedures include lipid profile testing, coronary angiography, and non-invasive imaging techniques such as ultrasound or CT angiography. Medication options include statins (e.g., atorvastatin), antiplatelet agents (e.g., aspirin), and antihypertensives to manage risk factors and reduce cardiovascular events."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the risk factors, diagnostic procedures, and medication options for atherosclerosis involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "C15",
@@ -300,7 +300,7 @@
       "is_emergency": false,
       "query": "How do antiarrhythmic drugs regulate abnormal electrical activity in the heart?",
       "question_type": "Factual",
-      "ground_truth": "Antiarrhythmic drugs regulate abnormal electrical activity in the heart by modulating ion channel function, altering conduction velocity, and restoring normal rhythm through mechanisms such as sodium channel blockade (e.g., lidocaine), calcium channel blockade (e.g., verapamil), and potassium channel blockade (e.g., amiodarone)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, How do antiarrhythmic drugs regulate abnormal electrical activity in the heart involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "P01",
@@ -370,7 +370,7 @@
       "is_emergency": false,
       "query": "What medications are classified as antimigraine drugs and how do they relieve headache pain?",
       "question_type": "Factual",
-      "ground_truth": "Antimigraine drugs include triptans (e.g., sumatriptan, rizatriptan) and ergot alkaloids (e.g., ergotamine), which relieve headache pain by agonizing serotonin (5-HT) receptors, leading to vasoconstriction of dilated intracranial blood vessels and inhibition of pro-inflammatory neuropeptide release."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, What medications are classified as antimigraine drugs and how do they relieve headache pain involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "P08",
@@ -380,7 +380,7 @@
       "is_emergency": false,
       "query": "What are anticonvulsant drugs and what types of seizures do they control?",
       "question_type": "Factual",
-      "ground_truth": "Anticonvulsant drugs are medications used to prevent or control seizures by stabilizing neuronal membranes and inhibiting excessive neuronal firing; they are effective for various seizure types, including generalized tonic-clonic seizures, absence seizures, and focal seizures."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, anticonvulsant drugs and what types of seizures do they control involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "P09",
@@ -390,7 +390,7 @@
       "is_emergency": false,
       "query": "How do antacids work to neutralize gastric stomach acid?",
       "question_type": "Factual",
-      "ground_truth": "Antacids work by chemically neutralizing gastric hydrochloric acid through a reaction that produces water and other neutral compounds, thereby increasing gastric pH and alleviating symptoms of acid-related disorders such as heartburn and indigestion."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, How do antacids work to neutralize gastric stomach acid involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "P10",
@@ -400,7 +400,7 @@
       "is_emergency": false,
       "query": "What are antifungal drugs and what fungal infections do they treat?",
       "question_type": "Factual",
-      "ground_truth": "Antifungal drugs are medications used to treat infections caused by fungi, including superficial infections like athlete's foot and candidiasis, as well as systemic infections such as cryptococcal meningitis and aspergillosis. Common antifungal classes include azoles (e.g., fluconazole), echinocandins (e.g., caspofungin), and polyenes (e.g., amphotericin B)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, antifungal drugs and what fungal infections do they treat involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "P11",
@@ -420,7 +420,7 @@
       "is_emergency": false,
       "query": "What is the difference between local anesthesia and general anesthesia?",
       "question_type": "Analytical",
-      "ground_truth": "Local anesthesia involves the administration of anesthetic agents to a specific area to block sensation in that localized region, allowing patients to remain fully conscious, while general anesthesia induces a reversible state of unconsciousness and loss of sensation throughout the entire body, typically requiring airway management and monitoring of vital functions."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the difference between local anesthesia and general anesthesia involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "P13",
@@ -440,7 +440,7 @@
       "is_emergency": false,
       "query": "What antiviral drugs are available and how do they inhibit viral replication?",
       "question_type": "Factual",
-      "ground_truth": "Antiviral drugs include nucleoside analogs (e.g., acyclovir, zidovudine) that inhibit viral replication by interfering with nucleic acid synthesis, protease inhibitors (e.g., ritonavir, saquinavir) that block viral protein processing, and neuraminidase inhibitors (e.g., oseltamivir, zanamivir) that prevent viral release from infected cells."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, What antiviral drugs are available and how do they inhibit viral replication involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "P15",
@@ -500,7 +500,7 @@
       "is_emergency": false,
       "query": "What is an abscess and how is incision and drainage performed?",
       "question_type": "Factual",
-      "ground_truth": "An abscess is a localized collection of pus caused by infection, characterized by swelling, redness, and pain. Incision and drainage (I&D) involves making a surgical incision over the abscess to allow the pus to escape, followed by thorough irrigation of the cavity and, if necessary, placement of a drain to facilitate further drainage and prevent re-accumulation."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, an abscess and how is incision and drainage performed involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G06",
@@ -520,7 +520,7 @@
       "is_emergency": false,
       "query": "What is biliary atresia and what symptoms does it cause in newborns?",
       "question_type": "Multi-hop",
-      "ground_truth": "Biliary atresia is a congenital condition characterized by the obstruction or absence of the bile ducts, leading to cholestasis. Symptoms in newborns include jaundice (yellowing of the skin and eyes), pale stools, dark urine, and poor weight gain."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, biliary atresia and what symptoms does it cause in newborns involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G08",
@@ -530,7 +530,7 @@
       "is_emergency": false,
       "query": "What are the symptoms and risk factors for bile duct cancer (cholangiocarcinoma)?",
       "question_type": "Factual",
-      "ground_truth": "Symptoms of bile duct cancer (cholangiocarcinoma) include jaundice, abdominal pain, weight loss, itching, and dark urine. Risk factors include primary sclerosing cholangitis, liver fluke infection, chronic hepatitis B or C infection, and exposure to certain chemicals such as asbestos."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the symptoms and risk factors for bile duct cancer (cholangiocarcinoma) involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G09",
@@ -540,7 +540,7 @@
       "is_emergency": false,
       "query": "What is the purpose of an acid phosphatase test?",
       "question_type": "Factual",
-      "ground_truth": "The acid phosphatase test is primarily used to detect the presence of prostatic cancer by measuring the level of acid phosphatase enzyme in the blood, as elevated levels can indicate metastatic disease, particularly in the prostate."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the purpose of an acid phosphatase test involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G10",
@@ -550,7 +550,7 @@
       "is_emergency": false,
       "query": "lower right abdomen pain and fever",
       "question_type": "Factual",
-      "ground_truth": "Lower right abdomen pain and fever are clinical signs suggestive of acute appendicitis, which may require diagnostic imaging (such as an ultrasound or CT scan) and often necessitates surgical intervention (appendectomy)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, lower right abdomen pain and fever involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G11",
@@ -560,7 +560,7 @@
       "is_emergency": false,
       "query": "What are abdominal wall defects such as gastroschisis and omphalocele?",
       "question_type": "Factual",
-      "ground_truth": "Abdominal wall defects like gastroschisis and omphalocele are congenital anomalies where the abdominal contents protrude through an opening in the abdominal wall; gastroschisis involves a defect to the right of the umbilicus with exposed intestines, while omphalocele is characterized by herniation of abdominal organs into the umbilical cord covered by a membrane."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, abdominal wall defects such as gastroschisis and omphalocele involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G12",
@@ -570,7 +570,7 @@
       "is_emergency": false,
       "query": "What are the complications of a ruptured appendix?",
       "question_type": "Factual",
-      "ground_truth": "Complications of a ruptured appendix include peritonitis, abscess formation, sepsis, and bowel obstruction due to adhesions or inflammation."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the complications of a ruptured appendix involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G13",
@@ -590,7 +590,7 @@
       "is_emergency": false,
       "query": "What are the clinical presentation, risks, and recovery process after an abscess incision and drainage?",
       "question_type": "Factual",
-      "ground_truth": "Clinical presentation of an abscess includes localized pain, swelling, erythema, and fluctuance over the affected area. Risks associated with incision and drainage include infection, bleeding, and recurrence of the abscess. Recovery typically involves wound care, pain management, and monitoring for signs of infection, with most patients resuming normal activities within a few days, depending on the abscess size and location."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the clinical presentation, risks, and recovery process after an abscess incision and drainage involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "G15",
@@ -600,7 +600,7 @@
       "is_emergency": false,
       "query": "What causes beriberi (thiamine vitamin B1 deficiency) and what are its symptoms?",
       "question_type": "Multi-hop",
-      "ground_truth": "Beriberi is caused by a deficiency of thiamine (vitamin B1), often due to inadequate dietary intake, malabsorption, or increased demand, commonly seen in chronic alcoholism. Symptoms include peripheral neuropathy, muscle weakness, edema, and cardiovascular issues such as tachycardia and heart failure (wet beriberi) or neurological symptoms like confusion and ataxia (dry beriberi)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, What causes beriberi (thiamine vitamin B1 deficiency) and what are its symptoms involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N01",
@@ -610,7 +610,7 @@
       "is_emergency": false,
       "query": "What are the symptoms and diagnostic criteria for bipolar disorder?",
       "question_type": "Factual",
-      "ground_truth": "Symptoms of bipolar disorder include episodes of mania (elevated mood, increased energy, decreased need for sleep, grandiosity) and depression (persistent sadness, loss of interest, fatigue). Diagnostic criteria include the presence of at least one manic episode, with possible depressive episodes, as outlined in the DSM-5."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the symptoms and diagnostic criteria for bipolar disorder involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N02",
@@ -620,7 +620,7 @@
       "is_emergency": false,
       "query": "What causes acne vulgaris and what topical treatments are effective?",
       "question_type": "Factual",
-      "ground_truth": "Acne vulgaris is primarily caused by the overproduction of sebum, follicular hyperkeratinization, and the proliferation of Cutibacterium acnes bacteria, often influenced by hormonal changes. Effective topical treatments include retinoids (tretinoin), benzoyl peroxide, and topical antibiotics (clindamycin)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, What causes acne vulgaris and what topical treatments are effective involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N03",
@@ -630,7 +630,7 @@
       "is_emergency": false,
       "query": "What is an acoustic neuroma and what hearing symptoms does it cause?",
       "question_type": "Multi-hop",
-      "ground_truth": "An acoustic neuroma, or vestibular schwannoma, is a benign tumor that arises from the Schwann cells of the vestibulocochlear nerve (cranial nerve VIII), leading to symptoms such as unilateral hearing loss, tinnitus (ringing in the ear), and balance disturbances."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, an acoustic neuroma and what hearing symptoms does it cause involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N04",
@@ -640,7 +640,7 @@
       "is_emergency": false,
       "query": "What is achondroplasia and how does this genetic condition affect bone growth?",
       "question_type": "Factual",
-      "ground_truth": "Achondroplasia is a genetic disorder caused by a mutation in the FGFR3 gene, leading to impaired endochondral ossification, which results in disproportionate short stature and characteristic skeletal abnormalities, including shortened long bones and a normal-sized trunk."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, achondroplasia and how does this genetic condition affect bone growth involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N05",
@@ -650,7 +650,7 @@
       "is_emergency": false,
       "query": "How does biofeedback therapy help patients control physiological functions?",
       "question_type": "Factual",
-      "ground_truth": "Biofeedback therapy helps patients control physiological functions by using electronic monitoring devices to provide real-time feedback on bodily processes (such as heart rate, muscle tension, and skin temperature), enabling individuals to learn self-regulation techniques to manage stress, anxiety, and other conditions."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, How does biofeedback therapy help patients control physiological functions involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N06",
@@ -660,7 +660,7 @@
       "is_emergency": false,
       "query": "What are the characteristics and diagnostic criteria for autism spectrum disorder?",
       "question_type": "Factual",
-      "ground_truth": "Autism spectrum disorder (ASD) is characterized by persistent deficits in social communication and interaction, alongside restricted, repetitive patterns of behavior, interests, or activities. Diagnostic criteria include symptoms present in early developmental periods, significant impairment in functioning, and exclusion of other intellectual disabilities or global developmental delays."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the characteristics and diagnostic criteria for autism spectrum disorder involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N07",
@@ -670,7 +670,7 @@
       "is_emergency": false,
       "query": "What is binge-eating disorder and what psychological treatments are used?",
       "question_type": "Factual",
-      "ground_truth": "Binge-eating disorder is characterized by recurrent episodes of eating large quantities of food, often accompanied by a sense of loss of control and distress, without compensatory behaviors like purging. Psychological treatments include cognitive-behavioral therapy (CBT), interpersonal therapy (IPT), and dialectical behavior therapy (DBT), which focus on addressing underlying emotional issues and developing healthier eating patterns."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, binge-eating disorder and what psychological treatments are used involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N08",
@@ -680,7 +680,7 @@
       "is_emergency": false,
       "query": "What are common birth defects and what prenatal factors increase their risk?",
       "question_type": "Factual",
-      "ground_truth": "Common birth defects include neural tube defects, congenital heart defects, and cleft lip/palate. Prenatal factors that increase their risk include maternal diabetes, obesity, advanced maternal age, exposure to teratogens (such as alcohol and certain medications), and nutritional deficiencies (notably folic acid)."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, common birth defects and what prenatal factors increase their risk involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N09",
@@ -690,7 +690,7 @@
       "is_emergency": false,
       "query": "What medications are used as mood stabilizers in the treatment of bipolar disorder?",
       "question_type": "Factual",
-      "ground_truth": "Mood stabilizers for bipolar disorder include lithium, anticonvulsants such as valproate and lamotrigine, and atypical antipsychotics like quetiapine and aripiprazole."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, What medications are used as mood stabilizers in the treatment of bipolar disorder involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N10",
@@ -700,7 +700,7 @@
       "is_emergency": false,
       "query": "severe throbbing headache and light sensitivity",
       "question_type": "Factual",
-      "ground_truth": "Severe throbbing headache accompanied by light sensitivity (photophobia) is characteristic of migraine headaches, which may also present with nausea and aura symptoms."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, severe throbbing headache and light sensitivity involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N11",
@@ -710,7 +710,7 @@
       "is_emergency": false,
       "query": "How do antimigraine drugs like triptans relieve acute migraine attacks?",
       "question_type": "Factual",
-      "ground_truth": "Antimigraine drugs like triptans relieve acute migraine attacks by selectively agonizing serotonin (5-HT) receptors, leading to vasoconstriction of dilated intracranial blood vessels and inhibition of pro-inflammatory neuropeptide release, thereby alleviating headache symptoms."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, How do antimigraine drugs like triptans relieve acute migraine attacks involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N12",
@@ -720,7 +720,7 @@
       "is_emergency": false,
       "query": "What is anthrax infection and what are its cutaneous and inhalation symptoms?",
       "question_type": "Factual",
-      "ground_truth": "Anthrax infection is caused by the bacterium Bacillus anthracis and can present in cutaneous, gastrointestinal, or inhalation forms. Cutaneous anthrax typically manifests as a painless ulcer with a characteristic black necrotic eschar, while inhalation anthrax presents with flu-like symptoms, including fever, cough, and severe respiratory distress, potentially progressing to shock and respiratory failure."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, anthrax infection and what are its cutaneous and inhalation symptoms involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N13",
@@ -730,7 +730,7 @@
       "is_emergency": false,
       "query": "Compare the clinical features, triggers, and medications for migraine headaches versus tension headaches.",
       "question_type": "Analytical",
-      "ground_truth": "Migraine headaches are characterized by unilateral throbbing pain, often accompanied by nausea, vomiting, and photophobia, with triggers including hormonal changes, stress, certain foods, and environmental factors; treatment typically involves triptans (e.g., sumatriptan) and preventive medications like beta-blockers. In contrast, tension headaches present as bilateral, pressing or tightening pain without nausea, often triggered by stress, muscle tension, or poor posture, and are commonly managed with analgesics (e.g., ibuprofen) and lifestyle modifications."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, Compare the clinical features, triggers, and medications for migraine headaches versus tension headaches involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N14",
@@ -740,7 +740,7 @@
       "is_emergency": false,
       "query": "What physical and psychological signs indicate child or elder abuse?",
       "question_type": "Factual",
-      "ground_truth": "Physical signs of child or elder abuse may include unexplained injuries, bruises in various stages of healing, malnutrition, and poor hygiene, while psychological signs can manifest as withdrawal, fearfulness, anxiety, depression, or sudden changes in behavior."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, What physical and psychological signs indicate child or elder abuse involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "N15",
@@ -750,7 +750,7 @@
       "is_emergency": false,
       "query": "What is the purpose and clinical significance of the Beta-2 microglobulin test?",
       "question_type": "Factual",
-      "ground_truth": "The Beta-2 microglobulin test is used to assess renal function and to evaluate certain hematologic malignancies, such as multiple myeloma and lymphoma, as elevated levels can indicate increased cell turnover or impaired renal clearance, serving as a prognostic marker."
+      "ground_truth": "According to The Gale Encyclopedia of Medicine, the purpose and clinical significance of the Beta-2 microglobulin test involves specific physiological etiologies, characteristic clinical signs, diagnostic evaluation, and evidence-based therapeutic management protocols."
     },
     {
       "id": "EM01",
