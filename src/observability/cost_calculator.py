@@ -172,3 +172,18 @@ class CostCalculator:
         if cost_usd < 0.001:
             return f"${cost_usd * 1000:.4f}m"   # millicents
         return f"${cost_usd:.6f}"
+
+
+def estimate_cost(
+    model: str = "gpt-4o-mini",
+    prompt_tokens: int = 0,
+    completion_tokens: int = 0,
+) -> float:
+    """Convenience helper to estimate USD cost given token counts."""
+    calc = CostCalculator()
+    return calc.calculate(
+        TokenUsage(prompt_tokens=prompt_tokens, completion_tokens=completion_tokens),
+        model=model,
+    )
+
+

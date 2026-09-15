@@ -223,19 +223,171 @@ def generate_bar_chart(
     return out_path.resolve()
 
 
+def generate_comparison_metrics_chart(
+    comparison,
+    output_path: str | Path,
+    title: str = "RAG Quality Metrics: Naive RAG vs Full GaleMed",
+) -> Path:
+    """
+    Generate a grouped bar chart comparing all evaluated metrics between architectures.
+    """
+    plt, np = _import_matplotlib()
+
+    metrics = [
+        ("faithfulness", "Faithfulness"),
+        ("answer_relevancy", "Answer Relevancy"),
+        ("context_precision", "Context Precision"),
+        ("context_recall", "Context Recall"),
+        ("medical_safety", "Medical Safety"),
+        ("negative_rejection", "Negative Rejection"),
+    ]
+
+    labels = [m[1] for m in metrics]
+    naive_vals = [comparison.naive_scores.get(m[0]) or 0.0 for m in metrics]
+    full_vals = [comparison.full_scores.get(m[0]) or 0.0 for m in metrics]
+
+    x = np.arange(len(labels))
+    bar_width = 0.35
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    fig.patch.set_facecolor("#1A1A2E")
+    ax.set_facecolor("#16213E")
+
+    bars_naive = ax.bar(x - bar_width / 2, naive_vals, bar_width, label=comparison.naive_architecture,
+                        color=_NAIVE_COLOR, alpha=0.85, edgecolor="white", linewidth=0.5)
+    bars_full = ax.bar(x + bar_width / 2, full_vals, bar_width, label=comparison.full_architecture,
+                       color=_FULL_COLOR, alpha=0.85, edgecolor="white", linewidth=0.5)
+
+    for bar in bars_naive:
+        h = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, h + 0.015, f"{h:.2f}",
+                ha="center", va="bottom", fontsize=8.5, color=_NAIVE_COLOR, fontweight="bold")
+
+    for bar in bars_full:
+        h = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, h + 0.015, f"{h:.2f}",
+                ha="center", va="bottom", fontsize=8.5, color=_FULL_COLOR, fontweight="bold")
+
+    for i, (n, f) in enumerate(zip(naive_vals, full_vals)):
+        delta = f - n
+        color = _DELTA_POS if delta >= 0 else _DELTA_NEG
+        sign = "+" if delta >= 0 else ""
+        ax.text(i, max(n, f) + 0.07, f"{sign}{delta:.2f}", ha="center", va="bottom",
+                fontsize=9, color=color, fontweight="bold")
+
+    ax.set_ylim(0, 1.2)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, color="white", fontsize=9.5)
+    ax.set_ylabel("Score (0.0 - 1.0)", color="white", fontsize=11)
+    ax.tick_params(colors="white")
+    ax.spines[:].set_color("#333366")
+    ax.grid(axis="y", color="#333366", linestyle="--", linewidth=0.7, alpha=0.6)
+    ax.set_title(title, color="white", fontsize=13, fontweight="bold", pad=15)
+    ax.legend(fontsize=10, framealpha=0.3, labelcolor="white", facecolor="#1A1A2E", edgecolor="#333366")
+
+    out_path = Path(output_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
+    plt.close(fig)
+    logger.info("Comparison metrics chart saved: %s", out_path)
+    return out_path.resolve()
+
+
+def generate_tradeoff_chart(
+    comparison,
+    output_path: str | Path,
+    title: str = "Quality vs Speed vs Cost Trade-off Analysis",
+) -> Path:
+    """
+    Generate a 2D trade-off plot (Latency vs Quality, bubble size = Cost).
+    """
+    plt, _ = _import_matplotlib()
+
+    # Calculate average quality score (across 4 core RAGAS metrics)
+    core_metrics = ["faithfulness", "answer_relevancy", "context_precision", "context_recall"]
+    def _avg_quality(scores: dict) -> float:
+        vals = [scores.get(m) for m in core_metrics if scores.get(m) is not None]
+        return sum(vals) / len(vals) if vals else 0.0
+
+    naive_q = _avg_quality(comparison.naive_scores)
+    full_q = _avg_quality(comparison.full_scores)
+
+    naive_lat = comparison.naive_scores.get("avg_latency_ms", 500.0) or 500.0
+    full_lat = comparison.full_scores.get("avg_latency_ms", 1200.0) or 1200.0
+
+    naive_cost = comparison.naive_scores.get("total_cost_usd", 0.01) or 0.01
+    full_cost = comparison.full_scores.get("total_cost_usd", 0.02) or 0.02
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    fig.patch.set_facecolor("#1A1A2E")
+    ax.set_facecolor("#16213E")
+
+    # Plot points
+    # Bubble sizes scaled to cost
+    base_size = 600
+    naive_size = max(base_size, int(naive_cost * 20000))
+    full_size = max(base_size, int(full_cost * 20000))
+
+    ax.scatter([naive_lat], [naive_q], s=naive_size, color=_NAIVE_COLOR, alpha=0.8,
+               edgecolors="white", linewidths=1.5, label=f"{comparison.naive_architecture} (${naive_cost:.4f})")
+    ax.scatter([full_lat], [full_q], s=full_size, color=_FULL_COLOR, alpha=0.8,
+               edgecolors="white", linewidths=1.5, label=f"{comparison.full_architecture} (${full_cost:.4f})")
+
+    # Annotations
+    ax.annotate(
+        f"{comparison.naive_architecture}\nQuality: {naive_q:.3f}\nLatency: {naive_lat:.0f}ms\nCost: ${naive_cost:.4f}",
+        xy=(naive_lat, naive_q), xytext=(naive_lat + 40, naive_q - 0.03),
+        color="white", fontsize=9.5, fontweight="bold",
+        arrowprops=dict(arrowstyle="->", color=_NAIVE_COLOR, lw=1.2)
+    )
+
+    ax.annotate(
+        f"{comparison.full_architecture}\nQuality: {full_q:.3f}\nLatency: {full_lat:.0f}ms\nCost: ${full_cost:.4f}",
+        xy=(full_lat, full_q), xytext=(full_lat - 180, full_q + 0.03),
+        color="white", fontsize=9.5, fontweight="bold",
+        arrowprops=dict(arrowstyle="->", color=_FULL_COLOR, lw=1.2)
+    )
+
+    # Styling
+    all_lats = [naive_lat, full_lat]
+    ax.set_xlim(min(all_lats) * 0.7, max(all_lats) * 1.3)
+    ax.set_ylim(min(naive_q, full_q) * 0.8, min(1.05, max(naive_q, full_q) * 1.25))
+
+    ax.set_xlabel("Average Response Latency (ms) [Lower is Better]", color="white", fontsize=11)
+    ax.set_ylabel("Composite Quality Score (0.0 - 1.0) [Higher is Better]", color="white", fontsize=11)
+    ax.tick_params(colors="white")
+    ax.spines[:].set_color("#333366")
+    ax.grid(True, color="#333366", linestyle="--", linewidth=0.7, alpha=0.6)
+    ax.set_title(title, color="white", fontsize=13, fontweight="bold", pad=15)
+    ax.legend(fontsize=10, framealpha=0.4, labelcolor="white", facecolor="#1A1A2E", edgecolor="#333366", loc="lower right")
+
+    out_path = Path(output_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
+    plt.close(fig)
+    logger.info("Tradeoff chart saved: %s", out_path)
+    return out_path.resolve()
+
+
 def generate_charts(
     comparison,
     output_dir: str | Path = "output/experiments",
 ) -> dict[str, Path]:
     """
-    Generate all comparison charts (radar + faithfulness bar).
+    Generate all comparison charts:
+    - radar_chart.png
+    - bar_faithfulness.png
+    - comparison_metrics.png
+    - tradeoff_quality_cost_latency.png
 
     Args:
         comparison:  ComparisonResult from ExperimentRunner.compare().
         output_dir:  Directory to save PNGs.
 
     Returns:
-        Dict mapping chart name to absolute path: {"radar": Path, "bar_faithfulness": Path}
+        Dict mapping chart name to absolute path.
     """
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -259,7 +411,24 @@ def generate_charts(
     except Exception as exc:
         logger.error("Bar chart failed: %s", exc)
 
+    try:
+        paths["comparison_metrics"] = generate_comparison_metrics_chart(
+            comparison,
+            output_path=out / "comparison_metrics.png",
+        )
+    except Exception as exc:
+        logger.error("Comparison metrics chart failed: %s", exc)
+
+    try:
+        paths["tradeoff"] = generate_tradeoff_chart(
+            comparison,
+            output_path=out / "tradeoff_quality_cost_latency.png",
+        )
+    except Exception as exc:
+        logger.error("Tradeoff chart failed: %s", exc)
+
     return paths
+
 
 
 def generate_markdown_report(

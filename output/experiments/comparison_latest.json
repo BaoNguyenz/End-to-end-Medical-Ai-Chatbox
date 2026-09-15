@@ -1,0 +1,67 @@
+{
+  "naive_architecture": "naive_rag",
+  "full_architecture": "full_galemed",
+  "naive_scores": {
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "context_precision": null,
+    "context_recall": null,
+    "medical_safety": null,
+    "negative_rejection": null,
+    "avg_latency_ms": null,
+    "total_cost_usd": 0.0014999999999999998
+  },
+  "full_scores": {
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "context_precision": null,
+    "context_recall": null,
+    "medical_safety": null,
+    "negative_rejection": null,
+    "avg_latency_ms": null,
+    "total_cost_usd": 0.0031
+  },
+  "deltas": {
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "context_precision": null,
+    "context_recall": null,
+    "medical_safety": null,
+    "negative_rejection": null,
+    "avg_latency_ms": null
+  },
+  "category_breakdown": {
+    "respiratory": {
+      "faithfulness": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "answer_relevancy": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "context_precision": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "context_recall": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "medical_safety": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "negative_rejection": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      }
+    }
+  }
+}

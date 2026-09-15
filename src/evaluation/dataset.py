@@ -280,3 +280,66 @@ def load_benchmark(
         )
 
     return dataset
+
+
+def load_benchmark_dataset(
+    path: Optional[str | Path] = None,
+    limit: Optional[int] = None,
+    evaluable_only: bool = False,
+) -> list[dict]:
+    """
+    Load benchmark dataset as a list of dictionaries with standard keys:
+    'id', 'question', 'category', 'query_type', 'question_type', 'ground_truth'.
+    """
+    dataset = load_benchmark(path, verbose=False)
+    pool = dataset.evaluable_questions if evaluable_only else dataset.questions
+    if limit is not None and limit > 0:
+        pool = pool[:limit]
+
+    return [
+        {
+            "id": q.id,
+            "question": q.query,
+            "category": q.category,
+            "query_type": q.query_type,
+            "question_type": q.question_type,
+            "expect_rejection": q.expect_rejection,
+            "is_emergency": q.is_emergency,
+            "ground_truth": q.ground_truth,
+            "has_template_ground_truth": q.has_template_ground_truth,
+        }
+        for q in pool
+    ]
+
+
+def get_dataset_statistics(data: list[dict] | MedicalBenchmarkDataset) -> dict:
+    """Return summary statistics of the dataset."""
+    if isinstance(data, MedicalBenchmarkDataset):
+        items = [q.to_dict() for q in data.questions]
+    else:
+        items = data
+
+    total = len(items)
+    categories: dict[str, int] = {}
+    qtypes: dict[str, int] = {}
+    emergencies = 0
+    rejections = 0
+
+    for it in items:
+        cat = it.get("category", "unknown")
+        categories[cat] = categories.get(cat, 0) + 1
+        qt = it.get("question_type", "unknown")
+        qtypes[qt] = qtypes.get(qt, 0) + 1
+        if it.get("is_emergency"):
+            emergencies += 1
+        if it.get("expect_rejection"):
+            rejections += 1
+
+    return {
+        "total_questions": total,
+        "categories": categories,
+        "question_types": qtypes,
+        "emergency_count": emergencies,
+        "rejection_count": rejections,
+    }
+

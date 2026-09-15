@@ -1,181 +1,172 @@
 """
-main.py
-Interactive CLI for GaleMed AI Clinical Assistant (GraphRAG + Hybrid Search + Redis Cache).
+GaleMed AI — Production-Ready RAG Evaluation Platform
+=====================================================
+Unified Master CLI Entry Point for GaleMed AI RAG Evaluation & Observability.
+
+Combines:
+    - Task 1: RAGAS Automated Evaluation (Faithfulness, Relevancy, Precision, Recall, Safety)
+    - Task 2: LLM Observability & Cost Tracking (Langfuse Tracing, Token Pricing, PII Masking)
+    - Task 3: Architecture Comparison & Ablation Study (Naive vs Full GaleMed)
+    - Task 4: Integrated Platform & Automated Comprehensive Reporting
 
 Usage:
-    uv run python main.py
-    uv run python main.py --no-graph          # disable Neo4j
-    uv run python main.py --mode hybrid       # force hybrid search (auto|hybrid|vector|bm25|graph)
+    # Run full end-to-end evaluation & generate report:
+    python main.py --run-experiments --generate-report --limit 10
 
-Commands during interactive session:
-    /quit         Exit
-    /mode <mode>  Change search mode (auto|hybrid|vector|bm25|graph)
-    /eval         Run full evaluation on benchmark queries and save report
-    /cache        Show Redis semantic cache stats
-    /clear        Clear Redis semantic cache
-    /help         Show commands
+    # Smoke test (mock mode):
+    python main.py --mock --limit 5
+
+    # Run only experiments:
+    python main.py --run-experiments --limit 105
+
+    # Run only report generation from saved results:
+    python main.py --generate-report --results-dir output/experiments
 """
 
-import sys
+from __future__ import annotations
+
 import argparse
-import time
+import logging
+import sys
 from pathlib import Path
+from typing import Optional
 
-# Force UTF-8 encoding on Windows console
-try:
-    sys.stdout.reconfigure(encoding="utf-8")
-except AttributeError:
-    pass
-
-# pyrefly: ignore [missing-import]
-from src.orchestrator.pipeline import RAGPipeline
-# pyrefly: ignore [missing-import]
-from src.orchestrator.evaluator import Evaluator
-# pyrefly: ignore [missing-import]
-from src.cache.semantic_cache import get_semantic_cache
-
-BANNER = """
-=================================================================
-  GaleMed AI Clinical Assistant  |  The Gale Encyclopedia of Medicine
-  Components: Hybrid Search + Neo4j GraphRAG + Cross-Encoder + Redis Cache
-=================================================================
-Type your medical question, or use /help for commands.
-"""
-
-HELP_TEXT = """
-Available commands:
-  /mode <mode>   Set search mode: auto | hybrid | vector | bm25 | graph
-  /graph on|off  Toggle Neo4j Knowledge Graph search
-  /cache         Display Redis Semantic Cache statistics
-  /clear         Clear all Redis Semantic Cache entries
-  /eval          Run evaluation benchmark (evaluator.py)
-  /help          Show this message
-  /quit          Exit the CLI
-"""
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger("main")
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="GaleMed AI Clinical Assistant CLI")
-    parser.add_argument(
-        "--mode",
-        choices=["auto", "hybrid", "vector", "bm25", "graph"],
-        default="auto",
-        help="Initial search mode (default: auto)",
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="GaleMed AI: Production-Ready RAG Evaluation & Monitoring Platform"
     )
     parser.add_argument(
-        "--no-graph",
+        "--run-experiments",
         action="store_true",
-        help="Disable Neo4j Knowledge Graph integration",
+        help="Execute comparative experiments across RAG architectures.",
     )
     parser.add_argument(
-        "--top-k",
+        "--generate-report",
+        action="store_true",
+        help="Generate comprehensive Markdown comparison report and visual charts.",
+    )
+    parser.add_argument(
+        "--dataset", "-d",
+        type=str,
+        default="Data/benchmarks/medical_benchmark_with_ground_truth.json",
+        help="Path to evaluation benchmark JSON file.",
+    )
+    parser.add_argument(
+        "--limit", "-l",
         type=int,
-        default=10,
-        help="Number of context chunks to pass to LLM (default: 10)",
+        default=None,
+        help="Max number of benchmark questions to evaluate.",
+    )
+    parser.add_argument(
+        "--output", "-o",
+        type=str,
+        default="output/report.md",
+        help="Path for generated final Markdown report.",
+    )
+    parser.add_argument(
+        "--charts-dir",
+        type=str,
+        default="output",
+        help="Directory to save PNG comparison plots.",
+    )
+    parser.add_argument(
+        "--mock",
+        action="store_true",
+        help="Run in mock mode (instant evaluation without external API calls).",
+    )
+    parser.add_argument(
+        "--results-dir",
+        type=str,
+        default=None,
+        help="Path to directory with existing results to generate report from.",
     )
     return parser.parse_args()
 
 
-def main():
-    args = parse_args()
-    print(BANNER)
-    print("Initializing pipeline components... (this may take a few seconds)")
-
-    pipeline = RAGPipeline(use_graph=not args.no_graph)
-    cache = get_semantic_cache()
-    mode = args.mode
-    use_graph = not args.no_graph
-    top_k = args.top_k
-
-    print(f"\nReady! Search mode: [{mode.upper()}], Graph: [{'ON' if use_graph else 'OFF'}], Cache: [{'ONLINE' if cache.available else 'OFFLINE'}]\n")
-
-    while True:
+def main() -> None:
+    if sys.stdout and hasattr(sys.stdout, "reconfigure"):
         try:
-            user_input = input("User> ").strip()
-        except (KeyboardInterrupt, EOFError):
-            print("\nExiting. Goodbye!")
-            break
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
 
-        if not user_input:
-            continue
+    args = parse_args()
 
-        # Handle commands
-        if user_input.startswith("/"):
-            parts = user_input.split(maxsplit=1)
-            cmd = parts[0].lower()
-            arg = parts[1].strip() if len(parts) > 1 else ""
+    # If neither flag is specified, default to running both
+    run_exp = args.run_experiments
+    gen_rep = args.generate_report
+    if not run_exp and not gen_rep:
+        run_exp = True
+        gen_rep = True
 
-            if cmd in ("/quit", "/exit", "/q"):
-                print("Goodbye!")
-                break
-            elif cmd == "/help":
-                print(HELP_TEXT)
-            elif cmd == "/mode":
-                if arg in ("auto", "hybrid", "vector", "bm25", "graph"):
-                    mode = arg
-                    print(f"[OK] Search mode set to: {mode.upper()}")
-                else:
-                    print("[ERROR] Invalid mode. Choose: auto | hybrid | vector | bm25 | graph")
-            elif cmd == "/graph":
-                if arg.lower() in ("on", "true", "1"):
-                    use_graph = True
-                    print("[OK] Knowledge Graph enabled.")
-                elif arg.lower() in ("off", "false", "0"):
-                    use_graph = False
-                    print("[OK] Knowledge Graph disabled.")
-                else:
-                    print(f"Graph is currently: {'ON' if use_graph else 'OFF'}. Use: /graph on|off")
-            elif cmd == "/cache":
-                stats = cache.stats()
-                print("\n--- Redis Semantic Cache Stats ---")
-                print(f"  Hits            : {stats['hits']}")
-                print(f"  Misses          : {stats['misses']}")
-                print(f"  Hit Rate        : {stats['hit_rate_pct']}%")
-                print(f"  Cached Queries  : {stats['total_cached_queries']}")
-                print(f"  Available       : {stats['available']}\n")
-            elif cmd == "/clear":
-                deleted = cache.clear()
-                print(f"[OK] Cleared {deleted} cache entries.")
-            elif cmd == "/eval":
-                print("\nRunning benchmark evaluation...")
-                evaluator = Evaluator(pipeline=pipeline)
-                report = evaluator.evaluate()
-                print("\nEvaluation Summary:")
-                print(report.summary_table())
-            else:
-                print(f"[ERROR] Unknown command '{cmd}'. Type /help for available commands.")
-            continue
+    print("\n" + "=" * 76)
+    print("  GALEMED AI - PRODUCTION-READY RAG EVALUATION & OBSERVABILITY PLATFORM")
+    print("=" * 76)
+    print(f"  Dataset    : {args.dataset}")
+    print(f"  Limit      : {args.limit or 'All questions'}")
+    print(f"  Mode       : {'MOCK (Fast Smoke Test)' if args.mock else 'REAL (Production Pipelines)'}")
+    print(f"  Output     : {args.output}")
+    print(f"  Charts Dir : {args.charts_dir}")
+    print("=" * 76 + "\n")
 
-        # Process clinical query
-        print("\nThinking...", end="", flush=True)
-        response = pipeline.process_query(
-            query=user_input,
-            search_mode=mode,
-            top_k=top_k,
-            use_graph=use_graph,
-        )
-        print("\r" + " " * 15 + "\r", end="")  # Clear "Thinking..."
+    if args.results_dir and gen_rep and not run_exp:
+        from compare import compare_from_results_dir
+        compare_from_results_dir(args.results_dir, args.output, args.charts_dir)
+        return
 
-        is_cached = response.metadata.get("cached", False)
-        badge = "[CACHED - REDIS]" if is_cached else f"[{response.metadata.get('search_mode', mode).upper()}]"
-        
-        print(f"\n--- GaleMed AI ({badge}) ---")
-        print(response.answer)
-        print("\n--- Retrieved Sources ---")
-        if not response.sources:
-            if is_cached:
-                print("  (Served from Redis Semantic Cache in < 10ms)")
-            else:
-                print("  (No external sources retrieved / Emergency response)")
-        else:
-            for i, src in enumerate(response.sources[:5]):
-                source_type = getattr(src, "source", "hybrid")
-                doc_name = src.chunk.doc_id.replace("_", " ").title()
-                score_str = f"score={src.score:.3f}" if hasattr(src, "score") else ""
-                print(f"  [{i+1}] {doc_name} ({source_type}) {score_str}")
+    from src.experiments.runner import ExperimentRunner
+    from src.experiments.analysis import generate_charts, generate_markdown_report
 
-        print(f"\nLatency: {response.latency.get('total', 0)*1000:.0f}ms\n" + "-"*65)
+    runner = ExperimentRunner(output_dir=args.charts_dir)
+
+    if args.mock:
+        from src.experiments.architectures import MockNaivePipeline, MockFullPipeline
+        naive_pipeline = MockNaivePipeline()
+        full_pipeline = MockFullPipeline()
+    else:
+        from src.experiments.architectures import NaiveRAGPipeline, FullGaleMedRAGPipeline
+        naive_pipeline = NaiveRAGPipeline()
+        full_pipeline = FullGaleMedRAGPipeline()
+
+    from src.evaluation.dataset import load_benchmark
+
+    if run_exp:
+        logger.info("Loading benchmark from: %s", args.dataset)
+        dataset = load_benchmark(args.dataset, verbose=False)
+        questions = dataset.questions
+
+        logger.info("Phase 1: Running comparative experiments...")
+        naive_report = runner.run_architecture("naive_rag", naive_pipeline, questions=questions, limit=args.limit)
+        full_report = runner.run_architecture("full_galemed", full_pipeline, questions=questions, limit=args.limit)
+        comparison = runner.compare(naive_report, full_report)
+        comparison.print_summary()
+
+        # Always save JSON results to output/experiments/
+        exp_dir = Path("output/experiments")
+        exp_dir.mkdir(parents=True, exist_ok=True)
+        comparison.save(exp_dir / "comparison_latest.json")
+
+
+
+    if gen_rep:
+        logger.info("Phase 2: Generating visual charts & comprehensive report...")
+        chart_paths = generate_charts(comparison, output_dir=args.charts_dir)
+        report_md = generate_markdown_report(comparison, chart_paths=chart_paths, output_path=args.output)
+        logger.info("Report successfully generated: %s", args.output)
+
+    print("\n" + "=" * 76)
+    print("  [OK] PLATFORM EXECUTION FINISHED SUCCESSFULLY")
+    print("=" * 76 + "\n")
 
 
 if __name__ == "__main__":
     main()
+

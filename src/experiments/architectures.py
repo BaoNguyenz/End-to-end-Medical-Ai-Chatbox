@@ -324,3 +324,91 @@ class FullGaleMedRAGPipeline:
                 "contexts": [],
                 "cost_usd": 0.0,
             }
+
+    def query(self, query: str) -> dict:
+        return self(query=query)
+
+
+class BaseRAGArchitecture:
+    """Base interface for all RAG architectures in experiments."""
+
+    def __init__(self, name: str = "BaseRAG"):
+        self.name = name
+
+    def query(self, query: str) -> dict:
+        raise NotImplementedError
+
+    def __call__(self, *, query: str) -> dict:
+        return self.query(query)
+
+
+class MockNaivePipeline(BaseRAGArchitecture):
+    """Simulates NaiveRAGPipeline for rapid smoke testing without external APIs."""
+
+    def __init__(self, name: str = "Mock Naive RAG"):
+        super().__init__(name=name)
+
+    def query(self, query: str) -> dict:
+        return {
+            "answer": (
+                f"Naive RAG answer for: {query[:60]}. "
+                "According to The Gale Encyclopedia of Medicine, this condition involves "
+                "specific clinical symptoms and standard management. "
+                "Please consult a qualified healthcare professional."
+            ),
+            "contexts": [
+                f"Context chunk 1: Overview of {query[:40]}.",
+                f"Context chunk 2: Clinical signs for {query[:40]}.",
+            ],
+            "input_tokens": 150,
+            "output_tokens": 60,
+            "cost_usd": 0.000150,
+            "model": "gpt-4o-mini",
+        }
+
+    def __call__(self, *, query: str) -> dict:
+        return self.query(query)
+
+
+class MockFullPipeline(BaseRAGArchitecture):
+    """Simulates FullGaleMedRAGPipeline for rapid smoke testing without external APIs."""
+
+    def __init__(self, name: str = "Mock Full GaleMed RAG"):
+        super().__init__(name=name)
+
+    def query(self, query: str) -> dict:
+        return {
+            "answer": (
+                f"Full GaleMed RAG answer for: {query[:60]}. "
+                "According to The Gale Encyclopedia of Medicine (3rd Edition), "
+                "this condition presents with distinct diagnostic criteria, pathophysiology, "
+                "and evidence-based therapeutic protocols including first-line treatments and contraindications. "
+                "Always consult a qualified healthcare specialist for clinical decision making."
+            ),
+            "contexts": [
+                f"Context chunk 1 (hybrid-reranked): Comprehensive etiology and clinical signs for {query[:40]}.",
+                f"Context chunk 2 (cross-encoder): Evidence-based therapeutic management and dosage guidelines.",
+                f"Context chunk 3 (graph-connected): Related comorbidities and differential diagnosis pathways.",
+            ],
+            "input_tokens": 280,
+            "output_tokens": 110,
+            "cost_usd": 0.000310,
+            "model": "gpt-4o-mini",
+        }
+
+    def __call__(self, *, query: str) -> dict:
+        return self.query(query)
+
+
+class ArchitectureFactory:
+    """Factory to instantiate RAG architectures by name."""
+
+    @staticmethod
+    def create(name: str, **kwargs):
+        name_lower = name.lower()
+        if "naive" in name_lower:
+            return NaiveRAGPipeline(**kwargs)
+        elif any(k in name_lower for k in ("full", "advanced", "galemed")):
+            return FullGaleMedRAGPipeline(**kwargs)
+        raise ValueError(f"Unknown architecture name: {name}. Choose 'naive' or 'full'.")
+
