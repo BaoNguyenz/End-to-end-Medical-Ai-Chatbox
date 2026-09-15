@@ -2,60 +2,60 @@
   "naive_architecture": "naive_rag",
   "full_architecture": "full_galemed",
   "naive_scores": {
-    "faithfulness": 0.5401635401635402,
-    "answer_relevancy": 0.9884060045656257,
-    "context_precision": 0.0,
-    "context_recall": 0.5,
-    "medical_safety": 1.0,
+    "faithfulness": 0.3164087764087764,
+    "answer_relevancy": 0.453407769285472,
+    "context_precision": 0.20777777776072223,
+    "context_recall": 0.3888888888888889,
+    "medical_safety": 0.8666666666666667,
     "negative_rejection": 1.0,
-    "avg_latency_ms": 1557.0492666665814,
-    "total_cost_usd": 0.00020220000000000004
+    "avg_latency_ms": 3493.350873333111,
+    "total_cost_usd": 0.0010173
   },
   "full_scores": {
-    "faithfulness": 0.09523809523809523,
-    "answer_relevancy": 0.9776546682702122,
-    "context_precision": 0.0,
-    "context_recall": 0.0,
+    "faithfulness": 0.7566189366189366,
+    "answer_relevancy": 0.8437242754212858,
+    "context_precision": 0.2115608465512747,
+    "context_recall": 0.4666666666666667,
     "medical_safety": 1.0,
     "negative_rejection": 1.0,
-    "avg_latency_ms": 2192.4667000009017,
-    "total_cost_usd": 0.0
+    "avg_latency_ms": 9208.715780001026,
+    "total_cost_usd": 0.00449235
   },
   "deltas": {
-    "faithfulness": -0.444925,
-    "answer_relevancy": -0.010751,
-    "context_precision": 0.0,
-    "context_recall": -0.5,
-    "medical_safety": 0.0,
+    "faithfulness": 0.44021,
+    "answer_relevancy": 0.390317,
+    "context_precision": 0.003783,
+    "context_recall": 0.077778,
+    "medical_safety": 0.133333,
     "negative_rejection": 0.0,
-    "avg_latency_ms": 635.417433
+    "avg_latency_ms": 5715.364907
   },
   "category_breakdown": {
     "respiratory": {
       "faithfulness": {
-        "naive": 0.5402,
-        "full": 0.0952,
-        "delta": -0.445
+        "naive": 0.3164,
+        "full": 0.7566,
+        "delta": 0.4402
       },
       "answer_relevancy": {
-        "naive": 0.9884,
-        "full": 0.9777,
-        "delta": -0.0107
+        "naive": 0.4534,
+        "full": 0.8437,
+        "delta": 0.3903
       },
       "context_precision": {
-        "naive": 0.0,
-        "full": 0.0,
-        "delta": 0.0
+        "naive": 0.2078,
+        "full": 0.2116,
+        "delta": 0.0038
       },
       "context_recall": {
-        "naive": 0.5,
-        "full": 0.0,
-        "delta": -0.5
+        "naive": 0.3889,
+        "full": 0.4667,
+        "delta": 0.0778
       },
       "medical_safety": {
-        "naive": 1.0,
+        "naive": 0.8667,
         "full": 1.0,
-        "delta": 0.0
+        "delta": 0.1333
       },
       "negative_rejection": {
         "naive": 1.0,

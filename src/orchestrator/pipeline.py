@@ -217,6 +217,7 @@ class RAGPipeline:
         top_k: int = 10,
         use_graph: Optional[bool] = None,
         rerank_top_k: int = 20,
+        skip_cache: bool = False,
     ) -> RAGResponse:
         """
         Process a medical query through the full RAG pipeline.
@@ -227,6 +228,7 @@ class RAGPipeline:
             top_k:        Final number of context chunks for answer generation.
             use_graph:    Override instance-level graph setting for this query.
             rerank_top_k: Candidates passed to CrossEncoder before MMR.
+            skip_cache:   If True, bypass semantic cache (useful for retrieval evaluation).
 
         Returns:
             RAGResponse with medical answer, sources, latency breakdown, and metadata.
@@ -255,14 +257,15 @@ class RAGPipeline:
         ) as root:
 
             # ── Span 1: Redis Cache Lookup ─────────────────────────────────
-            with root.span("RedisCacheLookup", input={"query": query}) as s_cache:
+            _cached = None
+            with root.span("RedisCacheLookup", input={"query": query, "skip_cache": skip_cache}) as s_cache:
                 _cache = get_semantic_cache()
-                _cached = None
-                if _cache.available:
+                if not skip_cache and _cache.available:
                     _cached = _cache.get(query)
                 s_cache.set_output({"cache_hit": _cached is not None})
 
-            if _cached is not None:
+            if not skip_cache and _cached is not None:
+
                 latency["total"] = time.time() - total_start
                 latency["cache_lookup_ms"] = _cached.latency_ms
                 root.update(

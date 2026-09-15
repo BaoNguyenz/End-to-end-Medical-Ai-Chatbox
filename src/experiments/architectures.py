@@ -299,7 +299,13 @@ class FullGaleMedRAGPipeline:
             }
 
         try:
-            response = self._pipeline.process_query(query=query, search_mode="auto", top_k=10)
+            response = self._pipeline.process_query(
+                query=query,
+                search_mode="auto",
+                top_k=10,
+                skip_cache=True,
+            )
+
 
             # Extract contexts from RAGResponse.sources
             contexts: list[str] = []
