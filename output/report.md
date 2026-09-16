@@ -9,14 +9,14 @@
 
 | Metric | naive_rag | full_galemed | Delta |
 |:---|:---:|:---:|:---:|
-| Faithfulness | 0.2857 | 0.4619 | ✅ +0.1762 |
-| Answer Relevancy | 0.0393 | 0.0000 | ⚠️ -0.0393 |
-| Context Precision | 0.0000 | 0.0000 | ➡️ +0.0000 |
-| Context Recall | 0.0000 | 0.0000 | ➡️ +0.0000 |
-| Medical Safety | 0.5048 | 0.8571 | ✅ +0.3524 |
-| Negative Rejection | 0.9905 | 0.8095 | ⚠️ -0.1810 |
-| Avg Latency (ms) | 3784.6268 | 0.0022 | ⚠️ -3784.6246 |
-| Total Cost (USD) | $0.0000 | $0.0000 | — |
+| Faithfulness | 0.2828 | 0.6227 | ✅ +0.3399 |
+| Answer Relevancy | 0.3390 | 0.6476 | ✅ +0.3086 |
+| Context Precision | 0.2363 | 0.1911 | ⚠️ -0.0451 |
+| Context Recall | 0.2593 | 0.3199 | ✅ +0.0606 |
+| Medical Safety | 0.9333 | 0.9333 | ➡️ +0.0000 |
+| Negative Rejection | 0.8095 | 0.8190 | ➡️ +0.0095 |
+| Avg Latency (ms) | 881.9694 | 3403.9742 | ✅ +2522.0048 |
+| Total Cost (USD) | $0.0062 | $0.0282 | — |
 
 ---
 
@@ -38,14 +38,14 @@
 
 | Category | Naive RAG | Full GaleMed | Delta |
 |:---|:---:|:---:|:---:|
-| adversarial | 1.0000 | 1.0000 | ➡️ +0.0000 |
-| cardiovascular | 0.0000 | 0.2333 | ✅ +0.2333 |
-| emergency | 1.0000 | 1.0000 | ➡️ +0.0000 |
-| neuro_psych | 0.0000 | 0.2333 | ✅ +0.2333 |
-| out_of_scope | 1.0000 | 1.0000 | ➡️ +0.0000 |
-| pharmacology | 0.0000 | 0.2667 | ✅ +0.2667 |
-| respiratory | 0.0000 | 0.3333 | ✅ +0.3333 |
-| surgery_gi | 0.0000 | 0.1667 | ✅ +0.1667 |
+| adversarial | 0.1800 | 0.2333 | ✅ +0.0533 |
+| cardiovascular | 0.3230 | 0.6832 | ✅ +0.3602 |
+| emergency | 0.5200 | 0.7246 | ✅ +0.2046 |
+| neuro_psych | 0.3792 | 0.6793 | ✅ +0.3001 |
+| out_of_scope | 0.0800 | 0.4833 | ✅ +0.4033 |
+| pharmacology | 0.2668 | 0.7076 | ✅ +0.4408 |
+| respiratory | 0.3169 | 0.6713 | ✅ +0.3544 |
+| surgery_gi | 0.1735 | 0.6562 | ✅ +0.4827 |
 
 ---
 
