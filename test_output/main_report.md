@@ -9,13 +9,13 @@
 
 | Metric | naive_rag | full_galemed | Delta |
 |:---|:---:|:---:|:---:|
-| Faithfulness | 0.0000 | 0.0714 | ✅ +0.0714 |
+| Faithfulness | 0.1250 | 0.0833 | ⚠️ -0.0417 |
 | Answer Relevancy | 0.0000 | 0.0000 | ➡️ +0.0000 |
 | Context Precision | 0.0000 | 0.0000 | ➡️ +0.0000 |
 | Context Recall | 0.5000 | 0.0000 | ⚠️ -0.5000 |
 | Medical Safety | 1.0000 | 1.0000 | ➡️ +0.0000 |
 | Negative Rejection | 1.0000 | 1.0000 | ➡️ +0.0000 |
-| Avg Latency (ms) | 0.0019 | 0.0025 | ➡️ +0.0006 |
+| Avg Latency (ms) | 0.0018 | 0.0025 | ➡️ +0.0006 |
 | Total Cost (USD) | $0.0003 | $0.0006 | — |
 
 ---
@@ -38,7 +38,7 @@
 
 | Category | Naive RAG | Full GaleMed | Delta |
 |:---|:---:|:---:|:---:|
-| respiratory | 0.0000 | 0.0714 | ✅ +0.0714 |
+| respiratory | 0.1250 | 0.0833 | ⚠️ -0.0417 |
 
 ---
 

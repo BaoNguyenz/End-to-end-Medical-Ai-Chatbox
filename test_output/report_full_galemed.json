@@ -10,7 +10,7 @@
     "context_recall": 0.0,
     "medical_safety": 1.0,
     "negative_rejection": 1.0,
-    "avg_latency_ms": 0.0026499997147766408,
+    "avg_latency_ms": 0.0024500000108673703,
     "total_cost_usd": 0.00062
   },
   "results": [

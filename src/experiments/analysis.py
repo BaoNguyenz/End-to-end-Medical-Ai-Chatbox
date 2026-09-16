@@ -337,22 +337,33 @@ def generate_tradeoff_chart(
     # Annotations
     ax.annotate(
         f"{comparison.naive_architecture}\nQuality: {naive_q:.3f}\nLatency: {naive_lat:.0f}ms\nCost: ${naive_cost:.4f}",
-        xy=(naive_lat, naive_q), xytext=(naive_lat + 40, naive_q - 0.03),
+        xy=(naive_lat, naive_q), xytext=(20, -25), textcoords="offset points",
         color="white", fontsize=9.5, fontweight="bold",
         arrowprops=dict(arrowstyle="->", color=_NAIVE_COLOR, lw=1.2)
     )
 
     ax.annotate(
         f"{comparison.full_architecture}\nQuality: {full_q:.3f}\nLatency: {full_lat:.0f}ms\nCost: ${full_cost:.4f}",
-        xy=(full_lat, full_q), xytext=(full_lat - 180, full_q + 0.03),
+        xy=(full_lat, full_q), xytext=(-120, 20), textcoords="offset points",
         color="white", fontsize=9.5, fontweight="bold",
         arrowprops=dict(arrowstyle="->", color=_FULL_COLOR, lw=1.2)
     )
 
     # Styling
     all_lats = [naive_lat, full_lat]
-    ax.set_xlim(min(all_lats) * 0.7, max(all_lats) * 1.3)
-    ax.set_ylim(min(naive_q, full_q) * 0.8, min(1.05, max(naive_q, full_q) * 1.25))
+    min_lat = min(all_lats) if min(all_lats) > 0 else 100.0
+    max_lat = max(all_lats) if max(all_lats) > 0 else 1000.0
+    if min_lat >= max_lat:
+        min_lat = max(10.0, max_lat * 0.5)
+        max_lat = max_lat * 1.5 if max_lat > 0 else 1000.0
+    ax.set_xlim(min_lat * 0.7, max_lat * 1.3)
+
+    min_q = min(naive_q, full_q)
+    max_q = max(naive_q, full_q)
+    if min_q >= max_q:
+        min_q = max(0.0, min_q - 0.1)
+        max_q = min(1.0, max_q + 0.1)
+    ax.set_ylim(max(0.0, min_q * 0.8), min(1.05, max_q * 1.25))
 
     ax.set_xlabel("Average Response Latency (ms) [Lower is Better]", color="white", fontsize=11)
     ax.set_ylabel("Composite Quality Score (0.0 - 1.0) [Higher is Better]", color="white", fontsize=11)

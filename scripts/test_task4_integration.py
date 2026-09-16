@@ -179,7 +179,6 @@ def main():
 
     if all_passed:
         print("\n[SUCCESS] ALL TASK 4 TESTS PASSED SUCCESSFULLY!")
-        clean_test_dirs()
         sys.exit(0)
     else:
         print("\n[FAILURE] SOME TESTS FAILED. Please review output above.")
