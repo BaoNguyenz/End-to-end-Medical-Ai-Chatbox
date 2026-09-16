@@ -70,10 +70,11 @@ class Settings(BaseSettings):
     # --- Search ---
     bm25_top_k: int = 50
     vector_top_k: int = 50
-    hybrid_top_k: int = 20
-    rerank_top_k: int = 10
+    hybrid_top_k: int = 50
+    rerank_top_k: int = 20
+    final_top_k: int = 15
     rrf_k: int = 60
-    mmr_lambda: float = 0.5
+    mmr_lambda: float = 0.8
 
     # --- Paths ---
     # Medical encyclopedia articles extracted as individual Markdown files

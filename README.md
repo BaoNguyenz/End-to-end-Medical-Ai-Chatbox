@@ -45,7 +45,7 @@ The system operates on an authentic **Dual-Pipeline Architecture** separating **
 
 ## 🌟 Key Features
 
-*   **⚡ L1 Redis Semantic Cache:** Cosine similarity ($\ge 0.92$) • Sub-10ms latency • Zero-cost query reuse.
+*   **⚡ L1 Redis Semantic Cache:** Cosine similarity ($\ge 0.92$) • Sub-20ms latency • Zero-cost query reuse.
 *   **🧬 Neo4j GraphRAG:** Multi-hop reasoning • 1,465 entities (Disease, Drug, Symptom) • 441 relationships.
 *   **🔍 Hybrid Search & RRF:** Dense Vector (Qdrant HNSW) + Sparse Lexical (BM25) • Reciprocal Rank Fusion ($k=60$).
 *   **🎯 Cross-Encoder Reranker:** Precision passage scoring (`ms-marco-MiniLM-L-6-v2`) • MMR diversity filter.

@@ -214,9 +214,9 @@ class RAGPipeline:
         self,
         query: str,
         search_mode: str = "auto",   # "auto" | "hybrid" | "vector" | "bm25" | "graph"
-        top_k: int = 10,
+        top_k: Optional[int] = None,
         use_graph: Optional[bool] = None,
-        rerank_top_k: int = 20,
+        rerank_top_k: Optional[int] = None,
         skip_cache: bool = False,
     ) -> RAGResponse:
         """
@@ -233,6 +233,9 @@ class RAGPipeline:
         Returns:
             RAGResponse with medical answer, sources, latency breakdown, and metadata.
         """
+        actual_top_k = top_k if top_k is not None else getattr(settings, "final_top_k", 15)
+        actual_rerank_top_k = rerank_top_k if rerank_top_k is not None else getattr(settings, "rerank_top_k", 20)
+
         total_start = time.time()
         latency: dict[str, float] = {}
         metadata: dict = {"search_mode": search_mode, "query_class": "unknown"}
@@ -349,8 +352,8 @@ class RAGPipeline:
                 t = time.time()
                 final_results = self.post_pipeline.process(
                     query, all_candidates,
-                    rerank_top_k=rerank_top_k,
-                    final_top_k=top_k,
+                    rerank_top_k=actual_rerank_top_k,
+                    final_top_k=actual_top_k,
                 )
                 latency["post_retrieval"] = time.time() - t
                 s_re.set_output({"num_final": len(final_results)})

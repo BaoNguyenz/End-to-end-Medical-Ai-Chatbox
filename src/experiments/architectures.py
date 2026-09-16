@@ -302,7 +302,6 @@ class FullGaleMedRAGPipeline:
             response = self._pipeline.process_query(
                 query=query,
                 search_mode="auto",
-                top_k=10,
                 skip_cache=True,
             )
 
