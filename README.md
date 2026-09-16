@@ -31,6 +31,12 @@
   <a href="#-technology-stack">
     <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?logo=openai&logoColor=white" alt="OpenAI">
   </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/MCP-Model_Context_Protocol-4B0082?logo=anthropic&logoColor=white" alt="MCP">
+  </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/Stitch_MCP-Frontend_Design-7928CA?logo=figma&logoColor=white" alt="Stitch MCP">
+  </a>
   <a href="#-getting-started">
     <img src="https://img.shields.io/badge/Docker-Multi--stage_Build-2496ED?logo=docker&logoColor=white" alt="Docker">
   </a>
@@ -78,7 +84,7 @@ The clinical knowledge base is constructed from verified medical literature (*Th
 | :--- | :---: | :--- |
 | **Medical Reference Documents** | **292** entries | Disease (107), Drug (54), General (84), Procedure (34), Test (13) |
 | **Indexed Vector Chunks** | **13,350** chunks | Semantic-chunked (avg. 164 chars) with normalized embeddings |
-| **Vector Store Collection** | `medical_docs` | Qdrant HNSW Index (M=16, ef_construct=100) |
+| **Vector Store Collection** | `medical_docs` | Qdrant HNSW Index (M=16, ef_construct=200) |
 | **Graph Entities (Nodes)** | **1,465** nodes | Disease (288), Medication (333), Symptom (508), Procedure (99), Entry (237) |
 | **Graph Relationships (Edges)** | **441** relations | `TREATS`, `HAS_SYMPTOM`, `REQUIRES_PROCEDURE`, `BELONGS_TO` |
 
@@ -184,7 +190,8 @@ The system integrates **Langfuse Distributed Tracing** with 6 granular spans to 
 | **Semantic Cache** | **Redis Stack** | Sub-10ms vector similarity response cache ($\ge 0.92$) |
 | **Lexical Search** | **Rank-BM25** | In-memory exact keyword matching ($k=50$) |
 | **Backend API** | **FastAPI**, **Uvicorn** | Asynchronous HTTP API with streaming responses and OpenAPI docs |
-| **Frontend UI** | **React**, **Vite**, Modern Glassmorphic CSS | Interactive clinical chat UI, live latency metrics, and citation preview |
+| **Frontend UI & Design** | **React**, **Vite**, **Stitch MCP**, Glassmorphic CSS | Modern clinical chat UI, live latency metrics, and citation preview designed via Stitch MCP |
+| **Tooling & Protocols** | **MCP (Model Context Protocol)**, Stitch | Standardized agentic protocol for UI design generation and screen iterations |
 | **Containerization** | **Docker**, **Docker Compose** | Multi-stage slim runtime build with non-root security |
 | **CI/CD & Cloud** | **GitHub Actions**, **Microsoft Azure VM** | Automated syntax/lint validation and automated SSH cloud deployment |
 
