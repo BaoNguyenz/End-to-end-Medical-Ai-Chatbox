@@ -2,60 +2,284 @@
   "naive_architecture": "naive_rag",
   "full_architecture": "full_galemed",
   "naive_scores": {
-    "faithfulness": 0.3164087764087764,
-    "answer_relevancy": 0.453407769285472,
-    "context_precision": 0.20777777776072223,
-    "context_recall": 0.3888888888888889,
-    "medical_safety": 0.8666666666666667,
-    "negative_rejection": 1.0,
-    "avg_latency_ms": 3493.350873333111,
-    "total_cost_usd": 0.0010173
+    "faithfulness": 0.2857142857142857,
+    "answer_relevancy": 0.039271556969854425,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "medical_safety": 0.5047619047619047,
+    "negative_rejection": 0.9904761904761905,
+    "avg_latency_ms": 3784.626782857148,
+    "total_cost_usd": 0.0
   },
   "full_scores": {
-    "faithfulness": 0.7566189366189366,
-    "answer_relevancy": 0.8437242754212858,
-    "context_precision": 0.2115608465512747,
-    "context_recall": 0.4666666666666667,
-    "medical_safety": 1.0,
-    "negative_rejection": 1.0,
-    "avg_latency_ms": 9208.715780001026,
-    "total_cost_usd": 0.00449235
+    "faithfulness": 0.46190476190476193,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "medical_safety": 0.8571428571428571,
+    "negative_rejection": 0.8095238095238095,
+    "avg_latency_ms": 0.0021609523953104925,
+    "total_cost_usd": 0.0
   },
   "deltas": {
-    "faithfulness": 0.44021,
-    "answer_relevancy": 0.390317,
-    "context_precision": 0.003783,
-    "context_recall": 0.077778,
-    "medical_safety": 0.133333,
-    "negative_rejection": 0.0,
-    "avg_latency_ms": 5715.364907
+    "faithfulness": 0.17619,
+    "answer_relevancy": -0.039272,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "medical_safety": 0.352381,
+    "negative_rejection": -0.180952,
+    "avg_latency_ms": -3784.624622
   },
   "category_breakdown": {
-    "respiratory": {
+    "adversarial": {
       "faithfulness": {
-        "naive": 0.3164,
-        "full": 0.7566,
-        "delta": 0.4402
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
       },
       "answer_relevancy": {
-        "naive": 0.4534,
-        "full": 0.8437,
-        "delta": 0.3903
+        "naive": null,
+        "full": null,
+        "delta": null
       },
       "context_precision": {
-        "naive": 0.2078,
-        "full": 0.2116,
-        "delta": 0.0038
+        "naive": null,
+        "full": null,
+        "delta": null
       },
       "context_recall": {
-        "naive": 0.3889,
-        "full": 0.4667,
-        "delta": 0.0778
+        "naive": null,
+        "full": null,
+        "delta": null
       },
       "medical_safety": {
-        "naive": 0.8667,
+        "naive": 0.55,
+        "full": 0.9,
+        "delta": 0.35
+      },
+      "negative_rejection": {
+        "naive": 0.9,
+        "full": 0.0,
+        "delta": -0.9
+      }
+    },
+    "cardiovascular": {
+      "faithfulness": {
+        "naive": 0.0,
+        "full": 0.2333,
+        "delta": 0.2333
+      },
+      "answer_relevancy": {
+        "naive": 0.0508,
+        "full": 0.0,
+        "delta": -0.0508
+      },
+      "context_precision": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "context_recall": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "medical_safety": {
+        "naive": 0.5333,
+        "full": 0.9333,
+        "delta": 0.4
+      },
+      "negative_rejection": {
+        "naive": 1.0,
         "full": 1.0,
-        "delta": 0.1333
+        "delta": 0.0
+      }
+    },
+    "emergency": {
+      "faithfulness": {
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
+      },
+      "answer_relevancy": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "context_precision": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "context_recall": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "medical_safety": {
+        "naive": 0.5,
+        "full": 0.0,
+        "delta": -0.5
+      },
+      "negative_rejection": {
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
+      }
+    },
+    "neuro_psych": {
+      "faithfulness": {
+        "naive": 0.0,
+        "full": 0.2333,
+        "delta": 0.2333
+      },
+      "answer_relevancy": {
+        "naive": 0.0962,
+        "full": 0.0,
+        "delta": -0.0962
+      },
+      "context_precision": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "context_recall": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "medical_safety": {
+        "naive": 0.5,
+        "full": 1.0,
+        "delta": 0.5
+      },
+      "negative_rejection": {
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
+      }
+    },
+    "out_of_scope": {
+      "faithfulness": {
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
+      },
+      "answer_relevancy": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "context_precision": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "context_recall": {
+        "naive": null,
+        "full": null,
+        "delta": null
+      },
+      "medical_safety": {
+        "naive": 0.5,
+        "full": 1.0,
+        "delta": 0.5
+      },
+      "negative_rejection": {
+        "naive": 1.0,
+        "full": 0.0,
+        "delta": -1.0
+      }
+    },
+    "pharmacology": {
+      "faithfulness": {
+        "naive": 0.0,
+        "full": 0.2667,
+        "delta": 0.2667
+      },
+      "answer_relevancy": {
+        "naive": 0.0494,
+        "full": 0.0,
+        "delta": -0.0494
+      },
+      "context_precision": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "context_recall": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "medical_safety": {
+        "naive": 0.5333,
+        "full": 0.9333,
+        "delta": 0.4
+      },
+      "negative_rejection": {
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
+      }
+    },
+    "respiratory": {
+      "faithfulness": {
+        "naive": 0.0,
+        "full": 0.3333,
+        "delta": 0.3333
+      },
+      "answer_relevancy": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "context_precision": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "context_recall": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "medical_safety": {
+        "naive": 0.4333,
+        "full": 0.8667,
+        "delta": 0.4334
+      },
+      "negative_rejection": {
+        "naive": 1.0,
+        "full": 1.0,
+        "delta": 0.0
+      }
+    },
+    "surgery_gi": {
+      "faithfulness": {
+        "naive": 0.0,
+        "full": 0.1667,
+        "delta": 0.1667
+      },
+      "answer_relevancy": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "context_precision": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "context_recall": {
+        "naive": 0.0,
+        "full": 0.0,
+        "delta": 0.0
+      },
+      "medical_safety": {
+        "naive": 0.5,
+        "full": 1.0,
+        "delta": 0.5
       },
       "negative_rejection": {
         "naive": 1.0,
