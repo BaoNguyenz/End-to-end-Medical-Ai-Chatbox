@@ -42,6 +42,10 @@ class Settings(BaseSettings):
     neo4j_user: str = "neo4j"
     neo4j_password: str = "password123"
 
+    # --- Langfuse Observability (Cloud) ---
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+    langfuse_host: str = "https://cloud.langfuse.com"
 
     # --- Redis Semantic Cache ---
     redis_host: str = "localhost"
@@ -66,10 +70,11 @@ class Settings(BaseSettings):
     # --- Search ---
     bm25_top_k: int = 50
     vector_top_k: int = 50
-    hybrid_top_k: int = 20
-    rerank_top_k: int = 10
+    hybrid_top_k: int = 50
+    rerank_top_k: int = 20
+    final_top_k: int = 15
     rrf_k: int = 60
-    mmr_lambda: float = 0.5
+    mmr_lambda: float = 0.8
 
     # --- Paths ---
     # Medical encyclopedia articles extracted as individual Markdown files
