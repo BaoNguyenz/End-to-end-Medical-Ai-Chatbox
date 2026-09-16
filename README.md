@@ -96,7 +96,7 @@ The clinical knowledge base is constructed from verified medical literature (*Th
 
 The RAG platform is evaluated end-to-end against a gold-standard benchmark suite (**105 clinical QA pairs** in `Data/benchmarks/medical_benchmark_with_ground_truth.json`) comparing **Naive RAG Baseline** against **Full GaleMed Advanced RAG**.
 
-Full strategic analysis and exam answers are documented in detail in [**`docs/ANSWERS.md`**](docs/ANSWERS.md) and [**`output/report.md`**](output/report.md).
+Full strategic analysis and exam answers are documented in detail in [**`output/report.md`**](output/report.md).
 
 ### 🏆 Overall Benchmark Summary (105 Empirical Questions)
 
