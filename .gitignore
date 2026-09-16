@@ -44,3 +44,9 @@ document_implement_plan/
 *.key
 .secrets/
 Data/markdown_output/
+
+# Test & ephemeral outputs
+test_output/
+test_results/
+scripts/cache/
+cache/
