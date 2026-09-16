@@ -1,0 +1,52 @@
+{
+  "architecture": "naive",
+  "total_questions": 2,
+  "evaluated_questions": 2,
+  "failed_questions": 0,
+  "aggregates": {
+    "faithfulness": 0.125,
+    "answer_relevancy": 0.0,
+    "context_precision": 0.0,
+    "context_recall": 0.0,
+    "medical_safety": 1.0,
+    "negative_rejection": 1.0,
+    "avg_latency_ms": 0.026049999860333628,
+    "total_cost_usd": 0.0003
+  },
+  "results": [
+    {
+      "question_id": "R01",
+      "query": "What are the primary symptoms and clinical signs of asthma?",
+      "question_type": "Factual",
+      "category": "respiratory",
+      "answer": "Naive RAG answer for: What are the primary symptoms and clinical signs of asthma?. According to The Gale Encyclopedia of Medicine, this condition involves specific clinical symptoms and standard management. Please consult a qualified healthcare professional.",
+      "latency_ms": 0.04,
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.0,
+      "context_precision": 0.0,
+      "context_recall": 0.0,
+      "medical_safety": 1.0,
+      "negative_rejection": 1.0,
+      "is_emergency": false,
+      "expect_rejection": false,
+      "error": null
+    },
+    {
+      "question_id": "R02",
+      "query": "What environmental triggers can precipitate an acute asthma attack?",
+      "question_type": "Factual",
+      "category": "respiratory",
+      "answer": "Naive RAG answer for: What environmental triggers can precipitate an acute asthma . According to The Gale Encyclopedia of Medicine, this condition involves specific clinical symptoms and standard management. Please consult a qualified healthcare professional.",
+      "latency_ms": 0.02,
+      "faithfulness": 0.25,
+      "answer_relevancy": 0.0,
+      "context_precision": 0.0,
+      "context_recall": 0.0,
+      "medical_safety": 1.0,
+      "negative_rejection": 1.0,
+      "is_emergency": false,
+      "expect_rejection": false,
+      "error": null
+    }
+  ]
+}

@@ -140,9 +140,11 @@ def test_deliverables_and_charts() -> bool:
             print(f"{FAIL} Chart missing or empty: {chart.name}")
             all_ok = False
 
-    answers_md = BASE_DIR / "ANSWERS.md"
+    answers_md = BASE_DIR / "docs" / "ANSWERS.md"
+    if not answers_md.exists():
+        answers_md = BASE_DIR / "ANSWERS.md"
     if answers_md.exists() and answers_md.stat().st_size > 1000:
-        print(f"{PASS} ANSWERS.md verified ({answers_md.stat().st_size} bytes)")
+        print(f"{PASS} ANSWERS.md verified at {answers_md.relative_to(BASE_DIR)} ({answers_md.stat().st_size} bytes)")
     else:
         print(f"{FAIL} ANSWERS.md is missing or too short!")
         all_ok = False
