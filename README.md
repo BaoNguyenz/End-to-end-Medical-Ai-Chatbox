@@ -153,7 +153,6 @@ uv run python compare.py --output output/report.md --charts-dir output
 
 # 5. Run end-to-end Task 4 integration smoke test:
 uv run python scripts/test_task4_integration.py
-uv run python scripts/test_task4_integration.py
 ```
 
 ---
