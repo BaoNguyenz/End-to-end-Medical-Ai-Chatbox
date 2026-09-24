@@ -8,6 +8,12 @@
     <img src="https://img.shields.io/badge/Cloud-Microsoft_Azure_VM-0078D4?logo=microsoftazure&logoColor=white" alt="Azure">
   </a>
   <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/Nginx-Reverse_Proxy_%26_Rate_Limit-009639?logo=nginx&logoColor=white" alt="Nginx">
+  </a>
+  <a href="#-testing--verification-suite">
+    <img src="https://img.shields.io/badge/Pytest-12_Automated_Tests-0A9EDC?logo=pytest&logoColor=white" alt="Pytest">
+  </a>
+  <a href="#-technology-stack">
     <img src="https://img.shields.io/badge/Python-3.13%2B-blue?logo=python&logoColor=white" alt="Python">
   </a>
   <a href="#-technology-stack">
@@ -49,6 +55,8 @@
 - **Precision Cross-Encoder Reranking (`ms-marco-MiniLM-L-6-v2`)** with Maximal Marginal Relevance (MMR)
 - **Automated RAGAS Evaluation** for clinical quality auditing (Faithfulness, Relevancy, Precision, Recall, Safety)
 - **End-to-End LLM Observability via Langfuse** with 6 granular spans, token cost calculation, and PII anonymization
+- **Nginx Reverse Proxy & Rate Limiting** to shield backend APIs, protect OpenAI token spend, and optimize SSE streaming
+- **Automated Testing Suite (Pytest)** integrated into GitHub Actions CI gates before deployment
 
 ---
 
@@ -71,6 +79,8 @@ The system operates on an authentic **Dual-Pipeline Architecture** separating **
 *   **🔄 Query Transformation:** Hypothetical Document Embeddings (HyDE) • Clinical Query Decomposition • Intent Routing.
 *   **🛡️ Medical Safety & Guardrails:** Regex emergency triage • PII masking • Strict zero-hallucination source attribution.
 *   **📈 Full-Stack Observability:** Distributed Langfuse tracing (6 spans) • Real-time cost & latency tracking • RAGAS quality drift detection.
+*   **🛡️ Gateway Nginx & Rate Limiting:** Single exposed HTTP entrypoint on port 8080 • Strict rate limiting (5 req/s, burst 10) preventing DDoS and token exhaustion • `proxy_buffering off` for unbuffered, instant SSE token delivery • Clickjacking & MIME-sniffing protection headers.
+*   **🧪 Automated CI/CD Testing Suite:** Automated test suite with Pytest (12 unit & integration tests) covering PII masking, emergency triage, query routing, pricing calculation, and API endpoints.
 
 ---
 
@@ -189,6 +199,8 @@ The system integrates **Langfuse Distributed Tracing** with 6 granular spans to 
 | **Graph Database** | **Neo4j 5** (APOC enabled) | Multi-hop clinical entity and relation traversal |
 | **Semantic Cache** | **Redis Stack** | Sub-10ms vector similarity response cache ($\ge 0.92$) |
 | **Lexical Search** | **Rank-BM25** | In-memory exact keyword matching ($k=50$) |
+| **Gateway & Security** | **Nginx (Alpine)** | Reverse Proxy, Rate Limiting (5r/s burst 10), SSE non-buffering streaming, and Security Headers |
+| **Automated Testing** | **Pytest 9+**, **HTTPX** | 12 Automated Unit & Integration test cases validating safety, routing, PII scrubbing, and API uptime |
 | **Backend API** | **FastAPI**, **Uvicorn** | Asynchronous HTTP API with streaming responses and OpenAPI docs |
 | **Frontend UI & Design** | **React**, **Vite**, **Stitch MCP**, Glassmorphic CSS | Modern clinical chat UI, live latency metrics, and citation preview designed via Stitch MCP |
 | **Tooling & Protocols** | **MCP (Model Context Protocol)**, Stitch | Standardized agentic protocol for UI design generation and screen iterations |
@@ -206,17 +218,18 @@ flowchart LR
     Dev[💻 Developer Push\nbranch: main] --> GHA[⚙️ GitHub Actions Runner]
     
     subgraph CI [1. Continuous Integration]
-        GHA --> Setup[Setup Python 3.13]
+        GHA --> Setup[Setup uv & Python 3.13]
         Setup --> Lint[Ruff Critical Syntax & Linter Check\n--select=E9,F63,F7,F82]
+        Lint --> Test[🧪 Pytest Automated Suite\n12/12 Tests PASS]
     end
     
     subgraph CD [2. Continuous Deployment]
-        Lint --> SSH[SSH Key Handshake\nAzure Linux VM]
+        Test --> SSH[SSH Key Handshake\nAzure Linux VM]
         SSH --> Pull[git pull origin main]
-        Pull --> Build[docker compose up -d --build web]
+        Pull --> Build[docker compose up -d --build web nginx]
         Clean[docker image prune -f]
         Build --> Clean
-        Clean --> Live[🌐 Live at http://98.70.58.126:8080]
+        Clean --> Live[🌐 Live via Nginx at http://98.70.58.126:8080]
     end
 ```
 
@@ -252,7 +265,7 @@ LANGFUSE_SECRET_KEY=sk-lf-...
 ```bash
 docker compose up -d
 ```
-*Spins up `rag-web` (FastAPI), `rag-qdrant` (Vector DB), `rag-neo4j` (Graph DB), and `rag-redis` (Cache).*
+*Spins up `rag-nginx` (Reverse Proxy & Rate Limiter on port 8080), `rag-web` (FastAPI), `rag-qdrant` (Vector DB), `rag-neo4j` (Graph DB), and `rag-redis` (Cache).*
 
 #### Step B: Ingest Knowledge Base & Build Graph
 ```bash
@@ -267,7 +280,7 @@ docker compose restart web
 ```
 
 #### Step C: Access Applications
-- 🌐 **Web Chat Application:** `http://localhost:8080` (or `http://localhost:8000`)
+- 🌐 **Web Chat Application:** `http://localhost:8080` (Routed through Nginx Reverse Proxy with Rate Limiting)
 - 📖 **Interactive API Documentation:** `http://localhost:8080/docs`
 - 🩺 **System Health Endpoint:** `http://localhost:8080/api/health`
 - 🗄️ **Qdrant Vector Dashboard:** `http://localhost:6335/dashboard`
@@ -295,7 +308,16 @@ uv run uvicorn app:app --reload --port 8000
 
 ## 🧪 Testing & Verification Suite
 
-Run automated test suites to verify each layer of the pipeline independently:
+### Automated Unit & Integration Tests (Pytest)
+Run the automated test suite with full test discovery and report:
+```bash
+# Run all 12 automated unit & integration tests
+uv run pytest tests/ -v
+```
+*Validates PII regex scrubbing, emergency triage triggers, intent-based query routing, cost pricing formula, and FastAPI health/stats endpoints.*
+
+### Independent Pipeline Verification Scripts
+Run automated test scripts to verify each layer of the pipeline independently:
 
 ```bash
 # --- Core Engine Tests ---
