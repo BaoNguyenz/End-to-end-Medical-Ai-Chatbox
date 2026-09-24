@@ -43,11 +43,13 @@ class ComparisonResult:
 
     # Per-category breakdown (nested: {category: {metric: {arch: score}}})
     category_breakdown: dict = field(default_factory=dict)
+    num_questions: int = 0
 
     def to_dict(self) -> dict:
         return {
             "naive_architecture": self.naive_architecture,
             "full_architecture":  self.full_architecture,
+            "num_questions":      self.num_questions,
             "naive_scores":  self.naive_scores,
             "full_scores":   self.full_scores,
             "deltas":        self.deltas,
@@ -220,6 +222,12 @@ class ExperimentRunner:
         # Per-category breakdown
         category_breakdown = self._build_category_breakdown(naive_report, full_report, metrics[:-1])
 
+        num_questions = getattr(
+            full_report,
+            "evaluated_questions",
+            getattr(full_report, "total_questions", 0),
+        )
+
         return ComparisonResult(
             naive_architecture=naive_report.architecture,
             full_architecture=full_report.architecture,
@@ -227,6 +235,7 @@ class ExperimentRunner:
             full_scores=full_scores,
             deltas=deltas,
             category_breakdown=category_breakdown,
+            num_questions=num_questions,
         )
 
     def _build_category_breakdown(

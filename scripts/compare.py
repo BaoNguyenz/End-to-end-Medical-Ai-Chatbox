@@ -103,13 +103,29 @@ def compare_from_results_dir(results_dir: str, output_path: str, charts_dir: str
     with full_file.open("r", encoding="utf-8") as f:
         f_data = json.load(f)
 
-    naive_scores = {**n_data.get("metrics", {}), **n_data.get("performance", {})}
-    full_scores = {**f_data.get("metrics", {}), **f_data.get("performance", {})}
+    naive_scores = {
+        **n_data.get("aggregates", {}),
+        **n_data.get("metrics", {}),
+        **n_data.get("performance", {}),
+    }
+    full_scores = {
+        **f_data.get("aggregates", {}),
+        **f_data.get("metrics", {}),
+        **f_data.get("performance", {}),
+    }
 
     deltas = {}
     for k, v in full_scores.items():
         if k in naive_scores and isinstance(v, (int, float)) and isinstance(naive_scores[k], (int, float)):
             deltas[k] = round(v - naive_scores[k], 4)
+
+    num_questions = (
+        n_data.get("evaluated_questions")
+        or n_data.get("total_questions")
+        or len(n_data.get("results", []))
+        or len(n_data.get("queries", []))
+        or 0
+    )
 
     comp = ComparisonResult(
         naive_architecture=n_data.get("architecture", "Naive RAG"),
@@ -118,7 +134,7 @@ def compare_from_results_dir(results_dir: str, output_path: str, charts_dir: str
         full_scores=full_scores,
         deltas=deltas,
         category_breakdown={},
-        num_questions=len(n_data.get("queries", [])),
+        num_questions=num_questions,
     )
 
     comp.print_summary()
