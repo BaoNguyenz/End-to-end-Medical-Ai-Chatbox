@@ -53,10 +53,10 @@ _PATTERNS: list[_PIIPattern] = [
         label="[ID_NUMBER]",
         pattern=r"\b(?:cmnd|cccd|passport|id\s?no\.?)[:\s#]*[0-9]{9,12}\b",
     ),
-    # --- Vietnamese phone numbers (0xx / +84xx) ---
+    # --- Vietnamese phone numbers (strictly 10 digits: 03x, 05x, 07x, 08x, 09x or +84) ---
     _PIIPattern(
         label="[PHONE]",
-        pattern=r"(?:\+84|0)[\s\-.]?(?:[3-9]\d{1}|1[2-9]\d{0,1})[\s\-.]?\d{3}[\s\-.]?\d{4}",
+        pattern=r"(?:\+84[\s\-.]?|0)[35789]\d{1}[\s\-.]?\d{3}[\s\-.]?\d{4}\b",
     ),
     # --- International E.164 / general phone ---
     _PIIPattern(
