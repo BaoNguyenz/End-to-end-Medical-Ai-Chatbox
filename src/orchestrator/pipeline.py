@@ -454,28 +454,28 @@ class RAGPipeline:
         total_start = time.time()
         latency = {}
         metadata = {"search_mode": search_mode, "query_class": "unknown"}
-
-        # 1. Emergency check
-        if self._is_emergency(query):
-            yield {"type": "token", "token": _EMERGENCY_RESPONSE, "cached": False}
-            yield {
-                "type": "done",
-                "answer": _EMERGENCY_RESPONSE,
-                "latency": {"total": round((time.time() - total_start) * 1000, 2)},
-                "sources": [],
-                "cached": False,
-            }
-            return
+        _cost_calc = CostCalculator()
 
         tracer = get_tracer()
-        _cost_calc = CostCalculator()
-        total_cost_usd: float = 0.0
-
         with tracer.trace(
-            "rag-query-stream",
+            "rag-query",
             user_id="anon",
             input={"query": query, "search_mode": search_mode},
         ) as root:
+            # 1. Emergency check
+            if self._is_emergency(query):
+                root.update(output={"emergency": True, "answer": _EMERGENCY_RESPONSE}, metadata={"emergency": True})
+                tracer.flush()
+                yield {"type": "token", "token": _EMERGENCY_RESPONSE, "cached": False}
+                yield {
+                    "type": "done",
+                    "answer": _EMERGENCY_RESPONSE,
+                    "latency": {"total": round((time.time() - total_start) * 1000, 2)},
+                    "sources": [],
+                    "cached": False,
+                }
+                return
+
             # 2. Check semantic cache first
             _cache = get_semantic_cache()
             _cached = None
@@ -485,17 +485,16 @@ class RAGPipeline:
                 s_cache.set_output({"cache_hit": _cached is not None})
 
             if _cached is not None and _cached.answer:
+                root.update(
+                    output={"cached": True, "answer": _cached.answer},
+                    metadata={"cache_hit_count": _cached.hit_count},
+                )
+                tracer.flush()
                 # Stream cached answer in words for smooth UI animation
                 words = _cached.answer.split(" ")
                 for i, word in enumerate(words):
                     token = word if i == 0 else " " + word
                     yield {"type": "token", "token": token, "cached": True}
-
-                root.update(
-                    output={"cached": True, "answer_length": len(_cached.answer)},
-                    metadata={"cache_hit_count": _cached.hit_count, "cost_usd": 0.0},
-                )
-                tracer.flush()
 
                 yield {
                     "type": "done",
@@ -513,21 +512,18 @@ class RAGPipeline:
 
             # 3. Cache MISS: Full RAG retrieval
             try:
-                # Stage 1: Query classification
-                t = time.time()
-                _, strategy = self.query_router.classify(query)
-                latency["query_classify"] = time.time() - t
-                metadata["strategy"] = strategy.value
+                # Stage 1 & 2: Query classification + Transformation + Retrieval
+                with root.span("QueryTransformation", input={"query": query, "mode": search_mode}) as s_qt:
+                    t = time.time()
+                    _, strategy = self.query_router.classify(query)
+                    latency["query_classify"] = time.time() - t
+                    metadata["strategy"] = strategy.value
 
-                # Stage 2: Query transformation + retrieval
-                t = time.time()
-                with root.span("HybridSearch", input={"query": query, "search_mode": search_mode}) as s_search:
+                    t = time.time()
                     if search_mode == "auto":
-                        with root.span("QueryTransformation", input={"query": query}) as s_trans:
-                            candidates, transform_meta = self.transform_router.transform_and_search(
-                                query, self.vector_store, self.hybrid_search, top_k=50
-                            )
-                            s_trans.set_output(transform_meta)
+                        candidates, transform_meta = self.transform_router.transform_and_search(
+                            query, self.vector_store, self.hybrid_search, top_k=50
+                        )
                         metadata["query_class"] = transform_meta["query_class"]
                         metadata["transformation"] = transform_meta["transformation"]
                     elif search_mode == "vector":
@@ -542,35 +538,47 @@ class RAGPipeline:
                         candidates = self.hybrid_search.search(query, top_k=50)
                         metadata["query_class"] = "simple"
                         metadata["transformation"] = "none"
-                    s_search.set_output({"num_candidates": len(candidates)})
-                latency["retrieval"] = time.time() - t
+                    latency["retrieval"] = time.time() - t
+                    s_qt.set_output({
+                        "strategy": metadata.get("strategy"),
+                        "transformation": metadata.get("transformation"),
+                        "num_candidates": len(candidates),
+                    })
+
+                # Span: HybridSearch metadata
+                with root.span("HybridSearch", input={"query": query}) as s_hs:
+                    s_hs.set_output({
+                        "num_candidates": len(candidates),
+                        "search_mode": search_mode,
+                    })
 
                 # Stage 3: Graph retrieval
                 graph_results = []
                 _use_graph = use_graph if use_graph is not None else (self.use_graph and self.graph_retriever is not None)
-                if _use_graph and self.graph_retriever and search_mode in ("auto", "graph"):
-                    t = time.time()
-                    with root.span("Neo4jGraph", input={"query": query}) as s_graph:
+                with root.span("Neo4jGraph", input={"enabled": _use_graph}) as s_graph:
+                    if _use_graph and self.graph_retriever and search_mode in ("auto", "graph"):
+                        t = time.time()
                         try:
                             graph_results = self.graph_retriever.search(query)
                         except Exception as e:
                             print(f"[RAGPipeline] Medical graph search failed: {e}")
-                        s_graph.set_output({"num_graph_results": len(graph_results)})
-                    latency["graph_search"] = time.time() - t
+                            s_graph.set_level("WARNING")
+                        latency["graph_search"] = time.time() - t
+                    s_graph.set_output({"num_graph_results": len(graph_results)})
 
                 # Merge vector + graph candidates
                 all_candidates = candidates + graph_results
 
                 # Stage 4: Post-retrieval reranking + MMR
-                t = time.time()
-                with root.span("CrossEncoderReranking", input={"num_candidates": len(all_candidates)}) as s_rerank:
+                with root.span("CrossEncoderRerank", input={"num_candidates": len(all_candidates)}) as s_rerank:
+                    t = time.time()
                     final_results = self.post_pipeline.process(
                         query, all_candidates,
                         rerank_top_k=rerank_top_k,
                         final_top_k=top_k,
                     )
+                    latency["post_retrieval"] = time.time() - t
                     s_rerank.set_output({"num_final": len(final_results)})
-                latency["post_retrieval"] = time.time() - t
 
                 # Stage 5: Build context and stream OpenAI response
                 context_parts = []
@@ -583,7 +591,7 @@ class RAGPipeline:
 
                 t = time.time()
                 full_answer = ""
-                with root.span("LLMGeneration", input={"context_len": len(context), "model": settings.openai_model}) as s_llm:
+                with root.span("LLMGeneration", input={"model": settings.openai_model}) as s_llm:
                     stream = self.openai_client.chat.completions.create(
                         model=settings.openai_model,
                         messages=[
@@ -593,34 +601,27 @@ class RAGPipeline:
                         temperature=0.1,
                         max_tokens=800,
                         stream=True,
-                        stream_options={"include_usage": True},
                     )
 
                     for chunk in stream:
-                        delta = chunk.choices[0].delta if chunk.choices else None
-                        if delta and delta.content:
+                        delta = chunk.choices[0].delta
+                        if delta.content:
                             full_answer += delta.content
                             yield {"type": "token", "token": delta.content, "cached": False}
 
-                        # Capture stream usage if provided
-                        if getattr(chunk, "usage", None) is not None:
-                            usage = TokenUsage(
-                                prompt_tokens=chunk.usage.prompt_tokens,
-                                completion_tokens=chunk.usage.completion_tokens,
-                                total_tokens=chunk.usage.total_tokens,
-                            )
-                            call_cost = _cost_calc.calculate(usage, model=settings.openai_model)
-                            total_cost_usd += call_cost
-                            s_llm.set_metadata({
-                                "prompt_tokens": usage.prompt_tokens,
-                                "completion_tokens": usage.completion_tokens,
-                                "cost_usd": round(call_cost, 8),
-                                "model": settings.openai_model,
-                            })
-
+                    latency["generation"] = time.time() - t
+                    prompt_tokens = max(1, len(context + query) // 4)
+                    completion_tokens = max(1, len(full_answer) // 4)
+                    usage = TokenUsage(prompt_tokens=prompt_tokens, completion_tokens=completion_tokens)
+                    call_cost = _cost_calc.calculate(usage, model=settings.openai_model)
                     s_llm.set_output({"answer_length": len(full_answer)})
+                    s_llm.set_metadata({
+                        "prompt_tokens": prompt_tokens,
+                        "completion_tokens": completion_tokens,
+                        "cost_usd": round(call_cost, 8),
+                        "model": settings.openai_model,
+                    })
 
-                latency["generation"] = time.time() - t
                 latency["total"] = time.time() - total_start
 
                 sources_list = [
@@ -636,13 +637,13 @@ class RAGPipeline:
                 metadata["num_candidates"] = len(candidates)
                 metadata["num_graph_results"] = len(graph_results)
                 metadata["num_final"] = len(final_results)
-                metadata["cost_usd"] = round(total_cost_usd, 8)
+                metadata["cost_usd"] = round(call_cost, 8)
 
                 root.update(
                     output={"answer_length": len(full_answer), "cached": False},
                     metadata={
                         "total_latency_ms": round(latency["total"] * 1000, 2),
-                        "cost_usd": round(total_cost_usd, 8),
+                        "cost_usd": round(call_cost, 8),
                         "model": settings.openai_model,
                     },
                 )
@@ -667,5 +668,6 @@ class RAGPipeline:
                 }
 
             except Exception as e:
+                root.update(output={"error": str(e)}, metadata={"status": "error"})
                 tracer.flush()
                 yield {"type": "error", "message": str(e)}

@@ -2,8 +2,8 @@
 Task 4 Smoke Test — Integrated Platform & CLI Verification
 ==========================================================
 Verifies:
-    TEST 1: evaluate.py CLI execution (Mock mode) -> outputs JSON and Markdown report
-    TEST 2: compare.py CLI execution (Mock mode)  -> outputs comparison report and charts
+    TEST 1: scripts/evaluate.py CLI execution (Mock mode) -> outputs JSON and Markdown report
+    TEST 2: scripts/compare.py CLI execution (Mock mode)  -> outputs comparison report and charts
     TEST 3: main.py master CLI execution (Mock)   -> executes end-to-end platform flow
     TEST 4: Deliverables verification             -> ANSWERS.md, chart PNGs, report.md
 
@@ -50,7 +50,7 @@ def test_evaluate_cli() -> bool:
     print("\n--- TEST 1: evaluate.py CLI (Mock Mode) ---")
     cmd = [
         PYTHON,
-        str(BASE_DIR / "evaluate.py"),
+        str(BASE_DIR / "scripts" / "evaluate.py"),
         "--architecture", "naive",
         "--mock",
         "--limit", "2",
@@ -78,7 +78,7 @@ def test_compare_cli() -> bool:
     report_file = TEST_OUTPUT_DIR / "comparison_report.md"
     cmd = [
         PYTHON,
-        str(BASE_DIR / "compare.py"),
+        str(BASE_DIR / "scripts" / "compare.py"),
         "--mock",
         "--limit", "2",
         "--output", str(report_file),

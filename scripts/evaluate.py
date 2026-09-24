@@ -4,9 +4,9 @@ GaleMed AI — Single Architecture Evaluator CLI
 CLI entry point to evaluate a single RAG architecture on the benchmark dataset.
 
 Usage:
-    python evaluate.py --architecture naive --limit 5
-    python evaluate.py --architecture full --limit 105 --output results/
-    python evaluate.py --architecture naive --mock --limit 10
+    python scripts/evaluate.py --architecture naive --limit 5
+    python scripts/evaluate.py --architecture full --limit 105 --output results/
+    python scripts/evaluate.py --architecture naive --mock --limit 10
 """
 
 from __future__ import annotations
@@ -19,6 +19,9 @@ import sys
 import time
 from pathlib import Path
 from typing import Optional
+
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 # Setup stdout encoding for Windows
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
@@ -228,7 +231,6 @@ def run_evaluation(
     ]
     md_file.write_text("\n".join(md_lines), encoding="utf-8")
     logger.info("Saved evaluation report to: %s", md_file)
-
 
     return report
 

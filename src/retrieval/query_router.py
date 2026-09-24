@@ -51,11 +51,11 @@ _SEMANTIC_PATTERNS = [
 # ── Medical Graph/Relationship Patterns (GraphRAG) ───────────────────────────
 _GRAPH_PATTERNS = [
     # Drug interactions
-    r"\b(interaction|interact|combined with|take together|drug.drug)\b",
+    r"\b(interaction\w*|interact\w*|combined with|take together|drug.drug)\b",
     # Contraindications
-    r"\b(contraindic|should not take|avoid if|not safe for|forbidden|unsafe)\b",
+    r"\b(contraindic\w*|should not take|avoid if|not safe for|forbidden|unsafe)\b",
     # Side effects / adverse events
-    r"\b(side effect|adverse|complication|reaction|risk of)\b",
+    r"\b(side effect\w*|adverse|complication\w*|reaction\w*|risk of)\b",
     # Relationships between entities
     r"\b(what drug|which medication|what treat|associated with|linked to|cause of|lead to)\b",
 ]

@@ -6,11 +6,11 @@ Can run live comparisons or aggregate existing evaluated results.
 
 Usage:
     # Live comparative evaluation:
-    python compare.py --limit 10 --output output/report.md
-    python compare.py --mock --limit 10 --output output/report.md
+    python scripts/compare.py --limit 10 --output output/report.md
+    python scripts/compare.py --mock --limit 10 --output output/report.md
 
     # Aggregate existing evaluate.py results:
-    python compare.py --results-dir results/ --output output/report.md
+    python scripts/compare.py --results-dir results/ --output output/report.md
 """
 
 from __future__ import annotations
@@ -23,6 +23,9 @@ import sys
 import time
 from pathlib import Path
 from typing import Optional
+
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 # Ensure RAGAS compatibility shim is active and API key exported
 import src.evaluation  # pyrefly: ignore [unused-import]
@@ -37,7 +40,6 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 logger = logging.getLogger("compare")
-
 
 
 def parse_args() -> argparse.Namespace:
@@ -101,13 +103,29 @@ def compare_from_results_dir(results_dir: str, output_path: str, charts_dir: str
     with full_file.open("r", encoding="utf-8") as f:
         f_data = json.load(f)
 
-    naive_scores = {**n_data.get("metrics", {}), **n_data.get("performance", {})}
-    full_scores = {**f_data.get("metrics", {}), **f_data.get("performance", {})}
+    naive_scores = {
+        **n_data.get("aggregates", {}),
+        **n_data.get("metrics", {}),
+        **n_data.get("performance", {}),
+    }
+    full_scores = {
+        **f_data.get("aggregates", {}),
+        **f_data.get("metrics", {}),
+        **f_data.get("performance", {}),
+    }
 
     deltas = {}
     for k, v in full_scores.items():
         if k in naive_scores and isinstance(v, (int, float)) and isinstance(naive_scores[k], (int, float)):
             deltas[k] = round(v - naive_scores[k], 4)
+
+    num_questions = (
+        n_data.get("evaluated_questions")
+        or n_data.get("total_questions")
+        or len(n_data.get("results", []))
+        or len(n_data.get("queries", []))
+        or 0
+    )
 
     comp = ComparisonResult(
         naive_architecture=n_data.get("architecture", "Naive RAG"),
@@ -116,7 +134,7 @@ def compare_from_results_dir(results_dir: str, output_path: str, charts_dir: str
         full_scores=full_scores,
         deltas=deltas,
         category_breakdown={},
-        num_questions=len(n_data.get("queries", [])),
+        num_questions=num_questions,
     )
 
     comp.print_summary()
@@ -164,7 +182,6 @@ def run_live_comparison(
     # Generate Markdown report
     generate_markdown_report(comparison, chart_paths=chart_paths, output_path=output_path)
     logger.info("Comparison complete. Report generated at: %s", output_path)
-
 
 
 def main() -> None:

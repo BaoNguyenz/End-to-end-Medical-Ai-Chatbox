@@ -127,7 +127,7 @@ def main() -> None:
     print("=" * 76 + "\n")
 
     if args.results_dir and gen_rep and not run_exp:
-        from compare import compare_from_results_dir
+        from scripts.compare import compare_from_results_dir
         compare_from_results_dir(args.results_dir, args.output, args.charts_dir)
         return
 

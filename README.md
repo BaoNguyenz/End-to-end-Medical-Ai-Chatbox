@@ -37,6 +37,12 @@
   <a href="#-technology-stack">
     <img src="https://img.shields.io/badge/Stitch_MCP-Frontend_Design-7928CA?logo=figma&logoColor=white" alt="Stitch MCP">
   </a>
+  <a href="#-technology-stack">
+    <img src="https://img.shields.io/badge/Nginx-Reverse_Proxy-009639?logo=nginx&logoColor=white" alt="Nginx">
+  </a>
+  <a href="#-testing--verification-suite">
+    <img src="https://img.shields.io/badge/Pytest-Automated_Suite-0A9EDC?logo=pytest&logoColor=white" alt="Pytest">
+  </a>
   <a href="#-getting-started">
     <img src="https://img.shields.io/badge/Docker-Multi--stage_Build-2496ED?logo=docker&logoColor=white" alt="Docker">
   </a>
@@ -48,7 +54,7 @@
 - **L1 Semantic Caching (Redis Stack)** with cosine similarity matching for sub-10ms query reuse
 - **Precision Cross-Encoder Reranking (`ms-marco-MiniLM-L-6-v2`)** with Maximal Marginal Relevance (MMR)
 - **Automated RAGAS Evaluation** for clinical quality auditing (Faithfulness, Relevancy, Precision, Recall, Safety)
-- **End-to-End LLM Observability via Langfuse** with 6 granular spans, token cost calculation, and PII anonymization
+- **End-to-End LLM Observability via Langfuse** covering both standard REST and real-time streaming endpoints with 6 granular spans, token cost calculation, and PII anonymization
 
 ---
 
@@ -70,7 +76,7 @@ The system operates on an authentic **Dual-Pipeline Architecture** separating **
 *   **🎯 Cross-Encoder Reranking & MMR:** Re-scoring top candidates with `ms-marco-MiniLM-L-6-v2` • Dynamic MMR ($\lambda=0.8$) to guarantee diversity and coverage.
 *   **🔄 Query Transformation:** Hypothetical Document Embeddings (HyDE) • Clinical Query Decomposition • Intent Routing.
 *   **🛡️ Medical Safety & Guardrails:** Regex emergency triage • PII masking • Strict zero-hallucination source attribution.
-*   **📈 Full-Stack Observability:** Distributed Langfuse tracing (6 spans) • Real-time cost & latency tracking • RAGAS quality drift detection.
+*   **📈 Full-Stack Observability:** Distributed Langfuse tracing (6 spans) across REST & real-time streaming • Live cost & latency tracking • RAGAS quality drift detection.
 
 ---
 
@@ -145,11 +151,16 @@ uv run python main.py --run-experiments --generate-report --limit 15
 uv run python main.py --mock --limit 5
 
 # 3. Evaluate a specific architecture:
-uv run python evaluate.py --architecture full --limit 10
-uv run python evaluate.py --architecture naive --limit 10
+uv run python scripts/evaluate.py --architecture full --limit 10
+uv run python scripts/evaluate.py --architecture naive --limit 10
 
-# 4. Compare architectures from existing checkpoints:
-uv run python compare.py --output output/report.md --charts-dir output
+# 4. Compare architectures:
+# Live comparative evaluation:
+uv run python scripts/compare.py --limit 10 --output output/report.md
+# Or aggregate existing results without re-running:
+uv run python scripts/compare.py --results-dir results/ --output output/report.md --charts-dir output
+# Fast mock comparison:
+uv run python scripts/compare.py --mock --limit 10 --output output/report.md
 
 # 5. Run end-to-end Task 4 integration smoke test:
 uv run python scripts/test_task4_integration.py
@@ -159,19 +170,20 @@ uv run python scripts/test_task4_integration.py
 
 ## 🔭 LLM Observability & Tracing (Langfuse)
 
-The system integrates **Langfuse Distributed Tracing** with 6 granular spans to provide glass-box observability:
+The system integrates **Langfuse Distributed Tracing** with 6 granular spans to provide glass-box observability across both standard REST (`/api/query`) and real-time Server-Sent Events (SSE) streaming (`/api/query/stream`):
 
 ```
-[User Request]
+[User Request / Stream]
       │
       ├─► Span 1: RedisCacheLookup        (Cache hit/miss latency, similarity score)
       ├─► Span 2: QueryTransformation     (Decomposition, HyDE generation)
       ├─► Span 3: HybridSearch            (Qdrant Dense + BM25 Sparse latencies)
       ├─► Span 4: Neo4jGraph              (Cypher query execution, entity hops)
-      ├─► Span 5: CrossEncoderReranking   (ms-marco re-scoring, MMR filtering)
-      └─► Span 6: LLMGeneration           (Token usage, pricing USD, streaming output)
+      ├─► Span 5: CrossEncoderRerank      (ms-marco re-scoring, MMR filtering)
+      └─► Span 6: LLMGeneration           (Token usage, pricing USD, streaming chunks)
 ```
 
+- **Streaming Tracing:** Tracks real-time token emission, aggregate response latency, and automatically flushes spans via `tracer.flush()` upon stream completion.
 - **PII Anonymization:** Medical queries undergo regex-based PII masking (`src/observability/pii_masker.py`) before logging to ensure HIPAA & GDPR compliance.
 - **Cost Tracking:** Automated token counting and pricing calculation via `src/observability/cost_calculator.py`.
 
@@ -190,10 +202,11 @@ The system integrates **Langfuse Distributed Tracing** with 6 granular spans to 
 | **Semantic Cache** | **Redis Stack** | Sub-10ms vector similarity response cache ($\ge 0.92$) |
 | **Lexical Search** | **Rank-BM25** | In-memory exact keyword matching ($k=50$) |
 | **Backend API** | **FastAPI**, **Uvicorn** | Asynchronous HTTP API with streaming responses and OpenAPI docs |
+| **Gateway & Reverse Proxy** | **Nginx** (Alpine) | Reverse proxy on port 8080 routing to FastAPI application |
 | **Frontend UI & Design** | **React**, **Vite**, **Stitch MCP**, Glassmorphic CSS | Modern clinical chat UI, live latency metrics, and citation preview designed via Stitch MCP |
 | **Tooling & Protocols** | **MCP (Model Context Protocol)**, Stitch | Standardized agentic protocol for UI design generation and screen iterations |
 | **Containerization** | **Docker**, **Docker Compose** | Multi-stage slim runtime build with non-root security |
-| **CI/CD & Cloud** | **GitHub Actions**, **Microsoft Azure VM** | Automated syntax/lint validation and automated SSH cloud deployment |
+| **CI/CD & Cloud** | **GitHub Actions**, **Microsoft Azure VM** | Automated linting, pytest validation, and automated SSH cloud deployment |
 
 ---
 
@@ -206,14 +219,15 @@ flowchart LR
     Dev[💻 Developer Push\nbranch: main] --> GHA[⚙️ GitHub Actions Runner]
     
     subgraph CI [1. Continuous Integration]
-        GHA --> Setup[Setup Python 3.13]
-        Setup --> Lint[Ruff Critical Syntax & Linter Check\n--select=E9,F63,F7,F82]
+        GHA --> Setup[Setup Python 3.13 & uv]
+        Setup --> Lint[Ruff Syntax & Linter Check\n--select=E9,F63,F7,F82]
+        Lint --> Pytest[Run Automated Pytest Suite\nuv run pytest tests/ -v]
     end
     
     subgraph CD [2. Continuous Deployment]
-        Lint --> SSH[SSH Key Handshake\nAzure Linux VM]
+        Pytest --> SSH[SSH Key Handshake\nAzure Linux VM]
         SSH --> Pull[git pull origin main]
-        Pull --> Build[docker compose up -d --build web]
+        Pull --> Build[docker compose up -d --build web nginx]
         Clean[docker image prune -f]
         Build --> Clean
         Clean --> Live[🌐 Live at http://98.70.58.126:8080]
@@ -252,7 +266,10 @@ LANGFUSE_SECRET_KEY=sk-lf-...
 ```bash
 docker compose up -d
 ```
-*Spins up `rag-web` (FastAPI), `rag-qdrant` (Vector DB), `rag-neo4j` (Graph DB), and `rag-redis` (Cache).*
+*Spins up 5 containers: `rag-web` (FastAPI), `rag-nginx` (Reverse Proxy Gateway), `rag-qdrant` (Vector DB), `rag-neo4j` (Graph DB), and `rag-redis` (Semantic Cache).*
+
+> [!NOTE]
+> During initial launch, `rag-web` takes approximately 20–30 seconds to load the Cross-Encoder model and index the 13,350 BM25 chunks in memory before accepting traffic. If accessing right away returns 502, wait until `docker compose ps` shows `rag-web` as running and healthy.
 
 #### Step B: Ingest Knowledge Base & Build Graph
 ```bash
@@ -267,7 +284,7 @@ docker compose restart web
 ```
 
 #### Step C: Access Applications
-- 🌐 **Web Chat Application:** `http://localhost:8080` (or `http://localhost:8000`)
+- 🌐 **Web Chat Application:** `http://localhost:8080` (Reverse Proxy gateway)
 - 📖 **Interactive API Documentation:** `http://localhost:8080/docs`
 - 🩺 **System Health Endpoint:** `http://localhost:8080/api/health`
 - 🗄️ **Qdrant Vector Dashboard:** `http://localhost:6335/dashboard`
@@ -290,6 +307,7 @@ uv run python scripts/index_documents.py
 uv run python scripts/build_graph.py
 uv run uvicorn app:app --reload --port 8000
 ```
+*(In local development mode, FastAPI runs directly at `http://localhost:8000`)*
 
 ---
 
@@ -298,6 +316,9 @@ uv run uvicorn app:app --reload --port 8000
 Run automated test suites to verify each layer of the pipeline independently:
 
 ```bash
+# --- Unit & Integration Tests (Pytest) ---
+uv run pytest tests/ -v                              # Automated API & Pipeline test suite
+
 # --- Core Engine Tests ---
 uv run python scripts/test_redis_cache.py            # L1 Redis Semantic Cache
 uv run python scripts/test_hybrid_search.py          # Vector + BM25 Fusion (RRF)
