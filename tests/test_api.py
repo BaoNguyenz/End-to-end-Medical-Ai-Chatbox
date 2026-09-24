@@ -25,9 +25,10 @@ from fastapi.testclient import TestClient
 from app import app
 from src.observability.pii_masker import PIIMasker
 from src.retrieval.query_router import QueryRouter
-from src.observability.cost_calculator import CostCalculator
+from src.observability.cost_calculator import CostCalculator, TokenUsage
 from src.models import QueryType, SearchStrategy
 from src.orchestrator.pipeline import _EMERGENCY_PATTERNS
+
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
@@ -136,13 +137,13 @@ def test_query_router_graph(router):
 
 def test_cost_calculator_pricing(cost_calc):
     # GPT-4o-mini pricing calculation
-    from src.observability.cost_calculator import TokenUsage
     usage = TokenUsage(prompt_tokens=1000, completion_tokens=1000)
     cost_usd = cost_calc.calculate(usage, model="gpt-4o-mini")
     assert usage.prompt_tokens == 1000
     assert usage.completion_tokens == 1000
     assert usage.total_tokens == 2000
     assert cost_usd > 0.0
+
 
 
 # ── 5. Integration Tests: FastAPI Endpoints ────────────────────────────────────
