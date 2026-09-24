@@ -145,11 +145,11 @@ uv run python main.py --run-experiments --generate-report --limit 15
 uv run python main.py --mock --limit 5
 
 # 3. Evaluate a specific architecture:
-uv run python evaluate.py --architecture full --limit 10
-uv run python evaluate.py --architecture naive --limit 10
+uv run python scripts/evaluate.py --architecture full --limit 10
+uv run python scripts/evaluate.py --architecture naive --limit 10
 
 # 4. Compare architectures from existing checkpoints:
-uv run python compare.py --output output/report.md --charts-dir output
+uv run python scripts/compare.py --output output/report.md --charts-dir output
 
 # 5. Run end-to-end Task 4 integration smoke test:
 uv run python scripts/test_task4_integration.py

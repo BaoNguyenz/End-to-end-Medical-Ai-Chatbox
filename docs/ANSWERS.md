@@ -242,7 +242,7 @@ Thiết lập hệ thống cảnh báo tự động tích hợp qua **Slack / Pa
 
 ### 5.3 Automated CI/CD Regression Testing with Golden Benchmark
 - Tích hợp bộ dữ liệu `Data/benchmarks/medical_benchmark_with_ground_truth.json` (105 câu hỏi chuẩn vàng) vào pipeline GitHub Actions.
-- Mỗi khi có Pull Request thay đổi code trong thư mục `src/`, CI/CD tự động kích hoạt `scripts/test_task4_integration.py` và `compare.py --limit 15`.
+- Mỗi khi có Pull Request thay đổi code trong thư mục `src/`, CI/CD tự động kích hoạt `scripts/test_task4_integration.py` và `scripts/compare.py --limit 15`.
 - **Quy tắc chặn merge (Block PR):** Nếu bất kỳ chỉ số RAGAS cốt lõi nào sụt giảm quá **2%** so với phiên bản trước đó (baseline regression), PR sẽ bị từ chối tự động.
 
 ### 5.4 Privacy & Compliance Governance (PII & HIPAA)
