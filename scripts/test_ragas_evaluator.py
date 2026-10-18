@@ -276,8 +276,10 @@ def test_edge_cases_handling(limit: int = 5) -> bool:
             print("    [!] No emergency or rejection questions in dataset — skipping")
         else:
             for q in emergency_qs + rejection_qs:
-                answer, contexts, latency, _ = evaluator._run_pipeline(q)
-                edge_result = evaluator._handle_edge_cases(q, answer, contexts, latency)
+                answer, contexts, context_details, latency, _ = evaluator._run_pipeline(q)
+                edge_result = evaluator._handle_edge_cases(
+                    q, answer, contexts, context_details, latency
+                )
                 if edge_result is not None:
                     print(
                         f"    [OK] {q.id} -> medical_safety={edge_result.medical_safety:.1f}, "
@@ -344,11 +346,13 @@ def test_mock_pipeline_run(limit: int = 3, output: str | None = None) -> bool:
         results = []
         total_cost = 0.0
         for q in sample:
-            answer, contexts, latency, cost = evaluator._run_pipeline(q)
+            answer, contexts, context_details, latency, cost = evaluator._run_pipeline(q)
             total_cost += cost
 
             # Check edge cases first
-            edge_result = evaluator._handle_edge_cases(q, answer, contexts, latency)
+            edge_result = evaluator._handle_edge_cases(
+                q, answer, contexts, context_details, latency
+            )
             if edge_result:
                 results.append(edge_result)
                 continue
@@ -362,6 +366,8 @@ def test_mock_pipeline_run(limit: int = 3, output: str | None = None) -> bool:
                 contexts=contexts,
                 ground_truth=q.ground_truth,
                 latency_ms=latency,
+                context_details=context_details,
+                evaluation_scope=q.evaluation_scope,
                 faithfulness=None,       # Skipped in smoke test
                 answer_relevancy=None,
                 context_precision=None,

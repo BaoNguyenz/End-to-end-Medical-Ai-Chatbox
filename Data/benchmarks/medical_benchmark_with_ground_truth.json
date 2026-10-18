@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "total": 105,
   "questions": [
     {
@@ -40,7 +40,8 @@
       "is_emergency": false,
       "query": "Compare the symptoms, triggers, and treatments of allergic rhinitis versus asthma.",
       "question_type": "Analytical",
-      "ground_truth": "Environmental triggers for acute asthma include airborne allergens (pollen, dust mites, pet dander), tobacco smoke, cold dry air, respiratory infections, exercise, and chemical irritants."
+      "ground_truth": "Allergic rhinitis primarily affects the nose and eyes, causing sneezing, itching, rhinorrhea, congestion, and watery eyes after exposure to allergens such as pollen, dust, mold, or animal dander; treatment includes allergen avoidance, antihistamines, and nasal corticosteroids. Asthma affects the lower airways, causing wheezing, cough, chest tightness, and shortness of breath; allergens may trigger it, along with infections, exercise, cold air, smoke, and irritants, and treatment uses quick-relief bronchodilators plus anti-inflammatory controller medicines.",
+      "relevant_doc_ids": ["Allergic_rhinitis", "Asthma"]
     },
     {
       "id": "R05",
@@ -120,7 +121,8 @@
       "is_emergency": false,
       "query": "What are the warning signs, diagnostic tests, and emergency medications for an acute asthma exacerbation?",
       "question_type": "Factual",
-      "ground_truth": "Asthma management utilizes bronchodilators such as short-acting beta-agonists (Albuterol) for immediate relief, and daily inhaled corticosteroids (fluticasone, budesonide) as anti-inflammatory controller medications."
+      "ground_truth": "Warning signs of a severe asthma attack include marked shortness of breath, sitting upright or leaning forward to breathe, use of neck and chest muscles, being able to speak only a few words at a time, confusion, and bluish skin. Diagnosis and assessment use the clinical examination, spirometry before and after a bronchodilator, and peak-flow monitoring. A severe attack requires prompt extra oxygen and repeated or continuous inhaled beta-receptor agonist treatment; a steroid is given if the response is not prompt and complete.",
+      "relevant_doc_ids": ["Asthma", "Antiasthmatic_drugs_Definition"]
     },
     {
       "id": "R13",
@@ -150,7 +152,8 @@
       "is_emergency": false,
       "query": "What is the role of peak flow monitoring in assessing asthma severity?",
       "question_type": "Factual",
-      "ground_truth": "Asthma is a chronic respiratory disorder characterized by hyperreactive airways, bronchospasm, mucosal edema, and mucus production, treated with bronchodilators and anti-inflammatory therapies."
+      "ground_truth": "A peak flow meter is an instrument related to spirometry that patients can use at home to keep track of asthma severity. Patients with moderate or severe asthma should know how to use it as part of self-monitoring, together with a written action plan that explains how to adjust medication and when to seek medical help if symptoms worsen.",
+      "relevant_doc_ids": ["Asthma"]
     },
     {
       "id": "C01",
@@ -180,7 +183,8 @@
       "is_emergency": false,
       "query": "What are beta-blockers and how do they reduce heart rate and blood pressure?",
       "question_type": "Factual",
-      "ground_truth": "Beta-blockers antagonize beta-adrenergic receptors, decreasing heart rate, cardiac contractility, and blood pressure. Main side effects include bradycardia, fatigue, dizziness, and cold extremities; they are contraindicated in severe asthma and high-degree heart block."
+      "ground_truth": "Beta blockers are medicines that alter the body's response to certain nerve impulses. They decrease the force and rate of the heart's contractions, which lowers blood pressure and reduces the heart's oxygen demand. Their principal use is high blood pressure; some are also used for angina, prevention after a heart attack, and irregular heartbeat.",
+      "relevant_doc_ids": ["Beta_blockers"]
     },
     {
       "id": "C04",
@@ -190,7 +194,8 @@
       "is_emergency": false,
       "query": "What are the mechanisms, indications, and side effects of anticoagulant drugs versus antiplatelet agents like aspirin?",
       "question_type": "Analytical",
-      "ground_truth": "Aspirin is an NSAID with analgesic, antipyretic, anti-inflammatory, and antiplatelet effects (contraindicated in children due to Reye's syndrome). Acetaminophen (paracetamol) is an analgesic and antipyretic without significant anti-inflammatory effect, carrying risks of hepatotoxicity in overdose."
+      "ground_truth": "The restored corpus contains only an antiplatelet-drug cross-reference and does not contain the referenced anticoagulant article needed to support a complete comparison. This question must not be scored for answer correctness or retrieval until that source article is restored.",
+      "ground_truth_status": "source_missing"
     },
     {
       "id": "C05",
@@ -260,7 +265,8 @@
       "is_emergency": false,
       "query": "What are the side effects and contraindications of beta-blocker medications?",
       "question_type": "Relational",
-      "ground_truth": "Beta-blockers antagonize beta-adrenergic receptors, decreasing heart rate, cardiac contractility, and blood pressure. Main side effects include bradycardia, fatigue, dizziness, and cold extremities; they are contraindicated in severe asthma and high-degree heart block."
+      "ground_truth": "Common beta-blocker side effects include dizziness, drowsiness, lightheadedness, sleep problems, unusual tiredness or weakness, and decreased sexual ability. More serious effects include breathing problems, slow heartbeat, cold hands and feet, and depression. A physician should know about allergies, diabetes, pregnancy or breastfeeding, bronchitis or emphysema, kidney or liver disease, heart or blood-vessel disease, unusually slow heartbeat, myasthenia gravis, or depression before treatment. Beta blockers should not be stopped abruptly because the treated condition may worsen and heart-attack risk may increase.",
+      "relevant_doc_ids": ["Beta_blockers"]
     },
     {
       "id": "C12",
@@ -310,7 +316,8 @@
       "is_emergency": false,
       "query": "What are the primary indications, dosage, and side effects of aspirin?",
       "question_type": "Factual",
-      "ground_truth": "Aspirin is an NSAID with analgesic, antipyretic, anti-inflammatory, and antiplatelet effects (contraindicated in children due to Reye's syndrome). Acetaminophen (paracetamol) is an analgesic and antipyretic without significant anti-inflammatory effect, carrying risks of hepatotoxicity in overdose."
+      "ground_truth": "Aspirin relieves minor pain, reduces fever and inflammation, and may be taken under medical direction to reduce the risk of stroke or heart attack. The source recommends one to two tablets every three to four hours, up to six times daily, for adult pain or fever; stroke and heart-attack prevention require indication-specific medical guidance. Side effects include stomach irritation or pain, ulcers, bleeding, dizziness, ringing in the ears, and allergic breathing difficulty, especially in people with asthma, rhinitis, or nasal polyps. Children or teenagers with flu-like illness or chickenpox should not receive aspirin because of the risk of Reye syndrome.",
+      "relevant_doc_ids": ["Aspirin"]
     },
     {
       "id": "P02",
@@ -320,7 +327,8 @@
       "is_emergency": false,
       "query": "What are the uses, recommended dose, and toxicity risks of acetaminophen?",
       "question_type": "Factual",
-      "ground_truth": "Aspirin is an NSAID with analgesic, antipyretic, anti-inflammatory, and antiplatelet effects (contraindicated in children due to Reye's syndrome). Acetaminophen (paracetamol) is an analgesic and antipyretic without significant anti-inflammatory effect, carrying risks of hepatotoxicity in overdose."
+      "ground_truth": "Acetaminophen relieves pain and reduces fever. For adults and children age 12 or older, the source gives 325-650 mg every four to six hours as needed, with no more than 4,000 mg in 24 hours; for ages 6-11 it gives 150-300 mg three to four times daily, while a physician should set doses below age six. Many combination cold and flu products also contain acetaminophen, so their ingredients must be counted. Excess dosing can seriously damage the liver and has led to liver transplantation or death; heavy alcohol use and liver disease increase concern.",
+      "relevant_doc_ids": ["Acetaminophen"]
     },
     {
       "id": "P03",
@@ -330,7 +338,8 @@
       "is_emergency": false,
       "query": "Can aspirin interact dangerously with anticoagulant medications?",
       "question_type": "Relational",
-      "ground_truth": "Aspirin is an NSAID with analgesic, antipyretic, anti-inflammatory, and antiplatelet effects (contraindicated in children due to Reye's syndrome). Acetaminophen (paracetamol) is an analgesic and antipyretic without significant anti-inflammatory effect, carrying risks of hepatotoxicity in overdose."
+      "ground_truth": "Aspirin can increase bleeding. The source specifically warns that taking aspirin with blood-thinning drugs such as warfarin or dicumarol increases the risk of excessive bleeding, so a patient taking these medicines should ask a physician whether aspirin can be used safely.",
+      "relevant_doc_ids": ["Aspirin"]
     },
     {
       "id": "P04",
@@ -340,7 +349,8 @@
       "is_emergency": false,
       "query": "Why is aspirin contraindicated in children with viral infections (Reye syndrome)?",
       "question_type": "Relational",
-      "ground_truth": "Aspirin is an NSAID with analgesic, antipyretic, anti-inflammatory, and antiplatelet effects (contraindicated in children due to Reye's syndrome). Acetaminophen (paracetamol) is an analgesic and antipyretic without significant anti-inflammatory effect, carrying risks of hepatotoxicity in overdose."
+      "ground_truth": "Aspirin, including children's aspirin, should never be given to children or teenagers with flu-like symptoms or chickenpox because it can cause Reye syndrome. The source describes Reye syndrome as a life-threatening condition affecting the nervous system and liver that may cause death or permanent brain damage.",
+      "relevant_doc_ids": ["Aspirin"]
     },
     {
       "id": "P05",
@@ -350,7 +360,8 @@
       "is_emergency": false,
       "query": "Compare the therapeutic indications, mechanism of action, and liver vs stomach toxicity of acetaminophen and aspirin.",
       "question_type": "Analytical",
-      "ground_truth": "Aspirin is an NSAID with analgesic, antipyretic, anti-inflammatory, and antiplatelet effects (contraindicated in children due to Reye's syndrome). Acetaminophen (paracetamol) is an analgesic and antipyretic without significant anti-inflammatory effect, carrying risks of hepatotoxicity in overdose."
+      "ground_truth": "Both acetaminophen and aspirin relieve pain and reduce fever. The source states that acetaminophen is less likely to irritate the stomach but, unlike aspirin, does not reduce the redness, stiffness, or swelling of arthritis. Excess acetaminophen can cause severe liver damage, especially with heavy alcohol use or existing liver disease. Aspirin blocks production of pain-producing prostaglandins, reduces inflammation, and is also used under medical direction to reduce stroke or heart-attack risk; its prominent risks include stomach irritation, ulcers, and bleeding.",
+      "relevant_doc_ids": ["Acetaminophen", "Aspirin"]
     },
     {
       "id": "P06",
@@ -360,7 +371,8 @@
       "is_emergency": false,
       "query": "What are antibiotics and what bacterial infections are they prescribed for?",
       "question_type": "Factual",
-      "ground_truth": "Antibiotics are antimicrobial agents that inhibit bacterial cell wall synthesis, protein synthesis, or DNA replication to treat bacterial infections. Common side effects include gastrointestinal distress, allergic reactions, and secondary fungal infections."
+      "ground_truth": "Antibiotics are anti-infective drugs derived from bacterial sources and are used to treat or prevent bacterial infection. Selection depends on the organism, infection site, severity, route, and drug spectrum. Examples in the source include older quinolones for urinary tract infections, cefoxitin for anaerobic abdominal infections, third-generation cephalosporins for meningitis or encephalitis, cephalosporins for surgical prophylaxis, and clarithromycin for Helicobacter pylori infection. Antibiotics should be reserved for known or reasonably suspected bacterial infections and avoided for viral infections.",
+      "relevant_doc_ids": ["Antibiotics"]
     },
     {
       "id": "P07",
@@ -410,7 +422,8 @@
       "is_emergency": false,
       "query": "What are the risks and side effects of broad-spectrum antibiotic overuse?",
       "question_type": "Factual",
-      "ground_truth": "Antibiotics are antimicrobial agents that inhibit bacterial cell wall synthesis, protein synthesis, or DNA replication to treat bacterial infections. Common side effects include gastrointestinal distress, allergic reactions, and secondary fungal infections."
+      "ground_truth": "Excessive or inappropriate antibiotic use promotes resistant pathogens, and all antibiotics risk overgrowth by nonsusceptible bacteria. Broad-spectrum antibiotics can also cause pseudomembranous or antibiotic-associated colitis: after normal intestinal bacteria are killed, Clostridium difficile can multiply, release toxins, inflame the intestine, and cause cramps and watery diarrhea. When broad-spectrum treatment is needed for a severe infection, the source recommends changing to a narrow-spectrum agent once the pathogen is identified.",
+      "relevant_doc_ids": ["Antibiotics", "Antibiotic-associated_colitis"]
     },
     {
       "id": "P12",
@@ -430,7 +443,8 @@
       "is_emergency": false,
       "query": "What are the side effects, contraindications, and drug interactions of beta-blockers and aspirin?",
       "question_type": "Relational",
-      "ground_truth": "Beta-blockers antagonize beta-adrenergic receptors, decreasing heart rate, cardiac contractility, and blood pressure. Main side effects include bradycardia, fatigue, dizziness, and cold extremities; they are contraindicated in severe asthma and high-degree heart block."
+      "ground_truth": "Beta blockers commonly cause dizziness, drowsiness, lightheadedness, sleep problems, unusual tiredness or weakness, and decreased sexual ability; serious effects include breathing problems and slow heartbeat. They require caution with conditions such as diabetes, pulmonary disease, kidney or liver disease, cardiovascular disease, and bradycardia, and can interact with calcium-channel blockers, other blood-pressure drugs, diabetes medicines, bronchodilators, and several other drugs. Aspirin can irritate the stomach and cause ulcers or bleeding, and susceptible people with asthma, rhinitis, or nasal polyps may have breathing difficulty. Combining aspirin with warfarin or dicumarol increases the risk of excessive bleeding, and aspirin can also counteract beta blockers.",
+      "relevant_doc_ids": ["Beta_blockers", "Aspirin"]
     },
     {
       "id": "P14",
@@ -450,7 +464,8 @@
       "is_emergency": false,
       "query": "Why should patients with asthma exercise caution when taking aspirin?",
       "question_type": "Factual",
-      "ground_truth": "Asthma is a chronic respiratory disorder characterized by hyperreactive airways, bronchospasm, mucosal edema, and mucus production, treated with bronchodilators and anti-inflammatory therapies."
+      "ground_truth": "Aspirin can worsen asthma symptoms. The aspirin entry states that people with a history of asthma, nasal polyps, or both are more likely to be allergic to aspirin, and that people with asthma, rhinitis, or nasal polyps may have trouble breathing after taking it. A person with these conditions should check with a physician before using aspirin.",
+      "relevant_doc_ids": ["Aspirin", "Asthma"]
     },
     {
       "id": "G01",
@@ -460,7 +475,8 @@
       "is_emergency": false,
       "query": "What are the classic symptoms and clinical signs of acute appendicitis?",
       "question_type": "Factual",
-      "ground_truth": "Acute appendicitis presents with periumbilical abdominal pain shifting to the lower right quadrant (McBurney's point), accompanied by low-grade fever, nausea, vomiting, and anorexia. Diagnosis is supported by abdominal ultrasound or CT scan, and treatment requires surgical appendectomy."
+      "ground_truth": "Acute appendicitis classically begins with vague or periumbilical abdominal pain that migrates to the right lower quadrant, with localized tenderness near McBurney's point. Associated findings commonly include loss of appetite, nausea, vomiting, low-grade fever, guarding, and pain worsened by movement or coughing.",
+      "relevant_doc_ids": ["Appendicitis"]
     },
     {
       "id": "G02",
@@ -470,7 +486,8 @@
       "is_emergency": false,
       "query": "How is appendicitis diagnosed and what is an appendectomy?",
       "question_type": "Factual",
-      "ground_truth": "Acute appendicitis presents with periumbilical abdominal pain shifting to the lower right quadrant (McBurney's point), accompanied by low-grade fever, nausea, vomiting, and anorexia. Diagnosis is supported by abdominal ultrasound or CT scan, and treatment requires surgical appendectomy."
+      "ground_truth": "Appendicitis is diagnosed from the symptom history and physical examination, supported by a white-blood-cell count and urinalysis; CT or ultrasound may be used when the diagnosis is uncertain. An appendectomy is surgical removal of the appendix to treat appendicitis and may be performed through a traditional open incision or laparoscopically.",
+      "relevant_doc_ids": ["Appendicitis", "Appendectomy"]
     },
     {
       "id": "G03",
@@ -480,7 +497,8 @@
       "is_emergency": false,
       "query": "What is an abdominal ultrasound and what abdominal organs does it examine?",
       "question_type": "Factual",
-      "ground_truth": "Abdominal ultrasound uses high-frequency sound waves to visualize liver, gallbladder, spleen, pancreas, kidneys, and abdominal blood vessels, requiring fasting for 6 to 8 hours prior to the procedure."
+      "ground_truth": "Abdominal ultrasound sends high-frequency sound waves into the body, receives the echoes from tissues and organs, and uses a computer to translate them into an image. It can study the major abdominal organs and is used to evaluate the liver and bile ducts, pancreas, gallbladder, spleen, kidneys, and abdominal aorta, as well as abdominal masses, trauma, pain, and urinary blockage.",
+      "relevant_doc_ids": ["Abdominal_ultrasound"]
     },
     {
       "id": "G04",
@@ -490,7 +508,8 @@
       "is_emergency": false,
       "query": "What are the causes, diagnostic procedures, and surgical treatments for acute appendicitis versus peritonitis?",
       "question_type": "Analytical",
-      "ground_truth": "Acute appendicitis presents with periumbilical abdominal pain shifting to the lower right quadrant (McBurney's point), accompanied by low-grade fever, nausea, vomiting, and anorexia. Diagnosis is supported by abdominal ultrasound or CT scan, and treatment requires surgical appendectomy."
+      "ground_truth": "Appendicitis is inflammation of the appendix that can follow obstruction, ulceration, or bacterial invasion. Diagnosis uses the history and physical examination, white-blood-cell count and urinalysis, with CT or ultrasound when the diagnosis is uncertain; treatment is prompt surgical removal by open or laparoscopic appendectomy. If the appendix ruptures, infected contents can cause peritonitis, a generalized abdominal infection. The source describes treatment of peritonitis from a ruptured appendix as removal of the remaining appendix, placement of drains, and antibiotics.",
+      "relevant_doc_ids": ["Appendicitis", "Appendectomy"]
     },
     {
       "id": "G05",
@@ -580,7 +599,8 @@
       "is_emergency": false,
       "query": "How should a patient prepare for an abdominal ultrasound examination?",
       "question_type": "Factual",
-      "ground_truth": "Abdominal ultrasound uses high-frequency sound waves to visualize liver, gallbladder, spleen, pancreas, kidneys, and abdominal blood vessels, requiring fasting for 6 to 8 hours prior to the procedure."
+      "ground_truth": "The source recommends fasting for at least eight hours before an abdominal ultrasound so the stomach is empty, the intestines and bowel are relatively inactive, and the gallbladder can be seen before it contracts after eating. In some cases the patient should arrive with a full bladder, which can move gas-filled intestinal folds out of the way. These preparations are especially useful when the gallbladder, ovaries, or veins are examined.",
+      "relevant_doc_ids": ["Abdominal_ultrasound"]
     },
     {
       "id": "G14",

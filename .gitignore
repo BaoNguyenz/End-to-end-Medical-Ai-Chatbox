@@ -43,6 +43,8 @@ document_implement_plan/
 *.pem
 *.key
 .secrets/
+
+# Extracted medical markdown documents
 Data/markdown_output/
 
 # Test & ephemeral outputs

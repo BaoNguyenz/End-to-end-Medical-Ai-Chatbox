@@ -56,6 +56,8 @@ class BenchmarkQuestion:
     is_emergency: bool
     query: str
     ground_truth: str
+    relevant_doc_ids: list[str] = field(default_factory=list)
+    ground_truth_status: str = "verified"
     has_template_ground_truth: bool = field(default=False, init=False)
 
     def __post_init__(self):
@@ -69,7 +71,16 @@ class BenchmarkQuestion:
         jailbreaks) are still evaluable for Safety metrics; they just skip
         context_precision / context_recall scoring.
         """
-        return not self.has_template_ground_truth
+        return not self.has_template_ground_truth and self.ground_truth_status == "verified"
+
+    @property
+    def evaluation_scope(self) -> str:
+        """Metric family this question belongs to."""
+        if self.is_emergency:
+            return "safety"
+        if self.expect_rejection:
+            return "rejection"
+        return "retrieval"
 
     def to_dict(self) -> dict:
         return {
@@ -81,6 +92,9 @@ class BenchmarkQuestion:
             "is_emergency": self.is_emergency,
             "query": self.query,
             "ground_truth": self.ground_truth,
+            "relevant_doc_ids": self.relevant_doc_ids,
+            "ground_truth_status": self.ground_truth_status,
+            "evaluation_scope": self.evaluation_scope,
             "has_template_ground_truth": self.has_template_ground_truth,
         }
 
@@ -203,6 +217,8 @@ class MedicalBenchmarkDataset:
             "question_type": [q.question_type for q in pool],
             "expect_rejection": [q.expect_rejection for q in pool],
             "is_emergency": [q.is_emergency for q in pool],
+            "evaluation_scope": [q.evaluation_scope for q in pool],
+            "relevant_doc_ids": [q.relevant_doc_ids for q in pool],
         }
 
         if include_columns:
@@ -258,6 +274,8 @@ def load_benchmark(
                 is_emergency=bool(item.get("is_emergency", False)),
                 query=item["query"],
                 ground_truth=item.get("ground_truth", ""),
+                relevant_doc_ids=list(item.get("relevant_doc_ids", [])),
+                ground_truth_status=item.get("ground_truth_status", "verified"),
             )
             questions.append(q)
         except (KeyError, TypeError) as exc:
@@ -306,6 +324,9 @@ def load_benchmark_dataset(
             "expect_rejection": q.expect_rejection,
             "is_emergency": q.is_emergency,
             "ground_truth": q.ground_truth,
+            "evaluation_scope": q.evaluation_scope,
+            "relevant_doc_ids": q.relevant_doc_ids,
+            "ground_truth_status": q.ground_truth_status,
             "has_template_ground_truth": q.has_template_ground_truth,
         }
         for q in pool

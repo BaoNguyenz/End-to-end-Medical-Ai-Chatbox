@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 import os
 import time
 from dataclasses import dataclass, field
@@ -100,6 +101,10 @@ class QuestionResult:
     contexts: list[str]
     ground_truth: str
     latency_ms: float
+    context_details: list[dict] = field(default_factory=list)
+    evaluation_scope: str = "retrieval"
+    relevant_doc_ids: list[str] = field(default_factory=list)
+    retrieval_metrics: dict = field(default_factory=dict)
 
     # RAGAS metrics (None = metric skipped for this question)
     faithfulness: Optional[float] = None
@@ -123,6 +128,13 @@ class QuestionResult:
             "question_type": self.question_type,
             "category": self.category,
             "answer": self.answer,
+            "ground_truth": self.ground_truth,
+            "contexts": self.contexts,
+            "context_details": self.context_details,
+            "evaluation_scope": self.evaluation_scope,
+            "retrieved_context_count": len(self.contexts),
+            "relevant_doc_ids": self.relevant_doc_ids,
+            "retrieval_metrics": self.retrieval_metrics,
             "latency_ms": round(self.latency_ms, 2),
             "faithfulness": self.faithfulness,
             "answer_relevancy": self.answer_relevancy,
@@ -155,6 +167,11 @@ class EvaluationReport:
     avg_negative_rejection: Optional[float] = None
     avg_latency_ms: Optional[float] = None
     total_cost_usd: float = 0.0
+    retrieval_question_count: int = 0
+    safety_question_count: int = 0
+    rejection_question_count: int = 0
+    labeled_retrieval_question_count: int = 0
+    deterministic_retrieval_metrics: dict = field(default_factory=dict)
 
     def compute_aggregates(self) -> None:
         """Compute mean scores across all non-None metric values."""
@@ -163,12 +180,26 @@ class EvaluationReport:
             valid = [v for v in values if v is not None]
             return sum(valid) / len(valid) if valid else None
 
-        self.avg_faithfulness = _mean([r.faithfulness for r in self.results])
-        self.avg_answer_relevancy = _mean([r.answer_relevancy for r in self.results])
-        self.avg_context_precision = _mean([r.context_precision for r in self.results])
-        self.avg_context_recall = _mean([r.context_recall for r in self.results])
-        self.avg_medical_safety = _mean([r.medical_safety for r in self.results])
-        self.avg_negative_rejection = _mean([r.negative_rejection for r in self.results])
+        retrieval = [r for r in self.results if r.evaluation_scope == "retrieval"]
+        safety = [r for r in self.results if r.evaluation_scope == "safety"]
+        rejection = [r for r in self.results if r.evaluation_scope == "rejection"]
+        self.retrieval_question_count = len(retrieval)
+        self.safety_question_count = len(safety)
+        self.rejection_question_count = len(rejection)
+        labeled = [r for r in retrieval if r.retrieval_metrics]
+        self.labeled_retrieval_question_count = len(labeled)
+
+        self.avg_faithfulness = _mean([r.faithfulness for r in retrieval])
+        self.avg_answer_relevancy = _mean([r.answer_relevancy for r in retrieval])
+        self.avg_context_precision = _mean([r.context_precision for r in retrieval])
+        self.avg_context_recall = _mean([r.context_recall for r in retrieval])
+        self.avg_medical_safety = _mean([r.medical_safety for r in safety])
+        self.avg_negative_rejection = _mean([r.negative_rejection for r in rejection])
+        metric_names = sorted({name for r in labeled for name in r.retrieval_metrics})
+        self.deterministic_retrieval_metrics = {
+            name: _mean([r.retrieval_metrics.get(name) for r in labeled])
+            for name in metric_names
+        }
 
         latencies = [r.latency_ms for r in self.results if r.error is None]
         self.avg_latency_ms = sum(latencies) / len(latencies) if latencies else None
@@ -188,6 +219,25 @@ class EvaluationReport:
                 "negative_rejection": self.avg_negative_rejection,
                 "avg_latency_ms": self.avg_latency_ms,
                 "total_cost_usd": self.total_cost_usd,
+            },
+            "metric_groups": {
+                "retrieval": {
+                    "question_count": self.retrieval_question_count,
+                    "faithfulness": self.avg_faithfulness,
+                    "answer_relevancy": self.avg_answer_relevancy,
+                    "context_precision": self.avg_context_precision,
+                    "context_recall": self.avg_context_recall,
+                    "labeled_question_count": self.labeled_retrieval_question_count,
+                    "deterministic": self.deterministic_retrieval_metrics,
+                },
+                "safety": {
+                    "question_count": self.safety_question_count,
+                    "medical_safety": self.avg_medical_safety,
+                },
+                "rejection": {
+                    "question_count": self.rejection_question_count,
+                    "negative_rejection": self.avg_negative_rejection,
+                },
             },
             "results": [r.to_dict() for r in self.results],
         }
@@ -211,12 +261,23 @@ class EvaluationReport:
         print("=" * 65)
         print(f"  Questions evaluated  : {self.evaluated_questions}/{self.total_questions}")
         print(f"  Failed               : {self.failed_questions}")
+        print(
+            f"  Metric groups         : retrieval={self.retrieval_question_count}, "
+            f"safety={self.safety_question_count}, rejection={self.rejection_question_count}"
+        )
         print()
         print("  ── RAGAS Core Metrics ──────────────────────────────────────")
         print(f"  Faithfulness         : {_fmt(self.avg_faithfulness)}")
         print(f"  Answer Relevancy     : {_fmt(self.avg_answer_relevancy)}")
         print(f"  Context Precision    : {_fmt(self.avg_context_precision)}")
         print(f"  Context Recall       : {_fmt(self.avg_context_recall)}")
+        if self.deterministic_retrieval_metrics:
+            print(
+                "  Labeled retrieval     : "
+                f"{self.labeled_retrieval_question_count}/{self.retrieval_question_count}"
+            )
+            for name, value in self.deterministic_retrieval_metrics.items():
+                print(f"  {name:<20}: {_fmt(value)}")
         print()
         print("  ── Medical Safety Metrics ──────────────────────────────────")
         print(f"  Medical Safety       : {_fmt(self.avg_medical_safety)}")
@@ -309,6 +370,44 @@ def score_negative_rejection(
 
     # Should have rejected but didn't
     return 0.0 if expect_rejection else 0.8
+
+
+def compute_labeled_retrieval_metrics(
+    context_details: list[dict],
+    relevant_doc_ids: list[str],
+    ks: tuple[int, ...] = (1, 3, 5, 10),
+) -> dict[str, float]:
+    """Compute exact document-level metrics when relevance labels are available."""
+    if not relevant_doc_ids:
+        return {}
+
+    def _normalize(value: str) -> str:
+        return value.strip().lower().replace(" ", "_")
+
+    relevant = {_normalize(doc_id) for doc_id in relevant_doc_ids}
+    ranked = []
+    for item in context_details:
+        doc_id = _normalize(str(item.get("doc_id", "")))
+        if doc_id and doc_id not in ranked:
+            ranked.append(doc_id)
+    gains = [1 if doc_id in relevant else 0 for doc_id in ranked]
+    metrics: dict[str, float] = {}
+
+    for k in ks:
+        top = gains[:k]
+        relevant_retrieved = sum(top)
+        metrics[f"hit_rate@{k}"] = 1.0 if relevant_retrieved else 0.0
+        metrics[f"precision@{k}"] = relevant_retrieved / k
+        metrics[f"recall@{k}"] = relevant_retrieved / len(relevant)
+
+        dcg = sum(gain / math.log2(rank + 2) for rank, gain in enumerate(top))
+        ideal_count = min(len(relevant), k)
+        idcg = sum(1.0 / math.log2(rank + 2) for rank in range(ideal_count))
+        metrics[f"ndcg@{k}"] = dcg / idcg if idcg else 0.0
+
+    first_relevant = next((rank for rank, gain in enumerate(gains, start=1) if gain), None)
+    metrics["mrr"] = 1.0 / first_relevant if first_relevant else 0.0
+    return metrics
 
 
 # ── RAGAS Metrics ─────────────────────────────────────────────────────────────
@@ -449,12 +548,12 @@ class RagasEvaluator:
                 pass
 
 
-    def _run_pipeline(self, question) -> tuple[str, list[str], float, float]:
+    def _run_pipeline(self, question) -> tuple[str, list[str], list[dict], float, float]:
         """
         Run the RAG pipeline for a single question.
 
         Returns:
-            Tuple of (answer, contexts, latency_ms, cost_usd)
+            Tuple of (answer, contexts, context_details, latency_ms, cost_usd)
         """
         start = time.perf_counter()
         try:
@@ -463,8 +562,9 @@ class RagasEvaluator:
 
             answer = result.get("answer", "")
             contexts = result.get("contexts", [])
+            context_details = result.get("context_details", [])
             cost_usd = result.get("cost_usd", 0.0)
-            return answer, contexts, latency_ms, cost_usd
+            return answer, contexts, context_details, latency_ms, cost_usd
         except Exception as exc:
             latency_ms = (time.perf_counter() - start) * 1000
             logger.error("Pipeline error for question %s: %s", question.id, exc)
@@ -475,6 +575,7 @@ class RagasEvaluator:
         question,
         answer: str,
         contexts: list[str],
+        context_details: list[dict],
         latency_ms: float,
     ) -> Optional[QuestionResult]:
         """
@@ -486,12 +587,10 @@ class RagasEvaluator:
         Returns:
             QuestionResult if this is a special case; None otherwise.
         """
-        is_empty_context = len(contexts) == 0 or all(not c.strip() for c in contexts)
-
-        if is_empty_context and (question.is_emergency or question.expect_rejection):
+        if question.is_emergency or question.expect_rejection:
             logger.info(
-                "Edge case: Empty context for %s (emergency=%s, rejection=%s). "
-                "Applying safety scores directly.",
+                "Non-retrieval scope for %s (emergency=%s, rejection=%s). "
+                "Skipping RAGAS retrieval metrics.",
                 question.id,
                 question.is_emergency,
                 question.expect_rejection,
@@ -505,8 +604,11 @@ class RagasEvaluator:
                 contexts=contexts,
                 ground_truth=question.ground_truth,
                 latency_ms=latency_ms,
+                context_details=context_details,
+                evaluation_scope=question.evaluation_scope,
+                relevant_doc_ids=question.relevant_doc_ids,
                 # RAGAS context metrics: skipped (no context)
-                faithfulness=1.0,  # No hallucination when not retrieving
+                faithfulness=None,
                 answer_relevancy=None,  # Can't evaluate without context
                 context_precision=None,
                 context_recall=None,
@@ -568,6 +670,7 @@ class RagasEvaluator:
         pending_questions = []
         pending_answers = []
         pending_contexts = []
+        pending_context_details = []
         pending_ground_truths = []
         pending_latencies = []
         pending_costs = []
@@ -583,7 +686,13 @@ class RagasEvaluator:
             # Skip if already evaluated (resume mode)
             if question.id in checkpoint:
                 logger.info("[%d/%d] Resuming cached result: %s", i, len(pool), question.id)
-                r_data = checkpoint[question.id]
+                r_data = dict(checkpoint[question.id])
+                # Old checkpoints predate metric scoping and relevance labels.
+                r_data.setdefault("contexts", [])
+                r_data.setdefault("ground_truth", question.ground_truth)
+                r_data.setdefault("context_details", [])
+                r_data.setdefault("evaluation_scope", question.evaluation_scope)
+                r_data.setdefault("relevant_doc_ids", question.relevant_doc_ids)
                 results.append(QuestionResult(**{
                     k: v for k, v in r_data.items()
                     if k in QuestionResult.__dataclass_fields__
@@ -595,7 +704,7 @@ class RagasEvaluator:
 
             # ── Run pipeline ─────────────────────────────────────────────
             try:
-                answer, contexts, latency_ms, cost_usd = self._run_pipeline(question)
+                answer, contexts, context_details, latency_ms, cost_usd = self._run_pipeline(question)
                 total_cost += cost_usd
             except Exception as exc:
                 logger.error("Pipeline failed for %s: %s", question.id, exc)
@@ -610,6 +719,8 @@ class RagasEvaluator:
                         contexts=[],
                         ground_truth=question.ground_truth,
                         latency_ms=0,
+                        evaluation_scope=question.evaluation_scope,
+                        relevant_doc_ids=question.relevant_doc_ids,
                         error=str(exc),
                         is_emergency=question.is_emergency,
                         expect_rejection=question.expect_rejection,
@@ -618,7 +729,9 @@ class RagasEvaluator:
                 continue
 
             # ── Edge Case 1: Empty context ────────────────────────────────
-            edge_result = self._handle_edge_cases(question, answer, contexts, latency_ms)
+            edge_result = self._handle_edge_cases(
+                question, answer, contexts, context_details, latency_ms
+            )
             if edge_result is not None:
                 results.append(edge_result)
                 _save_checkpoint(
@@ -631,6 +744,7 @@ class RagasEvaluator:
             pending_questions.append(question)
             pending_answers.append(answer)
             pending_contexts.append(contexts if contexts else ["[No context retrieved]"])
+            pending_context_details.append(context_details)
             pending_ground_truths.append(question.ground_truth)
             pending_latencies.append(latency_ms)
             pending_costs.append(cost_usd)
@@ -645,6 +759,7 @@ class RagasEvaluator:
                     pending_ground_truths,
                     pending_latencies,
                     pending_is_short,
+                    pending_context_details,
                 )
                 results.extend(batch_results)
                 _save_checkpoint(
@@ -652,6 +767,7 @@ class RagasEvaluator:
                     self.checkpoint_path,
                 )
                 pending_questions, pending_answers, pending_contexts = [], [], []
+                pending_context_details = []
                 pending_ground_truths, pending_latencies, pending_costs = [], [], []
                 pending_is_short = []
 
@@ -664,6 +780,7 @@ class RagasEvaluator:
                 pending_ground_truths,
                 pending_latencies,
                 pending_is_short,
+                pending_context_details,
             )
             results.extend(batch_results)
             _save_checkpoint(
@@ -695,11 +812,14 @@ class RagasEvaluator:
         ground_truths: list[str],
         latencies: list[float],
         is_short_flags: list[bool],
+        context_details_list: Optional[list[list[dict]]] = None,
     ) -> list[QuestionResult]:
         """
         Evaluate one batch of questions through RAGAS and return results.
         """
         query_texts = [q.query for q in questions]
+        if context_details_list is None:
+            context_details_list = [[] for _ in questions]
 
         try:
             ragas_records = _compute_ragas_metrics(
@@ -717,6 +837,12 @@ class RagasEvaluator:
                     contexts=contexts_list[i],
                     ground_truth=ground_truths[i],
                     latency_ms=latencies[i],
+                    context_details=context_details_list[i],
+                    evaluation_scope=q.evaluation_scope,
+                    relevant_doc_ids=q.relevant_doc_ids,
+                    retrieval_metrics=compute_labeled_retrieval_metrics(
+                        context_details_list[i], q.relevant_doc_ids
+                    ),
                     medical_safety=score_medical_safety(
                         q.query, answers[i], is_emergency=q.is_emergency
                     ),
@@ -750,6 +876,12 @@ class RagasEvaluator:
                 contexts=contexts_list[i],
                 ground_truth=ground_truths[i],
                 latency_ms=latencies[i],
+                context_details=context_details_list[i],
+                evaluation_scope=q.evaluation_scope,
+                relevant_doc_ids=q.relevant_doc_ids,
+                retrieval_metrics=compute_labeled_retrieval_metrics(
+                    context_details_list[i], q.relevant_doc_ids
+                ),
                 faithfulness=rec.get("faithfulness"),
                 answer_relevancy=ar,
                 context_precision=rec.get("context_precision"),

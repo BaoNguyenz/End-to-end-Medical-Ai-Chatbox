@@ -178,6 +178,17 @@ class NaiveRAGPipeline:
             # Stage 1: Vector search only (no transformation, no BM25, no reranking)
             candidates = self._vector_store.search(query, top_k=self.top_k)
             contexts = [r.chunk.content for r in candidates]
+            context_details = [
+                {
+                    "rank": rank,
+                    "doc_id": r.chunk.doc_id,
+                    "chunk_id": r.chunk.chunk_id,
+                    "score": float(r.score),
+                    "source": r.source.value,
+                    "content": r.chunk.content,
+                }
+                for rank, r in enumerate(candidates, start=1)
+            ]
 
             if not contexts:
                 return {
@@ -212,7 +223,12 @@ class NaiveRAGPipeline:
             usage = TokenUsage.from_openai_response(response)
             cost_usd = self._cost_calc.calculate(usage, model=self.model)
 
-            return {"answer": answer, "contexts": contexts, "cost_usd": cost_usd}
+            return {
+                "answer": answer,
+                "contexts": contexts,
+                "context_details": context_details,
+                "cost_usd": cost_usd,
+            }
 
         except Exception as exc:
             logger.error("[NaiveRAG] Pipeline error: %s", exc)
@@ -308,8 +324,21 @@ class FullGaleMedRAGPipeline:
 
             # Extract contexts from RAGResponse.sources
             contexts: list[str] = []
+            context_details: list[dict] = []
             if hasattr(response, "sources") and response.sources:
                 contexts = [r.chunk.content for r in response.sources if hasattr(r, "chunk")]
+                context_details = [
+                    {
+                        "rank": rank,
+                        "doc_id": r.chunk.doc_id,
+                        "chunk_id": r.chunk.chunk_id,
+                        "score": float(r.score),
+                        "source": r.source.value,
+                        "content": r.chunk.content,
+                    }
+                    for rank, r in enumerate(response.sources, start=1)
+                    if hasattr(r, "chunk")
+                ]
 
             # Extract cost from metadata
             cost_usd: float = 0.0
@@ -319,6 +348,7 @@ class FullGaleMedRAGPipeline:
             return {
                 "answer": response.answer,
                 "contexts": contexts,
+                "context_details": context_details,
                 "cost_usd": cost_usd,
             }
 
