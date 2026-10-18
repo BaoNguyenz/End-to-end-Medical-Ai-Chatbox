@@ -7,7 +7,6 @@ sentence-level embedding similarity.
 from __future__ import annotations
 
 import re
-import uuid
 from typing import Optional
 
 import numpy as np
@@ -28,13 +27,58 @@ class SemanticChunker:
         model_name: str = "all-MiniLM-L6-v2",
         similarity_threshold: float = 0.75,
         max_chunk_size: int = 1000,
-        min_chunk_size: int = 100,
+        min_chunk_size: int = 500,
+        overlap_sentences: int = 1,
         _model: Optional[SentenceTransformer] = None,
     ) -> None:
         self.model = _model or SentenceTransformer(model_name)
         self.similarity_threshold = similarity_threshold
         self.max_chunk_size = max_chunk_size
         self.min_chunk_size = min_chunk_size
+        self.overlap_sentences = max(0, overlap_sentences)
+
+    # ------------------------------------------------------------------
+    # Markdown structure
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _split_markdown_sections(text: str) -> tuple[str, list[tuple[list[str], str]]]:
+        """Split Markdown without allowing chunks to cross heading boundaries."""
+        title = ""
+        heading_stack: list[tuple[int, str]] = []
+        sections: list[tuple[list[str], str]] = []
+        body_lines: list[str] = []
+
+        def flush() -> None:
+            body = "\n".join(body_lines).strip()
+            if body:
+                sections.append(([heading for _, heading in heading_stack], body))
+            body_lines.clear()
+
+        for line in text.splitlines():
+            match = re.match(r"^(#{1,6})\s+(.+?)\s*$", line)
+            if not match:
+                body_lines.append(line)
+                continue
+
+            flush()
+            level = len(match.group(1))
+            heading = match.group(2).strip()
+            if level == 1:
+                title = heading
+                heading_stack = []
+            else:
+                while heading_stack and heading_stack[-1][0] >= level:
+                    heading_stack.pop()
+                heading_stack.append((level, heading))
+
+        flush()
+        return title, sections
+
+    @staticmethod
+    def _context_prefix(title: str, section_path: list[str]) -> str:
+        labels = [label for label in [title, *section_path] if label]
+        return " — ".join(labels)
 
     # ------------------------------------------------------------------
     # Sentence splitting
@@ -166,6 +210,88 @@ class SemanticChunker:
 
         return parts if parts else [text]
 
+    def _add_overlap(self, chunks: list[str], max_size: int) -> list[str]:
+        """Repeat a trailing sentence when it fits without creating extra chunks."""
+        if self.overlap_sentences <= 0 or len(chunks) < 2:
+            return chunks
+
+        overlapped = [chunks[0]]
+        for chunk in chunks[1:]:
+            previous_sentences = self._split_sentences(overlapped[-1])
+            overlap = " ".join(previous_sentences[-self.overlap_sentences:]).strip()
+            if not overlap or chunk.startswith(overlap):
+                overlapped.append(chunk)
+                continue
+
+            if len(overlap) + 2 + len(chunk) > max_size:
+                overlapped.append(chunk)
+                continue
+            overlapped.append(f"{overlap}\n\n{chunk}".strip())
+        return overlapped
+
+    @staticmethod
+    def _split_large_chunk_to_limit(text: str, limit: int) -> list[str]:
+        """Sentence-aware splitting with an explicit per-call character limit."""
+        if len(text) <= limit:
+            return [text]
+        parts: list[str] = []
+        sentences = re.split(r"(?<=[.!?\n])\s+", text)
+        current = ""
+        for sentence in sentences:
+            if len(sentence) > limit:
+                if current:
+                    parts.append(current.strip())
+                    current = ""
+                words = sentence.split()
+                segment = ""
+                for word in words:
+                    if len(word) > limit:
+                        if segment:
+                            parts.append(segment)
+                            segment = ""
+                        parts.extend(word[i:i + limit] for i in range(0, len(word), limit))
+                    elif len(segment) + len(word) + 1 > limit and segment:
+                        parts.append(segment)
+                        segment = word
+                    else:
+                        segment = f"{segment} {word}".strip()
+                if segment:
+                    parts.append(segment)
+                continue
+            if len(current) + len(sentence) + 1 > limit and current:
+                parts.append(current.strip())
+                current = sentence
+            else:
+                current = f"{current} {sentence}".strip()
+        if current:
+            parts.append(current.strip())
+        return parts or [text]
+
+    def _chunk_section(self, text: str, max_size: int) -> list[str]:
+        """Apply semantic boundaries, size normalization, and overlap to a section."""
+        sentences = self._split_sentences(text)
+        if len(sentences) <= 1:
+            return self._split_large_chunk_to_limit(text, max_size)
+
+        similarities = self._compute_similarities(sentences)
+        breakpoints = self._find_breakpoints(similarities)
+        raw_chunks: list[str] = []
+        previous = 0
+        for breakpoint in breakpoints:
+            value = "\n".join(sentences[previous:breakpoint]).strip()
+            if value:
+                raw_chunks.append(value)
+            previous = breakpoint
+        tail = "\n".join(sentences[previous:]).strip()
+        if tail:
+            raw_chunks.append(tail)
+
+        raw_chunks = self._merge_small_chunks(raw_chunks)
+        sized: list[str] = []
+        for value in raw_chunks:
+            sized.extend(self._split_large_chunk_to_limit(value, max_size))
+        return self._add_overlap(sized, max_size)
+
     # ------------------------------------------------------------------
     # Main chunking method
     # ------------------------------------------------------------------
@@ -178,65 +304,35 @@ class SemanticChunker:
             List of Chunk objects with metadata.
         """
         text = doc.page_content.strip()
+        title, sections = self._split_markdown_sections(text)
+        if not sections:
+            sections = [([], text)]
 
-        # Edge case: very short document
-        if len(text) <= self.min_chunk_size:
-            return [Chunk(
-                content=text,
-                chunk_id=f"{doc.doc_id}_chunk_0",
-                doc_id=doc.doc_id,
-                document_type=doc.document_type,
-                chunk_index=0,
-                metadata={**doc.metadata},
-            )]
+        prepared: list[tuple[str, list[str]]] = []
+        for section_path, section_text in sections:
+            prefix = self._context_prefix(
+                title or doc.metadata.get("entry_title", doc.doc_id),
+                section_path,
+            )
+            content_limit = max(100, self.max_chunk_size - len(prefix) - 2)
+            section_chunks = self._chunk_section(section_text, content_limit)
+            for section_chunk in section_chunks:
+                content = f"{prefix}\n\n{section_chunk}".strip() if prefix else section_chunk
+                prepared.append((content, section_path))
 
-        # Step 1: Split into sentences
-        sentences = self._split_sentences(text)
-        if len(sentences) <= 1:
-            return [Chunk(
-                content=text,
-                chunk_id=f"{doc.doc_id}_chunk_0",
-                doc_id=doc.doc_id,
-                document_type=doc.document_type,
-                chunk_index=0,
-                metadata={**doc.metadata},
-            )]
-
-        # Step 2: Compute similarities and find breakpoints
-        similarities = self._compute_similarities(sentences)
-        breakpoints = self._find_breakpoints(similarities)
-
-        # Step 3: Create raw chunks from breakpoints
-        raw_chunks: list[str] = []
-        prev = 0
-        for bp in breakpoints:
-            chunk_text = "\n".join(sentences[prev:bp]).strip()
-            if chunk_text:
-                raw_chunks.append(chunk_text)
-            prev = bp
-        # Last chunk
-        last_chunk = "\n".join(sentences[prev:]).strip()
-        if last_chunk:
-            raw_chunks.append(last_chunk)
-
-        # Step 4: Merge small chunks
-        raw_chunks = self._merge_small_chunks(raw_chunks)
-
-        # Step 5: Split oversized chunks
-        final_chunks: list[str] = []
-        for chunk in raw_chunks:
-            final_chunks.extend(self._split_large_chunk(chunk))
-
-        # Step 6: Create Chunk objects
         chunks: list[Chunk] = []
-        for i, content in enumerate(final_chunks):
+        for i, (content, section_path) in enumerate(prepared):
             chunks.append(Chunk(
                 content=content,
                 chunk_id=f"{doc.doc_id}_chunk_{i}",
                 doc_id=doc.doc_id,
                 document_type=doc.document_type,
                 chunk_index=i,
-                metadata={**doc.metadata},
+                metadata={
+                    **doc.metadata,
+                    "section_path": section_path,
+                    "section_title": section_path[-1] if section_path else "",
+                },
             ))
 
         return chunks

@@ -61,11 +61,12 @@ class Settings(BaseSettings):
     hnsw_ef_search: int = 100     # Search width during query
 
     # --- Chunking ---
-    # Slightly lower threshold to better respect medical article boundaries
-    chunk_similarity_threshold: float = 0.72
-    # Smaller chunks for more precise medical fact retrieval
-    chunk_max_size: int = 800
-    chunk_min_size: int = 100
+    # Tuned for Gale medical entries: retain enough local context for both
+    # passage retrieval and chunk-grounded relationship extraction.
+    chunk_similarity_threshold: float = 0.50
+    chunk_max_size: int = 1000
+    chunk_min_size: int = 500
+    chunk_overlap_sentences: int = 1
 
     # --- Search ---
     bm25_top_k: int = 50

@@ -50,6 +50,7 @@ def main() -> None:
         similarity_threshold=settings.chunk_similarity_threshold,
         max_chunk_size=settings.chunk_max_size,
         min_chunk_size=settings.chunk_min_size,
+        overlap_sentences=settings.chunk_overlap_sentences,
     )
     chunks = chunker.chunk_documents(docs)
     print(f"  Time: {time.time() - t:.2f}s\n")
