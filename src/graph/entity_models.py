@@ -100,6 +100,16 @@ class Relationship(BaseModel):
                          # "CAUSES_SIDE_EFFECT" | "CONTRAINDICATED_WITH" |
                          # "INTERACTS_WITH" | "ALTERNATIVE_TREATMENT" | "RELATED_TO"
     notes: str = ""      # Optional clarification (e.g. "contraindicated in children")
+    source_doc_ids: list[str] = Field(default_factory=list)
+    evidence_chunk_ids: list[str] = Field(default_factory=list)
+
+
+class EvidenceChunk(BaseModel):
+    """Canonical text chunk used as provenance for graph assertions."""
+
+    chunk_id: str
+    doc_id: str
+    chunk_index: int = 0
 
 
 # ── Extraction Result ────────────────────────────────────────────────────────
@@ -112,6 +122,7 @@ class ExtractionResult(BaseModel):
     procedures: list[MedicalProcedure] = Field(default_factory=list)
     entries: list[MedicalEntry] = Field(default_factory=list)
     relationships: list[Relationship] = Field(default_factory=list)
+    chunks: list[EvidenceChunk] = Field(default_factory=list)
 
     def merge(self, other: "ExtractionResult") -> None:
         """Merge another extraction result into this one (in-place)."""
@@ -121,6 +132,7 @@ class ExtractionResult(BaseModel):
         self.procedures.extend(other.procedures)
         self.entries.extend(other.entries)
         self.relationships.extend(other.relationships)
+        self.chunks.extend(other.chunks)
 
     def deduplicate(self) -> None:
         """Remove duplicate nodes (by ID/name), keeping first occurrence."""
@@ -151,8 +163,40 @@ class ExtractionResult(BaseModel):
             if e.entry_id not in seen_entries and not seen_entries.add(e.entry_id)  # type: ignore
         ]
 
+        seen_chunks: set[str] = set()
+        self.chunks = [
+            c for c in self.chunks
+            if c.chunk_id not in seen_chunks and not seen_chunks.add(c.chunk_id)  # type: ignore
+        ]
+
+        # The same medical relation may be stated in several chunks. Preserve
+        # every supporting chunk instead of letting Neo4j MERGE overwrite it.
+        merged_relationships: dict[tuple[str, str, str, str, str], Relationship] = {}
+        for rel in self.relationships:
+            key = (
+                rel.source_type,
+                rel.source_id,
+                rel.relation_type,
+                rel.target_type,
+                rel.target_id,
+            )
+            existing = merged_relationships.get(key)
+            if existing is None:
+                merged_relationships[key] = rel
+                continue
+            existing.source_doc_ids = list(dict.fromkeys(
+                existing.source_doc_ids + rel.source_doc_ids
+            ))
+            existing.evidence_chunk_ids = list(dict.fromkeys(
+                existing.evidence_chunk_ids + rel.evidence_chunk_ids
+            ))
+            if rel.notes and rel.notes not in existing.notes:
+                existing.notes = "; ".join(filter(None, [existing.notes, rel.notes]))
+        self.relationships = list(merged_relationships.values())
+
     def summary(self) -> str:
         return (
+            f"Chunks={len(self.chunks)}, "
             f"Diseases={len(self.diseases)}, "
             f"Medications={len(self.medications)}, "
             f"Symptoms={len(self.symptoms)}, "

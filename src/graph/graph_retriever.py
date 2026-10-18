@@ -4,20 +4,32 @@ Retrieves information from the Neo4j knowledge graph using:
   1. NL-to-Cypher: LLM translates natural language queries into Cypher.
   2. Fallback: keyword search on node properties if Cypher fails.
 
-Results are returned as SearchResult objects for compatibility with
-the rest of the retrieval pipeline.
+Results are returned as structured GraphHit objects. Their provenance is
+resolved to canonical Qdrant chunks before passage reranking.
 """
 
 from __future__ import annotations
 
 import re
 import time
+from dataclasses import dataclass, field
 from typing import Optional
 
 from openai import OpenAI
 
-from src.models import Chunk, SearchResult, SearchSource
 from src.graph.knowledge_graph import KnowledgeGraph
+
+
+@dataclass
+class GraphHit:
+    """Structured graph fact plus provenance to canonical text chunks."""
+
+    content: str
+    evidence_chunk_ids: list[str] = field(default_factory=list)
+    source_doc_ids: list[str] = field(default_factory=list)
+    score: float = 0.0
+    method: str = "cypher"
+    record: dict = field(default_factory=dict)
 
 
 _NL_TO_CYPHER_PROMPT = """You are an expert Neo4j Cypher query writer for a medical knowledge graph.
@@ -28,23 +40,28 @@ Translate the following medical question into a valid Cypher query.
 Rules:
 - ONLY output the raw Cypher query. No explanation, no markdown, no backticks.
 - ALWAYS use case-insensitive matching with toLower(...) CONTAINS '...' (e.g., WHERE toLower(d.name) CONTAINS 'asthma').
-- ALWAYS use valid relationship types from the schema: HAS_SYMPTOM, TREATED_BY, INTERACTS_WITH, CONTRAINDICATED_WITH, DIAGNOSED_BY.
+- ALWAYS use valid relationship types from the schema: HAS_SYMPTOM, TREATED_BY,
+  DIAGNOSED_BY, CAUSES_SIDE_EFFECT, CONTRAINDICATED_WITH, INTERACTS_WITH,
+  ALTERNATIVE_TREATMENT, RELATED_TO.
 - Use MATCH, WHERE, RETURN. Keep it simple and correct.
 - Always add LIMIT 10.
 - Return meaningful string fields (e.g. d.name, s.name, m.name, m.drug_class).
+- Bind matched medical relationships as `r` whenever possible.
+- For relationship queries ALWAYS return r.evidence_chunk_ids AS evidence_chunk_ids
+  and r.source_doc_ids AS source_doc_ids.
 
 Examples:
   Q: "What are the symptoms of asthma?"
-  A: MATCH (d:Disease)-[:HAS_SYMPTOM]->(s:Symptom) WHERE toLower(d.name) CONTAINS 'asthma' RETURN d.name AS disease, s.name AS symptom LIMIT 10
+  A: MATCH (d:Disease)-[r:HAS_SYMPTOM]->(s:Symptom) WHERE toLower(d.name) CONTAINS 'asthma' RETURN d.name AS disease, s.name AS symptom, r.evidence_chunk_ids AS evidence_chunk_ids, r.source_doc_ids AS source_doc_ids LIMIT 10
 
   Q: "Which medications treat diabetes?"
-  A: MATCH (d:Disease)-[:TREATED_BY]->(m:Medication) WHERE toLower(d.name) CONTAINS 'diabetes' RETURN d.name AS disease, m.name AS medication LIMIT 10
+  A: MATCH (d:Disease)-[r:TREATED_BY]->(m:Medication) WHERE toLower(d.name) CONTAINS 'diabetes' RETURN d.name AS disease, m.name AS medication, r.evidence_chunk_ids AS evidence_chunk_ids, r.source_doc_ids AS source_doc_ids LIMIT 10
 
   Q: "What drugs interact with aspirin?"
-  A: MATCH (m:Medication)-[:INTERACTS_WITH]->(m2:Medication) WHERE toLower(m.name) CONTAINS 'aspirin' RETURN m.name AS drug, m2.name AS interacts_with LIMIT 10
+  A: MATCH (m:Medication)-[r:INTERACTS_WITH]->(m2:Medication) WHERE toLower(m.name) CONTAINS 'aspirin' RETURN m.name AS drug, m2.name AS interacts_with, r.evidence_chunk_ids AS evidence_chunk_ids, r.source_doc_ids AS source_doc_ids LIMIT 10
 
   Q: "What medications are contraindicated with asthma?"
-  A: MATCH (m:Medication)-[:CONTRAINDICATED_WITH]->(d:Disease) WHERE toLower(d.name) CONTAINS 'asthma' RETURN m.name AS drug, d.name AS disease LIMIT 10
+  A: MATCH (m:Medication)-[r:CONTRAINDICATED_WITH]->(d:Disease) WHERE toLower(d.name) CONTAINS 'asthma' RETURN m.name AS drug, d.name AS disease, r.evidence_chunk_ids AS evidence_chunk_ids, r.source_doc_ids AS source_doc_ids LIMIT 10
 
 Question: {query}
 Cypher:"""
@@ -74,7 +91,7 @@ class GraphRetriever:
       1. Ask LLM to translate query -> Cypher
       2. Execute Cypher against Neo4j
       3. If Cypher fails or returns nothing -> fallback keyword search
-      4. Return results as SearchResult objects
+      4. Return structured graph facts with evidence chunk IDs
     """
 
     def __init__(
@@ -121,7 +138,7 @@ class GraphRetriever:
     def _keyword_search(self, query: str) -> list[dict]:
         """Search node properties for keyword matches (no LLM needed)."""
         # Extract main nouns/keywords from query
-        words = [w.lower() for w in re.findall(r"[a-zA-Z]{3,}", query)
+        words = [w.lower() for w in re.findall(r"\b[a-zA-Z]{3,}\b", query)
                  if w.lower() not in {"what", "are", "the", "and", "for", "with", "how", "does", "which", "used", "treat"}]
         search_term = words[0] if words else query.lower()
 
@@ -132,8 +149,12 @@ class GraphRetriever:
            OR toLower(coalesce(n.drug_id, '')) CONTAINS $q
            OR any(r IN coalesce(n.symptoms, []) WHERE toLower(r) CONTAINS $q)
            OR any(f IN coalesce(n.indications, []) WHERE toLower(f) CONTAINS $q)
+        OPTIONAL MATCH (c:Chunk)
+        WHERE c.doc_id = coalesce(n.doc_id, '')
         RETURN labels(n)[0] AS type, n.name AS name,
-               coalesce(n.disease_id, n.drug_id, '') AS id
+               coalesce(n.disease_id, n.drug_id, n.procedure_id, n.entry_id, '') AS id,
+               collect(DISTINCT c.chunk_id) AS evidence_chunk_ids,
+               [coalesce(n.doc_id, '')] AS source_doc_ids
         LIMIT 10
         """
         return self.kg.run_cypher(cypher, {"q": search_term})
@@ -142,14 +163,14 @@ class GraphRetriever:
     # Main search
     # ------------------------------------------------------------------
 
-    def search(self, query: str) -> list[SearchResult]:
+    def search(self, query: str) -> list[GraphHit]:
         """
         Search the knowledge graph using natural language.
 
         Attempts NL-to-Cypher first, falls back to keyword search on error.
 
         Returns:
-            List of SearchResult where each result wraps one graph record.
+            Structured graph facts with source chunk provenance.
         """
         results: list[dict] = []
         method = "cypher"
@@ -166,6 +187,12 @@ class GraphRetriever:
                     print("[GraphRetriever] Cypher returned 0 results, trying keyword fallback")
                     results = self._keyword_search(query)
                     method = "keyword_fallback"
+                elif not any(record.get("evidence_chunk_ids") for record in results):
+                    # A valid Text2Cypher answer may omit provenance. Retain its
+                    # facts, but add node-level chunk provenance so the graph
+                    # branch can still contribute real passages to reranking.
+                    results.extend(self._keyword_search(query))
+                    method = "cypher_with_keyword_provenance"
             else:
                 print("[GraphRetriever] Invalid Cypher generated, using keyword fallback")
                 results = self._keyword_search(query)
@@ -176,22 +203,27 @@ class GraphRetriever:
             results = self._keyword_search(query)
             method = "keyword_fallback"
 
-        # Step 2: Convert records to SearchResult
-        search_results: list[SearchResult] = []
+        # Step 2: Keep graph facts separate from text passages. Only the
+        # evidence chunks referenced here will enter passage reranking.
+        search_results: list[GraphHit] = []
         for i, record in enumerate(results):
-            text = _format_record_as_text(record)
-            chunk = Chunk(
-                content=text,
-                chunk_id=f"graph_{method}_{i}",
-                doc_id=f"graph:{method}",
-                document_type="graph",
-                chunk_index=i,
-                metadata={"method": method, "record": record},
-            )
-            search_results.append(SearchResult(
-                chunk=chunk,
+            evidence_ids = record.get("evidence_chunk_ids") or []
+            source_doc_ids = record.get("source_doc_ids") or []
+            if isinstance(evidence_ids, str):
+                evidence_ids = [evidence_ids]
+            if isinstance(source_doc_ids, str):
+                source_doc_ids = [source_doc_ids]
+            fact_record = {
+                key: value for key, value in record.items()
+                if key not in {"evidence_chunk_ids", "source_doc_ids"}
+            }
+            search_results.append(GraphHit(
+                content=_format_record_as_text(fact_record),
+                evidence_chunk_ids=list(dict.fromkeys(evidence_ids)),
+                source_doc_ids=list(dict.fromkeys(x for x in source_doc_ids if x)),
                 score=1.0 - (i * 0.05),  # rank-based score
-                source=SearchSource.GRAPH,
+                method=method,
+                record=record,
             ))
 
         print(f"[GraphRetriever] Returned {len(search_results)} graph results (method={method})")

@@ -18,6 +18,7 @@ from qdrant_client.http.models import (
     VectorParams,
     Filter,
     FieldCondition,
+    MatchAny,
     MatchValue,
 )
 
@@ -277,6 +278,49 @@ class VectorStore:
             offset = next_offset
 
         return chunks
+
+    def get_chunks_by_ids(self, chunk_ids: list[str]) -> list[Chunk]:
+        """Fetch canonical chunks by payload ``chunk_id``, preserving input order."""
+        wanted = list(dict.fromkeys(chunk_id for chunk_id in chunk_ids if chunk_id))
+        if not wanted:
+            return []
+
+        # Payload lookup avoids relying on Python's process-randomized hash,
+        # which is currently used as the Qdrant point ID during indexing.
+        found: dict[str, Chunk] = {}
+        offset = None
+        chunk_filter = Filter(
+            must=[FieldCondition(key="chunk_id", match=MatchAny(any=wanted))]
+        )
+        while True:
+            points, next_offset = self.client.scroll(
+                collection_name=self.collection_name,
+                limit=100,
+                offset=offset,
+                scroll_filter=chunk_filter,
+                with_payload=True,
+                with_vectors=False,
+            )
+            for point in points:
+                payload = point.payload or {}
+                chunk_id = payload.get("chunk_id", "")
+                if chunk_id not in wanted_set:
+                    continue
+                found[chunk_id] = Chunk(
+                    content=payload.get("content", ""),
+                    chunk_id=chunk_id,
+                    doc_id=payload.get("doc_id", ""),
+                    document_type=payload.get("document_type", ""),
+                    chunk_index=payload.get("chunk_index", 0),
+                    metadata={
+                        k: v for k, v in payload.items()
+                        if k not in ("content", "chunk_id", "doc_id", "document_type", "chunk_index")
+                    },
+                )
+            if len(found) == len(wanted) or next_offset is None:
+                break
+            offset = next_offset
+        return [found[chunk_id] for chunk_id in wanted if chunk_id in found]
 
     def collection_info(self) -> dict:
         """Get collection statistics."""

@@ -6,12 +6,11 @@ Run:
     uv run python scripts/build_graph.py
 
 What it does:
-  1. Load all 20 documents from data/
-  2. Extract entities (Disease, Medication, Symptom, MedicalProcedure, MedicalEntry)
-     and relationships using OpenAI LLM (cached in cache/entity_cache.json)
-  3. Clear existing graph and re-populate with MERGE statements
-  4. Print final node/relationship counts
-  5. Save extracted entities to cache/graph_entities.json for inspection
+  1. Load all Markdown documents
+  2. Build the same canonical chunks used by Qdrant and BM25
+  3. Extract entities and chunk-grounded relationships using an LLM
+  4. Clear and rebuild Neo4j with evidence_chunk_ids provenance
+  5. Save extracted graph data for inspection
 """
 
 import sys
@@ -27,6 +26,7 @@ from openai import OpenAI
 from src.config import settings
 # pyrefly: ignore [missing-import]
 from src.indexing.document_loader import load_all_documents
+from src.indexing.semantic_chunker import SemanticChunker
 # pyrefly: ignore [missing-import]
 from src.graph.entity_extractor import EntityExtractor
 # pyrefly: ignore [missing-import]
@@ -49,7 +49,18 @@ def main() -> None:
     print(f"  Loaded {len(docs)} documents\n")
 
     print(SEP)
-    print("STEP 2: Extract entities (LLM + cache)")
+    print("STEP 2: Build canonical chunks")
+    print(SEP)
+    chunker = SemanticChunker(
+        model_name=settings.embedding_model,
+        similarity_threshold=settings.chunk_similarity_threshold,
+        max_chunk_size=settings.chunk_max_size,
+        min_chunk_size=settings.chunk_min_size,
+    )
+    chunks = chunker.chunk_documents(docs)
+
+    print(SEP)
+    print("STEP 3: Extract chunk-grounded entities (LLM + cache)")
     print(SEP)
     client = OpenAI(api_key=settings.openai_api_key)
     extractor = EntityExtractor(
@@ -57,7 +68,7 @@ def main() -> None:
         model=settings.openai_model,
         cache_dir=settings.cache_dir,
     )
-    entities = extractor.extract_all(docs)
+    entities = extractor.extract_all_chunks(chunks)
     print(f"\n  Extraction summary: {entities.summary()}\n")
 
     # Save extracted entities for manual inspection
@@ -68,7 +79,7 @@ def main() -> None:
     print(f"  Entities saved to: {export_path}\n")
 
     print(SEP)
-    print("STEP 3: Populate Neo4j")
+    print("STEP 4: Populate Neo4j")
     print(SEP)
     kg = KnowledgeGraph(
         uri=settings.neo4j_uri,

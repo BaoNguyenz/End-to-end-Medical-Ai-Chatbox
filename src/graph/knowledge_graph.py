@@ -56,6 +56,7 @@ class KnowledgeGraph:
             ("Symptom",          "symptom_id"),
             ("MedicalProcedure", "procedure_id"),
             ("MedicalEntry",     "entry_id"),
+            ("Chunk",            "chunk_id"),
         ]
         with self._driver.session() as session:
             for label, prop in constraints:
@@ -77,6 +78,16 @@ class KnowledgeGraph:
     # ------------------------------------------------------------------
 
     def _merge_nodes(self, session, entities: ExtractionResult) -> None:
+
+        for c in entities.chunks:
+            session.run(
+                """MERGE (n:Chunk {chunk_id: $chunk_id})
+                   SET n.doc_id = $doc_id,
+                       n.chunk_index = $chunk_index""",
+                chunk_id=c.chunk_id,
+                doc_id=c.doc_id,
+                chunk_index=c.chunk_index,
+            )
 
         # Disease nodes
         for d in entities.diseases:
@@ -181,7 +192,12 @@ class KnowledgeGraph:
                 f"MATCH (src:{src_label}), (tgt:{tgt_label}) "
                 f"WHERE src.{src_prop} = $source_id AND tgt.{tgt_prop} = $target_id "
                 f"MERGE (src)-[r:{rel.relation_type}]->(tgt) "
-                f"SET r.notes = $notes"
+                f"SET r.notes = $notes, "
+                f"    r.source_doc_ids = $source_doc_ids, "
+                f"    r.evidence_chunk_ids = $evidence_chunk_ids "
+                f"WITH r "
+                f"MATCH (c:Chunk) WHERE c.chunk_id IN $evidence_chunk_ids "
+                f"MERGE (c)-[:SUPPORTS]->(src)"
             )
             try:
                 session.run(
@@ -189,6 +205,8 @@ class KnowledgeGraph:
                     source_id=rel.source_id,
                     target_id=rel.target_id,
                     notes=rel.notes,
+                    source_doc_ids=rel.source_doc_ids,
+                    evidence_chunk_ids=rel.evidence_chunk_ids,
                 )
             except Exception:
                 pass  # Silently skip if nodes don't exist
@@ -222,7 +240,7 @@ class KnowledgeGraph:
 
     def get_node_counts(self) -> dict:
         """Return count of each medical node label."""
-        labels = ["Disease", "Medication", "Symptom", "MedicalProcedure", "MedicalEntry"]
+        labels = ["Disease", "Medication", "Symptom", "MedicalProcedure", "MedicalEntry", "Chunk"]
         counts = {}
         with self._driver.session() as session:
             for label in labels:
@@ -247,6 +265,7 @@ Node Labels:
   - Symptom          (symptom_id, name, affected_body_part, severity_levels[])  [{counts.get('Symptom', 0)} nodes]
   - MedicalProcedure (procedure_id, name, procedure_type, purpose[], risks[], preparation[], doc_id)  [{counts.get('MedicalProcedure', 0)} nodes]
   - MedicalEntry     (entry_id, title, entry_type, related_entries[], doc_id)  [{counts.get('MedicalEntry', 0)} nodes]
+  - Chunk            (chunk_id, doc_id, chunk_index) [{counts.get('Chunk', 0)} nodes]
 
 Relationship Types:
   - (Disease)-[:HAS_SYMPTOM]->(Symptom)
@@ -261,4 +280,9 @@ Relationship Types:
   - (any)-[:RELATED_TO]->(any)
 
 Total relationships: {counts.get('Relationships', 0)}
+
+Every medical relationship stores source_doc_ids[] and evidence_chunk_ids[].
+When returning a relationship, bind it as `r` and return
+`r.evidence_chunk_ids AS evidence_chunk_ids` and
+`r.source_doc_ids AS source_doc_ids`.
 """

@@ -111,8 +111,8 @@ def main() -> None:
 
         print(f"  Time: {elapsed:.2f}s  |  {len(results)} results")
         for r in results[:3]:
-            content = str(r.chunk.content).replace("\n", " ").encode("ascii", errors="ignore").decode("ascii")
-            print(f"    [{r.source.value}] {content}")
+            content = r.content.replace("\n", " ").encode("ascii", errors="ignore").decode("ascii")
+            print(f"    [graph/{r.method}] {content} | evidence={r.evidence_chunk_ids}")
         print()
 
     # ── TEST 3: Schema inspection ─────────────────────────────────────────

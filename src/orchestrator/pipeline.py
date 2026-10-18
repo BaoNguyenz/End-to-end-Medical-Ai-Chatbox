@@ -31,7 +31,7 @@ from src.config import settings
 # pyrefly: ignore [missing-import]
 from src.cache.semantic_cache import get_semantic_cache, CacheEntry
 # pyrefly: ignore [missing-import]
-from src.models import SearchResult, RAGResponse
+from src.models import SearchResult, SearchSource, RAGResponse
 # pyrefly: ignore [missing-import]
 from src.indexing.vector_store import VectorStore
 # pyrefly: ignore [missing-import]
@@ -120,6 +120,52 @@ class RAGPipeline:
 
     Can be initialized with graph support disabled if Neo4j is unavailable.
     """
+
+    def _resolve_graph_evidence(self, graph_hits: list) -> list[SearchResult]:
+        """Resolve graph provenance to canonical Qdrant text chunks."""
+        evidence_ids: list[str] = []
+        for hit in graph_hits:
+            evidence_ids.extend(getattr(hit, "evidence_chunk_ids", []) or [])
+        chunks = self.vector_store.get_chunks_by_ids(list(dict.fromkeys(evidence_ids)))
+        return [
+            SearchResult(chunk=chunk, score=1.0, source=SearchSource.GRAPH)
+            for chunk in chunks
+        ]
+
+    @staticmethod
+    def _merge_text_candidates(
+        text_results: list[SearchResult],
+        graph_evidence: list[SearchResult],
+    ) -> list[SearchResult]:
+        """Deduplicate real passages while recording every retrieval source."""
+        merged: dict[str, SearchResult] = {}
+        for result in text_results + graph_evidence:
+            chunk_id = result.chunk.chunk_id
+            if not chunk_id:
+                continue
+            source = result.source.value if hasattr(result.source, "value") else str(result.source)
+            existing = merged.get(chunk_id)
+            if existing is None:
+                result.chunk.metadata["retrieval_sources"] = [source]
+                merged[chunk_id] = result
+                continue
+            sources = existing.chunk.metadata.setdefault("retrieval_sources", [])
+            if source not in sources:
+                sources.append(source)
+        return list(merged.values())
+
+    @staticmethod
+    def _format_verified_graph_facts(graph_hits: list, final_results: list[SearchResult]) -> str:
+        """Format only graph facts backed by a passage surviving final reranking."""
+        final_ids = {result.chunk.chunk_id for result in final_results}
+        facts = []
+        for hit in graph_hits:
+            evidence_ids = set(getattr(hit, "evidence_chunk_ids", []) or [])
+            supporting = sorted(evidence_ids & final_ids)
+            content = getattr(hit, "content", "")
+            if content and supporting:
+                facts.append(f"- {content} [evidence: {', '.join(supporting)}]")
+        return "\n".join(facts)
 
     def __init__(
         self,
@@ -335,7 +381,7 @@ class RAGPipeline:
                 self.use_graph and self.graph_retriever is not None
             )
             with root.span("Neo4jGraph", input={"enabled": _use_graph}) as s_graph:
-                if _use_graph and self.graph_retriever and search_mode in ("auto", "graph"):
+                if _use_graph and self.graph_retriever:
                     t = time.time()
                     try:
                         graph_results = self.graph_retriever.search(query)
@@ -345,7 +391,8 @@ class RAGPipeline:
                     latency["graph_search"] = time.time() - t
                 s_graph.set_output({"num_graph_results": len(graph_results)})
 
-            all_candidates = candidates + graph_results
+            graph_evidence = self._resolve_graph_evidence(graph_results)
+            all_candidates = self._merge_text_candidates(candidates, graph_evidence)
 
             # ── Span 5: CrossEncoder Reranking ─────────────────────────────
             with root.span("CrossEncoderReranking", input={"num_candidates": len(all_candidates)}) as s_re:
@@ -366,6 +413,9 @@ class RAGPipeline:
                     f"[{i+1}] Source: {source_label} (doc_id: {r.chunk.doc_id})\n{r.chunk.content}"
                 )
             context = "\n\n---\n\n".join(context_parts)
+            graph_context = self._format_verified_graph_facts(graph_results, final_results)
+            if graph_context:
+                context = f"Verified Knowledge Graph Facts:\n{graph_context}\n\n---\n\n{context}"
 
             with root.span(
                 "LLMGeneration",
@@ -399,6 +449,7 @@ class RAGPipeline:
             latency["total"] = time.time() - total_start
             metadata["num_candidates"] = len(candidates)
             metadata["num_graph_results"] = len(graph_results)
+            metadata["num_graph_evidence_chunks"] = len(graph_evidence)
             metadata["num_final"] = len(final_results)
             metadata["cost_usd"] = round(total_cost_usd, 8)
 
@@ -556,7 +607,7 @@ class RAGPipeline:
                 graph_results = []
                 _use_graph = use_graph if use_graph is not None else (self.use_graph and self.graph_retriever is not None)
                 with root.span("Neo4jGraph", input={"enabled": _use_graph}) as s_graph:
-                    if _use_graph and self.graph_retriever and search_mode in ("auto", "graph"):
+                    if _use_graph and self.graph_retriever:
                         t = time.time()
                         try:
                             graph_results = self.graph_retriever.search(query)
@@ -566,8 +617,10 @@ class RAGPipeline:
                         latency["graph_search"] = time.time() - t
                     s_graph.set_output({"num_graph_results": len(graph_results)})
 
-                # Merge vector + graph candidates
-                all_candidates = candidates + graph_results
+                # Graph facts stay structured; only their canonical evidence
+                # chunks join text candidates for Cross-Encoder/MMR.
+                graph_evidence = self._resolve_graph_evidence(graph_results)
+                all_candidates = self._merge_text_candidates(candidates, graph_evidence)
 
                 # Stage 4: Post-retrieval reranking + MMR
                 with root.span("CrossEncoderRerank", input={"num_candidates": len(all_candidates)}) as s_rerank:
@@ -588,6 +641,9 @@ class RAGPipeline:
                         f"[{i+1}] Source: {source_label} (doc_id: {r.chunk.doc_id})\n{r.chunk.content}"
                     )
                 context = "\n\n---\n\n".join(context_parts)
+                graph_context = self._format_verified_graph_facts(graph_results, final_results)
+                if graph_context:
+                    context = f"Verified Knowledge Graph Facts:\n{graph_context}\n\n---\n\n{context}"
 
                 t = time.time()
                 full_answer = ""
@@ -636,6 +692,7 @@ class RAGPipeline:
 
                 metadata["num_candidates"] = len(candidates)
                 metadata["num_graph_results"] = len(graph_results)
+                metadata["num_graph_evidence_chunks"] = len(graph_evidence)
                 metadata["num_final"] = len(final_results)
                 metadata["cost_usd"] = round(call_cost, 8)
 

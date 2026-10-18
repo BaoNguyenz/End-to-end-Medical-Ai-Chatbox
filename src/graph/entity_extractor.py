@@ -17,11 +17,11 @@ from typing import Optional
 from openai import OpenAI
 
 # pyrefly: ignore [missing-import]
-from src.models import Document
+from src.models import Chunk, Document
 # pyrefly: ignore [missing-import]
 from src.graph.entity_models import (
     ExtractionResult, Disease, Medication, Symptom,
-    MedicalProcedure, MedicalEntry, Relationship,
+    MedicalProcedure, MedicalEntry, Relationship, EvidenceChunk,
 )
 
 
@@ -144,9 +144,11 @@ class EntityExtractor:
             encoding="utf-8",
         )
 
-    def _cache_key(self, doc: Document) -> str:
-        content_hash = hashlib.sha256(doc.page_content.encode()).hexdigest()[:12]
-        return f"{doc.doc_id}:{content_hash}"
+    def _cache_key(self, item: Document | Chunk) -> str:
+        content = item.page_content if isinstance(item, Document) else item.content
+        item_id = item.doc_id if isinstance(item, Document) else item.chunk_id
+        content_hash = hashlib.sha256(content.encode()).hexdigest()[:12]
+        return f"chunk-v1:{item_id}:{content_hash}"
 
     # ------------------------------------------------------------------
     # Core extraction
@@ -189,6 +191,59 @@ class EntityExtractor:
         self._cache[key] = parsed
         self._save_cache()
         return self._parse_llm_response(parsed, doc.doc_id)
+
+    def extract_from_chunk(self, chunk: Chunk) -> ExtractionResult:
+        """Extract entities and relations from one canonical retrieval chunk."""
+        key = self._cache_key(chunk)
+        if key in self._cache:
+            parsed = self._cache[key]
+        else:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": _SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": (
+                            f"Document ID: {chunk.doc_id}\n"
+                            f"Chunk ID: {chunk.chunk_id}\n\n"
+                            f"Medical encyclopedia text unit:\n\n{chunk.content}"
+                        ),
+                    },
+                ],
+                temperature=0.0,
+                max_tokens=2000,
+                response_format={"type": "json_object"},
+            )
+            try:
+                parsed = json.loads(response.choices[0].message.content.strip())
+            except json.JSONDecodeError:
+                parsed = {}
+            self._cache[key] = parsed
+            self._save_cache()
+
+        result = self._parse_llm_response(parsed, chunk.doc_id)
+        result.chunks.append(EvidenceChunk(
+            chunk_id=chunk.chunk_id,
+            doc_id=chunk.doc_id,
+            chunk_index=chunk.chunk_index,
+        ))
+        # Provenance is supplied by trusted application state, never generated
+        # by the extraction model.
+        for rel in result.relationships:
+            rel.source_doc_ids = [chunk.doc_id]
+            rel.evidence_chunk_ids = [chunk.chunk_id]
+        return result
+
+    def extract_all_chunks(self, chunks: list[Chunk]) -> ExtractionResult:
+        """Extract and aggregate graph data from canonical retrieval chunks."""
+        print(f"[EntityExtractor] Extracting medical entities from {len(chunks)} chunks:")
+        combined = ExtractionResult()
+        for chunk in chunks:
+            combined.merge(self.extract_from_chunk(chunk))
+        combined.deduplicate()
+        print(f"[EntityExtractor] Done. {combined.summary()}")
+        return combined
 
     def _parse_llm_response(self, data: dict, doc_id: str) -> ExtractionResult:
         """Convert raw LLM JSON dict into validated Pydantic medical models."""
