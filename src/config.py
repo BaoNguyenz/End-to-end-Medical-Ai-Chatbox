@@ -21,7 +21,12 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # --- LLM ---
+    # --- Local OpenAI-compatible LLM server (llama.cpp) ---
+    llm_base_url: str = "http://127.0.0.1:11435/v1"
+    llm_model: str = "Qwen/Qwen3-8B-GGUF:Q4_K_M"
+    llm_api_key: str = "local"
+
+    # Legacy settings retained for older evaluation scripts.
     openai_api_key: str = ""
     openai_model: str = "gpt-4o-mini"
 

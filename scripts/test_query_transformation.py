@@ -4,7 +4,7 @@ Verify Medical HyDE + QueryDecomposer + TransformationRouter for Medical AI.
 
 Requires:
   - Qdrant running + index_documents.py already run
-  - OPENAI_API_KEY in .env
+  - local Qwen server running on the configured LLM_BASE_URL
 
 Run:
     uv run python scripts/test_query_transformation.py
@@ -16,10 +16,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from openai import OpenAI
-
 # pyrefly: ignore [missing-import]
 from src.config import settings
+from src.llm_client import create_llm_client
 # pyrefly: ignore [missing-import]
 from src.indexing.vector_store import VectorStore
 # pyrefly: ignore [missing-import]
@@ -61,8 +60,8 @@ def build_base_components():
     print(f"  [OK] BM25 index: {bm25.corpus_size} chunks")
 
     hybrid = HybridSearch(vector_store=store, bm25_retriever=bm25)
-    client = OpenAI(api_key=settings.openai_api_key)
-    print(f"  [OK] OpenAI client ready (model={settings.openai_model})\n")
+    client = create_llm_client()
+    print(f"  [OK] Local LLM client ready (model={settings.llm_model})\n")
 
     return store, hybrid, client
 
@@ -87,7 +86,7 @@ def test_hyde(store, hybrid, client):
 
     hyde = HyDE(
         openai_client=client,
-        model=settings.openai_model,
+        model=settings.llm_model,
         embedding_model=store.model,
         cache_dir=settings.cache_dir,
     )
@@ -131,7 +130,7 @@ def test_decomposer(hybrid, client):
 
     decomposer = QueryDecomposer(
         openai_client=client,
-        model=settings.openai_model,
+        model=settings.llm_model,
         cache_dir=settings.cache_dir,
     )
 
@@ -167,7 +166,7 @@ def test_transformation_router(store, hybrid, client):
 
     router = TransformationRouter(
         openai_client=client,
-        model=settings.openai_model,
+        model=settings.llm_model,
         embedding_model=store.model,
         cache_dir=settings.cache_dir,
     )

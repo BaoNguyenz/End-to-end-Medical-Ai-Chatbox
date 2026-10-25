@@ -5,7 +5,7 @@ Verify Medical GraphRAG (Neo4j entity extraction + NL-to-Cypher retrieval).
 Requires:
   - Neo4j running (docker compose up)
   - build_graph.py already run (Neo4j populated with medical entities)
-  - OPENAI_API_KEY in .env
+  - local Qwen server running on the configured LLM_BASE_URL
 
 Run:
     uv run python scripts/test_graph.py
@@ -17,10 +17,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from openai import OpenAI
-
 # pyrefly: ignore [missing-import]
 from src.config import settings
+from src.llm_client import create_llm_client
 # pyrefly: ignore [missing-import]
 from src.graph.knowledge_graph import KnowledgeGraph
 # pyrefly: ignore [missing-import]
@@ -52,11 +51,11 @@ def main() -> None:
         sys.exit(1)
 
     print()
-    client = OpenAI(api_key=settings.openai_api_key)
+    client = create_llm_client()
     retriever = GraphRetriever(
         knowledge_graph=kg,
         openai_client=client,
-        model=settings.openai_model,
+        model=settings.llm_model,
     )
 
     # ── TEST 1: Manual Cypher queries ────────────────────────────────────

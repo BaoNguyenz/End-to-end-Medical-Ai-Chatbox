@@ -23,11 +23,11 @@ import re
 import time
 from typing import Optional
 
-from openai import OpenAI
 from sentence_transformers import SentenceTransformer
 
 # pyrefly: ignore [missing-import]
 from src.config import settings
+from src.llm_client import create_llm_client
 # pyrefly: ignore [missing-import]
 from src.cache.semantic_cache import get_semantic_cache, CacheEntry
 # pyrefly: ignore [missing-import]
@@ -200,10 +200,10 @@ class RAGPipeline:
         self.query_router = QueryRouter()
 
         # ── Task 3: Transformation Router ───────────────────────────────────
-        self.openai_client = OpenAI(api_key=settings.openai_api_key)
+        self.openai_client = create_llm_client()
         self.transform_router = TransformationRouter(
             openai_client=self.openai_client,
-            model=settings.openai_model,
+            model=settings.llm_model,
             embedding_model=self._embedding_model,
             cache_dir=settings.cache_dir,
         )
@@ -233,7 +233,7 @@ class RAGPipeline:
                     user=settings.neo4j_user,
                     password=settings.neo4j_password,
                 )
-                self.graph_retriever = GraphRetriever(kg, self.openai_client, settings.openai_model)
+                self.graph_retriever = GraphRetriever(kg, self.openai_client, settings.llm_model)
                 print("[RAGPipeline] Medical Knowledge Graph retriever enabled")
             except Exception as e:
                 print(f"[RAGPipeline] Graph disabled (Neo4j unavailable): {e}")
@@ -419,11 +419,11 @@ class RAGPipeline:
 
             with root.span(
                 "LLMGeneration",
-                input={"model": settings.openai_model, "num_context_chunks": len(final_results)},
+                input={"model": settings.llm_model, "num_context_chunks": len(final_results)},
             ) as s_llm:
                 t = time.time()
                 llm_response = self.openai_client.chat.completions.create(
-                    model=settings.openai_model,
+                    model=settings.llm_model,
                     messages=[
                         {"role": "system", "content": _ANSWER_SYSTEM},
                         {"role": "user", "content": f"Medical Reference Context:\n{context}\n\nPatient Question: {query}"},
@@ -436,14 +436,14 @@ class RAGPipeline:
 
                 # ── Cost tracking ──────────────────────────────────────────
                 usage = TokenUsage.from_openai_response(llm_response)
-                call_cost = _cost_calc.calculate(usage, model=settings.openai_model)
+                call_cost = _cost_calc.calculate(usage, model=settings.llm_model)
                 total_cost_usd += call_cost
                 s_llm.set_output({"answer_length": len(answer)})
                 s_llm.set_metadata({
                     "prompt_tokens": usage.prompt_tokens,
                     "completion_tokens": usage.completion_tokens,
                     "cost_usd": round(call_cost, 8),
-                    "model": settings.openai_model,
+                    "model": settings.llm_model,
                 })
 
             latency["total"] = time.time() - total_start
@@ -458,7 +458,7 @@ class RAGPipeline:
                 metadata={
                     "total_latency_ms": round(latency["total"] * 1000, 2),
                     "cost_usd": round(total_cost_usd, 8),
-                    "model": settings.openai_model,
+                    "model": settings.llm_model,
                 },
             )
 
@@ -500,7 +500,7 @@ class RAGPipeline:
         Yields dicts with keys: {"type": "token"|"metadata"|"done", ...}
 
         Cache HIT: yields cached answer word-by-word, then done event with full answer.
-        Cache MISS: runs multi-stage retrieval, then streams directly from OpenAI API (stream=True).
+        Cache MISS: runs multi-stage retrieval, then streams from the local LLM (stream=True).
         """
         total_start = time.time()
         latency = {}
@@ -633,7 +633,7 @@ class RAGPipeline:
                     latency["post_retrieval"] = time.time() - t
                     s_rerank.set_output({"num_final": len(final_results)})
 
-                # Stage 5: Build context and stream OpenAI response
+                # Stage 5: Build context and stream local LLM response
                 context_parts = []
                 for i, r in enumerate(final_results):
                     source_label = r.chunk.doc_id.replace("_", " ").title()
@@ -647,9 +647,9 @@ class RAGPipeline:
 
                 t = time.time()
                 full_answer = ""
-                with root.span("LLMGeneration", input={"model": settings.openai_model}) as s_llm:
+                with root.span("LLMGeneration", input={"model": settings.llm_model}) as s_llm:
                     stream = self.openai_client.chat.completions.create(
-                        model=settings.openai_model,
+                        model=settings.llm_model,
                         messages=[
                             {"role": "system", "content": _ANSWER_SYSTEM},
                             {"role": "user", "content": f"Medical Reference Context:\n{context}\n\nPatient Question: {query}"},
@@ -669,13 +669,13 @@ class RAGPipeline:
                     prompt_tokens = max(1, len(context + query) // 4)
                     completion_tokens = max(1, len(full_answer) // 4)
                     usage = TokenUsage(prompt_tokens=prompt_tokens, completion_tokens=completion_tokens)
-                    call_cost = _cost_calc.calculate(usage, model=settings.openai_model)
+                    call_cost = _cost_calc.calculate(usage, model=settings.llm_model)
                     s_llm.set_output({"answer_length": len(full_answer)})
                     s_llm.set_metadata({
                         "prompt_tokens": prompt_tokens,
                         "completion_tokens": completion_tokens,
                         "cost_usd": round(call_cost, 8),
-                        "model": settings.openai_model,
+                        "model": settings.llm_model,
                     })
 
                 latency["total"] = time.time() - total_start
@@ -701,7 +701,7 @@ class RAGPipeline:
                     metadata={
                         "total_latency_ms": round(latency["total"] * 1000, 2),
                         "cost_usd": round(call_cost, 8),
-                        "model": settings.openai_model,
+                        "model": settings.llm_model,
                     },
                 )
                 tracer.flush()

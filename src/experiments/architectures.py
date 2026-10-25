@@ -25,7 +25,7 @@ Both implement the same callable interface expected by RagasEvaluator:
 
 Graceful degradation:
     - If Qdrant is unavailable, both return a safe fallback answer.
-    - If OpenAI key is missing, raises immediately with a clear error.
+    - If the local LLM is unavailable, returns a safe fallback answer.
 """
 
 from __future__ import annotations
@@ -85,7 +85,7 @@ class NaiveRAGPipeline:
     Components used:
         - Qdrant vector store (top-k cosine similarity search only)
         - SentenceTransformer for query embedding
-        - OpenAI gpt-4o-mini for answer generation
+        - Local Qwen model for answer generation
 
     Components NOT used (vs. Full GaleMed):
         - Redis semantic cache
@@ -98,8 +98,8 @@ class NaiveRAGPipeline:
 
     Args:
         top_k:      Number of documents retrieved from Qdrant (default: 5).
-        model:      OpenAI model for generation (default: gpt-4o-mini).
-        openai_api_key: Optional override for OPENAI_API_KEY env var.
+        model:      Local model for generation (default: LLM_MODEL).
+        openai_api_key: Legacy argument; local inference ignores it.
 
     Usage:
         pipeline = NaiveRAGPipeline(top_k=5)
@@ -110,11 +110,12 @@ class NaiveRAGPipeline:
     def __init__(
         self,
         top_k: int = 5,
-        model: str = "gpt-4o-mini",
+        model: str | None = None,
         openai_api_key: Optional[str] = None,
     ) -> None:
         self.top_k = top_k
-        self.model = model
+        from src.config import settings
+        self.model = model or settings.llm_model
         self._api_key = openai_api_key or os.getenv("OPENAI_API_KEY", "")
         self._ready = False
         self._vector_store = None
@@ -128,7 +129,7 @@ class NaiveRAGPipeline:
     def _lazy_init(self) -> None:
         """Initialise components; record error if services unavailable."""
         try:
-            from openai import OpenAI
+            from src.llm_client import create_llm_client
             from sentence_transformers import SentenceTransformer
             # pyrefly: ignore [missing-import]
             from src.config import settings
@@ -144,7 +145,7 @@ class NaiveRAGPipeline:
                 collection_name=settings.qdrant_collection,
                 _embedding_model=self._embedding_model,
             )
-            self._openai_client = OpenAI(api_key=self._api_key or settings.openai_api_key)
+            self._openai_client = create_llm_client()
             self._cost_calc = CostCalculator()
             self._ready = True
             logger.info("[NaiveRAG] Initialised — top_k=%d, model=%s", self.top_k, self.model)

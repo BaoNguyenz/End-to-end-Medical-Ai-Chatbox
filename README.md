@@ -241,7 +241,7 @@ flowchart LR
 ### Prerequisites
 - [Docker & Docker Compose](https://docs.docker.com/get-docker/) installed
 - [uv Package Manager](https://docs.astral.sh/uv/) installed
-- OpenAI API Key
+- A local Qwen3 server for graph extraction and answer generation (see below)
 
 ### 1. Clone & Configure Environment
 ```bash
@@ -251,12 +251,29 @@ cd End-to-end-Medical-Ai-Chatbox
 # Create environment file
 cp .env.example .env
 ```
-Open `.env` and set your API keys:
+Open `.env` and set any optional observability keys. The main application uses the local LLM settings from `.env.example`:
 ```env
-OPENAI_API_KEY=sk-your-openai-api-key
+LLM_BASE_URL=http://127.0.0.1:11435/v1
+LLM_MODEL=Qwen/Qwen3-8B-GGUF:Q4_K_M
 LANGFUSE_PUBLIC_KEY=pk-lf-...
 LANGFUSE_SECRET_KEY=sk-lf-...
 ```
+
+### Local Qwen3 on Windows
+
+With the official Qwen3-8B Q4_K_M GGUF and CUDA-enabled `llama-server.exe` in `local_runtime/`, start the model in a PowerShell window:
+
+```powershell
+.\scripts\start_local_qwen.ps1
+```
+
+The server listens on `127.0.0.1:11435`; keep it running while using the host Python application in Step 3. The Docker `web` container cannot reach this host-only address without separate Docker networking configuration. To inspect graph extraction on 30 chunks without changing Neo4j:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_graph.py --limit-chunks 30
+```
+
+Pilot output is saved in `cache/graph_entities_pilot_30.json`. When the extracted relationships and chunk evidence look correct, run `scripts/build_graph.py` without the limit to rebuild Neo4j. The Qwen extraction cache is separate from the old GPT-4o cache. The main application ignores the legacy `OPENAI_API_KEY` value.
 
 ---
 

@@ -52,5 +52,6 @@ test_output/
 test_results/
 scripts/cache/
 cache/
+local_runtime/
 
 docs/ANSWERS.md
