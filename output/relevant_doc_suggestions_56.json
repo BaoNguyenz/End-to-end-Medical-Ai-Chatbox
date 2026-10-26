@@ -1,0 +1,1919 @@
+{
+  "generated_at_utc": "2026-10-26T14:25:49.104446+00:00",
+  "benchmark": "Data\\benchmarks\\medical_benchmark_with_ground_truth.json",
+  "model": "Qwen/Qwen3-8B-GGUF:Q4_K_M",
+  "scope": "Unlabeled retrieval questions only; source benchmark unchanged",
+  "target_count": 56,
+  "completed_count": 56,
+  "suggestions": [
+    {
+      "id": "R01",
+      "category": "respiratory",
+      "query": "What are the primary symptoms and clinical signs of asthma?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Asthma"
+      ],
+      "confidence": "high",
+      "review_note": "The article 'Asthma' directly describes the primary symptoms of asthma, including wheezing, shortness of breath, persistent coughing, and chest tightness, which align with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Asthma",
+          "source": "Data\\markdown_output\\Asthma.md",
+          "excerpt": "# Asthma ### Definition Asthma is a chronic (long-lasting) inflammatory disease of the airways. In those susceptible to asthma, this inflammation causes the airways to narrow periodically. This, in turn, produces wheezing and breathlessness, sometimes to the point where the patient gasps for air. Obstruction to air flow either stops spontaneously or responds to a wide range of treatments, but continuing inflammation makes the 424 G A L E E N C Y  ... re text --> In normal bronchioles the airway<br>is open and unobstructed.<br>During an attack, the bronchioles of an<br>asthma sufferer are constricted by bands<br>of muscle around them. They may be<br>further obstructed by increased mucus<br>production and tissue inflammation.<br><!-- End of picture text --> A comparison of normal bronchioles and those of an asthma sufferer. (Illustration by Hans & Cassady.) airways hyper-responsive to stimuli such as cold air, exercise, dust mites, pollutants in the air, and even stress and anxiety. ### Description Between 17 mi"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Asthma",
+        "Antiasthmatic_drugs_Definition",
+        "Atelectasis",
+        "Berger’s_disease_see_Idiopathic_primary_renal_hematuricprote",
+        "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill",
+        "Bad_breath",
+        "Anaphylaxis_Definition",
+        "Aspergillosis"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "R02",
+      "category": "respiratory",
+      "query": "What environmental triggers can precipitate an acute asthma attack?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Asthma"
+      ],
+      "confidence": "high",
+      "review_note": "The article 'Asthma' directly mentions environmental triggers such as cold air, exercise, dust mites, pollutants in the air, and stress as factors that can precipitate an acute asthma attack. These match the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Asthma",
+          "source": "Data\\markdown_output\\Asthma.md",
+          "excerpt": "# Asthma ### Definition Asthma is a chronic (long-lasting) inflammatory disease of the airways. In those susceptible to asthma, this inflammation causes the airways to narrow periodically. This, in turn, produces wheezing and breathlessness, sometimes to the point where the patient gasps for air. Obstruction to air flow either stops spontaneously or responds to a wide range of treatments, but continuing inflammation makes the 424 G A L E E N C Y  ... E D I C I N E <!-- Start of picture text --> In normal bronchioles the airway<br>is open and unobstructed.<br>During an attack, the bronchioles of an<br>asthma sufferer are constricted by bands<br>of muscle around them. They may be<br>further obstructed by increased mucus<br>production and tissue inflammation.<br><!-- End of picture text --> A comparison of normal bronchioles and those of an asthma sufferer. (Illustration by Hans & Cassady.) airways hyper-responsive to stimuli such as cold air, exercise, dust mites, pollutants in the air, and even stress and anxie"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Asthma",
+        "Antiasthmatic_drugs_Definition",
+        "Allergies",
+        "Allergic_rhinitis",
+        "Allergy_tests",
+        "Anosmia",
+        "Adenovirus_infections",
+        "APSGN_see_Acute_poststreptococcal_glomerulonephritis"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "R03",
+      "category": "respiratory",
+      "query": "What bronchodilator and corticosteroid medications are used to manage asthma?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antiasthmatic_drugs_Definition",
+        "Asthma"
+      ],
+      "confidence": "high",
+      "review_note": "The first document directly mentions bronchodilators like Albuterol and corticosteroids like fluticasone and budesonide. The second document provides context on asthma and its management, supporting the relevance of bronchodilators and corticosteroids.",
+      "selected_sources": [
+        {
+          "doc_id": "Antiasthmatic_drugs_Definition",
+          "source": "Data\\markdown_output\\Antiasthmatic_drugs_Definition.md",
+          "excerpt": "# Antiasthmatic drugs Definition Antiasthmatic drugs are medicines that treat or prevent asthma attacks. ### Purpose For people with asthma, the simple act of breathing can be a struggle. Their airways become inflamed and blocked with mucus during asthma attacks, narrowing the opening through which air passes. This is not such a problem when the person breathes in, because the airways naturally expand when a person takes a breath. The real proble ... hes in, because the airways naturally expand when a person takes a breath. The real problem arises when the person with asthma tries to breathe out. The air cannot get out through the blocked airways, so it stays trapped in the lungs. With each new breath, the person can take in only a little more air, so breathing becomes shallow and takes more and more effort. Asthma attacks can be caused by allergies to pollen, dust, pets or other things, but people without known allergies may also have asthma. Exercise, stress, intense emotions, exposure to cold, certain medic"
+        },
+        {
+          "doc_id": "Asthma",
+          "source": "Data\\markdown_output\\Asthma.md",
+          "excerpt": "# Asthma ### Definition Asthma is a chronic (long-lasting) inflammatory disease of the airways. In those susceptible to asthma, this inflammation causes the airways to narrow periodically. This, in turn, produces wheezing and breathlessness, sometimes to the point where the patient gasps for air. Obstruction to air flow either stops spontaneously or responds to a wide range of treatments, but continuing inflammation makes the 424 G A L E E N C Y  ... re text --> In normal bronchioles the airway<br>is open and unobstructed.<br>During an attack, the bronchioles of an<br>asthma sufferer are constricted by bands<br>of muscle around them. They may be<br>further obstructed by increased mucus<br>production and tissue inflammation.<br><!-- End of picture text --> A comparison of normal bronchioles and those of an asthma sufferer. (Illustration by Hans & Cassady.) airways hyper-responsive to stimuli such as cold air, exercise, dust mites, pollutants in the air, and even stress and anxiety. ### Description Between 17 mi"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antiasthmatic_drugs_Definition",
+        "Asthma",
+        "Beta_blockers",
+        "Antirheumatic_drugs",
+        "Atenolol_see_Beta_blockers",
+        "Anti-hyperuricemic_drugs",
+        "Analgesics",
+        "Antituberculosis_drugs"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "R05",
+      "category": "respiratory",
+      "query": "How is asthma diagnosed and evaluated in pediatric patients?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Asthma"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly describes the diagnostic process for asthma, including medical history, clinical examination, spirometry, and PEF monitoring, which aligns with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Asthma",
+          "source": "Data\\markdown_output\\Asthma.md",
+          "excerpt": "# Asthma ### Definition Asthma is a chronic (long-lasting) inflammatory disease of the airways. In those susceptible to asthma, this inflammation causes the airways to narrow periodically. This, in turn, produces wheezing and breathlessness, sometimes to the point where the patient gasps for air. Obstruction to air flow either stops spontaneously or responds to a wide range of treatments, but continuing inflammation makes the 424 G A L E E N C Y  ... re text --> In normal bronchioles the airway<br>is open and unobstructed.<br>During an attack, the bronchioles of an<br>asthma sufferer are constricted by bands<br>of muscle around them. They may be<br>further obstructed by increased mucus<br>production and tissue inflammation.<br><!-- End of picture text --> A comparison of normal bronchioles and those of an asthma sufferer. (Illustration by Hans & Cassady.) airways hyper-responsive to stimuli such as cold air, exercise, dust mites, pollutants in the air, and even stress and anxiety. ### Description Between 17 mi"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Asthma",
+        "Antiasthmatic_drugs_Definition",
+        "Allergy_tests",
+        "Aspergillosis",
+        "Allopurino_see_Gout_drugs",
+        "Anesthesia,_general",
+        "Allergic_purpura",
+        "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "R06",
+      "category": "respiratory",
+      "query": "What causes atelectasis (collapsed lung) and what are its symptoms?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [],
+      "confidence": "low",
+      "review_note": "None of the candidate documents directly address the causes and symptoms of atelectasis. The closest document (Atelectasis) discusses diagnosis and treatment, but not the causes and symptoms. Other documents discuss unrelated conditions.",
+      "selected_sources": [],
+      "candidate_doc_ids": [
+        "Atelectasis",
+        "Adult_res_markpmark_irator_markymark_distress_marksyndromema",
+        "Bad_breath",
+        "Anaphylaxis_Definition",
+        "Asthma",
+        "Asbestosis",
+        "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill",
+        "Adhesions"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "no_supported_source",
+        "low_model_confidence"
+      ]
+    },
+    {
+      "id": "R07",
+      "category": "respiratory",
+      "query": "What is asbestosis and how does asbestos exposure cause lung damage?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [],
+      "confidence": "low",
+      "review_note": "No candidate directly answers the question about asbestosis and how asbestos exposure causes lung damage. The closest document (Asbestosis) discusses arthroscopic procedures and joint complications, not lung damage from asbestos. Other documents discuss unrelated conditions like atelectasis, ARDS, aspergillosis, and asthma.",
+      "selected_sources": [],
+      "candidate_doc_ids": [
+        "Asbestosis",
+        "Atelectasis",
+        "Adult_res_markpmark_irator_markymark_distress_marksyndromema",
+        "Aspergillosis",
+        "Berylliosis",
+        "Asthma",
+        "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill",
+        "Allergies"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "no_supported_source",
+        "low_model_confidence"
+      ]
+    },
+    {
+      "id": "R08",
+      "category": "respiratory",
+      "query": "How do antihistamines work to alleviate allergic symptoms?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antihistamines"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains how antihistamines work by blocking H1 histamine receptors, which aligns with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Antihistamines",
+          "source": "Data\\markdown_output\\Antihistamines.md",
+          "excerpt": "# Antihistamines ### Definition Antihistamines are drugs that block the action of histamine (a compound released in allergic inflammatory reactions) at the H1 receptor sites, responsible for immediate hypersensitivity reactions such as sneezing and itching. Members of this class of drugs may also be used for their side effects, including sedation and antiemesis (prevention of nausea and vomiting). ### Purpose Antihistamines provide their primary  ... also be used for their side effects, including sedation and antiemesis (prevention of nausea and vomiting). ### Purpose Antihistamines provide their primary action by blocking histamine H1 at the receptor site. They have no effect on rate of histamine release, nor do they inactivate histamine. By inhibiting the activity of histamine, they can reduce capillary fragility, which produces the erythema, or redness, associated with allergic reactions. They will also reduce histamineinduced secretions, including excessive tears and salivation. Additional effects vary wit"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antihistamines",
+        "Allergic_rhinitis",
+        "Allergies",
+        "DA_NI_ELE_B_OV_ET(1907–1992)",
+        "Anaphylaxis_Definition",
+        "Allergy_tests",
+        "Anti-itch_drugs",
+        "Asthma"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "R09",
+      "category": "respiratory",
+      "query": "What are the main causes and symptoms of allergic conjunctivitis?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Adenovirus_infections",
+        "Allergic_rhinitis"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Adenovirus_infections' document directly mentions conjunctivitis as a symptom of adenovirus infections, which is a cause of allergic conjunctivitis. The 'Allergic_rhinitis' document provides information about nasal symptoms that often accompany allergic conjunctivitis, which is relevant to the question.",
+      "selected_sources": [
+        {
+          "doc_id": "Allergic_rhinitis",
+          "source": "Data\\markdown_output\\Allergic_rhinitis.md",
+          "excerpt": "# Allergic rhinitis This illustration depicts excessive mucus production in the nose after inhalation of airborne pollen. (Photo Researchers, Inc. Reproduced by permission.) ### Definition Allergic rhinitis, more commonly referred to as hay fever, is an inflammation of the nasal passages caused by allergic reaction to airborne substances. ### Description Allergic rhinitis (AR) is the most common allergic condition and one of the most common of al ... efinition Allergic rhinitis, more commonly referred to as hay fever, is an inflammation of the nasal passages caused by allergic reaction to airborne substances. ### Description Allergic rhinitis (AR) is the most common allergic condition and one of the most common of all minor afflictions. It affects between 10-20% of all people in the United States, and is responsible for 2.5% of all doctor visits. Antihistamines and other drugs used to treat allergic rhinitis make up a significant fraction of both prescription and over-the-counter drug sales each year. There ar"
+        },
+        {
+          "doc_id": "Adenovirus_infections",
+          "source": "Data\\markdown_output\\Adenovirus_infections.md",
+          "excerpt": "# Adenovirus infections ### Definition Adenoviruses are DNA viruses (small infectious agents) that cause upper respiratory tract infections, conjunctivitis, and other infections in humans. ### Description Adenoviruses were discovered in 1953. About 47 different types have been identified since then, and 58 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Conjunctivitis—Inflammation of the conjunctiva, the mucous membrane lining th ... ifferent types have been identified since then, and 58 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Conjunctivitis—Inflammation of the conjunctiva, the mucous membrane lining the inner surfaces of the eyelid and the front of the eyeball. Virus—A small infectious agent consisting of a core of genetic material (DNA or RNA) surrounded by a shell of protein. about half of them are believed to cause human diseases. Infants and children are most commonly affected by adenoviruses. Adenovirus infections can occur throughout the year, but seem to be mos"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Allergies",
+        "Allergic_rhinitis",
+        "Allergy_tests",
+        "Asthma",
+        "Anosmia",
+        "Anaphylaxis_Definition",
+        "Adenovirus_infections",
+        "Anti-itch_drugs"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "possible_allergic_vs_infectious_topic_mismatch"
+      ]
+    },
+    {
+      "id": "R10",
+      "category": "respiratory",
+      "query": "wheezing and breathing difficulty",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Asthma",
+        "Anaphylaxis_Definition"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Asthma' article directly explains wheezing and breathing difficulty as symptoms of asthma, while the 'Anaphylaxis_Definition' article explicitly mentions wheezing and difficulty breathing as symptoms of anaphylaxis, both of which are obstructive airway conditions.",
+      "selected_sources": [
+        {
+          "doc_id": "Asthma",
+          "source": "Data\\markdown_output\\Asthma.md",
+          "excerpt": "# Asthma ### Definition Asthma is a chronic (long-lasting) inflammatory disease of the airways. In those susceptible to asthma, this inflammation causes the airways to narrow periodically. This, in turn, produces wheezing and breathlessness, sometimes to the point where the patient gasps for air. Obstruction to air flow either stops spontaneously or responds to a wide range of treatments, but continuing inflammation makes the 424 G A L E E N C Y  ...  in the United States each year. The changes that take place in the lungs of asthmatic persons makes the airways (the ‘‘breathing tubes,’’ or bronchi and the smaller bronchioles) hyperreactive to many different types of stimuli that don’t affect healthy lungs. In an asthma attack, the muscle tissue in the walls of bronchi go into spasm, and the cells lining the airways swell and secrete mucus into the air spaces. Both these actions cause the bronchi to become narrowed (bronchoconstriction). As a result, an asthmatic person has to make a much greater effort to brea"
+        },
+        {
+          "doc_id": "Anaphylaxis_Definition",
+          "source": "Data\\markdown_output\\Anaphylaxis_Definition.md",
+          "excerpt": "# Anaphylaxis Definition ##### BOOKS Beers, Mark H., MD, and Robert Berkow, MD., editors. ‘‘Pain.’’ Section 14, Chapter 167 In The Merck Manual Anaphylaxis is a rapidly progressing, life-threatening allergic reaction. 190 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Description Anaphylaxis is a type of allergic reaction, in which the immune system responds to otherwise harmless substances from the environment. Unlike other allergic rea ...  Symptoms may include: - Urticaria (hives) - Swelling and irritation of the tongue or mouth - Swelling of the sinuses - Difficulty breathing - Wheezing - Cramping, vomiting, or diarrhea - Anxiety or confusion - Strong, very rapid heartbeat (palpitations) - Loss of consciousness. Not all symptoms may be present. 191 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Diagnosis Anaphylaxis is diagnosed based on the rapid development of symptoms in response to a suspect allergen. Identification of the culprit may be done with RAST testing, a blood test that ident"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Asthma",
+        "Antiasthmatic_drugs_Definition",
+        "Atelectasis",
+        "Anaphylaxis_Definition",
+        "Acrocyanosis",
+        "Adult_res_markpmark_irator_markymark_distress_marksyndromema",
+        "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill",
+        "Benign_see_Uterine_fibroids"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "R11",
+      "category": "respiratory",
+      "query": "What are the symptoms and transmission routes of avian influenza (bird flu)?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Bird_flu"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Bird_flu' document directly describes the symptoms (fever, cough, sore throat, muscle aches, pneumonia, acute respiratory distress syndrome) and transmission routes (direct contact with infected birds or their droppings, contaminated surfaces, aerosols) of avian influenza, matching the query and reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Bird_flu",
+          "source": "Data\\markdown_output\\Bird_flu.md",
+          "excerpt": "# Bird flu ### Definition Bird flu is an infectious disease caused by strains of the Type A influenza viruses that ordinarily only infect birds. Avian influenza A (H5N1) virus infected and caused the deaths of people. ### Description Bird flu, which is also known as avian influenza, was first identified in Italy more than 100 years ago. Avian viruses occur naturally in birds, and can infect birds including chickens, ducks, geese, turkeys, The hig ... ian influenza A (H5N1) virus infected and caused the deaths of people. ### Description Bird flu, which is also known as avian influenza, was first identified in Italy more than 100 years ago. Avian viruses occur naturally in birds, and can infect birds including chickens, ducks, geese, turkeys, The highly pathogenic H5N1 virus was first isolated in terns in South Africa in 1961, and then in Hong Kong in 1997. Hong Kong’s avian flu outbreak coincided with 18 cases of severe respiratory disease in people. Those diagnosed with bird flu had close contact with poultry."
+        }
+      ],
+      "candidate_doc_ids": [
+        "Bird_flu",
+        "ARDS_see_Adult_respiratory_distress_syndrome",
+        "Birth_defects",
+        "Adenovirus_infections",
+        "Bejel",
+        "Adult_res_markpmark_irator_markymark_distress_marksyndromema",
+        "Acute_markpmark_oststre_markpmark_tococcal_markglomeruloneph",
+        "Anal_fissure_see_Anorectal_disorders"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "R13",
+      "category": "respiratory",
+      "query": "What are the common allergens that trigger severe allergic reactions?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Allergies",
+        "Allergy_tests",
+        "Anaphylaxis_Definition"
+      ],
+      "confidence": "high",
+      "review_note": "The first two documents directly mention common allergens like pollen, dust, animal dander, and insect stings. The third document discusses anaphylaxis, which is a severe allergic reaction, and indirectly supports the question by highlighting the severity of allergic reactions.",
+      "selected_sources": [
+        {
+          "doc_id": "Allergies",
+          "source": "Data\\markdown_output\\Allergies.md",
+          "excerpt": "# Allergies ### Definition Allergies are abnormal reactions of the immune system that occur in response to otherwise harmless substances. ### Description Allergies are among the most common of medical disorders. It is estimated that 60 million Americans, or more than one in every five people, suffer from some form of allergy, with similar proportions throughout much of the rest of the world. Allergy is the single largest reason for school absence ... lecules, or antigens, on the foreign particle. This reaction between antibody and antigen sets off a series of chemical reactions designed to protect the body from infection. Sometimes, this same series of reactions is triggered by harmless, everyday substances such as pollen, dust, and animal danders. When this occurs, an allergy develops against the offending substance (an allergen.) Mast cells, one of the major players in allergic Mast cells, one of the major players in allergic reactions, capture and display a particular type of antibody, called immunoglobulin"
+        },
+        {
+          "doc_id": "Allergy_tests",
+          "source": "Data\\markdown_output\\Allergy_tests.md",
+          "excerpt": "# Allergy tests ### Definition Allergy tests indicate a person’s allergic sensitivity to commonly encountered environmental substances. ### Purpose Allergy is a reaction of the immune system. Normally, the immune system responds to foreign microorganisms and particles, like pollen or dust, by producing specific proteins called antibodies that are capable of binding to identifying molecules, or antigens, on the foreign organisms. This reaction bet ... fying molecules, or antigens, on the foreign organisms. This reaction between antibody and antigen sets off a series of reactions designed to protect the body from infection. Sometimes, this same series of reactions is 128 G A L E E N C Y C L O P E D I A O F M E D I C I N E This patient is being exposed to certain allergens as part of an allergy test. (Custom Medical Stock Photo. Reproduced by permission.) triggered by harmless, everyday substances. This is the condition known as allergy, and the offending substance is called an allergen. Common inhaled allergens "
+        },
+        {
+          "doc_id": "Anaphylaxis_Definition",
+          "source": "Data\\markdown_output\\Anaphylaxis_Definition.md",
+          "excerpt": "# Anaphylaxis Definition ##### BOOKS Beers, Mark H., MD, and Robert Berkow, MD., editors. ‘‘Pain.’’ Section 14, Chapter 167 In The Merck Manual Anaphylaxis is a rapidly progressing, life-threatening allergic reaction. 190 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Description Anaphylaxis is a type of allergic reaction, in which the immune system responds to otherwise harmless substances from the environment. Unlike other allergic rea ... ing allergic reaction. 190 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Description Anaphylaxis is a type of allergic reaction, in which the immune system responds to otherwise harmless substances from the environment. Unlike other allergic reactions, however, anaphylaxis can kill. Reaction may begin within minutes or even seconds of exposure, and rapidly progress to cause airway constriction, skin and intestinal irritation, and altered heart rhythms. In severe cases, it can result in complete airway obstruction, shock, and death. ### Causes and symptom"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Allergies",
+        "Allergy_tests",
+        "Allergic_rhinitis",
+        "Anaphylaxis_Definition",
+        "Asthma",
+        "Anti-itch_drugs",
+        "DA_NI_ELE_B_OV_ET(1907–1992)",
+        "Antihistamines"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "many_sources_check_minimality"
+      ]
+    },
+    {
+      "id": "R14",
+      "category": "respiratory",
+      "query": "How is berylliosis diagnosed and what occupational exposures cause it?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Berylliosis"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly addresses both parts of the question: it describes the diagnostic methods for berylliosis (clinical evaluation, occupational history, and confirmatory tests) and lists occupational exposures (aerospace, electronics, nuclear applications, and beryllium extraction industries).",
+      "selected_sources": [
+        {
+          "doc_id": "Berylliosis",
+          "source": "Data\\markdown_output\\Berylliosis.md",
+          "excerpt": "# Berylliosis ### Definition Berylliosis is lung inflammation caused by inhaling dust or fumes that contain the metallic element beryllium. Found in rocks, coal, soil, and volcanic dust, beryllium is used in the aerospace industry and in many types of manufacturing. Berylliosis occurs in both acute and chronic forms. In some cases, appearance of the disease may be delayed as much as 20 years after exposure to beryllium. ### Description In the 193 ... n rocks, coal, soil, and volcanic dust, beryllium is used in the aerospace industry and in many types of manufacturing. Berylliosis occurs in both acute and chronic forms. In some cases, appearance of the disease may be delayed as much as 20 years after exposure to beryllium. ### Description In the 1930s, scientists discovered that beryllium could make fluorescent light bulbs last longer. During the following decade, the hard, grayish metal was identified as the cause of a potentially debilitating, sometimes deadly disease characterized by shortness of breath and "
+        }
+      ],
+      "candidate_doc_ids": [
+        "Berylliosis",
+        "Beriberi",
+        "Apraxia",
+        "Asbestosis",
+        "Aspergillosis",
+        "Atelectasis",
+        "Anorexia_nervosa",
+        "Biofeedback"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "C01",
+      "category": "cardiovascular",
+      "query": "What is angina pectoris and what causes chest pain during exertion?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Angina"
+      ],
+      "confidence": "high",
+      "review_note": "The first document directly defines angina pectoris and explains the cause of chest pain during exertion. The second document provides additional context about the relationship between angina and physical exertion, as well as other contributing factors.",
+      "selected_sources": [
+        {
+          "doc_id": "Angina",
+          "source": "Data\\markdown_output\\Angina.md",
+          "excerpt": "# Angina ### Definition Angina is pain, ‘‘discomfort,’’ or pressure localized in the chest that is caused by an insufficient supply of blood (ischemia) to the heart muscle. It is also sometimes characterized by a feeling of choking, suffocation, or crushing heaviness. This condition is also called angina pectoris. ### Description Often described as a muscle spasm and choking sensation, the term ‘‘angina’’ is used primarily to describe chest (thor ... also sometimes characterized by a feeling of choking, suffocation, or crushing heaviness. This condition is also called angina pectoris. ### Description Often described as a muscle spasm and choking sensation, the term ‘‘angina’’ is used primarily to describe chest (thoracic) pain originating from insufficient oxygen to the heart muscle. An episode of angina is not an actual heart attack, but rather pain that results from the heart muscle temporarily receiving too little blood. This temporary condition may be the result of demanding activities such as exercise and"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Angina",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Atherosclerosis",
+        "Atherectomy",
+        "Antiangina_drugs",
+        "Angiography",
+        "Arterial_embolism",
+        "Anxiety"
+      ],
+      "review_status": "pending",
+      "raw_qwen_doc_ids": [
+        "Angina",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular"
+      ],
+      "review_flags": [
+        "redirect_stub_removed"
+      ]
+    },
+    {
+      "id": "C02",
+      "category": "cardiovascular",
+      "query": "How do antihypertensive drugs help lower elevated blood pressure?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Beta_blockers",
+        "Antihypertensive_drugs",
+        "An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark"
+      ],
+      "confidence": "high",
+      "review_note": "The Beta_blockers document explains how beta-blockers reduce cardiac output and heart demand for oxygen, which directly addresses part of the question. The Antihypertensive_drugs document provides a general overview of how antihypertensive drugs work, including varying mechanisms of action. The An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark document explains how ACE inhibitors work by blocking the conversion of angiotensin I to angiotensin II, which is a key mechanism for lowering blood pressure.",
+      "selected_sources": [
+        {
+          "doc_id": "Beta_blockers",
+          "source": "Data\\markdown_output\\Beta_blockers.md",
+          "excerpt": "# Beta blockers ### Definition Beta blockers are medicines that affect the body’s response to certain nerve impulses. This, in turn, decreases the force and rate of the heart’s contractions, which lowers blood pressure and reduces the heart’s demand for oxygen. ### Purpose The main use of beta blockers is to treat high blood pressure. Some also are used to relieve the type of chest pain called angina or to prevent heart attacks in people who alre ... rs blood pressure and reduces the heart’s demand for oxygen. ### Purpose The main use of beta blockers is to treat high blood pressure. Some also are used to relieve the type of chest pain called angina or to prevent heart attacks in people who already have had one heart attack. These drugs may also be prescribed for other conditions, such as migraine, tremors, and irregular heartbeat. In eye drop form, they are used to treat certain kinds of glaucoma. ### Description Beta blockers, also known as beta-adrenergic blockers, are available only with a physician’s pres"
+        },
+        {
+          "doc_id": "Antihypertensive_drugs",
+          "source": "Data\\markdown_output\\Antihypertensive_drugs.md",
+          "excerpt": "# Antihypertensive drugs ### Definition Antihypertensive drugs are medicines that help lower blood pressure. ### Purpose The overall class of antihypertensive agents lowers blood pressure, although the mechanisms of action vary greatly. In 2003, a Joint National Committee on 313 G A L E E N C Y C L O P E D I A O F M E D I C I N E Antihypertensive Drugs Brand Name (Generic Name) Possible Common Side Effects Include: Accupril (quinapril Headache, d ...  of action vary greatly. In 2003, a Joint National Committee on 313 G A L E E N C Y C L O P E D I A O F M E D I C I N E Antihypertensive Drugs Brand Name (Generic Name) Possible Common Side Effects Include: Accupril (quinapril Headache, dizziness hydrochloride) Aldatazide Diarrhea, fever, headache, decreased coordination Aldactone Cramps, drowsiness, stomach disorders (spironolactone) Aldomet (methyldopa) Fluid retention, headache, weak feeling Altace (ramipril) Headache, cough Calan, Calan SR (veraConstipation, fatigue, decreased blood pamil hydrochloride) pressu"
+        },
+        {
+          "doc_id": "An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark",
+          "source": "Data\\markdown_output\\An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark.md",
+          "excerpt": "# An <mark>g</mark> iotensin-convertin <mark>g enzyme inhibitors</mark> ### Definition Angiotensin-converting enzyme inhibitors (also called ACE inhibitors) are medicines that block the conversion of the chemical angiotensin I to a substance that increases salt and water retention in the body. ### Purpose ACE inhibitors are used in the treatment of high blood pressure. They may be used alone or in combination with other medicines for high blood p ... tance that increases salt and water retention in the body. ### Purpose ACE inhibitors are used in the treatment of high blood pressure. They may be used alone or in combination with other medicines for high blood pressure. 214 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Arteries—Blood vessels that carry blood away from the heart to the cells, tissues, and organs of the body. Chronic—A word used to describe a long-lasting condition. Chronic conditions often develop gradually and involve slow changes. Enzyme—A type of protein, produced in the bo"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Beta_blockers",
+        "Antihypertensive_drugs",
+        "An_markgmark_iotensin-convertin_markg_enzyme_testmark",
+        "An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark",
+        "Alpha1-adrenergic_blockers_Definition",
+        "Atenolol_see_Beta_blockers",
+        "Antiulcer_drugs",
+        "Benazepril_see_Angiotensin-converting_enzyme_inhibitors"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "many_sources_check_minimality",
+        "corrupt_source_filename_check_content"
+      ]
+    },
+    {
+      "id": "C04",
+      "category": "cardiovascular",
+      "query": "What are the mechanisms, indications, and side effects of anticoagulant drugs versus antiplatelet agents like aspirin?",
+      "ground_truth_status": "source_missing",
+      "suggested_relevant_doc_ids": [
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs"
+      ],
+      "confidence": "high",
+      "review_note": "The article provides a direct comparison of anticoagulant drugs and antiplatelet agents, covering mechanisms, indications, and side effects. It explains the categories of anticoagulant drugs and their purpose, which aligns with the question.",
+      "selected_sources": [
+        {
+          "doc_id": "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+          "source": "Data\\markdown_output\\Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs.md",
+          "excerpt": "# Anticoa <mark>g</mark> ulant and anti <mark>p</mark> latelet <mark>drugs</mark> ### Definition Anticoagulants are drugs used to prevent clot formation or to prevent a clot that has formed from enlarging. They inhibit clot formation by blocking the action of clotting factors or platelets. Anticoagulant drugs fall into three categories: inhibitors of clotting factor synthesis, inhibitors of thrombin and antiplatelet drugs. ### Purpose Anticoagula ... ot that has formed from enlarging. They inhibit clot formation by blocking the action of clotting factors or platelets. Anticoagulant drugs fall into three categories: inhibitors of clotting factor synthesis, inhibitors of thrombin and antiplatelet drugs. ### Purpose Anticoagulant drugs reduce the ability of the blood to form clots. Although blood clotting is essential to prevent serious bleeding in the case of skin cuts, clots inside the blood vessels block the flow of blood to major organs and cause heart attacks and strokes. Although these drugs are sometimes c"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antiplatelet_drugs_see_Anticoagulant_and_antiplatelet_drugs",
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+        "Aspirin",
+        "Anticholinergicdrugs_see_Antiparkinsondrugs_Anticlotting_dru",
+        "Antibiotics",
+        "Acetaminophen",
+        "Antirheumatic_drugs",
+        "Anticonvulsant_drugs"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "ground_truth_source_missing",
+        "corrupt_source_filename_check_content"
+      ]
+    },
+    {
+      "id": "C05",
+      "category": "cardiovascular",
+      "query": "What causes atherosclerosis and how does plaque buildup restrict blood flow?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Atherosclerosis",
+        "Angioplasty"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Atherosclerosis' article directly explains the causes of atherosclerosis and how plaque buildup restricts blood flow. The 'Angioplasty' article provides additional context on how plaque is addressed, which complements the explanation of plaque buildup's impact on blood flow.",
+      "selected_sources": [
+        {
+          "doc_id": "Atherosclerosis",
+          "source": "Data\\markdown_output\\Atherosclerosis.md",
+          "excerpt": "# Atherosclerosis ### Definition Atherosclerosis is the build up of a waxy plaque on the inside of blood vessels. In Greek, athere means gruel, and skleros means hard. Atherosclerosis is often called arteriosclerosis. Arteriosclerosis (from the Greek arteria, meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive proces ... meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive process responsible for most heart disease, is a type of arteriosclerosis or hardening of the arteries. An artery is made up of several layers: an inner lining called the endothelium, an elastic membrane that allows the artery to expand and contract, a layer of smooth muscle, and a layer of connective tissue. Arteriosclerosis is a broad term that includes a hardening of the inner and"
+        },
+        {
+          "doc_id": "Angioplasty",
+          "source": "Data\\markdown_output\\Angioplasty.md",
+          "excerpt": "# Angioplasty ### Definition Angioplasty is a term describing a procedure used to widen vessels narrowed by stenoses or occlusions. There are various types of these procedures and their names are associated with the type of vessel entry and equipment used. For example, percutaneous transluminal angioplasty (PTA) describes entry through the skin (percutaneous) and navigates to the area of the vessel of interest through the same vessel or one that  ... > Angioplasty<br>Before After<br>Inflated<br>balloon<br>Guidewire<br>Improved<br>flow<br>Inadequate<br>flow<br>Lumen<br>Plaque<br>Angioplasty<br><!-- End of picture text --> In balloon angioplasty, plaque is pushed out of the clogged artery by the inflation of the balloon device. (Illustration by Argosy Inc.) ### Purpose In individuals with an occulsive vascular disease such as atherosclerosis, blood flow is impaired to an organ (such as the heart) or to a distal body part ( such as the lower leg) by the narrowing of the vessel’s lumen due to fatty deposits or cal"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Atherosclerosis",
+        "Atherectomy",
+        "Arterial_embolism",
+        "Angioplasty",
+        "Angiography",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Barbiturate-induced_coma",
+        "Ascites"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "C06",
+      "category": "cardiovascular",
+      "query": "What are cardiac arrhythmias and what antiarrhythmic medications are used to treat them?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Arrhythmias",
+        "Antiarrhythmic_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Arrhythmias' document defines cardiac arrhythmias and explains their mechanism, while the 'Antiarrhythmic_drugs' document directly lists the classes of antiarrhythmic medications and their purpose.",
+      "selected_sources": [
+        {
+          "doc_id": "Arrhythmias",
+          "source": "Data\\markdown_output\\Arrhythmias.md",
+          "excerpt": "# Arrhythmias ### Definition An arrhythmia is an abnormality in the heart’s rhythm, or heartbeat pattern. The heartbeat can be too slow, too fast, have extra beats, skip a beat, or otherwise beat irregularly. ### Description Arrhythmias are deviations from the normal cadence of the heartbeat, which cause the heart to pump improperly. The normal heartbeat starts in the right atrium, where the heart’s natural pacemaker (the sinus node) sends an ele ... icular node. The atrioventricular node then sends signals into the main pumping chamber to make the ventricle contract. Arrhythmias occur when the heartbeat starts in a part of the heart other than the sinus node, an abnormal rate or rhythm develops in the sinus node, or a heart conduction ‘‘block’’ prevents the electrical signal from traveling down the normal pathway. More than four million Americans have arrhythmias, most of which are harmless. Middle-aged adults commonly experience arrhythmias. As people age, the probability of experiencing an arrhythmia increa"
+        },
+        {
+          "doc_id": "Antiarrhythmic_drugs",
+          "source": "Data\\markdown_output\\Antiarrhythmic_drugs.md",
+          "excerpt": "# Antiarrhythmic drugs ### Definition Antiarrhythmic drugs are medicines that correct irregular heartbeats and slow down hearts that beat too fast. ### Purpose Normally, the heart beats at a steady, even pace. The pace is controlled by electrical signals that begin in one part of the heart and quickly spread through the whole heart. If something goes wrong with this control system, the result may be an irregular heartbeat, or an arrhythmia. Antia ... le heart. If something goes wrong with this control system, the result may be an irregular heartbeat, or an arrhythmia. Antiarrhythmic drugs correct irregular heartbeats, restoring the normal rhythm. If the heart is beating too fast, these drugs will slow it down. By correcting these problems, antiarrhythmic drugs help the heart work more efficiently. ### Description Antiarrhythmic drugs are available only with a physician’s prescription and are sold in capsule (regular and extended release), tablet (regular and extended-release), and injectable forms. Commonly us"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Arrhythmias",
+        "Beta_blockers",
+        "Antiarrhythmic_drugs",
+        "Atrial_fibrillation_and_flutter",
+        "Atenolol_see_Beta_blockers",
+        "Alpha1-adrenergic_blockers_Definition",
+        "Antihypertensive_drugs",
+        "Antibiotics"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "C07",
+      "category": "cardiovascular",
+      "query": "What is an abdominal aortic aneurysm and what are its symptoms?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Aortic_aneurysm",
+        "Aneurysmectomy"
+      ],
+      "confidence": "high",
+      "review_note": "The first document directly defines an abdominal aortic aneurysm and describes its symptoms. The second document provides additional context about the treatment and clinical significance of aneurysms, which complements the definition and symptoms.",
+      "selected_sources": [
+        {
+          "doc_id": "Aortic_aneurysm",
+          "source": "Data\\markdown_output\\Aortic_aneurysm.md",
+          "excerpt": "# Aortic aneurysm ### Definition An aneurysm is an abnormal bulging or swelling of a portion of a blood vessel. The aorta, which can develop these abnormal bulges, is the large blood vessel that carries oxygen-rich blood away from the heart to the rest of the body. ### Description The aorta carries oxygen-rich blood to the body, and is therefore called an artery. Because the aorta is an artery, its walls are made of up three layers; a thin inner  ... lood), and a fiber-like outer layer that gives the vessel strength to not burst when the heart pumps blood to the body. Aortic aneurysms occur when a weakness develops in part of the wall of the aorta; three basic types are usually found. If all three layers of the vessel are affected and weakness develops along an extended area of the vessel, the weakened area will appear as a large, bulging region of blood vessel; this is called a fusiform aneurysm. If weakness develops between the inner and outer layers of the aortic wall, a bulge results as blood from the inte"
+        },
+        {
+          "doc_id": "Aneurysmectomy",
+          "source": "Data\\markdown_output\\Aneurysmectomy.md",
+          "excerpt": "# Aneurysmectomy ### Definition Aneurysmectomy is a surgical procedure performed to repair a weak area in the aorta. The aorta is the largest artery in the body and the main blood vessel leading away from the heart. ### Purpose The purpose of aneurysmectomy is to repair an aortic aneurysm that is likely to rupture if left in place. Aneurysmectomy is indicated for an aortic aneurysm that grows to at least 2 in(5 cm) or for an aortic aneurysm of an ... e body and the main blood vessel leading away from the heart. ### Purpose The purpose of aneurysmectomy is to repair an aortic aneurysm that is likely to rupture if left in place. Aneurysmectomy is indicated for an aortic aneurysm that grows to at least 2 in(5 cm) or for an aortic aneurysm of any size that is symptomatic, tender, or enlarging rapidly. ### Precautions Aneurysmectomy may not be appropriate for patients with severely debilitating diseases such as cancer, emphysema, and heart failure. ### Description An aortic aneurysm is a bulge in the wall of the ao"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Aortic_aneurysm",
+        "Aneurysmectomy",
+        "Abdominal_ultrasound",
+        "Aortic_dissection",
+        "Appendicitis",
+        "Adhesions",
+        "Aortic_valve_insufficiency",
+        "Abdominal_wall_defects"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "C08",
+      "category": "cardiovascular",
+      "query": "How is coronary angiography performed and what conditions does it diagnose?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Angiography"
+      ],
+      "confidence": "high",
+      "review_note": "The article on Angiography directly explains how coronary angiography is performed (inserting a catheter, injecting contrast dye, and using X-ray imaging) and mentions it is used to diagnose conditions like atherosclerosis, heart disease, and other vascular issues, which aligns with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Angiography",
+          "source": "Data\\markdown_output\\Angiography.md",
+          "excerpt": "# Angiography ### Definition Angiography is the x-ray study of the blood vessels. An angiogram uses a radiopaque substance, or dye, to make the blood vessels visible under x ray. Arteriography is a type of angiography that involves the study of the arteries. 208 G A L E E N C Y C L O P E D I A O F M E D I C I N E An angiogram of a coronary artery. (Phototake NYC. Reproduced by permission.) ### Purpose Angiography is used to detect abnormalities o ... aphy that involves the study of the arteries. 208 G A L E E N C Y C L O P E D I A O F M E D I C I N E An angiogram of a coronary artery. (Phototake NYC. Reproduced by permission.) ### Purpose Angiography is used to detect abnormalities or blockages in the blood vessels (called occlusions) throughout the circulatory system and in some organs. Theprocedureiscommonlyusedtoidentify atherosclerosis;todiagnoseheartdisease;toevaluatekidneyfunction and detect kidney cysts or tumors; to detect an aneurysm (an abnormal bulge of an artery that can rupture leading to hemorrha"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Atherosclerosis",
+        "Angiography",
+        "Atherectomy",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Arterial_embolism",
+        "Angioplasty",
+        "Angina",
+        "Arteriovenous_fistula"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "C09",
+      "category": "cardiovascular",
+      "query": "What are the clinical signs and symptoms of athletic heart syndrome?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Athletic_heart_syndrome"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly describes the clinical signs and symptoms of athletic heart syndrome, including bradycardia, increased left ventricular wall thickness, enhanced stroke volume, and exercise-induced ECG changes.",
+      "selected_sources": [
+        {
+          "doc_id": "Athletic_heart_syndrome",
+          "source": "Data\\markdown_output\\Athletic_heart_syndrome.md",
+          "excerpt": "# Athletic heart syndrome ### Definition Athletic heart syndrome is the adaptation of an athlete’s heart in response the physiologic stresses of strenuous physical training. It can be difficult to distinguish a significant medical condition from an athletic heart. ### Description The heart adapts to physical demands by enlarging, especially the left ventricle. Enlargement increases the cardiac output, the amount of blood pumped with each beat of  ... ses of strenuous physical training. It can be difficult to distinguish a significant medical condition from an athletic heart. ### Description The heart adapts to physical demands by enlarging, especially the left ventricle. Enlargement increases the cardiac output, the amount of blood pumped with each beat of the heart. The exact type of adaptation depends on the nature of the physical demand. There are two types of demand, static and dynamic. Static demand involves smaller groups of muscles under extreme resistance for brief period. An example is weight lifting."
+        }
+      ],
+      "candidate_doc_ids": [
+        "Athletic_heart_syndrome",
+        "Arrhythmias",
+        "Athlete’s_foot",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Atrial_septal_defect",
+        "Alport_syndrome",
+        "Barbiturate-induced_coma",
+        "Atrial_fibrillation_and_flutter"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "C10",
+      "category": "cardiovascular",
+      "query": "chest tightness during exercise",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Angina",
+        "Angiography"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Angina' article directly describes chest tightness during exercise as a symptom of angina pectoris. The 'Aneurysms' article mentions angina as a symptom and discusses stress tests for evaluation. The 'Angiography' article explains how stress tests are used to evaluate heart function during exercise, which is relevant to the question.",
+      "selected_sources": [
+        {
+          "doc_id": "Angina",
+          "source": "Data\\markdown_output\\Angina.md",
+          "excerpt": "# Angina ### Definition Angina is pain, ‘‘discomfort,’’ or pressure localized in the chest that is caused by an insufficient supply of blood (ischemia) to the heart muscle. It is also sometimes characterized by a feeling of choking, suffocation, or crushing heaviness. This condition is also called angina pectoris. ### Description Often described as a muscle spasm and choking sensation, the term ‘‘angina’’ is used primarily to describe chest (thor ...  Description Often described as a muscle spasm and choking sensation, the term ‘‘angina’’ is used primarily to describe chest (thoracic) pain originating from insufficient oxygen to the heart muscle. An episode of angina is not an actual heart attack, but rather pain that results from the heart muscle temporarily receiving too little blood. This temporary condition may be the result of demanding activities such as exercise and does not necessarily indicate that the heart muscle is experiencing permanent damage. In fact, episodes of angina seldom cause permanent da"
+        },
+        {
+          "doc_id": "Angiography",
+          "source": "Data\\markdown_output\\Angiography.md",
+          "excerpt": "# Angiography ### Definition Angiography is the x-ray study of the blood vessels. An angiogram uses a radiopaque substance, or dye, to make the blood vessels visible under x ray. Arteriography is a type of angiography that involves the study of the arteries. 208 G A L E E N C Y C L O P E D I A O F M E D I C I N E An angiogram of a coronary artery. (Phototake NYC. Reproduced by permission.) ### Purpose Angiography is used to detect abnormalities o ... ible side effects or reactions include headache, dizziness, irregular heartbeat, nausea, warmth, burning sensation, and chest pain, but they usually last only momentarily. To view the area of study from different angles or perspectives, the patient may be asked to change positions several times, and subsequent dye injections may be administered. During any injection, the patient or the camera may move. Throughout the dye injection procedure, x-ray pictures and/or fluoroscopic pictures (or moving x rays) will be taken. Because of the high pressure of arterial blood"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Angina",
+        "Atherosclerosis",
+        "Atherectomy",
+        "Asthma",
+        "Barbiturate-induced_coma",
+        "Angiography",
+        "Antiangina_drugs"
+      ],
+      "review_status": "pending",
+      "raw_qwen_doc_ids": [
+        "Angina",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Angiography"
+      ],
+      "review_flags": [
+        "redirect_stub_removed"
+      ]
+    },
+    {
+      "id": "C12",
+      "category": "cardiovascular",
+      "query": "What are the bleeding risks associated with anticoagulant medications?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly addresses the bleeding risks associated with anticoagulant medications, mentioning gastrointestinal hemorrhage, intracranial hemorrhage, and excessive bleeding from minor injuries.",
+      "selected_sources": [
+        {
+          "doc_id": "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+          "source": "Data\\markdown_output\\Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs.md",
+          "excerpt": "# Anticoa <mark>g</mark> ulant and anti <mark>p</mark> latelet <mark>drugs</mark> ### Definition Anticoagulants are drugs used to prevent clot formation or to prevent a clot that has formed from enlarging. They inhibit clot formation by blocking the action of clotting factors or platelets. Anticoagulant drugs fall into three categories: inhibitors of clotting factor synthesis, inhibitors of thrombin and antiplatelet drugs. ### Purpose Anticoagula ... ot that has formed from enlarging. They inhibit clot formation by blocking the action of clotting factors or platelets. Anticoagulant drugs fall into three categories: inhibitors of clotting factor synthesis, inhibitors of thrombin and antiplatelet drugs. ### Purpose Anticoagulant drugs reduce the ability of the blood to form clots. Although blood clotting is essential to prevent serious bleeding in the case of skin cuts, clots inside the blood vessels block the flow of blood to major organs and cause heart attacks and strokes. Although these drugs are sometimes c"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+        "Antiplatelet_drugs_see_Anticoagulant_and_antiplatelet_drugs",
+        "Arteriovenous_malformations",
+        "Barbiturate-induced_coma",
+        "Aspirin",
+        "Alcoholism",
+        "Anoscopy",
+        "Antiparkinson_drugs_Definition"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "corrupt_source_filename_check_content"
+      ]
+    },
+    {
+      "id": "C13",
+      "category": "cardiovascular",
+      "query": "What is acrocyanosis and what causes bluish discoloration of the extremities?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Acrocyanosis",
+        "Apgar_testing_Definition"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Acrocyanosis' article directly defines acrocyanosis and explains the cause of bluish discoloration of the extremities. The 'Apgar_testing_Definition' article provides additional context about acrocyanosis as a normal finding in newborns, which complements the explanation.",
+      "selected_sources": [
+        {
+          "doc_id": "Acrocyanosis",
+          "source": "Data\\markdown_output\\Acrocyanosis.md",
+          "excerpt": "# Acrocyanosis #### Definition Acrocyanosis is a decrease in the amount of oxygen delivered to the extremities. The hands and feet turn blue because of the lack of oxygen. Decreased blood supply to the affected areas is caused by constriction or spasm of small blood vessels. 32 G A L E E N C Y C L O P E D I A O F M E D I C I N E #### Description Acrocyanosis is a painless disorder caused by constriction or narrowing of small blood vessels in the  ... y constriction or spasm of small blood vessels. 32 G A L E E N C Y C L O P E D I A O F M E D I C I N E #### Description Acrocyanosis is a painless disorder caused by constriction or narrowing of small blood vessels in the skin of affected patients. The spasm of the blood vessels decreases the amount of blood that passes through them, resulting in less blood being delivered to the hands and feet. The hands may be the main area affected. The affected areas turn blue and become cold and sweaty. Localized swelling may also occur. Emotion and cold temperatures can wors"
+        },
+        {
+          "doc_id": "Apgar_testing_Definition",
+          "source": "Data\\markdown_output\\Apgar_testing_Definition.md",
+          "excerpt": "# Apgar testing Definition Apgar testing is the assessment of the newborn rating color, heart rate, stimulus response, muscle tone, and respirations on a scale of zero to two, for a maximum possible score of 10. It is performed twice, first at one minute and then again at five minutes after birth. stethoscope to the newborn’s heart and counting the number of beats. - Grimace, or reflex irritability: 2 if the neonate coughs, sneezes, or vigorously ... .’’ ### Description The five areas are scored as follows: - Appearance, or color: 2 if the skin is pink all over; 1 for acrocyanosis, where the trunk and head are pink, but the arms and legs are blue; and 0 if the whole body is blue. Newborns with naturally darker skin color will not be pink. However, pallor is still noticeable, especially in the soles and palms. Color is related to the neonate’s ability to oxygenate its body and extremities, and is dependent on heart rate and respirations. A perfectly healthy newborn will often receive a score of 9 because of som"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Acrocyanosis",
+        "Anoxia",
+        "Arterial_embolism",
+        "Apgar_testing_Definition",
+        "Angiography",
+        "DR._V_I_RGI_N_I_A_APG_AR_(1909–1974)",
+        "Angioplasty",
+        "Anemias"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "C14",
+      "category": "cardiovascular",
+      "query": "What are the risk factors, diagnostic procedures, and medication options for atherosclerosis?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Atherosclerosis",
+        "Angiography",
+        "Aspirin"
+      ],
+      "confidence": "high",
+      "review_note": "The article on Atherosclerosis directly addresses risk factors, diagnostic procedures, and medication options. The Angiography article provides diagnostic procedures for atherosclerosis, and the Aspirin article covers a medication option for atherosclerosis.",
+      "selected_sources": [
+        {
+          "doc_id": "Atherosclerosis",
+          "source": "Data\\markdown_output\\Atherosclerosis.md",
+          "excerpt": "# Atherosclerosis ### Definition Atherosclerosis is the build up of a waxy plaque on the inside of blood vessels. In Greek, athere means gruel, and skleros means hard. Atherosclerosis is often called arteriosclerosis. Arteriosclerosis (from the Greek arteria, meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive proces ... meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive process responsible for most heart disease, is a type of arteriosclerosis or hardening of the arteries. An artery is made up of several layers: an inner lining called the endothelium, an elastic membrane that allows the artery to expand and contract, a layer of smooth muscle, and a layer of connective tissue. Arteriosclerosis is a broad term that includes a hardening of the inner and"
+        },
+        {
+          "doc_id": "Angiography",
+          "source": "Data\\markdown_output\\Angiography.md",
+          "excerpt": "# Angiography ### Definition Angiography is the x-ray study of the blood vessels. An angiogram uses a radiopaque substance, or dye, to make the blood vessels visible under x ray. Arteriography is a type of angiography that involves the study of the arteries. 208 G A L E E N C Y C L O P E D I A O F M E D I C I N E An angiogram of a coronary artery. (Phototake NYC. Reproduced by permission.) ### Purpose Angiography is used to detect abnormalities o ...  vessels (called occlusions) throughout the circulatory system and in some organs. Theprocedureiscommonlyusedtoidentify atherosclerosis;todiagnoseheartdisease;toevaluatekidneyfunction and detect kidney cysts or tumors; to detect an aneurysm (an abnormal bulge of an artery that can rupture leading to hemorrhage), tumor, blood clot, or arteriovenous malformations (abnormals tangles of arteries and veins) in thebrain;andtodiagnoseproblemswiththeretinaofthe eye. It is also used to give surgeons an accurate ‘‘map’’ of theheartpriortoopen-heartsurgery,orofthebrainprior "
+        },
+        {
+          "doc_id": "Aspirin",
+          "source": "Data\\markdown_output\\Aspirin.md",
+          "excerpt": "# Aspirin ### Definition Aspirin is a medicine that relieves pain and reduces fever. ### Purpose Aspirin is used to relieve many kinds of minor aches and pains–headaches, toothaches, muscle pain, menstrual cramps, the joint pain from arthritis, and aches associated with colds and flu. Some people take aspirin daily to reduce the risk of stroke, heart attack, or other heart problems. 422 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Desc ... irin may also interact with diuretics, diabetes medicines, other nonsteroidal anti-inflammatory drugs (NSAIDs), seizure medications, and steroids. Anyone who is taking these drugs should ask his or her physician whether they can safely take aspirin. #### Resources ##### PERIODICALS - ‘‘What’s the Best Pain Reliever? Depends on Your Pain.’’ Consumer Reports May 1996: 62. Nancy Ross-Flanigan - ringing or buzzing in the ears - hearing loss - dizziness AST see Aspartate aminotransferase test Astemizole see Antihistamines - stomach pain that does not go away Do not tak"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Atherosclerosis",
+        "Angiography",
+        "Aspirin",
+        "Abdominal_ultrasound",
+        "Antiplatelet_drugs_see_Anticoagulant_and_antiplatelet_drugs",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Antenatal_testing",
+        "Angioplasty"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "many_sources_check_minimality"
+      ]
+    },
+    {
+      "id": "C15",
+      "category": "cardiovascular",
+      "query": "How do antiarrhythmic drugs regulate abnormal electrical activity in the heart?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antiarrhythmic_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains how antiarrhythmic drugs regulate abnormal electrical activity in the heart by modulating ion channels, altering conduction velocity, and restoring normal rhythm, which matches the query and reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Antiarrhythmic_drugs",
+          "source": "Data\\markdown_output\\Antiarrhythmic_drugs.md",
+          "excerpt": "# Antiarrhythmic drugs ### Definition Antiarrhythmic drugs are medicines that correct irregular heartbeats and slow down hearts that beat too fast. ### Purpose Normally, the heart beats at a steady, even pace. The pace is controlled by electrical signals that begin in one part of the heart and quickly spread through the whole heart. If something goes wrong with this control system, the result may be an irregular heartbeat, or an arrhythmia. Antia ... lly, the heart beats at a steady, even pace. The pace is controlled by electrical signals that begin in one part of the heart and quickly spread through the whole heart. If something goes wrong with this control system, the result may be an irregular heartbeat, or an arrhythmia. Antiarrhythmic drugs correct irregular heartbeats, restoring the normal rhythm. If the heart is beating too fast, these drugs will slow it down. By correcting these problems, antiarrhythmic drugs help the heart work more efficiently. ### Description Antiarrhythmic drugs are available only "
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antiarrhythmic_drugs",
+        "Arrhythmias",
+        "Atrial_fibrillation_and_flutter",
+        "Aortic_valve_stenosis",
+        "Antianxiety_drugs",
+        "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
+        "Antihypertensive_drugs",
+        "Athletic_heart_syndrome"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "P07",
+      "category": "pharmacology",
+      "query": "What medications are classified as antimigraine drugs and how do they relieve headache pain?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antimigraine_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly mentions triptans and ergot alkaloids as antimigraine drugs and explains their mechanism of action involving serotonin receptors, vasoconstriction, and inhibition of neuropeptide release, which matches the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Antimigraine_drugs",
+          "source": "Data\\markdown_output\\Antimigraine_drugs.md",
+          "excerpt": "# Antimigraine drugs ### Definition Antimigraine drugs are medicines used to prevent or reduce the severity of migraine headaches. ### Purpose Migraine headaches usually cause a throbbing pain on one side of the head. Nausea, vomiting, dizziness, increased sensitivity to light and sound, and other symptoms may accompany the pain. The attacks may last for several hours or for a day or more and may come as often as several times a week. Some people ... last for several hours or for a day or more and may come as often as several times a week. Some people who get migraine headaches have warning signals before the headaches begin, such as restlessness, tingling in an arm or leg, or seeing patterns of flashing lights. This set of signals is called an aura. The antimigraine drugs discussed in this section are meant to be taken as soon as the pain begins, to relieve the pain and other symptoms. Other types of drugs, such as antiseizure medicines, antidepressants, calcium channel blockers and beta blockers, are sometim"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antimigraine_drugs",
+        "Antihypertensive_drugs",
+        "Antirheumatic_drugs",
+        "Analgesics",
+        "Antiangiogenic_therapy",
+        "Barbiturate-induced_coma",
+        "Acrocyanosis",
+        "Antiangina_drugs"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "P08",
+      "category": "pharmacology",
+      "query": "What are anticonvulsant drugs and what types of seizures do they control?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Anticonvulsant_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The first document directly defines anticonvulsant drugs and mentions their use in controlling seizures. The second document mentions benzodiazepines being used for epilepsy and seizure disorders, which provides additional context on types of seizures they control.",
+      "selected_sources": [
+        {
+          "doc_id": "Anticonvulsant_drugs",
+          "source": "Data\\markdown_output\\Anticonvulsant_drugs.md",
+          "excerpt": "# Anticonvulsant drugs ### Definition - dizziness - unusual tiredness or weakness Anticonvulsant drugs are medicines used to prevent or treat convulsions (seizures). - weight gain. In addition, patients taking anticoagulant drugs should check with their physicians as soon as possible if any of these side effects occur: - nausea or vomiting ### Purpose Anticonvulsant drugs are used to control seizures in people with epilepsy. Epilepsy is not a sin ... ld check with their physicians as soon as possible if any of these side effects occur: - nausea or vomiting ### Purpose Anticonvulsant drugs are used to control seizures in people with epilepsy. Epilepsy is not a single disease—it is a set of symptoms that may have different 278 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Chronic—A word used to describe a long-lasting condition. Chronic conditions often develop gradually and involve slow changes. Epilepsy—A brain disorder with symptoms that include seizures. Glaucoma—A condition in which press"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Anticonvulsant_drugs",
+        "Antiemetic_drugs_see_Antinausea_drugs",
+        "Barbiturates",
+        "Benign_see_Uterine_fibroids",
+        "Antirheumatic_drugs",
+        "Antimigraine_drugs",
+        "Antipsychotic_drugs",
+        "Antianxiety_drugs"
+      ],
+      "review_status": "pending",
+      "raw_qwen_doc_ids": [
+        "Anticonvulsant_drugs",
+        "Benign_see_Uterine_fibroids"
+      ],
+      "review_flags": [
+        "redirect_stub_removed"
+      ]
+    },
+    {
+      "id": "P09",
+      "category": "pharmacology",
+      "query": "How do antacids work to neutralize gastric stomach acid?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antacids"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains how antacids neutralize gastric acid by producing water and neutral compounds, increasing gastric pH.",
+      "selected_sources": [
+        {
+          "doc_id": "Antacids",
+          "source": "Data\\markdown_output\\Antacids.md",
+          "excerpt": "# Antacids ### Definition Antacidsaremedicinesthatneutralizestomachacid. ### Purpose Antacids are used to relieve acid indigestion, upset stomach, sour stomach, and heartburn. Additional components of some formulations include dimethicone, to reduce gas pains (flatulence) and alginic acid, which, in combination with antacids, may help manage GERD (gastro-esophageal reflux disease). Antacids should not be confused with gastric acid inhibitors, suc ... of some formulations include dimethicone, to reduce gas pains (flatulence) and alginic acid, which, in combination with antacids, may help manage GERD (gastro-esophageal reflux disease). Antacids should not be confused with gastric acid inhibitors, such as the H-2 receptor blockers (cimetidine, ranitide and others) or the proton pump inhibitors (lansoprazole, omeprazole and others). Although all three classes of drugs act to reduce the levels of gastric acid, their mechanisms are different, and this affects the appropriate use of the drug. Antacids have a rapid on"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antacids",
+        "Basal_gastric_secretion_test_see_Gastric_acid_determination",
+        "Antiulcer_drugs",
+        "Amino_acid_disorders_markscreeningmark",
+        "Acid_phosphatase_test",
+        "Bariatric_surgery",
+        "Anti-hyperuricemic_drugs",
+        "Antiseptics"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "P10",
+      "category": "pharmacology",
+      "query": "What are antifungal drugs and what fungal infections do they treat?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antifungal_drugs,_systemic",
+        "Aspergillosis",
+        "Athlete’s_foot"
+      ],
+      "confidence": "high",
+      "review_note": "The first document defines systemic antifungal drugs and mentions their use for deep fungal infections. The second document describes aspergillosis, a systemic fungal infection treated by antifungals. The third document provides an example of a superficial fungal infection (athlete's foot) treated by antifungals.",
+      "selected_sources": [
+        {
+          "doc_id": "Antifungal_drugs,_systemic",
+          "source": "Data\\markdown_output\\Antifungal_drugs,_systemic.md",
+          "excerpt": "# Antifungal drugs, systemic ### Definition Systemic antifungal drugs are medicines taken by mouth or by injection to treat deep infections caused by a fungus. 301 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Description ## KEY TERMS Elixir—A sweetened liquid that contains alcohol, water, and medicine. Fetus—A developing baby inside the womb. Fungus—A unicellular to filamentous organism that causes parasitic infections. Ointment—A thic ... d medicine. Fetus—A developing baby inside the womb. Fungus—A unicellular to filamentous organism that causes parasitic infections. Ointment—A thick substance that contains medicine and is meant to be spread on the skin, or if an ophthalmic ointment, in the eye. Systemic—A term used to describe a medicine that has effects throughout the body, as opposed to topical drugs that work on the skin. Most medicines that are taken by mouth or by injection are systemic drugs. ### Purpose Systemic antifungal drugs are used to treat infections in various parts of the body tha"
+        },
+        {
+          "doc_id": "Athlete’s_foot",
+          "source": "Data\\markdown_output\\Athlete’s_foot.md",
+          "excerpt": "# Athlete’s foot ### Definition A common fungus infection between the toes in which the skin becomes itchy and sore, cracking and peeling away. Athlete’s foot (also known as tinea pedis or foot ringworm) can be treated, but it can be tenacious and difficult to clear up completely. ### Description Athlete’s foot is a very common condition of itchy, peeling skin on the feet. In fact, it’s so common that most people will have at least one episode at ... e infection was common among athletes who often used these areas. ### Causes and symptoms Athlete’s foot is caused by a fungal infection that most often affects the fourth and fifth toe webs. Trichophyton rubrum, T. mentagrophytes, and Epidermophyton floccosum, the fungi that cause athlete’s foot, are unusual in that they live exclusively on dead body tissue (hair, the outer layer of skin, and nails). The fungus grows best in moist, damp, dark places with poor ventilation. The problem doesn’t occur among people who usually go barefoot. Many people carry the fungus"
+        },
+        {
+          "doc_id": "Aspergillosis",
+          "source": "Data\\markdown_output\\Aspergillosis.md",
+          "excerpt": "# Aspergillosis ### Definition Aspergillosis refers to several forms of disease caused by a fungus in the genus Aspergillus. Aspergillosis fungal infections can occur in the ear canal, eyes, nose, sinus cavities, and lungs. In some individuals, the infection can even invade bone and the membranes that enclose the brain and spinal cord (meningitis). ### Description Aspergillosis is primarily an infection of the lungs caused by the inhalation of ai ... le, complex health problems, such as AIDS or a blood disorder like leukemia, which can further complicate diagnosis and treatment. Once considered particularly rare, the incidence of reported aspergillosis has risen somewhat with the development of more sophisticated methods of diagnosis and advances made in other areas of medicine, such as with the increased use of certain chemotherapeutic and corticosteroid drugs that are extremely useful in treating various types of cancer but that decrease the individual’s immune response, making them more susceptible to other"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antifungal_drugs,_systemic",
+        "Antifungal_drugs,_topical",
+        "Athlete’s_foot",
+        "Aspergillosis",
+        "Antibiotics",
+        "Antiprotozoal_drugs",
+        "Adenovirus_infections",
+        "Anaerobic_infections"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "many_sources_check_minimality"
+      ]
+    },
+    {
+      "id": "P12",
+      "category": "pharmacology",
+      "query": "What is the difference between local anesthesia and general anesthesia?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Anesthesia,_general",
+        "Anesthesia,_local"
+      ],
+      "confidence": "high",
+      "review_note": "The two articles directly compare general and local anesthesia by defining their mechanisms, purposes, and effects, which aligns with the question about their differences.",
+      "selected_sources": [
+        {
+          "doc_id": "Anesthesia,_general",
+          "source": "Data\\markdown_output\\Anesthesia,_general.md",
+          "excerpt": "# Anesthesia, general ### Definition General anesthesia is the induction of a state of unconsciousness with the absence of pain sensation over the entire body, through the administration of anesthetic drugs. It is used during certain medical and surgical procedures. ### Purpose General anesthesia has many purposes including: - pain relief (analgesia) - blocking memory of the procedure (amnesia) - producing unconsciousness - inhibiting normal body ...  through the administration of anesthetic drugs. It is used during certain medical and surgical procedures. ### Purpose General anesthesia has many purposes including: - pain relief (analgesia) - blocking memory of the procedure (amnesia) - producing unconsciousness - inhibiting normal body reflexes to make surgery safe and easier to perform - relaxing the muscles of the body ### Description Anesthesia performed with general anesthetics occurs in four stages which may or may not be observable because they can occur very rapidly: - Stage One: Analgesia. The patient"
+        },
+        {
+          "doc_id": "Anesthesia,_local",
+          "source": "Data\\markdown_output\\Anesthesia,_local.md",
+          "excerpt": "# Anesthesia, local ### Definition Local or regional anesthesia involves the injection or application of an anesthetic drug to a specific area of the body, as opposed to the entire body and brain as occurs during general anesthesia. - unusual tiredness or weakness - weakness in the wrist and fingers - weight loss or loss of appetite - increase or decrease in amount of urine - pale skin - yellow eyes or skin ### Purpose Local anesthetics are used  ... weight loss or loss of appetite - increase or decrease in amount of urine - pale skin - yellow eyes or skin ### Purpose Local anesthetics are used to prevent patients from feeling pain during medical, surgical, or dental procedures. Over-the-counter local anesthetics are also available to provide temporary relief from pain, irritation, and itching caused by various conditions, 201 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Canker sore—A painful sore inside the mouth. Cold sore—A small blister on the lips or face, caused by a virus. Also calle"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Anesthesia,_general",
+        "Anesthesia,_local",
+        "Arthroscopy",
+        "Atelectasis",
+        "Actinomycosis",
+        "Anal_fissure_see_Anorectal_disorders",
+        "Amputation",
+        "Appetite-enhancing_drugs_Definition"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "P14",
+      "category": "pharmacology",
+      "query": "What antiviral drugs are available and how do they inhibit viral replication?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antiviral_drugs",
+        "Antiretroviral_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Antiviral_drugs' document directly lists specific antiviral drugs and their mechanisms, while the 'Antiretroviral_drugs' document provides detailed information on how these drugs inhibit viral replication through different mechanisms.",
+      "selected_sources": [
+        {
+          "doc_id": "Antiretroviral_drugs",
+          "source": "Data\\markdown_output\\Antiretroviral_drugs.md",
+          "excerpt": "# Antiretroviral drugs ### Definition Antiretroviral drugs inhibit the reproduction of retroviruses—viruses composed of RNA rather than DNA. The best known of this group is HIV, human immunodeficiency virus, the causative agent of AIDS. ### Purpose Antiretroviral agents are virustatic agents which block steps in the replication of the virus. The drugs are not curative; however continued use of drugs, particularly in multi-drug regimens, significa ... A. The best known of this group is HIV, human immunodeficiency virus, the causative agent of AIDS. ### Purpose Antiretroviral agents are virustatic agents which block steps in the replication of the virus. The drugs are not curative; however continued use of drugs, particularly in multi-drug regimens, significantly slows disease progression. ### Description There are three main types of antiretroviral drugs, although only two steps in the viral replication process are blocked. Nucleoside analogs, or nucleoside reverse transcriptase inhibitors (NRTIs), such as dida"
+        },
+        {
+          "doc_id": "Antiviral_drugs",
+          "source": "Data\\markdown_output\\Antiviral_drugs.md",
+          "excerpt": "# Antiviral drugs ### Definition Antiviral drugs are medicines that cure or control virus infections. ### Purpose Antivirals are used to treat infections caused by viruses. Unlike antibacterial drugs, which may cover a wide range of pathogens, antiviral agents tend to be narrow in spectrum, and have limited efficacy. ### Description Exclusive of the antiretroviral agents used in HIV (AIDS) therapy, there are currently only 11 antiviral drugs avai ... s, antiviral agents tend to be narrow in spectrum, and have limited efficacy. ### Description Exclusive of the antiretroviral agents used in HIV (AIDS) therapy, there are currently only 11 antiviral drugs available, covering four types of virus. Acyclovir (Zovirax), famciclovir (Famvir), and valacyclovir (Valtrex) are effective against herpesvirus, including herpes zoster and herpes genitalis. They may also be of value in either conditions caused by herpes, such as chickenpox and shingles. These drugs are not curative, but may reduce the pain of a herpes outbreak "
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antiretroviral_drugs",
+        "Antiviral_drugs",
+        "Antipruritic_drugs_see_Anti-itch_drugs",
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+        "Antiulcer_drugs",
+        "An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark",
+        "Antirheumatic_drugs",
+        "Antidepressant_drugs_Definition"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G05",
+      "category": "surgery_gi",
+      "query": "What is an abscess and how is incision and drainage performed?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Abscess",
+        "Abscess_incision_&_drainage"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Abscess' document defines an abscess and describes its characteristics, while the 'Abscess_incision_&_drainage' document directly explains the procedure of incision and drainage. Together, they fully address the question.",
+      "selected_sources": [
+        {
+          "doc_id": "Abscess_incision_&_drainage",
+          "source": "Data\\markdown_output\\Abscess_incision_&_drainage.md",
+          "excerpt": "# Abscess incision & drainage #### Definition #### Prognosis Once the abscess is properly drained, the prognosis is excellent for the condition itself. The reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the na ...  reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the nasal sinuses, face, ears, and scalp may work their way into the brain. Abscesses within an abdominal organ such as the liver may rupture into the abdominal cavity. In either An infected skin nodule that contains pus may need to be drained via a cut if it does not respond to a"
+        },
+        {
+          "doc_id": "Abscess",
+          "source": "Data\\markdown_output\\Abscess.md",
+          "excerpt": "# Abscess #### Definition An abscess is an enclosed collection of liquefied tissue, known as pus, somewhere in the body. It is the result of the body’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required.  ... y’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required. In response to the invading germ, white blood cells gather at the infected site and begin producing chemicals called enzymes that attack the germ by digesting it. These enzymes act like acid, killing the germs and breaking them down into small pieces that can be picke"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Abscess_incision_&_drainage",
+        "Abscess",
+        "Anaerobic_infections",
+        "Anorectal_abscess_see_Anorectal_disorders",
+        "Bartholin’s_gland_cyst",
+        "Appendectomy",
+        "Adrenalectomy",
+        "Amebiasis"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G06",
+      "category": "surgery_gi",
+      "query": "What causes achalasia and what swallowing difficulties does it produce?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Achalasia"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly addresses the causes of achalasia (degeneration of ganglion cells in Auerbach's plexus) and the swallowing difficulties it produces (dysphagia, regurgitation, weight loss).",
+      "selected_sources": [
+        {
+          "doc_id": "Achalasia",
+          "source": "Data\\markdown_output\\Achalasia.md",
+          "excerpt": "# Achalasia #### Definition Achalasia is a disorder of the esophagus that prevents normal swallowing. #### Description Achalasia affects the esophagus, the tube that carries swallowed food from the back of the throat down into the stomach. A ring of muscle called the lower esophageal sphincter encircles the esophagus just above the entrance to the stomach. This sphincter muscle is normally contracted to close the esophagus. When the sphincter is  ... low of stomach contents (reflux) can irritate and inflame the esophagus, causing symptoms such as heartburn. The act of swallowing causes a wave of esophageal contraction called peristalsis. Peristalsis pushes food along the esophagus. Normally, peristalsis causes the esophageal sphincter to relax and allow food into the stomach. In achalasia, which means ‘‘failure to relax,’’ the esophageal sphincter remains contracted. Normal peristalsis is interrupted and food cannot enter the stomach. #### Causes and symptoms ##### Causes Achalasia is caused by degeneration of"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Achalasia",
+        "Autoimmune_disorders",
+        "Anti_markgmark_astroeso_markpmark_ha_markgmark_eal_reflux_ma",
+        "Anorexia_nervosa",
+        "Achondroplasia",
+        "Appetite-enhancing_drugs_Definition",
+        "Atkins_diet",
+        "Adrenoleukodystrophy"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G07",
+      "category": "surgery_gi",
+      "query": "What is biliary atresia and what symptoms does it cause in newborns?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Biliary_atresia"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly defines biliary atresia and describes its symptoms in newborns, including jaundice, clay-colored stools, and poor weight gain, which align with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Biliary_atresia",
+          "source": "Data\\markdown_output\\Biliary_atresia.md",
+          "excerpt": "# Biliary atresia ### Definition Biliary atresia is the failure of a fetus to develop an adequate pathway for bile to drain from the liver to the intestine. The affected infant will appear normal at birth and during the newborn period. After two weeks the normal jaundice of the newborn will not disappear, and the stools will probably be clay-colored. At this point, the condition will come to the attention of a physician. If not, the child’s abdom ... is a sure sign of obstruction to the flow of bile. An immediate evaluation that includes blood tests and imaging of the biliary system will confirm the diagnosis. ### Description Biliary atresia is the most common lethal liver disease in children, occurring once every 10,000– 15,000 live births. Half of all liver transplants are done for this reason. The normal anatomy of the bile system begins within the liver, where thousands of tiny bile ducts collect bile from liver cells. These ducts merge into larger and larger channels, like streams flowing into ### Treatme"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Biliary_atresia",
+        "Bile_duct_cancer",
+        "Anal_atresia",
+        "Amino_acid_disorders_markscreeningmark",
+        "Atelectasis",
+        "Abdominal_ultrasound",
+        "Albinism",
+        "Amenorrhea"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G08",
+      "category": "surgery_gi",
+      "query": "What are the symptoms and risk factors for bile duct cancer (cholangiocarcinoma)?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Bile_duct_cancer"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly describes the symptoms and risk factors for bile duct cancer (cholangiocarcinoma) as requested in the query.",
+      "selected_sources": [
+        {
+          "doc_id": "Bile_duct_cancer",
+          "source": "Data\\markdown_output\\Bile_duct_cancer.md",
+          "excerpt": "# Bile duct cancer ### Definition Bile duct cancer, or cholangiocarcinoma, is a malignant tumor of the bile ducts within the liver (intrahepatic), or leading from the liver to the small 528 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Angiography—Radiographic examination of blood vessels after injection with a special dye. Cholangiography—Radiographic examination of the bile ducts after injection with a special dye. Computed t ... at is collected from tissues, flows through special vessels, and joins the venous circulation. Metastasis—The spread of cancerous tumor cells from one part of the body to another. Resection—To surgically remove a part of the body Stent—Slender hollow catheter or rod placed within a vessel or duct to provide support or maintain patency. Ultrasound—Radiographic imaging technique utilizing high frequency sound waves. intestine (extrahepatic). It is a rare tumor with poor outcome for most patients. 100,000 people per year, but it is more common in Southeast Asia. It o"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Bile_duct_cancer",
+        "Biliary_atresia",
+        "Asbestosis",
+        "Abdominal_ultrasound",
+        "Anal_cancer",
+        "Alkaline_phosphatase_test",
+        "Antibody_screening_see_Blood_typing_and_crossmatching",
+        "Appetite-enhancing_drugs_Definition"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G09",
+      "category": "surgery_gi",
+      "query": "What is the purpose of an acid phosphatase test?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Acid_phosphatase_test"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains the purpose of the acid phosphatase test, including its use in detecting prostate cancer metastasis and monitoring treatment effectiveness.",
+      "selected_sources": [
+        {
+          "doc_id": "Acid_phosphatase_test",
+          "source": "Data\\markdown_output\\Acid_phosphatase_test.md",
+          "excerpt": "# Acid phosphatase test #### Definition Acid phosphatase is an enzyme found throughout the body, but primarily in the prostate gland. Like all enzymes, it is needed to trigger specific chemical reactions. Acid phosphatase testing is done to diagnose whether prostate cancer has spread to other parts of the body (metastasized), and to check the effectiveness of treatment. The test has been largely supplanted by the prostate specific antigen test (P ...  the effectiveness of treatment. The test has been largely supplanted by the prostate specific antigen test (PSA). #### Purpose The male prostate gland has 100 times more acid phosphatase than any other body tissue. When prostate cancer spreads to other parts of the body, acid phosphatase levels rise, particularly if the cancer spreads to the bone. One-half to threefourths of persons who have metastasized prostate cancer have high acid phosphatase levels. Levels fall after the tumor is removed or reduced through treatment. Laboratory testing measures the amount of"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Acid_phosphatase_test",
+        "Alkaline_phosphatase_test",
+        "Achondroplasia",
+        "Amino_acid_disorders_markscreeningmark",
+        "Alanine_aminotransferase_test",
+        "Alpha-fetoprotein_test_Definition",
+        "Basal_gastric_secretion_test_see_Gastric_acid_determination",
+        "Anti-hyperuricemic_drugs"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G10",
+      "category": "surgery_gi",
+      "query": "lower right abdomen pain and fever",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Appendicitis",
+        "Appendectomy"
+      ],
+      "confidence": "high",
+      "review_note": "The documents directly address lower right abdomen pain and fever as signs of appendicitis, and mention surgical intervention (appendectomy) and diagnostic imaging.",
+      "selected_sources": [
+        {
+          "doc_id": "Appendicitis",
+          "source": "Data\\markdown_output\\Appendicitis.md",
+          "excerpt": "# Appendicitis ### Definition Appendicitis is an inflammation of the appendix, which is the worm-shaped pouch attached to the An extracted appendix. (Photograph by Lester V. Bergman, Corbis Images. Reproduced by permission.) cecum, the beginning of the large intestine. The appendix has no known function in the body, but it can become diseased. Appendicitis is a medical emergency, and if it is left untreated the appendix may rupture and cause a po ... lt in perforation, or rupture, of the appendix. When this happens, the infected contents of the appendix spill into the abdomen, potentially causing a serious infection of the abdomen called peritonitis. G A L E E N C Y C L O P E D I A O F M E D I C I N E 381 ## KEY TERMS Appendectomy (or appendicectomy)—Surgical removal of the appendix. Appendix—The worm-shaped pouch attached to the cecum, the beginning of the large intestine. Laparotomy—Surgical incision into the loin, between the ribs and the pelvis, which offers surgeons a view inside the abdominal cavity. Per"
+        },
+        {
+          "doc_id": "Appendectomy",
+          "source": "Data\\markdown_output\\Appendectomy.md",
+          "excerpt": "# Appendectomy ### Definition Appendectomy is the surgical removal of the appendix. The appendix is a worm-shaped hollow pouch attached to the cecum, the beginning of the large intestine. ### Purpose Appendectomies are performed to treat appendicitis, an inflamed and infected appendix. ### Precautions Since appendicitis occurs most commonly in males between the ages of 10-14 and in females between the ages of 15-19, appendectomy is most often per ... emove the appendix either by using the traditional open procedure (in which a 2-3 in [5-7.6 cm] incision is made in the abdomen) or via laparoscopy (in which four 1 in [2.5cm] incisions are made in the abdomen). #### Traditional open appendectomy When the surgeon uses the open approach, he makes an incision in the lower right section of the abdomen. Most incisions are less than 3 in (7.6 cm) in length. The surgeon then identifies all of the organs in the abdomen and examines them for other disease or abnormalities. The appendix is located and brought up into the w"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Appendicitis",
+        "Appendectomy",
+        "Abdominal_ultrasound",
+        "Ascites",
+        "Adrenal_gland_scan",
+        "Analgesics",
+        "Anaerobic_infections",
+        "Antenatal_testing"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G11",
+      "category": "surgery_gi",
+      "query": "What are abdominal wall defects such as gastroschisis and omphalocele?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Abdominal_wall_defects"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly defines abdominal wall defects and describes gastroschisis and omphalocele as congenital anomalies where abdominal contents protrude through an opening in the abdominal wall, matching the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Abdominal_wall_defects",
+          "source": "Data\\markdown_output\\Abdominal_wall_defects.md",
+          "excerpt": "# Abdominal wall defects #### Definition Abdominal wall defects are birth (congenital) defects that allow the stomach or intestines to protrude. #### Description Many unexpected and fascinating events occur during the development of a fetus inside the womb. The stomach and intestines begin development outside the baby’s abdomen and only later does the abdominal wall enclose them. Occasionally, either the umbilical opening is too large, or it deve ...  fetus inside the womb. The stomach and intestines begin development outside the baby’s abdomen and only later does the abdominal wall enclose them. Occasionally, either the umbilical opening is too large, or it develops improperly, allowing the bowels or stomach to remain outside or squeeze through the abdominal wall. 5 G A L E E N C Y C L O P E D I A O F M E D I C I N E #### Causes and symptoms There are many causes for birth defects that still remain unclear. Presently, the cause(s) of abdominal wall defects is unknown, and any symptoms the mother may have to i"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Abdominal_wall_defects",
+        "Adhesions",
+        "Bacteremia",
+        "Abdominal_ultrasound",
+        "Aortic_aneurysm",
+        "Atrial_septal_defect",
+        "Birth_defects",
+        "Appendectomy"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G12",
+      "category": "surgery_gi",
+      "query": "What are the complications of a ruptured appendix?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Appendicitis",
+        "Abscess",
+        "Adhesions"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Appendicitis' article directly mentions complications of a ruptured appendix, including peritonitis and sepsis. The 'Abscess' article discusses abscess formation as a complication, and the 'Adhesions' article mentions bowel obstruction due to adhesions, which is a complication of a ruptured appendix.",
+      "selected_sources": [
+        {
+          "doc_id": "Appendicitis",
+          "source": "Data\\markdown_output\\Appendicitis.md",
+          "excerpt": "# Appendicitis ### Definition Appendicitis is an inflammation of the appendix, which is the worm-shaped pouch attached to the An extracted appendix. (Photograph by Lester V. Bergman, Corbis Images. Reproduced by permission.) cecum, the beginning of the large intestine. The appendix has no known function in the body, but it can become diseased. Appendicitis is a medical emergency, and if it is left untreated the appendix may rupture and cause a po ... ograph by Lester V. Bergman, Corbis Images. Reproduced by permission.) cecum, the beginning of the large intestine. The appendix has no known function in the body, but it can become diseased. Appendicitis is a medical emergency, and if it is left untreated the appendix may rupture and cause a potentially fatal infection. ### Description Appendicitis is the most common abdominal emergency found in children and young adults. One person in 15 develops appendicitis in his or her lifetime. The incidence is highest among males aged 10-14, and among females aged 15-19. M"
+        },
+        {
+          "doc_id": "Adhesions",
+          "source": "Data\\markdown_output\\Adhesions.md",
+          "excerpt": "# Adhesions ### Definition Adhesions are fibrous bands of scar tissue that form between internal organs and tissues, joining them together abnormally. ### Description Adhesions are made up of blood vessels and fibroblasts—connective tissue cells. They form as a normal part of the body’s healing process and help to limit the spread of infection. However when adhesions cause the wrong tissues to grow into each other, many different complex inflamma ...  have had multiple abdominal surgeries. Adhesions are more common following procedures involving the intestines, colon, appendix, or uterus. They are less common following surgeries involving the stomach, gall bladder, or pancreas. ## KEY TERMS Asherman’s syndrome—The cessation of menstruation and/or infertility caused by intrauterine adhesions. Computed axial tomography; CT or CAT scan—A computer reconstruction of scanned x rays used to diagnose intestinal obstructions. Endometriosis—A condition in which the endometrial tissue that lines the uterus begins to inva"
+        },
+        {
+          "doc_id": "Abscess",
+          "source": "Data\\markdown_output\\Abscess.md",
+          "excerpt": "# Abscess #### Definition An abscess is an enclosed collection of liquefied tissue, known as pus, somewhere in the body. It is the result of the body’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required.  ... the psoas muscles. They flex the hips. An abscess can develop in one of these muscles, usually when it spreads from the appendix, the large bowel, or the fallopian tubes. #### Diagnosis The common findings of inflammation–heat, redness, swelling, and pain–easily identify superficial abscesses. Abscesses in other places may produce only generalized symptoms such as fever and discomfort. If the patient’s symptoms and physical examination do not help, a physician may have to resort to a battery of tests to locate the site of an abscess, but usually something in the i"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Appendicitis",
+        "Appendectomy",
+        "Adhesions",
+        "Abscess",
+        "Abscess_incision_&_drainage",
+        "Anorectal_abscess_see_Anorectal_disorders",
+        "Amebiasis",
+        "Anaerobic_infections"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "many_sources_check_minimality"
+      ]
+    },
+    {
+      "id": "G14",
+      "category": "surgery_gi",
+      "query": "What are the clinical presentation, risks, and recovery process after an abscess incision and drainage?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Abscess_incision_&_drainage",
+        "Abscess"
+      ],
+      "confidence": "high",
+      "review_note": "The first document directly addresses the clinical presentation, risks, and recovery process after an abscess incision and drainage. The second document provides foundational information about abscesses, which is necessary to understand the context of the question.",
+      "selected_sources": [
+        {
+          "doc_id": "Abscess_incision_&_drainage",
+          "source": "Data\\markdown_output\\Abscess_incision_&_drainage.md",
+          "excerpt": "# Abscess incision & drainage #### Definition #### Prognosis Once the abscess is properly drained, the prognosis is excellent for the condition itself. The reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the na ...  reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the nasal sinuses, face, ears, and scalp may work their way into the brain. Abscesses within an abdominal organ such as the liver may rupture into the abdominal cavity. In either An infected skin nodule that contains pus may need to be drained via a cut if it does not respond to a"
+        },
+        {
+          "doc_id": "Abscess",
+          "source": "Data\\markdown_output\\Abscess.md",
+          "excerpt": "# Abscess #### Definition An abscess is an enclosed collection of liquefied tissue, known as pus, somewhere in the body. It is the result of the body’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required.  ... y’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required. In response to the invading germ, white blood cells gather at the infected site and begin producing chemicals called enzymes that attack the germ by digesting it. These enzymes act like acid, killing the germs and breaking them down into small pieces that can be picke"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Abscess_incision_&_drainage",
+        "Abscess",
+        "Anorectal_abscess_see_Anorectal_disorders",
+        "Anaerobic_infections",
+        "Bartholin’s_gland_cyst",
+        "Analgesics",
+        "Amebiasis",
+        "Appendectomy"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "G15",
+      "category": "surgery_gi",
+      "query": "What causes beriberi (thiamine vitamin B1 deficiency) and what are its symptoms?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Beriberi"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains the cause of beriberi (thiamine deficiency) and its symptoms, including both wet and dry forms.",
+      "selected_sources": [
+        {
+          "doc_id": "Beriberi",
+          "source": "Data\\markdown_output\\Beriberi.md",
+          "excerpt": "# Beriberi ### Definition Beriberi is a disease caused by a deficiency of thiamine (vitamin B1) that affects many systems of the body, including the muscles, heart, nerves, and digestive system. Beriberi literally means ‘‘I can’t, I can’t’’ in Singhalese, which reflects the crippling effect it has on its victims. It is common in parts of southeast Asia, where white rice is the main food. In the United States, beriberi is primarily seen in people  ... t has on its victims. It is common in parts of southeast Asia, where white rice is the main food. In the United States, beriberi is primarily seen in people with chronic alcoholism. ### Description Beriberi puzzled medical experts for years as it ravaged people of all ages in Asia. Doctors thought it was caused by something in food. Not until the early 1900s did scientists discover that rice bran, the outer covering that was removed to create the polished white rice preferred by Asians, actually contained something that prevented the disease. Thiamine was the firs"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Beriberi",
+        "Alcohol-related_neurolo_markgmark_ic_markdiseasemark",
+        "Alcoholism",
+        "Antianemia_drugs",
+        "Anemias",
+        "Autoimmune_disorders",
+        "Adrenoleukodystrophy",
+        "Ataxia-telangiectasia"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N01",
+      "category": "neuro_psych",
+      "query": "What are the symptoms and diagnostic criteria for bipolar disorder?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Bipolar_disorder"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly describes the symptoms of bipolar disorder (mania and depression) and mentions diagnostic criteria related to DSM-5, which aligns with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Bipolar_disorder",
+          "source": "Data\\markdown_output\\Bipolar_disorder.md",
+          "excerpt": "# Bipolar disorder ### Definition Bipolar, or manic-depressive disorder, is a mood disorder that causes radical emotional changes and mood swings, from manic highs to depressive lows. The majority of bipolar individuals experience alternating episodes of mania and depression. ### Description In the United States alone, more than two million people are diagnosed with bipolar disorder. Research shows that as many as 10 million people might be affec ... es of mania and depression. ### Description In the United States alone, more than two million people are diagnosed with bipolar disorder. Research shows that as many as 10 million people might be affected by bipolar disorder, which is the sixth-leading cause of disability worldwide. The average age of onset of bipolar disorder is from adolescence through the early twenties. However, because of the complexity of the disorder, a correct diagnosis can be delayed for several years or more. In a survey of bipolar patients conducted by the National Depressive and Manic "
+        }
+      ],
+      "candidate_doc_ids": [
+        "Bipolar_disorder",
+        "Anxiety_disorders",
+        "Anorexia_nervosa",
+        "Acute_stress_disorder",
+        "Antidepressant_drugs,_SSRI",
+        "Antipsychotic_drugs",
+        "Attention-deficit_H_markypmark_eractivit_markymark_disorder_",
+        "Binge-eating_disorder"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N02",
+      "category": "neuro_psych",
+      "query": "What causes acne vulgaris and what topical treatments are effective?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Acne",
+        "Antiacne_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Acne' document directly explains the causes of acne vulgaris, including sebum overproduction, follicular hyperkeratinization, and the role of Cutibacterium acnes. The 'Antiacne_drugs' document lists effective topical treatments like benzoyl peroxide, tretinoin, and clindamycin. These two sources together directly answer the question.",
+      "selected_sources": [
+        {
+          "doc_id": "Acne",
+          "source": "Data\\markdown_output\\Acne.md",
+          "excerpt": "# Acne #### Definition Acne is a common skin disease characterized by pimples on the face, chest, and back. It occurs when the pores of the skin become clogged with oil, dead skin cells, and bacteria. - Disease. Hormonal disorders can complicate acne in girls. - Heredity. Individuals with a family history of acne have greater susceptibility to the disease. - Hormonal changes. Acne can flare up before menstruation, during pregnancy, and menopause. ... re up before menstruation, during pregnancy, and menopause. 25 G A L E E N C Y C L O P E D I A O F M E D I C I N E Acne vulgaris affecting a woman’s face. Acne is the general name given to a skin disorder in which the sebaceous glands become inflamed. (Photograph by Biophoto Associates, Photo Researchers, Inc. Reproduced by permission.) - Diet. No foods cause acne, but certain foods may cause flare-ups. - Drugs. Acne can be a side effect of drugs including tranquilizers, antidepressants, antibiotics, oral contraceptives, and anabolic steroids. - Personal hygiene. "
+        },
+        {
+          "doc_id": "Antiacne_drugs",
+          "source": "Data\\markdown_output\\Antiacne_drugs.md",
+          "excerpt": "# Antiacne drugs ### Definition Antiacne drugs are medicines that help clear up pimples, blackheads, whiteheads, and more severe forms of acne. ### Purpose Different types of antiacne drugs are used for different purposes. For example, lotions, soaps, gels, and creams containing benzoyl peroxide or tretinoin may be used to clear up mild to moderately severe acne. Isotretinoin (Accutane) is prescribed only for very severe, disfiguring acne. Acne i ... Cleocin T(clindamycin<br>phosphate)|Dry skin| |Desquam-E(benzoyl peroxide)|Itching, red and peeling skin| |Erythromycin topical (A/T/S,|Burning, dry skin,hives, red and| |erycette, t-stat)|peeling skin| |Minocin (minocycline|Headache, hives, diarrhea, peeling| |hydrochloride)|skin, vomiting| |Retin-A (tretinoin)|Darkening of the skin, blistering,<br>crusted, or puffy skin| and hair to form a protective coating, but when it cannot get out, small swellings develop on the skin surface. Bacteria and dead skin cells can also collect that can cause inflammation. Swellin"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Acne",
+        "Antibiotics,_topical",
+        "Antiacne_drugs",
+        "Antifungal_drugs,_topical",
+        "Anticancer_drugs",
+        "Acid_phosphatase_test",
+        "Antiseptics",
+        "Aminoglycosides"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N03",
+      "category": "neuro_psych",
+      "query": "What is an acoustic neuroma and what hearing symptoms does it cause?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Acoustic_neuroma_Definition"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly defines an acoustic neuroma as a benign tumor arising from Schwann cells of the vestibulocochlear nerve and mentions symptoms like hearing loss, tinnitus, and balance disturbances, which align with the question.",
+      "selected_sources": [
+        {
+          "doc_id": "Acoustic_neuroma_Definition",
+          "source": "Data\\markdown_output\\Acoustic_neuroma_Definition.md",
+          "excerpt": "# Acoustic neuroma Definition An acoustic neuroma is a benign tumor involving cells of the myelin sheath that surrounds the vestibulocochlear nerve (eighth cranial nerve). #### Description The vestibulocochlear nerve extends from the inner ear to the brain and is made up of a vestibular branch, often called the vestibular nerve, and a cochlear branch, called the cochlear nerve. The vestibular and cochlear nerves lie next to one another. They also ... smits information concerning balance from the inner ear to the brain and the cochlear nerve transmits information about hearing. The vestibular nerve, like many nerves, is surrounded by a cover called a myelin sheath. A tumor, called a schwannoma, can sometimes develop from the cells of the myelin sheath. A tumor is an abnormal growth of tissue that results from the uncontrolled growth of cells. Acoustic neuromas are often called vestibular schwannomas because they are tumors that arise 28 G A L E E N C Y C L O P E D I A O F M E D I C I N E from the myelin sheath "
+        }
+      ],
+      "candidate_doc_ids": [
+        "Acoustic_neuroma_Definition",
+        "Audiometry",
+        "Balance_and_coordination_tests_Definition",
+        "Aminoglycosides",
+        "Auditory_integration_training_Definition",
+        "Alport_syndrome",
+        "Aviation_medicine",
+        "Adrenoleukodystrophy"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N04",
+      "category": "neuro_psych",
+      "query": "What is achondroplasia and how does this genetic condition affect bone growth?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Achondroplasia"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly defines achondroplasia as a genetic disorder and explains how it affects bone growth through impaired endochondral ossification, matching the query and reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Achondroplasia",
+          "source": "Data\\markdown_output\\Achondroplasia.md",
+          "excerpt": "# Achondroplasia #### Definition Achondroplasia is the most common cause of dwarfism, or significantly abnormal short stature. #### Description Achondroplasia is one of a number of chondodystrophies, in which the development of cartilage, and therefore, bone is disturbed. The disorder appears in approximately one in every 10,000 births. Achondroplasia is usually diagnosed at birth, owing to the characteristic appearance of the newborn. Normal bon ... pment of cartilage, and therefore, bone is disturbed. The disorder appears in approximately one in every 10,000 births. Achondroplasia is usually diagnosed at birth, owing to the characteristic appearance of the newborn. Normal bone growth depends on the production of cartilage (a fibrous connective tissue). Over time, calcium is deposited within the cartilage, causing it to harden and become bone. In achondroplasia, abnormalities of this process prevent the bones (especially those in the limbs) from growing as long as they normally should, at the same time allowi"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Achondroplasia",
+        "Ataxia-telangiectasia",
+        "Acromegaly_and_gigantism",
+        "Amniocentesis",
+        "Adrenoleukodystrophy",
+        "Anorexia_nervosa",
+        "Alcohol-related_neurolo_markgmark_ic_markdiseasemark",
+        "Aplastic_anemia"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N05",
+      "category": "neuro_psych",
+      "query": "How does biofeedback therapy help patients control physiological functions?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Biofeedback"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains how biofeedback therapy helps patients control physiological functions by using electronic monitoring devices to provide real-time feedback on bodily processes, enabling self-regulation techniques.",
+      "selected_sources": [
+        {
+          "doc_id": "Biofeedback",
+          "source": "Data\\markdown_output\\Biofeedback.md",
+          "excerpt": "# Biofeedback ### Definition Biofeedback, or applied psychophysiological feedback, is a patient-guided treatment that teaches an individual to control muscle tension, pain, body temperature, brain waves, and other bodily functions and processes through relaxation, visualization, and other cognitive control techniques. The name biofeedback refers to the biological signals that are fed back, or returned, to the patient in order for the patient to d ... mperature, brain waves, and other bodily functions and processes through relaxation, visualization, and other cognitive control techniques. The name biofeedback refers to the biological signals that are fed back, or returned, to the patient in order for the patient to develop techniques of manipulating them. ### Purpose Biofeedback has been used to successfully treat a number of disorders and their symptoms, including temporomandibular joint disorder (TMJ), chronic pain, irritable bowel syndrome (IBS), Raynaud’s syndrome, epilepsy, attention-deficit hyperactivity "
+        }
+      ],
+      "candidate_doc_ids": [
+        "Biofeedback",
+        "Anxiety",
+        "Anxiety_disorders",
+        "Art_therapy",
+        "Binge-eating_disorder",
+        "Atrial_fibrillation_and_flutter",
+        "Antepartum_testing",
+        "Aging"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N06",
+      "category": "neuro_psych",
+      "query": "What are the characteristics and diagnostic criteria for autism spectrum disorder?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Autism"
+      ],
+      "confidence": "high",
+      "review_note": "The article 'Autism' directly describes the characteristics and diagnostic criteria for autism spectrum disorder, including social communication deficits, restricted behaviors, and the requirement for early onset and significant impairment.",
+      "selected_sources": [
+        {
+          "doc_id": "Autism",
+          "source": "Data\\markdown_output\\Autism.md",
+          "excerpt": "# Autism #### Definition Autism is a severe disorder of brain function marked by problems with social contact, intelligence and language, together with ritualistic or compulsive behavior and bizarre responses to the environment. #### Description Autism is a lifelong disorder that interferes with the ability to understand what is seen, heard, and touched. This can cause profound problems in personal behavior and in the ability to relate to others. ... with ritualistic or compulsive behavior and bizarre responses to the environment. #### Description Autism is a lifelong disorder that interferes with the ability to understand what is seen, heard, and touched. This can cause profound problems in personal behavior and in the ability to relate to others. A person with autism must learn how to communicate normally and how to relate to people, objects and events. However, not all patients suffer the same degree of impairment. There is a full spectrum of symptoms, which can range from mild to severe. Autism occurs in a"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Autism",
+        "Asperger’s_syndrome_see_Pervasive_developmental_disorders",
+        "Acute_stress_disorder",
+        "Attention-deficit_H_markypmark_eractivit_markymark_disorder_",
+        "Antibiotics",
+        "Anxiety_disorders",
+        "Anorexia_nervosa",
+        "Bipolar_disorder"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N07",
+      "category": "neuro_psych",
+      "query": "What is binge-eating disorder and what psychological treatments are used?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Binge-eating_disorder"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly defines binge-eating disorder and mentions psychological treatments like cognitive-behavioral therapy (CBT), interpersonal therapy (IPT), and dialectical behavior therapy (DBT), which align with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Binge-eating_disorder",
+          "source": "Data\\markdown_output\\Binge-eating_disorder.md",
+          "excerpt": "# Binge-eating disorder ### Definition Binge eating disorder (BED) is characterized by a loss of control over eating behaviors. The binge eater consumes unnaturally large amounts of food in a short time period, but unlike a bulimic, does not regularly engage in any inappropriate weight-reducing behaviors (for example, excessive exercise, vomiting, taking laxatives) following the binge episodes. ### Description BED typically strikes individuals so ... any inappropriate weight-reducing behaviors (for example, excessive exercise, vomiting, taking laxatives) following the binge episodes. ### Description BED typically strikes individuals sometime between adolescence and the early twenties. Because of the nature of the disorder, most BED patients are overweight or obese. Studies of weight loss programs have shown that an average of 30% of individuals enrolling in these programs report binge eating behavior. ## KEY TERMS Bulimia—An eating disorder characterized by binge eating and inappropriate compensatory behavior,"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Binge-eating_disorder",
+        "Anorexia_nervosa",
+        "Attention-deficit_H_markypmark_eractivit_markymark_disorder_",
+        "Addiction",
+        "Abuse",
+        "Art_therapy",
+        "Bipolar_disorder",
+        "Anxiety_disorders"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N08",
+      "category": "neuro_psych",
+      "query": "What are common birth defects and what prenatal factors increase their risk?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Birth_defects",
+        "Alpha-fetoprotein_test_Definition",
+        "Amniocentesis",
+        "Antenatal_testing"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Birth_defects' article directly lists common birth defects. The 'Alpha-fetoprotein_test_Definition' and 'Amniocentesis' articles mention prenatal factors like teratogens and genetic testing. The 'Antenatal_testing' article discusses prenatal screening and risk factors like maternal age and infections.",
+      "selected_sources": [
+        {
+          "doc_id": "Birth_defects",
+          "source": "Data\\markdown_output\\Birth_defects.md",
+          "excerpt": "# Birth defects ### Definition Birth defects are physical abnormalities that are present at birth; they also are called congenital abnormalities. More than 3,000 have been identified. ### Description Birth defects are found in 2-3% of all newborn infants. This rate doubles in the first year, and reaches 10% by age five, as more defects become evident and can be diagnosed. Almost 20% of deaths in newborns are caused by birth defects. Abnormalities ... cts are found in 2-3% of all newborn infants. This rate doubles in the first year, and reaches 10% by age five, as more defects become evident and can be diagnosed. Almost 20% of deaths in newborns are caused by birth defects. Abnormalities can occur in any major organ or part of the body. Major defects are structural abnormalities that affect the way a person looks and require medical and/or surgical treatment. Minor defects are abnormalities that do not cause serious health or social problems. When multiple birth defects occur together and have a similar cause, "
+        },
+        {
+          "doc_id": "Amniocentesis",
+          "source": "Data\\markdown_output\\Amniocentesis.md",
+          "excerpt": "# Amniocentesis ### Definition Amniocentesis is a procedure used to diagnose fetal defects in the early second trimester of pregnancy. A sample of the amniotic fluid, which surrounds a fetus 160 G A L E E N C Y C L O P E D I A O F M E D I C I N E A physician uses an ultrasound monitor (left) to position the needle for insertion into the amnion when performing amniocentesis. (Photograph by Will and Deni McIntyre, Photo Researchers, Inc. Reproduced ... tion. ### Purpose Since the mid-1970s, amniocentesis has been used routinely to test for Down syndrome, by far the most common, nonhereditary, genetic birth defect, afflicting about one in every 1,000 babies. By 1997, approximately 800 different diagnostic tests were available, most of them for hereditary genetic disorders such as Tay-Sachs disease, sickle cell anemia, hemophilia, muscular dystrophy and cystic fibrosis. Amniocentesis, often called amnio, is recommended for women who will be older than 35 on their due-date. It is also recommended for women who have"
+        },
+        {
+          "doc_id": "Antenatal_testing",
+          "source": "Data\\markdown_output\\Antenatal_testing.md",
+          "excerpt": "# Antenatal testing ### Definition Antenatal testing includes any diagnostic procedures performed before the birth of a baby. ### Purpose These tests and exams are essential for protecting the health of a pregnant woman and her developing child. ## KEY TERMS Ultrasound — A device that records sound waves as they bounce off a developing fetus to create an image, which is projected onto a large computer screen Breech position—When a child is orient ... y. Alpha fetoprotein screen — A test that measures the level of alpha fetoprotein, a substance produced by a fetus with birth defects, in the mother’s blood. Amniocentesis— An invasive procedure that allows physicians to check for birth defects by collecting a sample of fetal cells from inside the amniotic sac. GBS— Group B streptococci are a type of bacteria that, if passed to a can cause inflammation of the brain, spinal cord, blood or lungs. In some cases, it can result in infant death When a woman first learns she is pregnant, her physician will run a series o"
+        },
+        {
+          "doc_id": "Alpha-fetoprotein_test_Definition",
+          "source": "Data\\markdown_output\\Alpha-fetoprotein_test_Definition.md",
+          "excerpt": "# Alpha-fetoprotein test Definition The alpha-fetoprotein (AFP) test is a blood test that is performed during pregnancy. This screening test measures the level of AFP in the mother’s blood and indicates the probability that the fetus has one of several serious birth defects. The level of AFP can also be determined by analyzing a sample of amniotic fluid. This screening test cannot diagnose a specific condition; it only indicates increased risk fo ... measures the level of AFP in the mother’s blood and indicates the probability that the fetus has one of several serious birth defects. The level of AFP can also be determined by analyzing a sample of amniotic fluid. This screening test cannot diagnose a specific condition; it only indicates increased risk for several birth defects. Outside pregnancy, the AFP test is used to detect liver disease, certain cancerous tumors, and to monitor the progress of cancer treatment. ### Purpose Alpha-fetoprotein is a substance produced by the liver of a fetus. The exact functio"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Birth_defects",
+        "Abdominal_wall_defects",
+        "Amniocentesis",
+        "Antenatal_testing",
+        "Alpha-fetoprotein_test_Definition",
+        "Antianemia_drugs",
+        "Alcoholism",
+        "Atherosclerosis"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "many_sources_check_minimality"
+      ]
+    },
+    {
+      "id": "N09",
+      "category": "neuro_psych",
+      "query": "What medications are used as mood stabilizers in the treatment of bipolar disorder?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Bipolar_disorder",
+        "Antipsychotic_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The 'Bipolar_disorder' document directly mentions lithium, valproate, lamotrigine, quetiapine, and aripiprazole as mood stabilizers. The 'Antipsychotic_drugs' document confirms that lithium is classified among antipsychotic agents and mentions quetiapine and aripiprazole as used for bipolar mood disorder.",
+      "selected_sources": [
+        {
+          "doc_id": "Bipolar_disorder",
+          "source": "Data\\markdown_output\\Bipolar_disorder.md",
+          "excerpt": "# Bipolar disorder ### Definition Bipolar, or manic-depressive disorder, is a mood disorder that causes radical emotional changes and mood swings, from manic highs to depressive lows. The majority of bipolar individuals experience alternating episodes of mania and depression. ### Description In the United States alone, more than two million people are diagnosed with bipolar disorder. Research shows that as many as 10 million people might be affec ... es of mania and depression. ### Description In the United States alone, more than two million people are diagnosed with bipolar disorder. Research shows that as many as 10 million people might be affected by bipolar disorder, which is the sixth-leading cause of disability worldwide. The average age of onset of bipolar disorder is from adolescence through the early twenties. However, because of the complexity of the disorder, a correct diagnosis can be delayed for several years or more. In a survey of bipolar patients conducted by the National Depressive and Manic "
+        },
+        {
+          "doc_id": "Antipsychotic_drugs",
+          "source": "Data\\markdown_output\\Antipsychotic_drugs.md",
+          "excerpt": "# Antipsychotic drugs ### Definition Antipsychotic drugs are a class of medicines used to treat psychosis and other mental and emotional conditions. ### Purpose Psychosis is defined as ‘‘a serious mental disorder (as schizophrenia) characterized by defective or lost contact with reality often with hallucinations or delusions.’’ Psychosis is an end-stage condition arising from a variety of possible causes. Anti-psychotic drugs control the symptoms ... psychotic drugs control the symptoms of psychosis, and in many cases are effective in controlling the symptoms of other disorders that may lead to psychosis, including bipolar mood disorder (formerly termed manicdepressive), in which the patient cycles from severe depression to feelings of extreme excitation. This class of drugs is primarily composed of the major tranquilizers; however, lithium carbonate, a drug that is largely specific to bipolar mood disorder, is commonly classified among the antipsychotic agents. - Antibiotics - Medicine used to relieve pain or"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Bipolar_disorder",
+        "Antipsychotic_drugs,_atypical_Definition",
+        "Antipsychotic_drugs",
+        "Attention-deficit_H_markypmark_eractivit_markymark_disorder_",
+        "Anorexia_nervosa",
+        "Anxiety_disorders",
+        "Adjustment_disorders",
+        "Acute_stress_disorder"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N10",
+      "category": "neuro_psych",
+      "query": "severe throbbing headache and light sensitivity",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antimigraine_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly describes severe throbbing headache with light sensitivity as characteristic of migraine headaches, which matches the query and reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Antimigraine_drugs",
+          "source": "Data\\markdown_output\\Antimigraine_drugs.md",
+          "excerpt": "# Antimigraine drugs ### Definition Antimigraine drugs are medicines used to prevent or reduce the severity of migraine headaches. ### Purpose Migraine headaches usually cause a throbbing pain on one side of the head. Nausea, vomiting, dizziness, increased sensitivity to light and sound, and other symptoms may accompany the pain. The attacks may last for several hours or for a day or more and may come as often as several times a week. Some people ... rpose Migraine headaches usually cause a throbbing pain on one side of the head. Nausea, vomiting, dizziness, increased sensitivity to light and sound, and other symptoms may accompany the pain. The attacks may last for several hours or for a day or more and may come as often as several times a week. Some people who get migraine headaches have warning signals before the headaches begin, such as restlessness, tingling in an arm or leg, or seeing patterns of flashing lights. This set of signals is called an aura. The antimigraine drugs discussed in this section are "
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antimigraine_drugs",
+        "Antihypertensive_drugs",
+        "Albinism",
+        "Astigmatism",
+        "Antinausea_drugs",
+        "Arteriovenous_malformations",
+        "Berylliosis",
+        "Biofeedback"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N11",
+      "category": "neuro_psych",
+      "query": "How do antimigraine drugs like triptans relieve acute migraine attacks?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antimigraine_drugs"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains how antimigraine drugs like triptans work by agonizing serotonin receptors, leading to vasoconstriction and inhibition of neuropeptide release, which aligns with the reference answer.",
+      "selected_sources": [
+        {
+          "doc_id": "Antimigraine_drugs",
+          "source": "Data\\markdown_output\\Antimigraine_drugs.md",
+          "excerpt": "# Antimigraine drugs ### Definition Antimigraine drugs are medicines used to prevent or reduce the severity of migraine headaches. ### Purpose Migraine headaches usually cause a throbbing pain on one side of the head. Nausea, vomiting, dizziness, increased sensitivity to light and sound, and other symptoms may accompany the pain. The attacks may last for several hours or for a day or more and may come as often as several times a week. Some people ... . Nausea, vomiting, dizziness, increased sensitivity to light and sound, and other symptoms may accompany the pain. The attacks may last for several hours or for a day or more and may come as often as several times a week. Some people who get migraine headaches have warning signals before the headaches begin, such as restlessness, tingling in an arm or leg, or seeing patterns of flashing lights. This set of signals is called an aura. The antimigraine drugs discussed in this section are meant to be taken as soon as the pain begins, to relieve the pain and other sym"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antimigraine_drugs",
+        "Antiangina_drugs",
+        "Antiangiogenic_therapy",
+        "Antiasthmatic_drugs_Definition",
+        "Anti-hyperuricemic_drugs",
+        "Antihistamines",
+        "Barbiturate-induced_coma",
+        "Antirheumatic_drugs"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N12",
+      "category": "neuro_psych",
+      "query": "What is anthrax infection and what are its cutaneous and inhalation symptoms?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Anthrax"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly answers the question by explaining anthrax infection and describing both cutaneous and inhalation symptoms.",
+      "selected_sources": [
+        {
+          "doc_id": "Anthrax",
+          "source": "Data\\markdown_output\\Anthrax.md",
+          "excerpt": "# Anthrax ### Definition Anthrax is an infection caused by the bacterium Bacillus anthracis that primarily affects livestock but Humans suffering from anthrax often develop ulcerating nodules on the body. Custom Medical Stock Photo. Reproduced by permission.) that can occasionally spread to humans, affecting either the skin, intestines, or lungs. In humans, the infection can often be treated, but it is almost always fatal in animals. ### Descript ... by permission.) that can occasionally spread to humans, affecting either the skin, intestines, or lungs. In humans, the infection can often be treated, but it is almost always fatal in animals. ### Description Anthrax is most often found in the agricultural areas of South and Central America, southern and eastern Europe, Asia, Africa, the Caribbean, and the Middle East. In the United States, anthrax is rarely reported; however, cases of animal infection with anthrax are most often reported in Texas, Louisiana, Mississippi, Oklahoma, and South Dakota. The bacterium"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Anthrax",
+        "ARDS_see_Adult_respiratory_distress_syndrome",
+        "Adenovirus_infections",
+        "Adult_res_markpmark_irator_markymark_distress_marksyndromema",
+        "Bird_flu",
+        "Allopurino_see_Gout_drugs",
+        "Bacteremia",
+        "Anaerobic_infections"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N13",
+      "category": "neuro_psych",
+      "query": "Compare the clinical features, triggers, and medications for migraine headaches versus tension headaches.",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Antimigraine_drugs",
+        "Beta_blockers",
+        "Analgesics",
+        "Biofeedback",
+        "Alexander_technique"
+      ],
+      "confidence": "high",
+      "review_note": "The selected documents directly address the clinical features, triggers, and medications for migraine and tension headaches. 'Antimigraine_drugs' and 'Beta_blockers' cover migraine medications, 'Analgesics' and 'Biofeedback' address tension headache management, and 'Alexander_technique' provides context on posture and tension.",
+      "selected_sources": [
+        {
+          "doc_id": "Antimigraine_drugs",
+          "source": "Data\\markdown_output\\Antimigraine_drugs.md",
+          "excerpt": "# Antimigraine drugs ### Definition Antimigraine drugs are medicines used to prevent or reduce the severity of migraine headaches. ### Purpose Migraine headaches usually cause a throbbing pain on one side of the head. Nausea, vomiting, dizziness, increased sensitivity to light and sound, and other symptoms may accompany the pain. The attacks may last for several hours or for a day or more and may come as often as several times a week. Some people ... acks may last for several hours or for a day or more and may come as often as several times a week. Some people who get migraine headaches have warning signals before the headaches begin, such as restlessness, tingling in an arm or leg, or seeing patterns of flashing lights. This set of signals is called an aura. The antimigraine drugs discussed in this section are meant to be taken as soon as the pain begins, to relieve the pain and other symptoms. Other types of drugs, such as antiseizure medicines, antidepressants, calcium channel blockers and beta blockers, ar"
+        },
+        {
+          "doc_id": "Beta_blockers",
+          "source": "Data\\markdown_output\\Beta_blockers.md",
+          "excerpt": "# Beta blockers ### Definition Beta blockers are medicines that affect the body’s response to certain nerve impulses. This, in turn, decreases the force and rate of the heart’s contractions, which lowers blood pressure and reduces the heart’s demand for oxygen. ### Purpose The main use of beta blockers is to treat high blood pressure. Some also are used to relieve the type of chest pain called angina or to prevent heart attacks in people who alre ... tacks in people who already have had one heart attack. These drugs may also be prescribed for other conditions, such as migraine, tremors, and irregular heartbeat. In eye drop form, they are used to treat certain kinds of glaucoma. ### Description Beta blockers, also known as beta-adrenergic blockers, are available only with a physician’s prescription. They come in capsule, tablet, liquid, and injectable forms. Some common beta blockers are atenolol (Tenormin), metoprolol (Lopressor), nadolol (Corgard), propranolol (Inderal), and timolol (Blocadren). Timolol and c"
+        },
+        {
+          "doc_id": "Analgesics",
+          "source": "Data\\markdown_output\\Analgesics.md",
+          "excerpt": "# Analgesics ### Definition Analgesics are medicines that relieve pain. ### Purpose Analgesics are those drugs that mainly provide pain relief. The primary classes of analgesics are the 184 G A L E E N C Y C L O P E D I A O F M E D I C I N E narcotics, including additional agents that are chemically based on the morphine molecule but have minimal abuse potential; nonsteroidal anti-inflammatory drugs (NSAIDs) including the salicylates; and acetaminophen. Other drugs, notably the tricyclic antidepressants and anti-epileptic agents such as gabapentin, have been used to relieve pain, particularly neurologic pain, but are not routinely classified as analgesics. Analgesics provide symptomatic relief, but have no effect on the cause, although clearly the NSAIDs, by virtue of their dual activity, may be beneficial in both regards. ### Description Pain has been classified as ‘‘productive’’ pain a"
+        },
+        {
+          "doc_id": "Biofeedback",
+          "source": "Data\\markdown_output\\Biofeedback.md",
+          "excerpt": "# Biofeedback ### Definition Biofeedback, or applied psychophysiological feedback, is a patient-guided treatment that teaches an individual to control muscle tension, pain, body temperature, brain waves, and other bodily functions and processes through relaxation, visualization, and other cognitive control techniques. The name biofeedback refers to the biological signals that are fed back, or returned, to the patient in order for the patient to d ... ic pain, irritable bowel syndrome (IBS), Raynaud’s syndrome, epilepsy, attention-deficit hyperactivity disorder (ADHD), migraine headaches, anxiety, depression, traumatic brain injury, and sleep disorders. Illnesses that may be triggered at least in part by stress are also targeted by biofeedback therapy. Certain types of headaches, high blood pressure, bruxism (teeth grinding), post-traumatic stress disorder, eating disorders, substance abuse, and some anxiety disorders may be treated successfully by teaching patients the ability to relax and release both muscle "
+        },
+        {
+          "doc_id": "Alexander_technique",
+          "source": "Data\\markdown_output\\Alexander_technique.md",
+          "excerpt": "# Alexander technique ### Definition The Alexander technique is a somatic method for improving physical and mental functioning. Excessive tension, which Frederick Alexander, the originator, recognized as both physical and mental, restricts movement and creates pressure in the joints, the spine, the breathing mechanism, and other organs. The goal of the technique is to restore freedom and expression to the body and clear thinking to the mind. ###  ... angerous heart conditions; gastrointestinal disorders of many types, various gynecological conditions, sexual failures, migraines and depressive states.’’ Literature in the 1980s and 1990s went on to include improvements in back pain, chronic pain, postural problems, repetitive strain injury, benefits during pregnancy and childbirth, help in applying physical therapy and rehabilitative exercises, improvements in strain caused by computer use, improvements in the posture and performance of school children, and improvements in vocal and dramatic performance among th"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Antimigraine_drugs",
+        "Beta_blockers",
+        "Analgesics",
+        "Biofeedback",
+        "Atenolol_see_Beta_blockers",
+        "Alexander_technique",
+        "Analgesics,_opioid",
+        "Aston-Patterning"
+      ],
+      "review_status": "pending",
+      "review_flags": [
+        "many_sources_check_minimality"
+      ]
+    },
+    {
+      "id": "N14",
+      "category": "neuro_psych",
+      "query": "What physical and psychological signs indicate child or elder abuse?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Battered_child_syndrome",
+        "Abuse"
+      ],
+      "confidence": "high",
+      "review_note": "The first document directly addresses physical signs of child abuse, while the second document covers both physical and psychological signs of abuse in general, including child and elder abuse.",
+      "selected_sources": [
+        {
+          "doc_id": "Battered_child_syndrome",
+          "source": "Data\\markdown_output\\Battered_child_syndrome.md",
+          "excerpt": "# Battered child syndrome ### Definition Battered child syndrome refers to injuries sustained by a child as a result of physical abuse, usually inflicted by an adult caregiver. Alternative terms include: shaken baby; shaken baby syndrome; child abuse; and non-accidental trauma (NAT). ### Description Internal injuries, cuts, burns, bruises and broken or fractured bones are all possible signs of battered child syndrome. Emotional damage to a child  ... al trauma (NAT). ### Description Internal injuries, cuts, burns, bruises and broken or fractured bones are all possible signs of battered child syndrome. Emotional damage to a child is also often the by-product of child abuse, which can result in serious behavioral problems such as substance abuse or the physical abuse of others. Approximately 14% of children in the United States are physically abused each year, and an estimated 2,000 of those children die as a result of the abuse. Between 1994-1995, 1.1 million cases of child abuse were recorded in the United Sta"
+        },
+        {
+          "doc_id": "Abuse",
+          "source": "Data\\markdown_output\\Abuse.md",
+          "excerpt": "# Abuse #### Definition Abuse is defined as anything that is harmful, injurious, or offensive. Abuse also includes excessive and wrongful misuse of a substance. There are several major types of abuse: physical and sexual abuse of a child or an adult, substance abuse, elderly abuse, and emotional abuse. - mental impairment renders the victim incapable of rational judgment. - if the victim is below the legal age established for consent. Substance a ... use of a substance. There are several major types of abuse: physical and sexual abuse of a child or an adult, substance abuse, elderly abuse, and emotional abuse. - mental impairment renders the victim incapable of rational judgment. - if the victim is below the legal age established for consent. Substance abuse is an abnormal pattern of substance usage leading to significant distress or impairment. The criteria include one or more of the following occurring within a 12-month period: 17 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### KEY TERMS Encopresis—A"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Battered_child_syndrome",
+        "Abuse",
+        "Anxiety_disorders",
+        "Anxiety",
+        "Abscess_incision_&_drainage",
+        "Bed-wetting",
+        "Alcoholism",
+        "Attention-deficit_H_markypmark_eractivit_markymark_disorder_"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    },
+    {
+      "id": "N15",
+      "category": "neuro_psych",
+      "query": "What is the purpose and clinical significance of the Beta-2 microglobulin test?",
+      "ground_truth_status": "verified",
+      "suggested_relevant_doc_ids": [
+        "Beta2-microglobulin_test_Definition"
+      ],
+      "confidence": "high",
+      "review_note": "The article directly explains the purpose and clinical significance of the Beta-2 microglobulin test, including its use in evaluating hematologic malignancies and renal function.",
+      "selected_sources": [
+        {
+          "doc_id": "Beta2-microglobulin_test_Definition",
+          "source": "Data\\markdown_output\\Beta2-microglobulin_test_Definition.md",
+          "excerpt": "# Beta2-microglobulin test Definition Beta2-microglobulin is a protein found on the surface of many cells. Testing is done primarily when evaluating a person for certain kinds of cancer affecting white blood cells including chronic lymphocytic leukemia, non-Hodgkin’s lymphoma, and multiple myeloma or kidney disease. ### Purpose Beta2-microglobulin is plentiful on the surface of white blood cells. Increased production or destruction of these cells ... blood cells including chronic lymphocytic leukemia, non-Hodgkin’s lymphoma, and multiple myeloma or kidney disease. ### Purpose Beta2-microglobulin is plentiful on the surface of white blood cells. Increased production or destruction of these cells causes Beta2-microglobulin levels in the blood to increase. This increase is seen in people with cancers involving white blood cells, but it is particularly meaningful in people newly diagnosed with multiple myeloma. Multiple myeloma is a malignancy (cancer) of a certain kind of white blood cell, called a plasma cell. A"
+        }
+      ],
+      "candidate_doc_ids": [
+        "Beta2-microglobulin_test_Definition",
+        "Beta_blockers",
+        "Atenolol_see_Beta_blockers",
+        "Alanine_aminotransferase_test",
+        "Berger’s_disease_see_Idiopathic_primary_renal_hematuricprote",
+        "Bence_Jones_protein_test_Definition",
+        "Alpha-fetoprotein_test_Definition",
+        "Antibiotics"
+      ],
+      "review_status": "pending",
+      "review_flags": []
+    }
+  ]
+}
