@@ -77,11 +77,102 @@ def sanity_check(result: dict) -> dict:
     return result
 
 
+def sync_reviewed() -> None:
+    """Apply the reviewed TSV to the detailed JSON and benchmark after validation."""
+    alias = {
+        "Anticoagulant_and_antiplatelet_drugs":
+            "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+    }
+    with TABLE.open(encoding="utf-8-sig", newline="") as file:
+        rows = list(csv.DictReader(file, delimiter="\t"))
+    detailed = json.loads(OUTPUT.read_text(encoding="utf-8"))
+    benchmark = json.loads(BENCHMARK.read_text(encoding="utf-8"))
+    by_id = {q["id"]: q for q in benchmark["questions"]}
+    suggestions = {q["id"]: q for q in detailed["suggestions"]}
+    expected_ids = set(suggestions)
+    if len(rows) != 56 or {r["id"] for r in rows} != expected_ids:
+        raise ValueError("TSV must contain the same 56 unique question IDs as the suggestion JSON")
+    if any(r["review_status"] != "approved" for r in rows):
+        raise ValueError("All 56 rows must be approved before syncing")
+
+    normalized = {}
+    for row in rows:
+        qid = row["id"]
+        if row["query"] != by_id[qid]["query"]:
+            raise ValueError(f"Question text changed for {qid}")
+        entered = [part.strip() for part in row["suggested_relevant_doc_ids"].split(";") if part.strip()]
+        ids = list(dict.fromkeys(alias.get(doc_id, doc_id) for doc_id in entered))
+        missing = [doc_id for doc_id in ids if not (CORPUS / (doc_id + ".md")).is_file()]
+        if missing:
+            raise ValueError(f"{qid} has unknown document IDs: {missing}")
+        normalized[qid] = (entered, ids)
+
+    now = datetime.now(timezone.utc).isoformat()
+    changed = 0
+    for row in rows:
+        qid = row["id"]
+        entered, ids = normalized[qid]
+        suggestion = suggestions[qid]
+        previous = suggestion["suggested_relevant_doc_ids"]
+        if ids != previous:
+            changed += 1
+            suggestion["qwen_suggested_doc_ids"] = previous
+            suggestion["review_note_status"] = "qwen_note_may_be_stale_after_review"
+        suggestion["reviewed_doc_ids_as_entered"] = entered
+        suggestion["suggested_relevant_doc_ids"] = ids
+        suggestion["review_status"] = "approved"
+        suggestion["reviewed_at_utc"] = now
+        if ids and "no_supported_source" in suggestion.get("review_flags", []):
+            suggestion["qwen_review_flags"] = suggestion.get(
+                "qwen_review_flags", suggestion["review_flags"]
+            )
+            suggestion["review_flags"] = [
+                flag for flag in suggestion["review_flags"]
+                if flag not in {"no_supported_source", "low_model_confidence"}
+            ]
+            if qid in {"R06", "R07"}:
+                suggestion["review_flags"].append("source_file_contains_mixed_entries")
+            row["review_flags"] = "; ".join(suggestion["review_flags"])
+        suggestion["selected_sources"] = [
+            {"doc_id": doc_id, "source": str((CORPUS / (doc_id + ".md")).relative_to(ROOT)),
+             "excerpt": snippet((CORPUS / (doc_id + ".md")).read_text(encoding="utf-8", errors="replace"), row["query"])}
+            for doc_id in ids
+        ]
+        if ids:
+            by_id[qid]["relevant_doc_ids"] = ids
+        else:
+            by_id[qid].pop("relevant_doc_ids", None)
+        row["suggested_relevant_doc_ids"] = "; ".join(ids)
+
+    detailed["reviewed_at_utc"] = now
+    detailed["review_status"] = "approved"
+    OUTPUT.write_text(json.dumps(detailed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    benchmark_text = json.dumps(benchmark, ensure_ascii=False, indent=2)
+    benchmark_text = re.sub(
+        r'"relevant_doc_ids": \[\n((?:\s+"[^"\n]+",?\n)+)\s+\]',
+        lambda match: '"relevant_doc_ids": ' + json.dumps(
+            json.loads("[" + match.group(1) + "]"), ensure_ascii=False
+        ),
+        benchmark_text,
+    )
+    BENCHMARK.write_text(benchmark_text + "\n", encoding="utf-8")
+    with TABLE.open("w", encoding="utf-8-sig", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=["id", "query", "suggested_relevant_doc_ids", "review_status", "review_flags"], delimiter="\t")
+        writer.writeheader()
+        writer.writerows(rows)
+    empty_count = sum(not ids for _, ids in normalized.values())
+    print(f"Synced 56 approved rows; {changed} labels changed from the stored JSON; {empty_count} empty labels.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--limit", type=int, default=0, help="Optional number of questions for a trial")
     parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--sync-reviewed", action="store_true", help="Validate and apply approved TSV labels")
     args = parser.parse_args()
+    if args.sync_reviewed:
+        sync_reviewed()
+        return
 
     benchmark = json.loads(BENCHMARK.read_text(encoding="utf-8"))
     questions = [
@@ -188,9 +279,9 @@ def main() -> None:
     args.output.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     with table_path.open("w", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f, delimiter="\t")
-        writer.writerow(["id", "category", "query", "suggested_relevant_doc_ids", "confidence", "review_flags", "review_note", "ground_truth_status", "review_status"])
+        writer.writerow(["id", "query", "suggested_relevant_doc_ids", "review_status", "review_flags"])
         for r in results:
-            writer.writerow([r["id"], r["category"], r["query"], "; ".join(r["suggested_relevant_doc_ids"]), r["confidence"], "; ".join(r["review_flags"]), r["review_note"], r["ground_truth_status"], r["review_status"]])
+            writer.writerow([r["id"], r["query"], "; ".join(r["suggested_relevant_doc_ids"]), r["review_status"], "; ".join(r["review_flags"])])
     print(f"JSON: {args.output}\nTable: {table_path}")
 
 

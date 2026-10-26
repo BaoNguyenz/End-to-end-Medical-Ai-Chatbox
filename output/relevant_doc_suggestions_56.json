@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-26T14:25:49.104446+00:00",
+  "generated_at_utc": "2026-10-26T16:01:47.860058+00:00",
   "benchmark": "Data\\benchmarks\\medical_benchmark_with_ground_truth.json",
   "model": "Qwen/Qwen3-8B-GGUF:Q4_K_M",
   "scope": "Unlabeled retrieval questions only; source benchmark unchanged",
@@ -33,8 +33,12 @@
         "Anaphylaxis_Definition",
         "Aspergillosis"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Asthma"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R02",
@@ -63,8 +67,12 @@
         "Adenovirus_infections",
         "APSGN_see_Acute_poststreptococcal_glomerulonephritis"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Asthma"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R03",
@@ -99,8 +107,13 @@
         "Analgesics",
         "Antituberculosis_drugs"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antiasthmatic_drugs_Definition",
+        "Asthma"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R05",
@@ -129,18 +142,30 @@
         "Allergic_purpura",
         "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Asthma"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R06",
       "category": "respiratory",
       "query": "What causes atelectasis (collapsed lung) and what are its symptoms?",
       "ground_truth_status": "verified",
-      "suggested_relevant_doc_ids": [],
+      "suggested_relevant_doc_ids": [
+        "Atelectasis"
+      ],
       "confidence": "low",
       "review_note": "None of the candidate documents directly address the causes and symptoms of atelectasis. The closest document (Atelectasis) discusses diagnosis and treatment, but not the causes and symptoms. Other documents discuss unrelated conditions.",
-      "selected_sources": [],
+      "selected_sources": [
+        {
+          "doc_id": "Atelectasis",
+          "source": "Data\\markdown_output\\Atelectasis.md",
+          "excerpt": "# Atelectasis ### Diagnosis Diagnosis relies on recognizing the hallmarks of A-T: progressive ataxia and telangiectasia. However, this may be difficult as ataxia symptoms do appear prior to telangiectasia symptoms by several years. Other symptoms can vary between individuals; for example, 70% of individuals with A-T have a high incidence of respiratory infection, 30% do not. The identification of the ATM gene raises hopes that screening, and perh ... possible. ### Treatment There is currently no cure for A-T, and treatment focuses on managing the individual’s multiple symptoms. Physical therapy and speech therapy can help the patient adjust to ataxia. Injections of gamma globulin, or extracts of human blood that contain antibodies, are used to strengthen the weakened immune system. High-dose vitamin administrations may also be prescribed. Research continues in many countries to find effective treatments. Individuals and families living with this disorder may benefit from attending support groups. ### Prognosis"
+        }
+      ],
       "candidate_doc_ids": [
         "Atelectasis",
         "Adult_res_markpmark_irator_markymark_distress_marksyndromema",
@@ -151,8 +176,17 @@
         "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill",
         "Adhesions"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
+        "source_file_contains_mixed_entries"
+      ],
+      "reviewed_doc_ids_as_entered": [
+        "Atelectasis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00",
+      "qwen_suggested_doc_ids": [],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "qwen_review_flags": [
         "no_supported_source",
         "low_model_confidence"
       ]
@@ -162,10 +196,18 @@
       "category": "respiratory",
       "query": "What is asbestosis and how does asbestos exposure cause lung damage?",
       "ground_truth_status": "verified",
-      "suggested_relevant_doc_ids": [],
+      "suggested_relevant_doc_ids": [
+        "Asbestosis"
+      ],
       "confidence": "low",
       "review_note": "No candidate directly answers the question about asbestosis and how asbestos exposure causes lung damage. The closest document (Asbestosis) discusses arthroscopic procedures and joint complications, not lung damage from asbestos. Other documents discuss unrelated conditions like atelectasis, ARDS, aspergillosis, and asthma.",
-      "selected_sources": [],
+      "selected_sources": [
+        {
+          "doc_id": "Asbestosis",
+          "source": "Data\\markdown_output\\Asbestosis.md",
+          "excerpt": "# Asbestosis ### Definition Asbestosis is chronic, progressive inflammation of the lung. It is not contagious. ### Risks The incidence of complications is low compared to the high number of arthroscopic procedures performed every year. Possible complications include infection, swelling, damage to the tissues in the joint, blood clots in the leg veins (thrombophlebitis), leakage of blood into the joint (hemarthrosis), blood clots that move to the  ... to the high number of arthroscopic procedures performed every year. Possible complications include infection, swelling, damage to the tissues in the joint, blood clots in the leg veins (thrombophlebitis), leakage of blood into the joint (hemarthrosis), blood clots that move to the lung (pulmonary embolus), and injury to the nerves around the joint. ### Normal results The goal of arthroscopy is to diagnose a joint problem causing pain and/or restrictions in normal joint function. For example, arthroscopy can be a useful tool in locating a tear in the joint surface "
+        }
+      ],
       "candidate_doc_ids": [
         "Asbestosis",
         "Atelectasis",
@@ -176,8 +218,17 @@
         "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill",
         "Allergies"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
+        "source_file_contains_mixed_entries"
+      ],
+      "reviewed_doc_ids_as_entered": [
+        "Asbestosis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00",
+      "qwen_suggested_doc_ids": [],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "qwen_review_flags": [
         "no_supported_source",
         "low_model_confidence"
       ]
@@ -209,8 +260,12 @@
         "Anti-itch_drugs",
         "Asthma"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antihistamines"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R09",
@@ -218,7 +273,6 @@
       "query": "What are the main causes and symptoms of allergic conjunctivitis?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Adenovirus_infections",
         "Allergic_rhinitis"
       ],
       "confidence": "high",
@@ -228,11 +282,6 @@
           "doc_id": "Allergic_rhinitis",
           "source": "Data\\markdown_output\\Allergic_rhinitis.md",
           "excerpt": "# Allergic rhinitis This illustration depicts excessive mucus production in the nose after inhalation of airborne pollen. (Photo Researchers, Inc. Reproduced by permission.) ### Definition Allergic rhinitis, more commonly referred to as hay fever, is an inflammation of the nasal passages caused by allergic reaction to airborne substances. ### Description Allergic rhinitis (AR) is the most common allergic condition and one of the most common of al ... efinition Allergic rhinitis, more commonly referred to as hay fever, is an inflammation of the nasal passages caused by allergic reaction to airborne substances. ### Description Allergic rhinitis (AR) is the most common allergic condition and one of the most common of all minor afflictions. It affects between 10-20% of all people in the United States, and is responsible for 2.5% of all doctor visits. Antihistamines and other drugs used to treat allergic rhinitis make up a significant fraction of both prescription and over-the-counter drug sales each year. There ar"
-        },
-        {
-          "doc_id": "Adenovirus_infections",
-          "source": "Data\\markdown_output\\Adenovirus_infections.md",
-          "excerpt": "# Adenovirus infections ### Definition Adenoviruses are DNA viruses (small infectious agents) that cause upper respiratory tract infections, conjunctivitis, and other infections in humans. ### Description Adenoviruses were discovered in 1953. About 47 different types have been identified since then, and 58 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Conjunctivitis—Inflammation of the conjunctiva, the mucous membrane lining th ... ifferent types have been identified since then, and 58 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Conjunctivitis—Inflammation of the conjunctiva, the mucous membrane lining the inner surfaces of the eyelid and the front of the eyeball. Virus—A small infectious agent consisting of a core of genetic material (DNA or RNA) surrounded by a shell of protein. about half of them are believed to cause human diseases. Infants and children are most commonly affected by adenoviruses. Adenovirus infections can occur throughout the year, but seem to be mos"
         }
       ],
       "candidate_doc_ids": [
@@ -245,10 +294,19 @@
         "Adenovirus_infections",
         "Anti-itch_drugs"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "possible_allergic_vs_infectious_topic_mismatch"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Adenovirus_infections",
+        "Allergic_rhinitis"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Allergic_rhinitis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R10",
@@ -283,8 +341,13 @@
         "Aller_markgmark_ic_broncho_markpmark_ulmonar_marky_aspergill",
         "Benign_see_Uterine_fibroids"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Asthma",
+        "Anaphylaxis_Definition"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R11",
@@ -313,8 +376,12 @@
         "Acute_markpmark_oststre_markpmark_tococcal_markglomeruloneph",
         "Anal_fissure_see_Anorectal_disorders"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Bird_flu"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R13",
@@ -323,7 +390,6 @@
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
         "Allergies",
-        "Allergy_tests",
         "Anaphylaxis_Definition"
       ],
       "confidence": "high",
@@ -333,11 +399,6 @@
           "doc_id": "Allergies",
           "source": "Data\\markdown_output\\Allergies.md",
           "excerpt": "# Allergies ### Definition Allergies are abnormal reactions of the immune system that occur in response to otherwise harmless substances. ### Description Allergies are among the most common of medical disorders. It is estimated that 60 million Americans, or more than one in every five people, suffer from some form of allergy, with similar proportions throughout much of the rest of the world. Allergy is the single largest reason for school absence ... lecules, or antigens, on the foreign particle. This reaction between antibody and antigen sets off a series of chemical reactions designed to protect the body from infection. Sometimes, this same series of reactions is triggered by harmless, everyday substances such as pollen, dust, and animal danders. When this occurs, an allergy develops against the offending substance (an allergen.) Mast cells, one of the major players in allergic Mast cells, one of the major players in allergic reactions, capture and display a particular type of antibody, called immunoglobulin"
-        },
-        {
-          "doc_id": "Allergy_tests",
-          "source": "Data\\markdown_output\\Allergy_tests.md",
-          "excerpt": "# Allergy tests ### Definition Allergy tests indicate a person’s allergic sensitivity to commonly encountered environmental substances. ### Purpose Allergy is a reaction of the immune system. Normally, the immune system responds to foreign microorganisms and particles, like pollen or dust, by producing specific proteins called antibodies that are capable of binding to identifying molecules, or antigens, on the foreign organisms. This reaction bet ... fying molecules, or antigens, on the foreign organisms. This reaction between antibody and antigen sets off a series of reactions designed to protect the body from infection. Sometimes, this same series of reactions is 128 G A L E E N C Y C L O P E D I A O F M E D I C I N E This patient is being exposed to certain allergens as part of an allergy test. (Custom Medical Stock Photo. Reproduced by permission.) triggered by harmless, everyday substances. This is the condition known as allergy, and the offending substance is called an allergen. Common inhaled allergens "
         },
         {
           "doc_id": "Anaphylaxis_Definition",
@@ -355,10 +416,21 @@
         "DA_NI_ELE_B_OV_ET(1907–1992)",
         "Antihistamines"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "many_sources_check_minimality"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Allergies",
+        "Allergy_tests",
+        "Anaphylaxis_Definition"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Allergies",
+        "Anaphylaxis_Definition"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "R14",
@@ -387,8 +459,12 @@
         "Anorexia_nervosa",
         "Biofeedback"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Berylliosis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C01",
@@ -417,14 +493,18 @@
         "Arterial_embolism",
         "Anxiety"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "raw_qwen_doc_ids": [
         "Angina",
         "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular"
       ],
       "review_flags": [
         "redirect_stub_removed"
-      ]
+      ],
+      "reviewed_doc_ids_as_entered": [
+        "Angina"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C02",
@@ -432,27 +512,15 @@
       "query": "How do antihypertensive drugs help lower elevated blood pressure?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Beta_blockers",
-        "Antihypertensive_drugs",
-        "An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark"
+        "Antihypertensive_drugs"
       ],
       "confidence": "high",
       "review_note": "The Beta_blockers document explains how beta-blockers reduce cardiac output and heart demand for oxygen, which directly addresses part of the question. The Antihypertensive_drugs document provides a general overview of how antihypertensive drugs work, including varying mechanisms of action. The An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark document explains how ACE inhibitors work by blocking the conversion of angiotensin I to angiotensin II, which is a key mechanism for lowering blood pressure.",
       "selected_sources": [
         {
-          "doc_id": "Beta_blockers",
-          "source": "Data\\markdown_output\\Beta_blockers.md",
-          "excerpt": "# Beta blockers ### Definition Beta blockers are medicines that affect the body’s response to certain nerve impulses. This, in turn, decreases the force and rate of the heart’s contractions, which lowers blood pressure and reduces the heart’s demand for oxygen. ### Purpose The main use of beta blockers is to treat high blood pressure. Some also are used to relieve the type of chest pain called angina or to prevent heart attacks in people who alre ... rs blood pressure and reduces the heart’s demand for oxygen. ### Purpose The main use of beta blockers is to treat high blood pressure. Some also are used to relieve the type of chest pain called angina or to prevent heart attacks in people who already have had one heart attack. These drugs may also be prescribed for other conditions, such as migraine, tremors, and irregular heartbeat. In eye drop form, they are used to treat certain kinds of glaucoma. ### Description Beta blockers, also known as beta-adrenergic blockers, are available only with a physician’s pres"
-        },
-        {
           "doc_id": "Antihypertensive_drugs",
           "source": "Data\\markdown_output\\Antihypertensive_drugs.md",
           "excerpt": "# Antihypertensive drugs ### Definition Antihypertensive drugs are medicines that help lower blood pressure. ### Purpose The overall class of antihypertensive agents lowers blood pressure, although the mechanisms of action vary greatly. In 2003, a Joint National Committee on 313 G A L E E N C Y C L O P E D I A O F M E D I C I N E Antihypertensive Drugs Brand Name (Generic Name) Possible Common Side Effects Include: Accupril (quinapril Headache, d ...  of action vary greatly. In 2003, a Joint National Committee on 313 G A L E E N C Y C L O P E D I A O F M E D I C I N E Antihypertensive Drugs Brand Name (Generic Name) Possible Common Side Effects Include: Accupril (quinapril Headache, dizziness hydrochloride) Aldatazide Diarrhea, fever, headache, decreased coordination Aldactone Cramps, drowsiness, stomach disorders (spironolactone) Aldomet (methyldopa) Fluid retention, headache, weak feeling Altace (ramipril) Headache, cough Calan, Calan SR (veraConstipation, fatigue, decreased blood pamil hydrochloride) pressu"
-        },
-        {
-          "doc_id": "An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark",
-          "source": "Data\\markdown_output\\An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark.md",
-          "excerpt": "# An <mark>g</mark> iotensin-convertin <mark>g enzyme inhibitors</mark> ### Definition Angiotensin-converting enzyme inhibitors (also called ACE inhibitors) are medicines that block the conversion of the chemical angiotensin I to a substance that increases salt and water retention in the body. ### Purpose ACE inhibitors are used in the treatment of high blood pressure. They may be used alone or in combination with other medicines for high blood p ... tance that increases salt and water retention in the body. ### Purpose ACE inhibitors are used in the treatment of high blood pressure. They may be used alone or in combination with other medicines for high blood pressure. 214 G A L E E N C Y C L O P E D I A O F M E D I C I N E ## KEY TERMS Arteries—Blood vessels that carry blood away from the heart to the cells, tissues, and organs of the body. Chronic—A word used to describe a long-lasting condition. Chronic conditions often develop gradually and involve slow changes. Enzyme—A type of protein, produced in the bo"
         }
       ],
       "candidate_doc_ids": [
@@ -465,11 +533,21 @@
         "Antiulcer_drugs",
         "Benazepril_see_Angiotensin-converting_enzyme_inhibitors"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "many_sources_check_minimality",
         "corrupt_source_filename_check_content"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Beta_blockers",
+        "Antihypertensive_drugs",
+        "An_markgmark_iotensin-convertin_markg_enzyme_inhibitorsmark"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Antihypertensive_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C04",
@@ -498,11 +576,15 @@
         "Antirheumatic_drugs",
         "Anticonvulsant_drugs"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "ground_truth_source_missing",
         "corrupt_source_filename_check_content"
-      ]
+      ],
+      "reviewed_doc_ids_as_entered": [
+        "Anticoagulant_and_antiplatelet_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C05",
@@ -510,8 +592,7 @@
       "query": "What causes atherosclerosis and how does plaque buildup restrict blood flow?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Atherosclerosis",
-        "Angioplasty"
+        "Atherosclerosis"
       ],
       "confidence": "high",
       "review_note": "The 'Atherosclerosis' article directly explains the causes of atherosclerosis and how plaque buildup restricts blood flow. The 'Angioplasty' article provides additional context on how plaque is addressed, which complements the explanation of plaque buildup's impact on blood flow.",
@@ -520,11 +601,6 @@
           "doc_id": "Atherosclerosis",
           "source": "Data\\markdown_output\\Atherosclerosis.md",
           "excerpt": "# Atherosclerosis ### Definition Atherosclerosis is the build up of a waxy plaque on the inside of blood vessels. In Greek, athere means gruel, and skleros means hard. Atherosclerosis is often called arteriosclerosis. Arteriosclerosis (from the Greek arteria, meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive proces ... meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive process responsible for most heart disease, is a type of arteriosclerosis or hardening of the arteries. An artery is made up of several layers: an inner lining called the endothelium, an elastic membrane that allows the artery to expand and contract, a layer of smooth muscle, and a layer of connective tissue. Arteriosclerosis is a broad term that includes a hardening of the inner and"
-        },
-        {
-          "doc_id": "Angioplasty",
-          "source": "Data\\markdown_output\\Angioplasty.md",
-          "excerpt": "# Angioplasty ### Definition Angioplasty is a term describing a procedure used to widen vessels narrowed by stenoses or occlusions. There are various types of these procedures and their names are associated with the type of vessel entry and equipment used. For example, percutaneous transluminal angioplasty (PTA) describes entry through the skin (percutaneous) and navigates to the area of the vessel of interest through the same vessel or one that  ... > Angioplasty<br>Before After<br>Inflated<br>balloon<br>Guidewire<br>Improved<br>flow<br>Inadequate<br>flow<br>Lumen<br>Plaque<br>Angioplasty<br><!-- End of picture text --> In balloon angioplasty, plaque is pushed out of the clogged artery by the inflation of the balloon device. (Illustration by Argosy Inc.) ### Purpose In individuals with an occulsive vascular disease such as atherosclerosis, blood flow is impaired to an organ (such as the heart) or to a distal body part ( such as the lower leg) by the narrowing of the vessel’s lumen due to fatty deposits or cal"
         }
       ],
       "candidate_doc_ids": [
@@ -537,8 +613,17 @@
         "Barbiturate-induced_coma",
         "Ascites"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "qwen_suggested_doc_ids": [
+        "Atherosclerosis",
+        "Angioplasty"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Atherosclerosis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C06",
@@ -573,8 +658,13 @@
         "Antihypertensive_drugs",
         "Antibiotics"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Arrhythmias",
+        "Antiarrhythmic_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C07",
@@ -582,8 +672,7 @@
       "query": "What is an abdominal aortic aneurysm and what are its symptoms?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Aortic_aneurysm",
-        "Aneurysmectomy"
+        "Aortic_aneurysm"
       ],
       "confidence": "high",
       "review_note": "The first document directly defines an abdominal aortic aneurysm and describes its symptoms. The second document provides additional context about the treatment and clinical significance of aneurysms, which complements the definition and symptoms.",
@@ -592,11 +681,6 @@
           "doc_id": "Aortic_aneurysm",
           "source": "Data\\markdown_output\\Aortic_aneurysm.md",
           "excerpt": "# Aortic aneurysm ### Definition An aneurysm is an abnormal bulging or swelling of a portion of a blood vessel. The aorta, which can develop these abnormal bulges, is the large blood vessel that carries oxygen-rich blood away from the heart to the rest of the body. ### Description The aorta carries oxygen-rich blood to the body, and is therefore called an artery. Because the aorta is an artery, its walls are made of up three layers; a thin inner  ... lood), and a fiber-like outer layer that gives the vessel strength to not burst when the heart pumps blood to the body. Aortic aneurysms occur when a weakness develops in part of the wall of the aorta; three basic types are usually found. If all three layers of the vessel are affected and weakness develops along an extended area of the vessel, the weakened area will appear as a large, bulging region of blood vessel; this is called a fusiform aneurysm. If weakness develops between the inner and outer layers of the aortic wall, a bulge results as blood from the inte"
-        },
-        {
-          "doc_id": "Aneurysmectomy",
-          "source": "Data\\markdown_output\\Aneurysmectomy.md",
-          "excerpt": "# Aneurysmectomy ### Definition Aneurysmectomy is a surgical procedure performed to repair a weak area in the aorta. The aorta is the largest artery in the body and the main blood vessel leading away from the heart. ### Purpose The purpose of aneurysmectomy is to repair an aortic aneurysm that is likely to rupture if left in place. Aneurysmectomy is indicated for an aortic aneurysm that grows to at least 2 in(5 cm) or for an aortic aneurysm of an ... e body and the main blood vessel leading away from the heart. ### Purpose The purpose of aneurysmectomy is to repair an aortic aneurysm that is likely to rupture if left in place. Aneurysmectomy is indicated for an aortic aneurysm that grows to at least 2 in(5 cm) or for an aortic aneurysm of any size that is symptomatic, tender, or enlarging rapidly. ### Precautions Aneurysmectomy may not be appropriate for patients with severely debilitating diseases such as cancer, emphysema, and heart failure. ### Description An aortic aneurysm is a bulge in the wall of the ao"
         }
       ],
       "candidate_doc_ids": [
@@ -609,8 +693,17 @@
         "Aortic_valve_insufficiency",
         "Abdominal_wall_defects"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "qwen_suggested_doc_ids": [
+        "Aortic_aneurysm",
+        "Aneurysmectomy"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Aortic_aneurysm"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C08",
@@ -639,8 +732,12 @@
         "Angina",
         "Arteriovenous_fistula"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Angiography"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C09",
@@ -669,8 +766,12 @@
         "Barbiturate-induced_coma",
         "Atrial_fibrillation_and_flutter"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Athletic_heart_syndrome"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C10",
@@ -678,8 +779,7 @@
       "query": "chest tightness during exercise",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Angina",
-        "Angiography"
+        "Angina"
       ],
       "confidence": "high",
       "review_note": "The 'Angina' article directly describes chest tightness during exercise as a symptom of angina pectoris. The 'Aneurysms' article mentions angina as a symptom and discusses stress tests for evaluation. The 'Angiography' article explains how stress tests are used to evaluate heart function during exercise, which is relevant to the question.",
@@ -688,11 +788,6 @@
           "doc_id": "Angina",
           "source": "Data\\markdown_output\\Angina.md",
           "excerpt": "# Angina ### Definition Angina is pain, ‘‘discomfort,’’ or pressure localized in the chest that is caused by an insufficient supply of blood (ischemia) to the heart muscle. It is also sometimes characterized by a feeling of choking, suffocation, or crushing heaviness. This condition is also called angina pectoris. ### Description Often described as a muscle spasm and choking sensation, the term ‘‘angina’’ is used primarily to describe chest (thor ...  Description Often described as a muscle spasm and choking sensation, the term ‘‘angina’’ is used primarily to describe chest (thoracic) pain originating from insufficient oxygen to the heart muscle. An episode of angina is not an actual heart attack, but rather pain that results from the heart muscle temporarily receiving too little blood. This temporary condition may be the result of demanding activities such as exercise and does not necessarily indicate that the heart muscle is experiencing permanent damage. In fact, episodes of angina seldom cause permanent da"
-        },
-        {
-          "doc_id": "Angiography",
-          "source": "Data\\markdown_output\\Angiography.md",
-          "excerpt": "# Angiography ### Definition Angiography is the x-ray study of the blood vessels. An angiogram uses a radiopaque substance, or dye, to make the blood vessels visible under x ray. Arteriography is a type of angiography that involves the study of the arteries. 208 G A L E E N C Y C L O P E D I A O F M E D I C I N E An angiogram of a coronary artery. (Phototake NYC. Reproduced by permission.) ### Purpose Angiography is used to detect abnormalities o ... ible side effects or reactions include headache, dizziness, irregular heartbeat, nausea, warmth, burning sensation, and chest pain, but they usually last only momentarily. To view the area of study from different angles or perspectives, the patient may be asked to change positions several times, and subsequent dye injections may be administered. During any injection, the patient or the camera may move. Throughout the dye injection procedure, x-ray pictures and/or fluoroscopic pictures (or moving x rays) will be taken. Because of the high pressure of arterial blood"
         }
       ],
       "candidate_doc_ids": [
@@ -705,7 +800,7 @@
         "Angiography",
         "Antiangina_drugs"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "raw_qwen_doc_ids": [
         "Angina",
         "Aneurysms_see_Aneurysmectomy;_Cerebral_aneurysm;_Ventricular",
@@ -713,7 +808,16 @@
       ],
       "review_flags": [
         "redirect_stub_removed"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Angina",
+        "Angiography"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Angina"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C12",
@@ -742,10 +846,14 @@
         "Anoscopy",
         "Antiparkinson_drugs_Definition"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "corrupt_source_filename_check_content"
-      ]
+      ],
+      "reviewed_doc_ids_as_entered": [
+        "Anticoagulant_and_antiplatelet_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C13",
@@ -753,8 +861,7 @@
       "query": "What is acrocyanosis and what causes bluish discoloration of the extremities?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Acrocyanosis",
-        "Apgar_testing_Definition"
+        "Acrocyanosis"
       ],
       "confidence": "high",
       "review_note": "The 'Acrocyanosis' article directly defines acrocyanosis and explains the cause of bluish discoloration of the extremities. The 'Apgar_testing_Definition' article provides additional context about acrocyanosis as a normal finding in newborns, which complements the explanation.",
@@ -763,11 +870,6 @@
           "doc_id": "Acrocyanosis",
           "source": "Data\\markdown_output\\Acrocyanosis.md",
           "excerpt": "# Acrocyanosis #### Definition Acrocyanosis is a decrease in the amount of oxygen delivered to the extremities. The hands and feet turn blue because of the lack of oxygen. Decreased blood supply to the affected areas is caused by constriction or spasm of small blood vessels. 32 G A L E E N C Y C L O P E D I A O F M E D I C I N E #### Description Acrocyanosis is a painless disorder caused by constriction or narrowing of small blood vessels in the  ... y constriction or spasm of small blood vessels. 32 G A L E E N C Y C L O P E D I A O F M E D I C I N E #### Description Acrocyanosis is a painless disorder caused by constriction or narrowing of small blood vessels in the skin of affected patients. The spasm of the blood vessels decreases the amount of blood that passes through them, resulting in less blood being delivered to the hands and feet. The hands may be the main area affected. The affected areas turn blue and become cold and sweaty. Localized swelling may also occur. Emotion and cold temperatures can wors"
-        },
-        {
-          "doc_id": "Apgar_testing_Definition",
-          "source": "Data\\markdown_output\\Apgar_testing_Definition.md",
-          "excerpt": "# Apgar testing Definition Apgar testing is the assessment of the newborn rating color, heart rate, stimulus response, muscle tone, and respirations on a scale of zero to two, for a maximum possible score of 10. It is performed twice, first at one minute and then again at five minutes after birth. stethoscope to the newborn’s heart and counting the number of beats. - Grimace, or reflex irritability: 2 if the neonate coughs, sneezes, or vigorously ... .’’ ### Description The five areas are scored as follows: - Appearance, or color: 2 if the skin is pink all over; 1 for acrocyanosis, where the trunk and head are pink, but the arms and legs are blue; and 0 if the whole body is blue. Newborns with naturally darker skin color will not be pink. However, pallor is still noticeable, especially in the soles and palms. Color is related to the neonate’s ability to oxygenate its body and extremities, and is dependent on heart rate and respirations. A perfectly healthy newborn will often receive a score of 9 because of som"
         }
       ],
       "candidate_doc_ids": [
@@ -780,8 +882,17 @@
         "Angioplasty",
         "Anemias"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "qwen_suggested_doc_ids": [
+        "Acrocyanosis",
+        "Apgar_testing_Definition"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Acrocyanosis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C14",
@@ -789,9 +900,7 @@
       "query": "What are the risk factors, diagnostic procedures, and medication options for atherosclerosis?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Atherosclerosis",
-        "Angiography",
-        "Aspirin"
+        "Atherosclerosis"
       ],
       "confidence": "high",
       "review_note": "The article on Atherosclerosis directly addresses risk factors, diagnostic procedures, and medication options. The Angiography article provides diagnostic procedures for atherosclerosis, and the Aspirin article covers a medication option for atherosclerosis.",
@@ -800,16 +909,6 @@
           "doc_id": "Atherosclerosis",
           "source": "Data\\markdown_output\\Atherosclerosis.md",
           "excerpt": "# Atherosclerosis ### Definition Atherosclerosis is the build up of a waxy plaque on the inside of blood vessels. In Greek, athere means gruel, and skleros means hard. Atherosclerosis is often called arteriosclerosis. Arteriosclerosis (from the Greek arteria, meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive proces ... meaning artery) is a general term for hardening of the arteries. Arteriosclerosis can occur in several forms, including atherosclerosis. ### Description Atherosclerosis, a progressive process responsible for most heart disease, is a type of arteriosclerosis or hardening of the arteries. An artery is made up of several layers: an inner lining called the endothelium, an elastic membrane that allows the artery to expand and contract, a layer of smooth muscle, and a layer of connective tissue. Arteriosclerosis is a broad term that includes a hardening of the inner and"
-        },
-        {
-          "doc_id": "Angiography",
-          "source": "Data\\markdown_output\\Angiography.md",
-          "excerpt": "# Angiography ### Definition Angiography is the x-ray study of the blood vessels. An angiogram uses a radiopaque substance, or dye, to make the blood vessels visible under x ray. Arteriography is a type of angiography that involves the study of the arteries. 208 G A L E E N C Y C L O P E D I A O F M E D I C I N E An angiogram of a coronary artery. (Phototake NYC. Reproduced by permission.) ### Purpose Angiography is used to detect abnormalities o ...  vessels (called occlusions) throughout the circulatory system and in some organs. Theprocedureiscommonlyusedtoidentify atherosclerosis;todiagnoseheartdisease;toevaluatekidneyfunction and detect kidney cysts or tumors; to detect an aneurysm (an abnormal bulge of an artery that can rupture leading to hemorrhage), tumor, blood clot, or arteriovenous malformations (abnormals tangles of arteries and veins) in thebrain;andtodiagnoseproblemswiththeretinaofthe eye. It is also used to give surgeons an accurate ‘‘map’’ of theheartpriortoopen-heartsurgery,orofthebrainprior "
-        },
-        {
-          "doc_id": "Aspirin",
-          "source": "Data\\markdown_output\\Aspirin.md",
-          "excerpt": "# Aspirin ### Definition Aspirin is a medicine that relieves pain and reduces fever. ### Purpose Aspirin is used to relieve many kinds of minor aches and pains–headaches, toothaches, muscle pain, menstrual cramps, the joint pain from arthritis, and aches associated with colds and flu. Some people take aspirin daily to reduce the risk of stroke, heart attack, or other heart problems. 422 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Desc ... irin may also interact with diuretics, diabetes medicines, other nonsteroidal anti-inflammatory drugs (NSAIDs), seizure medications, and steroids. Anyone who is taking these drugs should ask his or her physician whether they can safely take aspirin. #### Resources ##### PERIODICALS - ‘‘What’s the Best Pain Reliever? Depends on Your Pain.’’ Consumer Reports May 1996: 62. Nancy Ross-Flanigan - ringing or buzzing in the ears - hearing loss - dizziness AST see Aspartate aminotransferase test Astemizole see Antihistamines - stomach pain that does not go away Do not tak"
         }
       ],
       "candidate_doc_ids": [
@@ -822,10 +921,20 @@
         "Antenatal_testing",
         "Angioplasty"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "many_sources_check_minimality"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Atherosclerosis",
+        "Angiography",
+        "Aspirin"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Atherosclerosis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "C15",
@@ -854,8 +963,12 @@
         "Antihypertensive_drugs",
         "Athletic_heart_syndrome"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antiarrhythmic_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "P07",
@@ -884,8 +997,12 @@
         "Acrocyanosis",
         "Antiangina_drugs"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antimigraine_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "P08",
@@ -914,14 +1031,18 @@
         "Antipsychotic_drugs",
         "Antianxiety_drugs"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "raw_qwen_doc_ids": [
         "Anticonvulsant_drugs",
         "Benign_see_Uterine_fibroids"
       ],
       "review_flags": [
         "redirect_stub_removed"
-      ]
+      ],
+      "reviewed_doc_ids_as_entered": [
+        "Anticonvulsant_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "P09",
@@ -950,8 +1071,12 @@
         "Anti-hyperuricemic_drugs",
         "Antiseptics"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antacids"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "P10",
@@ -959,9 +1084,7 @@
       "query": "What are antifungal drugs and what fungal infections do they treat?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Antifungal_drugs,_systemic",
-        "Aspergillosis",
-        "Athlete’s_foot"
+        "Antifungal_drugs,_systemic"
       ],
       "confidence": "high",
       "review_note": "The first document defines systemic antifungal drugs and mentions their use for deep fungal infections. The second document describes aspergillosis, a systemic fungal infection treated by antifungals. The third document provides an example of a superficial fungal infection (athlete's foot) treated by antifungals.",
@@ -970,16 +1093,6 @@
           "doc_id": "Antifungal_drugs,_systemic",
           "source": "Data\\markdown_output\\Antifungal_drugs,_systemic.md",
           "excerpt": "# Antifungal drugs, systemic ### Definition Systemic antifungal drugs are medicines taken by mouth or by injection to treat deep infections caused by a fungus. 301 G A L E E N C Y C L O P E D I A O F M E D I C I N E ### Description ## KEY TERMS Elixir—A sweetened liquid that contains alcohol, water, and medicine. Fetus—A developing baby inside the womb. Fungus—A unicellular to filamentous organism that causes parasitic infections. Ointment—A thic ... d medicine. Fetus—A developing baby inside the womb. Fungus—A unicellular to filamentous organism that causes parasitic infections. Ointment—A thick substance that contains medicine and is meant to be spread on the skin, or if an ophthalmic ointment, in the eye. Systemic—A term used to describe a medicine that has effects throughout the body, as opposed to topical drugs that work on the skin. Most medicines that are taken by mouth or by injection are systemic drugs. ### Purpose Systemic antifungal drugs are used to treat infections in various parts of the body tha"
-        },
-        {
-          "doc_id": "Athlete’s_foot",
-          "source": "Data\\markdown_output\\Athlete’s_foot.md",
-          "excerpt": "# Athlete’s foot ### Definition A common fungus infection between the toes in which the skin becomes itchy and sore, cracking and peeling away. Athlete’s foot (also known as tinea pedis or foot ringworm) can be treated, but it can be tenacious and difficult to clear up completely. ### Description Athlete’s foot is a very common condition of itchy, peeling skin on the feet. In fact, it’s so common that most people will have at least one episode at ... e infection was common among athletes who often used these areas. ### Causes and symptoms Athlete’s foot is caused by a fungal infection that most often affects the fourth and fifth toe webs. Trichophyton rubrum, T. mentagrophytes, and Epidermophyton floccosum, the fungi that cause athlete’s foot, are unusual in that they live exclusively on dead body tissue (hair, the outer layer of skin, and nails). The fungus grows best in moist, damp, dark places with poor ventilation. The problem doesn’t occur among people who usually go barefoot. Many people carry the fungus"
-        },
-        {
-          "doc_id": "Aspergillosis",
-          "source": "Data\\markdown_output\\Aspergillosis.md",
-          "excerpt": "# Aspergillosis ### Definition Aspergillosis refers to several forms of disease caused by a fungus in the genus Aspergillus. Aspergillosis fungal infections can occur in the ear canal, eyes, nose, sinus cavities, and lungs. In some individuals, the infection can even invade bone and the membranes that enclose the brain and spinal cord (meningitis). ### Description Aspergillosis is primarily an infection of the lungs caused by the inhalation of ai ... le, complex health problems, such as AIDS or a blood disorder like leukemia, which can further complicate diagnosis and treatment. Once considered particularly rare, the incidence of reported aspergillosis has risen somewhat with the development of more sophisticated methods of diagnosis and advances made in other areas of medicine, such as with the increased use of certain chemotherapeutic and corticosteroid drugs that are extremely useful in treating various types of cancer but that decrease the individual’s immune response, making them more susceptible to other"
         }
       ],
       "candidate_doc_ids": [
@@ -992,10 +1105,20 @@
         "Adenovirus_infections",
         "Anaerobic_infections"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "many_sources_check_minimality"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Antifungal_drugs,_systemic",
+        "Aspergillosis",
+        "Athlete’s_foot"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Antifungal_drugs,_systemic"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "P12",
@@ -1030,8 +1153,13 @@
         "Amputation",
         "Appetite-enhancing_drugs_Definition"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Anesthesia,_general",
+        "Anesthesia,_local"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "P14",
@@ -1046,14 +1174,14 @@
       "review_note": "The 'Antiviral_drugs' document directly lists specific antiviral drugs and their mechanisms, while the 'Antiretroviral_drugs' document provides detailed information on how these drugs inhibit viral replication through different mechanisms.",
       "selected_sources": [
         {
-          "doc_id": "Antiretroviral_drugs",
-          "source": "Data\\markdown_output\\Antiretroviral_drugs.md",
-          "excerpt": "# Antiretroviral drugs ### Definition Antiretroviral drugs inhibit the reproduction of retroviruses—viruses composed of RNA rather than DNA. The best known of this group is HIV, human immunodeficiency virus, the causative agent of AIDS. ### Purpose Antiretroviral agents are virustatic agents which block steps in the replication of the virus. The drugs are not curative; however continued use of drugs, particularly in multi-drug regimens, significa ... A. The best known of this group is HIV, human immunodeficiency virus, the causative agent of AIDS. ### Purpose Antiretroviral agents are virustatic agents which block steps in the replication of the virus. The drugs are not curative; however continued use of drugs, particularly in multi-drug regimens, significantly slows disease progression. ### Description There are three main types of antiretroviral drugs, although only two steps in the viral replication process are blocked. Nucleoside analogs, or nucleoside reverse transcriptase inhibitors (NRTIs), such as dida"
-        },
-        {
           "doc_id": "Antiviral_drugs",
           "source": "Data\\markdown_output\\Antiviral_drugs.md",
           "excerpt": "# Antiviral drugs ### Definition Antiviral drugs are medicines that cure or control virus infections. ### Purpose Antivirals are used to treat infections caused by viruses. Unlike antibacterial drugs, which may cover a wide range of pathogens, antiviral agents tend to be narrow in spectrum, and have limited efficacy. ### Description Exclusive of the antiretroviral agents used in HIV (AIDS) therapy, there are currently only 11 antiviral drugs avai ... s, antiviral agents tend to be narrow in spectrum, and have limited efficacy. ### Description Exclusive of the antiretroviral agents used in HIV (AIDS) therapy, there are currently only 11 antiviral drugs available, covering four types of virus. Acyclovir (Zovirax), famciclovir (Famvir), and valacyclovir (Valtrex) are effective against herpesvirus, including herpes zoster and herpes genitalis. They may also be of value in either conditions caused by herpes, such as chickenpox and shingles. These drugs are not curative, but may reduce the pain of a herpes outbreak "
+        },
+        {
+          "doc_id": "Antiretroviral_drugs",
+          "source": "Data\\markdown_output\\Antiretroviral_drugs.md",
+          "excerpt": "# Antiretroviral drugs ### Definition Antiretroviral drugs inhibit the reproduction of retroviruses—viruses composed of RNA rather than DNA. The best known of this group is HIV, human immunodeficiency virus, the causative agent of AIDS. ### Purpose Antiretroviral agents are virustatic agents which block steps in the replication of the virus. The drugs are not curative; however continued use of drugs, particularly in multi-drug regimens, significa ... A. The best known of this group is HIV, human immunodeficiency virus, the causative agent of AIDS. ### Purpose Antiretroviral agents are virustatic agents which block steps in the replication of the virus. The drugs are not curative; however continued use of drugs, particularly in multi-drug regimens, significantly slows disease progression. ### Description There are three main types of antiretroviral drugs, although only two steps in the viral replication process are blocked. Nucleoside analogs, or nucleoside reverse transcriptase inhibitors (NRTIs), such as dida"
         }
       ],
       "candidate_doc_ids": [
@@ -1066,8 +1194,13 @@
         "Antirheumatic_drugs",
         "Antidepressant_drugs_Definition"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antiviral_drugs",
+        "Antiretroviral_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G05",
@@ -1082,14 +1215,14 @@
       "review_note": "The 'Abscess' document defines an abscess and describes its characteristics, while the 'Abscess_incision_&_drainage' document directly explains the procedure of incision and drainage. Together, they fully address the question.",
       "selected_sources": [
         {
-          "doc_id": "Abscess_incision_&_drainage",
-          "source": "Data\\markdown_output\\Abscess_incision_&_drainage.md",
-          "excerpt": "# Abscess incision & drainage #### Definition #### Prognosis Once the abscess is properly drained, the prognosis is excellent for the condition itself. The reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the na ...  reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the nasal sinuses, face, ears, and scalp may work their way into the brain. Abscesses within an abdominal organ such as the liver may rupture into the abdominal cavity. In either An infected skin nodule that contains pus may need to be drained via a cut if it does not respond to a"
-        },
-        {
           "doc_id": "Abscess",
           "source": "Data\\markdown_output\\Abscess.md",
           "excerpt": "# Abscess #### Definition An abscess is an enclosed collection of liquefied tissue, known as pus, somewhere in the body. It is the result of the body’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required.  ... y’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required. In response to the invading germ, white blood cells gather at the infected site and begin producing chemicals called enzymes that attack the germ by digesting it. These enzymes act like acid, killing the germs and breaking them down into small pieces that can be picke"
+        },
+        {
+          "doc_id": "Abscess_incision_&_drainage",
+          "source": "Data\\markdown_output\\Abscess_incision_&_drainage.md",
+          "excerpt": "# Abscess incision & drainage #### Definition #### Prognosis Once the abscess is properly drained, the prognosis is excellent for the condition itself. The reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the na ...  reason for the abscess (other diseases the patient has) will determine the overall outcome. If, on the other hand, the abscess ruptures into neighboring areas or permits the infectious agent to spill into the bloodstream, serious or fatal consequences are likely. Abscesses in and around the nasal sinuses, face, ears, and scalp may work their way into the brain. Abscesses within an abdominal organ such as the liver may rupture into the abdominal cavity. In either An infected skin nodule that contains pus may need to be drained via a cut if it does not respond to a"
         }
       ],
       "candidate_doc_ids": [
@@ -1102,8 +1235,13 @@
         "Adrenalectomy",
         "Amebiasis"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Abscess",
+        "Abscess_incision_&_drainage"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G06",
@@ -1132,8 +1270,12 @@
         "Atkins_diet",
         "Adrenoleukodystrophy"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Achalasia"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G07",
@@ -1162,8 +1304,12 @@
         "Albinism",
         "Amenorrhea"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Biliary_atresia"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G08",
@@ -1192,8 +1338,12 @@
         "Antibody_screening_see_Blood_typing_and_crossmatching",
         "Appetite-enhancing_drugs_Definition"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Bile_duct_cancer"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G09",
@@ -1222,8 +1372,12 @@
         "Basal_gastric_secretion_test_see_Gastric_acid_determination",
         "Anti-hyperuricemic_drugs"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Acid_phosphatase_test"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G10",
@@ -1231,8 +1385,7 @@
       "query": "lower right abdomen pain and fever",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Appendicitis",
-        "Appendectomy"
+        "Appendicitis"
       ],
       "confidence": "high",
       "review_note": "The documents directly address lower right abdomen pain and fever as signs of appendicitis, and mention surgical intervention (appendectomy) and diagnostic imaging.",
@@ -1241,11 +1394,6 @@
           "doc_id": "Appendicitis",
           "source": "Data\\markdown_output\\Appendicitis.md",
           "excerpt": "# Appendicitis ### Definition Appendicitis is an inflammation of the appendix, which is the worm-shaped pouch attached to the An extracted appendix. (Photograph by Lester V. Bergman, Corbis Images. Reproduced by permission.) cecum, the beginning of the large intestine. The appendix has no known function in the body, but it can become diseased. Appendicitis is a medical emergency, and if it is left untreated the appendix may rupture and cause a po ... lt in perforation, or rupture, of the appendix. When this happens, the infected contents of the appendix spill into the abdomen, potentially causing a serious infection of the abdomen called peritonitis. G A L E E N C Y C L O P E D I A O F M E D I C I N E 381 ## KEY TERMS Appendectomy (or appendicectomy)—Surgical removal of the appendix. Appendix—The worm-shaped pouch attached to the cecum, the beginning of the large intestine. Laparotomy—Surgical incision into the loin, between the ribs and the pelvis, which offers surgeons a view inside the abdominal cavity. Per"
-        },
-        {
-          "doc_id": "Appendectomy",
-          "source": "Data\\markdown_output\\Appendectomy.md",
-          "excerpt": "# Appendectomy ### Definition Appendectomy is the surgical removal of the appendix. The appendix is a worm-shaped hollow pouch attached to the cecum, the beginning of the large intestine. ### Purpose Appendectomies are performed to treat appendicitis, an inflamed and infected appendix. ### Precautions Since appendicitis occurs most commonly in males between the ages of 10-14 and in females between the ages of 15-19, appendectomy is most often per ... emove the appendix either by using the traditional open procedure (in which a 2-3 in [5-7.6 cm] incision is made in the abdomen) or via laparoscopy (in which four 1 in [2.5cm] incisions are made in the abdomen). #### Traditional open appendectomy When the surgeon uses the open approach, he makes an incision in the lower right section of the abdomen. Most incisions are less than 3 in (7.6 cm) in length. The surgeon then identifies all of the organs in the abdomen and examines them for other disease or abnormalities. The appendix is located and brought up into the w"
         }
       ],
       "candidate_doc_ids": [
@@ -1258,8 +1406,17 @@
         "Anaerobic_infections",
         "Antenatal_testing"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "qwen_suggested_doc_ids": [
+        "Appendicitis",
+        "Appendectomy"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Appendicitis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G11",
@@ -1288,8 +1445,12 @@
         "Birth_defects",
         "Appendectomy"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Abdominal_wall_defects"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G12",
@@ -1297,9 +1458,7 @@
       "query": "What are the complications of a ruptured appendix?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Appendicitis",
-        "Abscess",
-        "Adhesions"
+        "Appendicitis"
       ],
       "confidence": "high",
       "review_note": "The 'Appendicitis' article directly mentions complications of a ruptured appendix, including peritonitis and sepsis. The 'Abscess' article discusses abscess formation as a complication, and the 'Adhesions' article mentions bowel obstruction due to adhesions, which is a complication of a ruptured appendix.",
@@ -1308,16 +1467,6 @@
           "doc_id": "Appendicitis",
           "source": "Data\\markdown_output\\Appendicitis.md",
           "excerpt": "# Appendicitis ### Definition Appendicitis is an inflammation of the appendix, which is the worm-shaped pouch attached to the An extracted appendix. (Photograph by Lester V. Bergman, Corbis Images. Reproduced by permission.) cecum, the beginning of the large intestine. The appendix has no known function in the body, but it can become diseased. Appendicitis is a medical emergency, and if it is left untreated the appendix may rupture and cause a po ... ograph by Lester V. Bergman, Corbis Images. Reproduced by permission.) cecum, the beginning of the large intestine. The appendix has no known function in the body, but it can become diseased. Appendicitis is a medical emergency, and if it is left untreated the appendix may rupture and cause a potentially fatal infection. ### Description Appendicitis is the most common abdominal emergency found in children and young adults. One person in 15 develops appendicitis in his or her lifetime. The incidence is highest among males aged 10-14, and among females aged 15-19. M"
-        },
-        {
-          "doc_id": "Adhesions",
-          "source": "Data\\markdown_output\\Adhesions.md",
-          "excerpt": "# Adhesions ### Definition Adhesions are fibrous bands of scar tissue that form between internal organs and tissues, joining them together abnormally. ### Description Adhesions are made up of blood vessels and fibroblasts—connective tissue cells. They form as a normal part of the body’s healing process and help to limit the spread of infection. However when adhesions cause the wrong tissues to grow into each other, many different complex inflamma ...  have had multiple abdominal surgeries. Adhesions are more common following procedures involving the intestines, colon, appendix, or uterus. They are less common following surgeries involving the stomach, gall bladder, or pancreas. ## KEY TERMS Asherman’s syndrome—The cessation of menstruation and/or infertility caused by intrauterine adhesions. Computed axial tomography; CT or CAT scan—A computer reconstruction of scanned x rays used to diagnose intestinal obstructions. Endometriosis—A condition in which the endometrial tissue that lines the uterus begins to inva"
-        },
-        {
-          "doc_id": "Abscess",
-          "source": "Data\\markdown_output\\Abscess.md",
-          "excerpt": "# Abscess #### Definition An abscess is an enclosed collection of liquefied tissue, known as pus, somewhere in the body. It is the result of the body’s defensive reaction to foreign material. #### Description There are two types of abscesses, septic and sterile. Most abscesses are septic, which means that they are the result of an infection. Septic abscesses can occur anywhere in the body. Only a germ and the body’s immune response are required.  ... the psoas muscles. They flex the hips. An abscess can develop in one of these muscles, usually when it spreads from the appendix, the large bowel, or the fallopian tubes. #### Diagnosis The common findings of inflammation–heat, redness, swelling, and pain–easily identify superficial abscesses. Abscesses in other places may produce only generalized symptoms such as fever and discomfort. If the patient’s symptoms and physical examination do not help, a physician may have to resort to a battery of tests to locate the site of an abscess, but usually something in the i"
         }
       ],
       "candidate_doc_ids": [
@@ -1330,10 +1479,20 @@
         "Amebiasis",
         "Anaerobic_infections"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "many_sources_check_minimality"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Appendicitis",
+        "Abscess",
+        "Adhesions"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Appendicitis"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G14",
@@ -1368,8 +1527,13 @@
         "Amebiasis",
         "Appendectomy"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Abscess_incision_&_drainage",
+        "Abscess"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "G15",
@@ -1398,8 +1562,12 @@
         "Adrenoleukodystrophy",
         "Ataxia-telangiectasia"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Beriberi"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N01",
@@ -1428,8 +1596,12 @@
         "Attention-deficit_H_markypmark_eractivit_markymark_disorder_",
         "Binge-eating_disorder"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Bipolar_disorder"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N02",
@@ -1464,8 +1636,13 @@
         "Antiseptics",
         "Aminoglycosides"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Acne",
+        "Antiacne_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N03",
@@ -1494,8 +1671,12 @@
         "Aviation_medicine",
         "Adrenoleukodystrophy"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Acoustic_neuroma_Definition"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N04",
@@ -1524,8 +1705,12 @@
         "Alcohol-related_neurolo_markgmark_ic_markdiseasemark",
         "Aplastic_anemia"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Achondroplasia"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N05",
@@ -1554,8 +1739,12 @@
         "Antepartum_testing",
         "Aging"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Biofeedback"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N06",
@@ -1584,8 +1773,12 @@
         "Anorexia_nervosa",
         "Bipolar_disorder"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Autism"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N07",
@@ -1614,8 +1807,12 @@
         "Bipolar_disorder",
         "Anxiety_disorders"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Binge-eating_disorder"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N08",
@@ -1623,10 +1820,7 @@
       "query": "What are common birth defects and what prenatal factors increase their risk?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
-        "Birth_defects",
-        "Alpha-fetoprotein_test_Definition",
-        "Amniocentesis",
-        "Antenatal_testing"
+        "Birth_defects"
       ],
       "confidence": "high",
       "review_note": "The 'Birth_defects' article directly lists common birth defects. The 'Alpha-fetoprotein_test_Definition' and 'Amniocentesis' articles mention prenatal factors like teratogens and genetic testing. The 'Antenatal_testing' article discusses prenatal screening and risk factors like maternal age and infections.",
@@ -1635,21 +1829,6 @@
           "doc_id": "Birth_defects",
           "source": "Data\\markdown_output\\Birth_defects.md",
           "excerpt": "# Birth defects ### Definition Birth defects are physical abnormalities that are present at birth; they also are called congenital abnormalities. More than 3,000 have been identified. ### Description Birth defects are found in 2-3% of all newborn infants. This rate doubles in the first year, and reaches 10% by age five, as more defects become evident and can be diagnosed. Almost 20% of deaths in newborns are caused by birth defects. Abnormalities ... cts are found in 2-3% of all newborn infants. This rate doubles in the first year, and reaches 10% by age five, as more defects become evident and can be diagnosed. Almost 20% of deaths in newborns are caused by birth defects. Abnormalities can occur in any major organ or part of the body. Major defects are structural abnormalities that affect the way a person looks and require medical and/or surgical treatment. Minor defects are abnormalities that do not cause serious health or social problems. When multiple birth defects occur together and have a similar cause, "
-        },
-        {
-          "doc_id": "Amniocentesis",
-          "source": "Data\\markdown_output\\Amniocentesis.md",
-          "excerpt": "# Amniocentesis ### Definition Amniocentesis is a procedure used to diagnose fetal defects in the early second trimester of pregnancy. A sample of the amniotic fluid, which surrounds a fetus 160 G A L E E N C Y C L O P E D I A O F M E D I C I N E A physician uses an ultrasound monitor (left) to position the needle for insertion into the amnion when performing amniocentesis. (Photograph by Will and Deni McIntyre, Photo Researchers, Inc. Reproduced ... tion. ### Purpose Since the mid-1970s, amniocentesis has been used routinely to test for Down syndrome, by far the most common, nonhereditary, genetic birth defect, afflicting about one in every 1,000 babies. By 1997, approximately 800 different diagnostic tests were available, most of them for hereditary genetic disorders such as Tay-Sachs disease, sickle cell anemia, hemophilia, muscular dystrophy and cystic fibrosis. Amniocentesis, often called amnio, is recommended for women who will be older than 35 on their due-date. It is also recommended for women who have"
-        },
-        {
-          "doc_id": "Antenatal_testing",
-          "source": "Data\\markdown_output\\Antenatal_testing.md",
-          "excerpt": "# Antenatal testing ### Definition Antenatal testing includes any diagnostic procedures performed before the birth of a baby. ### Purpose These tests and exams are essential for protecting the health of a pregnant woman and her developing child. ## KEY TERMS Ultrasound — A device that records sound waves as they bounce off a developing fetus to create an image, which is projected onto a large computer screen Breech position—When a child is orient ... y. Alpha fetoprotein screen — A test that measures the level of alpha fetoprotein, a substance produced by a fetus with birth defects, in the mother’s blood. Amniocentesis— An invasive procedure that allows physicians to check for birth defects by collecting a sample of fetal cells from inside the amniotic sac. GBS— Group B streptococci are a type of bacteria that, if passed to a can cause inflammation of the brain, spinal cord, blood or lungs. In some cases, it can result in infant death When a woman first learns she is pregnant, her physician will run a series o"
-        },
-        {
-          "doc_id": "Alpha-fetoprotein_test_Definition",
-          "source": "Data\\markdown_output\\Alpha-fetoprotein_test_Definition.md",
-          "excerpt": "# Alpha-fetoprotein test Definition The alpha-fetoprotein (AFP) test is a blood test that is performed during pregnancy. This screening test measures the level of AFP in the mother’s blood and indicates the probability that the fetus has one of several serious birth defects. The level of AFP can also be determined by analyzing a sample of amniotic fluid. This screening test cannot diagnose a specific condition; it only indicates increased risk fo ... measures the level of AFP in the mother’s blood and indicates the probability that the fetus has one of several serious birth defects. The level of AFP can also be determined by analyzing a sample of amniotic fluid. This screening test cannot diagnose a specific condition; it only indicates increased risk for several birth defects. Outside pregnancy, the AFP test is used to detect liver disease, certain cancerous tumors, and to monitor the progress of cancer treatment. ### Purpose Alpha-fetoprotein is a substance produced by the liver of a fetus. The exact functio"
         }
       ],
       "candidate_doc_ids": [
@@ -1662,10 +1841,21 @@
         "Alcoholism",
         "Atherosclerosis"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "many_sources_check_minimality"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Birth_defects",
+        "Alpha-fetoprotein_test_Definition",
+        "Amniocentesis",
+        "Antenatal_testing"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Birth_defects"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N09",
@@ -1700,8 +1890,13 @@
         "Adjustment_disorders",
         "Acute_stress_disorder"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Bipolar_disorder",
+        "Antipsychotic_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N10",
@@ -1730,8 +1925,12 @@
         "Berylliosis",
         "Biofeedback"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antimigraine_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N11",
@@ -1760,8 +1959,12 @@
         "Barbiturate-induced_coma",
         "Antirheumatic_drugs"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Antimigraine_drugs"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N12",
@@ -1790,8 +1993,12 @@
         "Bacteremia",
         "Anaerobic_infections"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Anthrax"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N13",
@@ -1800,10 +2007,7 @@
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
         "Antimigraine_drugs",
-        "Beta_blockers",
-        "Analgesics",
-        "Biofeedback",
-        "Alexander_technique"
+        "Analgesics"
       ],
       "confidence": "high",
       "review_note": "The selected documents directly address the clinical features, triggers, and medications for migraine and tension headaches. 'Antimigraine_drugs' and 'Beta_blockers' cover migraine medications, 'Analgesics' and 'Biofeedback' address tension headache management, and 'Alexander_technique' provides context on posture and tension.",
@@ -1814,24 +2018,9 @@
           "excerpt": "# Antimigraine drugs ### Definition Antimigraine drugs are medicines used to prevent or reduce the severity of migraine headaches. ### Purpose Migraine headaches usually cause a throbbing pain on one side of the head. Nausea, vomiting, dizziness, increased sensitivity to light and sound, and other symptoms may accompany the pain. The attacks may last for several hours or for a day or more and may come as often as several times a week. Some people ... acks may last for several hours or for a day or more and may come as often as several times a week. Some people who get migraine headaches have warning signals before the headaches begin, such as restlessness, tingling in an arm or leg, or seeing patterns of flashing lights. This set of signals is called an aura. The antimigraine drugs discussed in this section are meant to be taken as soon as the pain begins, to relieve the pain and other symptoms. Other types of drugs, such as antiseizure medicines, antidepressants, calcium channel blockers and beta blockers, ar"
         },
         {
-          "doc_id": "Beta_blockers",
-          "source": "Data\\markdown_output\\Beta_blockers.md",
-          "excerpt": "# Beta blockers ### Definition Beta blockers are medicines that affect the body’s response to certain nerve impulses. This, in turn, decreases the force and rate of the heart’s contractions, which lowers blood pressure and reduces the heart’s demand for oxygen. ### Purpose The main use of beta blockers is to treat high blood pressure. Some also are used to relieve the type of chest pain called angina or to prevent heart attacks in people who alre ... tacks in people who already have had one heart attack. These drugs may also be prescribed for other conditions, such as migraine, tremors, and irregular heartbeat. In eye drop form, they are used to treat certain kinds of glaucoma. ### Description Beta blockers, also known as beta-adrenergic blockers, are available only with a physician’s prescription. They come in capsule, tablet, liquid, and injectable forms. Some common beta blockers are atenolol (Tenormin), metoprolol (Lopressor), nadolol (Corgard), propranolol (Inderal), and timolol (Blocadren). Timolol and c"
-        },
-        {
           "doc_id": "Analgesics",
           "source": "Data\\markdown_output\\Analgesics.md",
           "excerpt": "# Analgesics ### Definition Analgesics are medicines that relieve pain. ### Purpose Analgesics are those drugs that mainly provide pain relief. The primary classes of analgesics are the 184 G A L E E N C Y C L O P E D I A O F M E D I C I N E narcotics, including additional agents that are chemically based on the morphine molecule but have minimal abuse potential; nonsteroidal anti-inflammatory drugs (NSAIDs) including the salicylates; and acetaminophen. Other drugs, notably the tricyclic antidepressants and anti-epileptic agents such as gabapentin, have been used to relieve pain, particularly neurologic pain, but are not routinely classified as analgesics. Analgesics provide symptomatic relief, but have no effect on the cause, although clearly the NSAIDs, by virtue of their dual activity, may be beneficial in both regards. ### Description Pain has been classified as ‘‘productive’’ pain a"
-        },
-        {
-          "doc_id": "Biofeedback",
-          "source": "Data\\markdown_output\\Biofeedback.md",
-          "excerpt": "# Biofeedback ### Definition Biofeedback, or applied psychophysiological feedback, is a patient-guided treatment that teaches an individual to control muscle tension, pain, body temperature, brain waves, and other bodily functions and processes through relaxation, visualization, and other cognitive control techniques. The name biofeedback refers to the biological signals that are fed back, or returned, to the patient in order for the patient to d ... ic pain, irritable bowel syndrome (IBS), Raynaud’s syndrome, epilepsy, attention-deficit hyperactivity disorder (ADHD), migraine headaches, anxiety, depression, traumatic brain injury, and sleep disorders. Illnesses that may be triggered at least in part by stress are also targeted by biofeedback therapy. Certain types of headaches, high blood pressure, bruxism (teeth grinding), post-traumatic stress disorder, eating disorders, substance abuse, and some anxiety disorders may be treated successfully by teaching patients the ability to relax and release both muscle "
-        },
-        {
-          "doc_id": "Alexander_technique",
-          "source": "Data\\markdown_output\\Alexander_technique.md",
-          "excerpt": "# Alexander technique ### Definition The Alexander technique is a somatic method for improving physical and mental functioning. Excessive tension, which Frederick Alexander, the originator, recognized as both physical and mental, restricts movement and creates pressure in the joints, the spine, the breathing mechanism, and other organs. The goal of the technique is to restore freedom and expression to the body and clear thinking to the mind. ###  ... angerous heart conditions; gastrointestinal disorders of many types, various gynecological conditions, sexual failures, migraines and depressive states.’’ Literature in the 1980s and 1990s went on to include improvements in back pain, chronic pain, postural problems, repetitive strain injury, benefits during pregnancy and childbirth, help in applying physical therapy and rehabilitative exercises, improvements in strain caused by computer use, improvements in the posture and performance of school children, and improvements in vocal and dramatic performance among th"
         }
       ],
       "candidate_doc_ids": [
@@ -1844,10 +2033,23 @@
         "Analgesics,_opioid",
         "Aston-Patterning"
       ],
-      "review_status": "pending",
+      "review_status": "approved",
       "review_flags": [
         "many_sources_check_minimality"
-      ]
+      ],
+      "qwen_suggested_doc_ids": [
+        "Antimigraine_drugs",
+        "Beta_blockers",
+        "Analgesics",
+        "Biofeedback",
+        "Alexander_technique"
+      ],
+      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "reviewed_doc_ids_as_entered": [
+        "Antimigraine_drugs",
+        "Analgesics"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N14",
@@ -1882,8 +2084,13 @@
         "Alcoholism",
         "Attention-deficit_H_markypmark_eractivit_markymark_disorder_"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Battered_child_syndrome",
+        "Abuse"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     },
     {
       "id": "N15",
@@ -1912,8 +2119,14 @@
         "Alpha-fetoprotein_test_Definition",
         "Antibiotics"
       ],
-      "review_status": "pending",
-      "review_flags": []
+      "review_status": "approved",
+      "review_flags": [],
+      "reviewed_doc_ids_as_entered": [
+        "Beta2-microglobulin_test_Definition"
+      ],
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
     }
-  ]
+  ],
+  "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00",
+  "review_status": "approved"
 }
