@@ -27,7 +27,7 @@ from src.observability.pii_masker import PIIMasker
 from src.retrieval.query_router import QueryRouter
 from src.observability.cost_calculator import CostCalculator, TokenUsage
 from src.models import QueryType, SearchStrategy
-from src.emergency import _EMERGENCY_PATTERNS
+from src.query_guard import _EMERGENCY_PATTERNS
 
 
 

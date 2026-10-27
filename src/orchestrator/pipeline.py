@@ -49,7 +49,7 @@ from src.post_retrieval.post_retrieval_pipeline import PostRetrievalPipeline
 from src.observability.langfuse_tracker import get_tracer
 # pyrefly: ignore [missing-import]
 from src.observability.cost_calculator import CostCalculator, TokenUsage
-from src.emergency import is_emergency
+from src.query_guard import _REJECTION_RESPONSE, classify_rejection, is_emergency
 
 
 # ── Medical System Prompt ─────────────────────────────────────────────────────
@@ -287,6 +287,16 @@ class RAGPipeline:
                 metadata={"emergency": True, "search_mode": "none"},
             )
 
+        rejection_type = classify_rejection(query)
+        if rejection_type is not None:
+            return RAGResponse(
+                query=query,
+                answer=_REJECTION_RESPONSE,
+                sources=[],
+                latency={"total": time.time() - total_start},
+                metadata={"rejected": True, "rejection_type": rejection_type, "search_mode": "none"},
+            )
+
         tracer = get_tracer()
         with tracer.trace(
             "rag-query",
@@ -512,6 +522,24 @@ class RAGPipeline:
                     "answer": _EMERGENCY_RESPONSE,
                     "latency": {"total": round((time.time() - total_start) * 1000, 2)},
                     "sources": [],
+                    "cached": False,
+                }
+                return
+
+            rejection_type = classify_rejection(query)
+            if rejection_type is not None:
+                root.update(
+                    output={"rejected": True, "answer": _REJECTION_RESPONSE},
+                    metadata={"rejection_type": rejection_type},
+                )
+                tracer.flush()
+                yield {"type": "token", "token": _REJECTION_RESPONSE, "cached": False}
+                yield {
+                    "type": "done",
+                    "answer": _REJECTION_RESPONSE,
+                    "latency": {"total": round((time.time() - total_start) * 1000, 2)},
+                    "sources": [],
+                    "metadata": {"rejected": True, "rejection_type": rejection_type, "search_mode": "none"},
                     "cached": False,
                 }
                 return

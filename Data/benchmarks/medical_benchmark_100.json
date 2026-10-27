@@ -192,7 +192,7 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are the clinical signs and symptoms of athletic heart syndrome?"
+      "query": "What is athletic heart syndrome, how does the heart adapt to static versus dynamic training, and what sudden-death figures are reported in the article's prognosis section?"
     },
     {
       "id": "C10",
@@ -304,7 +304,7 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are anticonvulsant drugs and what types of seizures do they control?"
+      "query": "What are anticonvulsant drugs, what major drug classes and medications belong to this group, and what are their common side effects?"
     },
     {
       "id": "P09",
@@ -448,7 +448,7 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are abdominal wall defects such as gastroschisis and omphalocele?"
+      "query": "What are congenital abdominal wall defects, and how are they diagnosed and treated?"
     },
     {
       "id": "G12",
@@ -544,7 +544,7 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are common birth defects and what prenatal factors increase their risk?"
+      "query": "What are birth defects, how common are they in infants and young children, and how are major defects, minor defects, syndromes, and associations defined?"
     },
     {
       "id": "N09",
@@ -584,7 +584,7 @@
       "query_type": "complex",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "Compare the clinical features, triggers, and medications for migraine headaches versus tension headaches."
+      "query": "Compare the purpose, mechanism of action, and major drug classes of antimigraine drugs versus general analgesics."
     },
     {
       "id": "N14",

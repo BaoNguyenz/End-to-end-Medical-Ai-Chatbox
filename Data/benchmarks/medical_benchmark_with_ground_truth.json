@@ -11,7 +11,9 @@
       "query": "What are the primary symptoms and clinical signs of asthma?",
       "question_type": "Factual",
       "ground_truth": "Asthma commonly causes wheezing, shortness of breath, coughing, and chest tightness. During an attack, examination may show narrowed airways and increased effort to breathe, including use of neck muscles.",
-      "relevant_doc_ids": ["Asthma"]
+      "relevant_doc_ids": [
+        "Asthma"
+      ]
     },
     {
       "id": "R02",
@@ -21,8 +23,10 @@
       "is_emergency": false,
       "query": "What environmental triggers can precipitate an acute asthma attack?",
       "question_type": "Factual",
-      "ground_truth": "Environmental triggers for acute asthma include airborne allergens (pollen, dust mites, pet dander), tobacco smoke, cold dry air, respiratory infections, exercise, and chemical irritants.",
-      "relevant_doc_ids": ["Asthma"]
+      "ground_truth": "Asthma attacks can be triggered by inhaled allergens (such as pollen, house dust mites, mold, animal dander, and cockroach particles), tobacco smoke, air pollution, strong odors, workplace chemical irritants, cold air, exercise, and viral respiratory tract infections.",
+      "relevant_doc_ids": [
+        "Asthma"
+      ]
     },
     {
       "id": "R03",
@@ -32,8 +36,11 @@
       "is_emergency": false,
       "query": "What bronchodilator and corticosteroid medications are used to manage asthma?",
       "question_type": "Factual",
-      "ground_truth": "Bronchodilators, including beta-receptor agonists such as albuterol, open the airways and provide quick relief during asthma attacks. Corticosteroids reduce airway inflammation and, when used regularly, help prevent attacks; they may be inhaled.",
-      "relevant_doc_ids": ["Antiasthmatic_drugs_Definition", "Asthma"]
+      "ground_truth": "Bronchodilators, including beta-receptor agonists such as albuterol, pirbuterol, and terbutaline as well as theophylline, relax and open narrowed airways to relieve acute asthma symptoms. Corticosteroids, such as inhaled beclomethasone, dexamethasone, flunisolide, and triamcinolone, reduce airway inflammation and swelling and are used regularly to help prevent asthma attacks.",
+      "relevant_doc_ids": [
+        "Antiasthmatic_drugs_Definition",
+        "Asthma"
+      ]
     },
     {
       "id": "R04",
@@ -44,7 +51,10 @@
       "query": "Compare the symptoms, triggers, and treatments of allergic rhinitis versus asthma.",
       "question_type": "Analytical",
       "ground_truth": "Allergic rhinitis primarily affects the nose and eyes, causing sneezing, itching, rhinorrhea, congestion, and watery eyes after exposure to allergens such as pollen, dust, mold, or animal dander; treatment includes allergen avoidance, antihistamines, and nasal corticosteroids. Asthma affects the lower airways, causing wheezing, cough, chest tightness, and shortness of breath; allergens may trigger it, along with infections, exercise, cold air, smoke, and irritants, and treatment uses quick-relief bronchodilators plus anti-inflammatory controller medicines.",
-      "relevant_doc_ids": ["Allergic_rhinitis", "Asthma"]
+      "relevant_doc_ids": [
+        "Allergic_rhinitis",
+        "Asthma"
+      ]
     },
     {
       "id": "R05",
@@ -55,7 +65,9 @@
       "query": "How is asthma diagnosed and evaluated in pediatric patients?",
       "question_type": "Factual",
       "ground_truth": "Asthma diagnosis considers typical symptoms and signs, personal or family allergy history, and spirometry. Repeating spirometry after a bronchodilator can show reversible airway narrowing; a peak flow meter can help monitor severity at home.",
-      "relevant_doc_ids": ["Asthma"]
+      "relevant_doc_ids": [
+        "Asthma"
+      ]
     },
     {
       "id": "R06",
@@ -65,8 +77,10 @@
       "is_emergency": false,
       "query": "What causes atelectasis (collapsed lung) and what are its symptoms?",
       "question_type": "Multi-hop",
-      "ground_truth": "Atelectasis refers to the collapse or closure of lung alveoli, commonly caused by airway obstruction (mucus plugs), external compression, or shallow breathing post-surgery, leading to hypoxia, dyspnea, and decreased breath sounds.",
-      "relevant_doc_ids": ["Atelectasis"]
+      "ground_truth": "Atelectasis is the collapse of part or all of a lung in which the air sacs (alveoli) deflate and cannot absorb oxygen normally. It is caused by airway obstruction (such as mucus plugs, tumors, foreign objects, or external compression), shallow breathing after surgery or prolonged bed rest, or surfactant deficiency in premature infants. Small or slow-developing collapse may cause no symptoms or a dry, hacking cough, whereas rapid, extensive collapse causes shortness of breath, rapid shallow breathing, rapid heart rate, decreased chest wall expansion, and bluish skin (cyanosis).",
+      "relevant_doc_ids": [
+        "Atelectasis"
+      ]
     },
     {
       "id": "R07",
@@ -76,8 +90,10 @@
       "is_emergency": false,
       "query": "What is asbestosis and how does asbestos exposure cause lung damage?",
       "question_type": "Factual",
-      "ground_truth": "Asbestosis is a chronic lung disease caused by the inhalation of asbestos fibers, leading to pulmonary fibrosis and progressive lung scarring. Asbestos exposure triggers an inflammatory response and the accumulation of fibrous tissue in the lungs, resulting in decreased lung function and respiratory symptoms.",
-      "relevant_doc_ids": ["Asbestosis"]
+      "ground_truth": "Asbestosis is a chronic, progressive inflammatory lung disease caused by inhaling microscopic asbestos fibers. The inhaled fibers lodge deep in the alveoli, where they irritate, inflame, and scar lung tissue (fibrosis), making the lungs stiff and honeycombed so they cannot expand and contract normally for gas exchange, which leads to shortness of breath, coughing, and chest pain.",
+      "relevant_doc_ids": [
+        "Asbestosis"
+      ]
     },
     {
       "id": "R08",
@@ -87,8 +103,10 @@
       "is_emergency": false,
       "query": "How do antihistamines work to alleviate allergic symptoms?",
       "question_type": "Factual",
-      "ground_truth": "Antihistamines selectively block H1 histamine receptors to prevent inflammatory mediator actions, relieving sneezing, rhinorrhea, itchy watery eyes, and urticaria in allergic reactions.",
-      "relevant_doc_ids": ["Antihistamines"]
+      "ground_truth": "Antihistamines alleviate allergic reactions by blocking H-1 histamine receptors, which counters the effects of histamine—a chemical released during allergic reactions that otherwise causes widening of blood vessels and constriction of the airways.",
+      "relevant_doc_ids": [
+        "Antihistamines"
+      ]
     },
     {
       "id": "R09",
@@ -98,8 +116,11 @@
       "is_emergency": false,
       "query": "What are the main causes and symptoms of allergic conjunctivitis?",
       "question_type": "Multi-hop",
-      "ground_truth": "Airborne allergens can inflame the conjunctiva. Allergic conjunctivitis causes red, irritated, itchy, and watery eyes; it may occur with allergic rhinitis symptoms such as sneezing and a runny nose.",
-      "relevant_doc_ids": ["Allergies", "Allergic_rhinitis"]
+      "ground_truth": "Allergic conjunctivitis is caused by exposure to airborne allergens such as pollen, dust mites, mold spores, and animal dander, which trigger histamine release and inflame the conjunctiva. It causes red, irritated, itchy, and watery eyes, and often occurs together with allergic rhinitis symptoms such as sneezing, nasal congestion, and a runny nose.",
+      "relevant_doc_ids": [
+        "Allergies",
+        "Allergic_rhinitis"
+      ]
     },
     {
       "id": "R10",
@@ -109,8 +130,11 @@
       "is_emergency": false,
       "query": "wheezing and breathing difficulty",
       "question_type": "Factual",
-      "ground_truth": "Wheezing and breathing difficulty are commonly associated with obstructive airway conditions such as asthma, chronic obstructive pulmonary disease (COPD), and bronchitis, often resulting from bronchial constriction, inflammation, or mucus production.",
-      "relevant_doc_ids": ["Asthma", "Anaphylaxis_Definition"]
+      "ground_truth": "Wheezing and difficulty breathing are hallmark symptoms of asthma, where airway inflammation, bronchial muscle contraction (bronchoconstriction), and excess mucus narrow the air passages, and also occur in anaphylaxis, a severe systemic allergic reaction that causes sudden airway constriction and throat swelling.",
+      "relevant_doc_ids": [
+        "Asthma",
+        "Anaphylaxis_Definition"
+      ]
     },
     {
       "id": "R11",
@@ -120,8 +144,10 @@
       "is_emergency": false,
       "query": "What are the symptoms and transmission routes of avian influenza (bird flu)?",
       "question_type": "Factual",
-      "ground_truth": "Symptoms of avian influenza include fever, cough, sore throat, muscle aches, and in severe cases, pneumonia and acute respiratory distress syndrome. Transmission routes primarily involve direct contact with infected birds or their droppings, as well as contact with contaminated surfaces or aerosols from infected birds.",
-      "relevant_doc_ids": ["Bird_flu"]
+      "ground_truth": "In humans, avian influenza (bird flu) causes flu-like symptoms including fever, cough, sore throat, and muscle aches, as well as eye infections (conjunctivitis), pneumonia, acute respiratory distress, and potentially fatal respiratory complications. It is transmitted primarily through close contact with infected birds—which shed the virus in saliva, nasal secretions, and feces—or with surfaces contaminated by their droppings.",
+      "relevant_doc_ids": [
+        "Bird_flu"
+      ]
     },
     {
       "id": "R12",
@@ -132,7 +158,10 @@
       "query": "What are the warning signs, diagnostic tests, and emergency medications for an acute asthma exacerbation?",
       "question_type": "Factual",
       "ground_truth": "Warning signs of a severe asthma attack include marked shortness of breath, sitting upright or leaning forward to breathe, use of neck and chest muscles, being able to speak only a few words at a time, confusion, and bluish skin. Diagnosis and assessment use the clinical examination, spirometry before and after a bronchodilator, and peak-flow monitoring. A severe attack requires prompt extra oxygen and repeated or continuous inhaled beta-receptor agonist treatment; a steroid is given if the response is not prompt and complete.",
-      "relevant_doc_ids": ["Asthma", "Antiasthmatic_drugs_Definition"]
+      "relevant_doc_ids": [
+        "Asthma",
+        "Antiasthmatic_drugs_Definition"
+      ]
     },
     {
       "id": "R13",
@@ -142,8 +171,11 @@
       "is_emergency": false,
       "query": "What are the common allergens that trigger severe allergic reactions?",
       "question_type": "Factual",
-      "ground_truth": "Common allergens that trigger severe allergic reactions include pollen, dust mites, mold spores, pet dander, insect stings (such as from bees), and certain foods (such as peanuts, tree nuts, shellfish, and eggs).",
-      "relevant_doc_ids": ["Allergies", "Anaphylaxis_Definition"]
+      "ground_truth": "Common allergens that trigger allergic and severe anaphylactic reactions include foods (such as peanuts, tree nuts, shellfish, fish, milk, and eggs), insect stings (from bees, wasps, hornets, yellow jackets, and fire ants), medications (such as penicillin and aspirin), latex, and airborne allergens (pollen, dust mites, mold spores, and animal dander).",
+      "relevant_doc_ids": [
+        "Allergies",
+        "Anaphylaxis_Definition"
+      ]
     },
     {
       "id": "R14",
@@ -153,8 +185,10 @@
       "is_emergency": false,
       "query": "How is berylliosis diagnosed and what occupational exposures cause it?",
       "question_type": "Factual",
-      "ground_truth": "Berylliosis follows inhalation of beryllium-containing dust or fumes, including occupational exposure in aerospace and manufacturing. Diagnosis includes exposure history and the beryllium lymphocyte proliferation test (BeLPT), which detects beryllium sensitivity in blood or lung-wash cells.",
-      "relevant_doc_ids": ["Berylliosis"]
+      "ground_truth": "Berylliosis is caused by inhaling beryllium dust or fumes, typically from occupational exposure in aerospace, nuclear, electronics, mining, metal machining, and ceramics or alloy manufacturing. Diagnosis is based on occupational exposure history, the beryllium lymphocyte proliferation test (BeLPT) on blood or bronchoalveolar lavage fluid, chest x-rays, pulmonary function tests, and lung biopsy.",
+      "relevant_doc_ids": [
+        "Berylliosis"
+      ]
     },
     {
       "id": "R15",
@@ -165,7 +199,9 @@
       "query": "What is the role of peak flow monitoring in assessing asthma severity?",
       "question_type": "Factual",
       "ground_truth": "A peak flow meter is an instrument related to spirometry that patients can use at home to keep track of asthma severity. Patients with moderate or severe asthma should know how to use it as part of self-monitoring, together with a written action plan that explains how to adjust medication and when to seek medical help if symptoms worsen.",
-      "relevant_doc_ids": ["Asthma"]
+      "relevant_doc_ids": [
+        "Asthma"
+      ]
     },
     {
       "id": "C01",
@@ -175,8 +211,10 @@
       "is_emergency": false,
       "query": "What is angina pectoris and what causes chest pain during exertion?",
       "question_type": "Factual",
-      "ground_truth": "Angina pectoris is chest pain or pressure caused by transient myocardial ischemia due to coronary artery disease, typically provoked by physical exertion or emotional stress and relieved by rest or sublingual nitroglycerin.",
-      "relevant_doc_ids": ["Angina"]
+      "ground_truth": "Angina pectoris is chest pain, tightness, or squeezing caused by an inadequate supply of blood and oxygen to the heart muscle (ischemia), most commonly due to narrowing of the coronary arteries from atherosclerosis (coronary artery disease). During physical exertion or emotional stress, the heart needs more oxygen than the narrowed arteries can deliver, provoking pain that is typically relieved by rest or nitroglycerin.",
+      "relevant_doc_ids": [
+        "Angina"
+      ]
     },
     {
       "id": "C02",
@@ -186,8 +224,10 @@
       "is_emergency": false,
       "query": "How do antihypertensive drugs help lower elevated blood pressure?",
       "question_type": "Factual",
-      "ground_truth": "Antihypertensive drugs lower blood pressure through different mechanisms. Diuretics promote sodium loss and reduce blood volume and peripheral resistance; calcium-channel blockers reduce contraction of heart and arterial muscle; vasodilators relax blood vessels; and adrenergic blockers reduce nerve stimulation of the heart and vessels.",
-      "relevant_doc_ids": ["Antihypertensive_drugs"]
+      "ground_truth": "Antihypertensive drugs lower blood pressure through several mechanisms: diuretics promote sodium and water loss to reduce blood volume and vessel resistance; beta-blockers and other adrenergic blockers reduce nerve impulses to the heart and blood vessels; calcium-channel blockers reduce contraction of heart and arterial muscle; vasodilators relax blood vessel walls; and ACE inhibitors block formation of a substance that narrows blood vessels.",
+      "relevant_doc_ids": [
+        "Antihypertensive_drugs"
+      ]
     },
     {
       "id": "C03",
@@ -198,7 +238,9 @@
       "query": "What are beta-blockers and how do they reduce heart rate and blood pressure?",
       "question_type": "Factual",
       "ground_truth": "Beta blockers are medicines that alter the body's response to certain nerve impulses. They decrease the force and rate of the heart's contractions, which lowers blood pressure and reduces the heart's oxygen demand. Their principal use is high blood pressure; some are also used for angina, prevention after a heart attack, and irregular heartbeat.",
-      "relevant_doc_ids": ["Beta_blockers"]
+      "relevant_doc_ids": [
+        "Beta_blockers"
+      ]
     },
     {
       "id": "C04",
@@ -209,7 +251,10 @@
       "query": "What are the mechanisms, indications, and side effects of anticoagulant drugs versus antiplatelet agents like aspirin?",
       "question_type": "Analytical",
       "ground_truth": "Anticoagulant drugs prevent new clots or keep existing clots from growing by inhibiting clotting-factor synthesis or thrombin activity; they are used, for example, after heart-valve replacement or to reduce stroke risk. Antiplatelet drugs such as aspirin instead prevent platelets from aggregating and are used to prevent harmful arterial clots. Both can increase bleeding risk; aspirin can also irritate the stomach and increase bleeding when combined with anticoagulants.",
-      "relevant_doc_ids": ["Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs", "Aspirin"]
+      "relevant_doc_ids": [
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+        "Aspirin"
+      ]
     },
     {
       "id": "C05",
@@ -219,8 +264,10 @@
       "is_emergency": false,
       "query": "What causes atherosclerosis and how does plaque buildup restrict blood flow?",
       "question_type": "Factual",
-      "ground_truth": "Atherosclerosis involves buildup of fatty and fibrous plaque within the inner lining of arteries. Risk factors include high blood cholesterol, high blood pressure, smoking, diabetes, and inactivity. As plaque thickens the arterial wall and narrows its diameter, blood flow is restricted.",
-      "relevant_doc_ids": ["Atherosclerosis"]
+      "ground_truth": "Atherosclerosis is thought to begin with damage to the artery's inner lining (endothelium) associated with high blood cholesterol, high blood pressure, and cigarette smoking, along with risk factors such as diabetes, obesity, physical inactivity, age, and heredity. Waxy plaque composed of fatty substances, cholesterol, cellular waste, calcium, and fibrin builds up in the inner arterial layer, thickening the wall and narrowing the artery's diameter so blood flow and oxygen delivery are restricted; plaque rupture can also trigger a blood clot (thrombosis) that blocks the vessel.",
+      "relevant_doc_ids": [
+        "Atherosclerosis"
+      ]
     },
     {
       "id": "C06",
@@ -230,8 +277,11 @@
       "is_emergency": false,
       "query": "What are cardiac arrhythmias and what antiarrhythmic medications are used to treat them?",
       "question_type": "Factual",
-      "ground_truth": "Arrhythmias are abnormal heart rhythms caused by disturbances in the heart's electrical signaling; the heartbeat may be too slow, too fast, or irregular. Drugs used to manage serious arrhythmias include beta-blockers, calcium-channel blockers, quinidine, digitalis preparations, and procainamide.",
-      "relevant_doc_ids": ["Arrhythmias", "Antiarrhythmic_drugs"]
+      "ground_truth": "Arrhythmias are abnormal heart rhythms caused by disturbances in the heart's electrical signaling system, resulting in a heartbeat that is too slow (bradycardia), too fast (tachycardia), or irregular. Medications used to control arrhythmias and restore a steadier rhythm include disopyramide, procainamide, quinidine, beta-blockers, calcium-channel blockers, and digitalis preparations.",
+      "relevant_doc_ids": [
+        "Arrhythmias",
+        "Antiarrhythmic_drugs"
+      ]
     },
     {
       "id": "C07",
@@ -241,8 +291,10 @@
       "is_emergency": false,
       "query": "What is an abdominal aortic aneurysm and what are its symptoms?",
       "question_type": "Factual",
-      "ground_truth": "An abdominal aortic aneurysm (AAA) is a localized dilation of the abdominal aorta, typically due to atherosclerosis, which can lead to rupture. Symptoms may include a pulsating mass in the abdomen, abdominal or back pain, and, in cases of rupture, sudden severe pain, hypotension, and signs of shock.",
-      "relevant_doc_ids": ["Aortic_aneurysm"]
+      "ground_truth": "An abdominal aortic aneurysm is an abnormal bulging or swelling in the wall of the abdominal portion of the aorta, most commonly caused by atherosclerosis weakening the aortic wall (as well as high blood pressure or breakdown of the middle muscular layer). Stable aneurysms may produce no symptoms, while symptomatic abdominal aortic aneurysms cause pain in the lower back, hips, and abdomen, which often warns that the aneurysm could rupture (burst) soon.",
+      "relevant_doc_ids": [
+        "Aortic_aneurysm"
+      ]
     },
     {
       "id": "C08",
@@ -252,8 +304,10 @@
       "is_emergency": false,
       "query": "How is coronary angiography performed and what conditions does it diagnose?",
       "question_type": "Factual",
-      "ground_truth": "Coronary angiography uses a catheter and injected contrast material to produce X-ray images of the coronary arteries. It helps identify narrowed or blocked arteries and other abnormalities in coronary blood flow.",
-      "relevant_doc_ids": ["Angiography"]
+      "ground_truth": "In coronary angiography, a guide wire and catheter are typically inserted through an arterial puncture in the femoral artery and guided into the coronary arteries or heart chambers, where radiopaque contrast dye is injected while rapid x-ray or fluoroscopic images are taken. It is used to identify arterial blockages (occlusions), atherosclerosis, and heart or valve disease, and to map the coronary vessels prior to open-heart surgery.",
+      "relevant_doc_ids": [
+        "Angiography"
+      ]
     },
     {
       "id": "C09",
@@ -261,11 +315,12 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are the clinical signs and symptoms of athletic heart syndrome?",
+      "query": "What is athletic heart syndrome, how does the heart adapt to static versus dynamic training, and what sudden-death figures are reported in the article's prognosis section?",
       "question_type": "Factual",
-      "ground_truth": "The restored Athletic_heart_syndrome article describes exercise-related heart enlargement and ECG changes but does not substantiate the specific clinical signs listed in the reference answer. This question is excluded from answer scoring until the missing clinical source is restored or the question and answer are revised.",
-      "relevant_doc_ids": ["Athletic_heart_syndrome"],
-      "ground_truth_status": "source_missing"
+      "ground_truth": "Athletic heart syndrome is the heart's adaptation to strenuous physical training. The heart enlarges, especially the left ventricle, increasing cardiac output; ECG changes can resemble those of heart disease. Static training such as weight lifting uses smaller muscle groups under high resistance for brief periods, while dynamic training such as aerobics or tennis uses larger muscle groups at lower resistance for longer periods. In its prognosis section, the article reports annual sudden unexpected death rates below 7 per 100,000 people under age 35 (about 8% exercise-related) and about 55 per 100,000 people over age 35 (about 3% during exercise); these are age-group figures, not a separate prognosis estimate for people with athletic heart syndrome.",
+      "relevant_doc_ids": [
+        "Athletic_heart_syndrome"
+      ]
     },
     {
       "id": "C10",
@@ -275,8 +330,10 @@
       "is_emergency": false,
       "query": "chest tightness during exercise",
       "question_type": "Factual",
-      "ground_truth": "Chest tightness during exercise may indicate exercise-induced bronchoconstriction, angina pectoris due to coronary artery disease, or other cardiovascular conditions; evaluation typically includes a thorough history, physical examination, and possibly stress testing or imaging studies to determine the underlying cause.",
-      "relevant_doc_ids": ["Angina"]
+      "ground_truth": "Chest tightness, squeezing, or pain during physical exercise is a classic symptom of angina pectoris, which occurs when physical exertion increases the heart muscle's demand for oxygen beyond what narrowed or blocked coronary arteries can supply; the discomfort typically lasts a few minutes and is relieved by rest or nitroglycerin.",
+      "relevant_doc_ids": [
+        "Angina"
+      ]
     },
     {
       "id": "C11",
@@ -286,8 +343,10 @@
       "is_emergency": false,
       "query": "What are the side effects and contraindications of beta-blocker medications?",
       "question_type": "Relational",
-      "ground_truth": "Beta blockers may cause dizziness, lightheadedness, fatigue, cold hands and feet, or a slower heartbeat. Before treatment, clinicians should review conditions such as breathing problems, diabetes, slow heartbeat, and pregnancy, as well as possible drug interactions; beta blockers should not be stopped abruptly without medical advice.",
-      "relevant_doc_ids": ["Beta_blockers"]
+      "ground_truth": "Common side effects of beta blockers include dizziness, drowsiness, lightheadedness, sleep problems, unusual tiredness or weakness, and decreased sexual ability, while more serious side effects include breathing difficulty, slow heartbeat, cold hands and feet, swelling of the legs or ankles, and depression. Caution or medical review is required in patients with bronchitis or emphysema, unusually slow heartbeat, heart or blood-vessel disease, diabetes, kidney or liver disease, overactive thyroid, myasthenia gravis, depression, pregnancy, or breastfeeding, and beta blockers should not be stopped abruptly.",
+      "relevant_doc_ids": [
+        "Beta_blockers"
+      ]
     },
     {
       "id": "C12",
@@ -297,8 +356,10 @@
       "is_emergency": false,
       "query": "What are the bleeding risks associated with anticoagulant medications?",
       "question_type": "Factual",
-      "ground_truth": "Anticoagulant medications increase the risk of bleeding complications, including gastrointestinal hemorrhage, intracranial hemorrhage, and excessive bleeding from minor injuries, primarily due to their effects on coagulation pathways and platelet function.",
-      "relevant_doc_ids": ["Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs"]
+      "ground_truth": "Because anticoagulant medications reduce the blood's clotting ability, their main risk is abnormal or excessive bleeding, including bleeding gums, unexplained nosebleeds or bruising, heavy bleeding or oozing from cuts or wounds, heavy menstrual bleeding, blood in the urine, black tarry or bloody stools, coughing up or vomiting blood (or coffee-ground material), and internal bleeding.",
+      "relevant_doc_ids": [
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs"
+      ]
     },
     {
       "id": "C13",
@@ -308,8 +369,10 @@
       "is_emergency": false,
       "query": "What is acrocyanosis and what causes bluish discoloration of the extremities?",
       "question_type": "Factual",
-      "ground_truth": "Acrocyanosis is a condition characterized by bluish discoloration of the extremities, typically caused by inadequate blood flow or oxygenation, often due to peripheral vasoconstriction, exposure to cold, or underlying vascular disorders.",
-      "relevant_doc_ids": ["Acrocyanosis"]
+      "ground_truth": "Acrocyanosis is a benign, painless condition in which the hands and feet turn persistently blue, cold, and sweaty due to decreased oxygen delivery. It is caused by sympathetic nerve-mediated constriction or spasm of small peripheral blood vessels in the skin, which narrows the vessels and reduces blood flow to the extremities; cold temperatures and emotion worsen the discoloration, while warmth reduces it.",
+      "relevant_doc_ids": [
+        "Acrocyanosis"
+      ]
     },
     {
       "id": "C14",
@@ -319,8 +382,10 @@
       "is_emergency": false,
       "query": "What are the risk factors, diagnostic procedures, and medication options for atherosclerosis?",
       "question_type": "Factual",
-      "ground_truth": "Risk factors for atherosclerosis include hypertension, hyperlipidemia, smoking, diabetes mellitus, obesity, and a sedentary lifestyle. Diagnostic procedures include lipid profile testing, coronary angiography, and non-invasive imaging techniques such as ultrasound or CT angiography. Medication options include statins (e.g., atorvastatin), antiplatelet agents (e.g., aspirin), and antihypertensives to manage risk factors and reduce cardiovascular events.",
-      "relevant_doc_ids": ["Atherosclerosis"]
+      "ground_truth": "Risk factors for atherosclerosis include cigarette smoking, high blood cholesterol (especially LDL), high triglycerides, high blood pressure, physical inactivity, diabetes mellitus, obesity, heredity, sex, and age. Diagnostic procedures include physical examination (listening with a stethoscope and palpating arteries), electrocardiography (including exercise stress testing), echocardiography and arterial ultrasonography, radionuclide angiography and thallium or sestamibi scans, and coronary angiography. Medication options include lipid-lowering drugs (bile acid resins, statins, niacin, and fibric acid derivatives such as gemfibrozil), aspirin to prevent thrombosis, and antihypertensive drugs (such as diuretics, beta-blockers, ACE inhibitors, calcium antagonists, and vasodilators).",
+      "relevant_doc_ids": [
+        "Atherosclerosis"
+      ]
     },
     {
       "id": "C15",
@@ -331,7 +396,9 @@
       "query": "How do antiarrhythmic drugs regulate abnormal electrical activity in the heart?",
       "question_type": "Factual",
       "ground_truth": "The heart's rhythm is controlled by electrical signals. Antiarrhythmic drugs help correct irregular heartbeats and slow hearts that beat too fast, restoring a steadier rhythm; examples in the source include disopyramide, procainamide, and quinidine.",
-      "relevant_doc_ids": ["Antiarrhythmic_drugs"]
+      "relevant_doc_ids": [
+        "Antiarrhythmic_drugs"
+      ]
     },
     {
       "id": "P01",
@@ -342,7 +409,9 @@
       "query": "What are the primary indications, dosage, and side effects of aspirin?",
       "question_type": "Factual",
       "ground_truth": "Aspirin relieves minor pain, reduces fever and inflammation, and may be taken under medical direction to reduce the risk of stroke or heart attack. The source recommends one to two tablets every three to four hours, up to six times daily, for adult pain or fever; stroke and heart-attack prevention require indication-specific medical guidance. Side effects include stomach irritation or pain, ulcers, bleeding, dizziness, ringing in the ears, and allergic breathing difficulty, especially in people with asthma, rhinitis, or nasal polyps. Children or teenagers with flu-like illness or chickenpox should not receive aspirin because of the risk of Reye syndrome.",
-      "relevant_doc_ids": ["Aspirin"]
+      "relevant_doc_ids": [
+        "Aspirin"
+      ]
     },
     {
       "id": "P02",
@@ -353,7 +422,9 @@
       "query": "What are the uses, recommended dose, and toxicity risks of acetaminophen?",
       "question_type": "Factual",
       "ground_truth": "Acetaminophen relieves pain and reduces fever. For adults and children age 12 or older, the source gives 325-650 mg every four to six hours as needed, with no more than 4,000 mg in 24 hours; for ages 6-11 it gives 150-300 mg three to four times daily, while a physician should set doses below age six. Many combination cold and flu products also contain acetaminophen, so their ingredients must be counted. Excess dosing can seriously damage the liver and has led to liver transplantation or death; heavy alcohol use and liver disease increase concern.",
-      "relevant_doc_ids": ["Acetaminophen"]
+      "relevant_doc_ids": [
+        "Acetaminophen"
+      ]
     },
     {
       "id": "P03",
@@ -364,7 +435,9 @@
       "query": "Can aspirin interact dangerously with anticoagulant medications?",
       "question_type": "Relational",
       "ground_truth": "Aspirin can increase bleeding. The source specifically warns that taking aspirin with blood-thinning drugs such as warfarin or dicumarol increases the risk of excessive bleeding, so a patient taking these medicines should ask a physician whether aspirin can be used safely.",
-      "relevant_doc_ids": ["Aspirin"]
+      "relevant_doc_ids": [
+        "Aspirin"
+      ]
     },
     {
       "id": "P04",
@@ -375,7 +448,9 @@
       "query": "Why is aspirin contraindicated in children with viral infections (Reye syndrome)?",
       "question_type": "Relational",
       "ground_truth": "Aspirin, including children's aspirin, should never be given to children or teenagers with flu-like symptoms or chickenpox because it can cause Reye syndrome. The source describes Reye syndrome as a life-threatening condition affecting the nervous system and liver that may cause death or permanent brain damage.",
-      "relevant_doc_ids": ["Aspirin"]
+      "relevant_doc_ids": [
+        "Aspirin"
+      ]
     },
     {
       "id": "P05",
@@ -386,7 +461,10 @@
       "query": "Compare the therapeutic indications, mechanism of action, and liver vs stomach toxicity of acetaminophen and aspirin.",
       "question_type": "Analytical",
       "ground_truth": "Both acetaminophen and aspirin relieve pain and reduce fever. The source states that acetaminophen is less likely to irritate the stomach but, unlike aspirin, does not reduce the redness, stiffness, or swelling of arthritis. Excess acetaminophen can cause severe liver damage, especially with heavy alcohol use or existing liver disease. Aspirin blocks production of pain-producing prostaglandins, reduces inflammation, and is also used under medical direction to reduce stroke or heart-attack risk; its prominent risks include stomach irritation, ulcers, and bleeding.",
-      "relevant_doc_ids": ["Acetaminophen", "Aspirin"]
+      "relevant_doc_ids": [
+        "Acetaminophen",
+        "Aspirin"
+      ]
     },
     {
       "id": "P06",
@@ -397,7 +475,9 @@
       "query": "What are antibiotics and what bacterial infections are they prescribed for?",
       "question_type": "Factual",
       "ground_truth": "Antibiotics are anti-infective drugs derived from bacterial sources and are used to treat or prevent bacterial infection. Selection depends on the organism, infection site, severity, route, and drug spectrum. Examples in the source include older quinolones for urinary tract infections, cefoxitin for anaerobic abdominal infections, third-generation cephalosporins for meningitis or encephalitis, cephalosporins for surgical prophylaxis, and clarithromycin for Helicobacter pylori infection. Antibiotics should be reserved for known or reasonably suspected bacterial infections and avoided for viral infections.",
-      "relevant_doc_ids": ["Antibiotics"]
+      "relevant_doc_ids": [
+        "Antibiotics"
+      ]
     },
     {
       "id": "P07",
@@ -407,8 +487,10 @@
       "is_emergency": false,
       "query": "What medications are classified as antimigraine drugs and how do they relieve headache pain?",
       "question_type": "Factual",
-      "ground_truth": "Antimigraine drugs include triptans (e.g., sumatriptan, rizatriptan) and ergot alkaloids (e.g., ergotamine), which relieve headache pain by agonizing serotonin (5-HT) receptors, leading to vasoconstriction of dilated intracranial blood vessels and inhibition of pro-inflammatory neuropeptide release.",
-      "relevant_doc_ids": ["Antimigraine_drugs"]
+      "ground_truth": "Antimigraine drugs include ergotamine (Cafergot), triptans such as sumatriptan (Imitrex), naratriptan (Amerge), rizatriptan (Maxalt), almotriptan (Axert), and zolmitriptan (Zomig), methysergide maleate (Sansert), and combination preparations containing ergotamine and caffeine or acetaminophen, caffeine, and a barbiturate (such as Fioricet). They are believed to relieve migraine pain by correcting electrical and chemical imbalances in the brain and tightening widened cerebral blood vessels that otherwise trigger pain-sensitizing chemicals, inflammation, and swelling.",
+      "relevant_doc_ids": [
+        "Antimigraine_drugs"
+      ]
     },
     {
       "id": "P08",
@@ -416,11 +498,12 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are anticonvulsant drugs and what types of seizures do they control?",
+      "query": "What are anticonvulsant drugs, what major drug classes and medications belong to this group, and what are their common side effects?",
       "question_type": "Factual",
-      "ground_truth": "The Anticonvulsant_drugs article says different medicines may be prescribed for different seizures, but it does not identify which named seizure types they control. This question is excluded from answer scoring until a source covering seizure types is restored or the question and answer are revised.",
-      "relevant_doc_ids": ["Anticonvulsant_drugs"],
-      "ground_truth_status": "source_missing"
+      "ground_truth": "Anticonvulsant drugs are prescription medicines used to prevent or treat convulsions (seizures) by acting on the brain to reduce the frequency and severity of seizures caused by electrical imbalances in epilepsy, and are also prescribed for bipolar disorder and migraine headaches. Major classes and drugs include hydantoins (phenytoin, mephenytoin), succinimides (ethosuximide, methsuximide), benzodiazepines (clonazepam, clorazepate, diazepam), phenobarbital, and other agents such as carbamazepine, valproic acid, gabapentin, topiramate, and felbamate. The most common side effects are constipation, mild nausea or vomiting, and mild dizziness, drowsiness, or lightheadedness, while serious risks include liver damage (notably with valproic acid and felbamate) and aplastic anemia (with felbamate).",
+      "relevant_doc_ids": [
+        "Anticonvulsant_drugs"
+      ]
     },
     {
       "id": "P09",
@@ -430,8 +513,10 @@
       "is_emergency": false,
       "query": "How do antacids work to neutralize gastric stomach acid?",
       "question_type": "Factual",
-      "ground_truth": "Antacids work by chemically neutralizing gastric hydrochloric acid through a reaction that produces water and other neutral compounds, thereby increasing gastric pH and alleviating symptoms of acid-related disorders such as heartburn and indigestion.",
-      "relevant_doc_ids": ["Antacids"]
+      "ground_truth": "Antacids reduce gastric acid levels to provide rapid, short-term relief of acid indigestion, upset or sour stomach, and heartburn through two main mechanisms: chemical neutralization of stomach acid (such as with sodium bicarbonate) and adsorption of the acid by non-absorbable antacids (such as calcium, magnesium, and aluminum salts).",
+      "relevant_doc_ids": [
+        "Antacids"
+      ]
     },
     {
       "id": "P10",
@@ -441,8 +526,10 @@
       "is_emergency": false,
       "query": "What are antifungal drugs and what fungal infections do they treat?",
       "question_type": "Factual",
-      "ground_truth": "Antifungal drugs treat infections caused by fungi. Systemic antifungal medicines are taken by mouth or injection for deeper infections, including candidiasis, histoplasmosis, blastomycosis, and aspergillosis; superficial fungal infections may be treated locally.",
-      "relevant_doc_ids": ["Antifungal_drugs,_systemic"]
+      "ground_truth": "Antifungal drugs treat infections caused by fungi. While superficial skin infections are usually treated with topical creams or ointments, systemic antifungal drugs—such as caspofungin, flucytosine, fluconazole, itraconazole, ketoconazole, and miconazole—are taken by mouth or injection to treat persistent or deep fungal infections including tinea (ringworm), candidiasis (thrush or yeast infections), histoplasmosis, blastomycosis, and aspergillosis, as well as fungal infections in immunocompromised patients.",
+      "relevant_doc_ids": [
+        "Antifungal_drugs,_systemic"
+      ]
     },
     {
       "id": "P11",
@@ -453,7 +540,10 @@
       "query": "What are the risks and side effects of broad-spectrum antibiotic overuse?",
       "question_type": "Factual",
       "ground_truth": "Excessive or inappropriate antibiotic use promotes resistant pathogens, and all antibiotics risk overgrowth by nonsusceptible bacteria. Broad-spectrum antibiotics can also cause pseudomembranous or antibiotic-associated colitis: after normal intestinal bacteria are killed, Clostridium difficile can multiply, release toxins, inflame the intestine, and cause cramps and watery diarrhea. When broad-spectrum treatment is needed for a severe infection, the source recommends changing to a narrow-spectrum agent once the pathogen is identified.",
-      "relevant_doc_ids": ["Antibiotics", "Antibiotic-associated_colitis"]
+      "relevant_doc_ids": [
+        "Antibiotics",
+        "Antibiotic-associated_colitis"
+      ]
     },
     {
       "id": "P12",
@@ -463,8 +553,11 @@
       "is_emergency": false,
       "query": "What is the difference between local anesthesia and general anesthesia?",
       "question_type": "Analytical",
-      "ground_truth": "Local anesthesia involves the administration of anesthetic agents to a specific area to block sensation in that localized region, allowing patients to remain fully conscious, while general anesthesia induces a reversible state of unconsciousness and loss of sensation throughout the entire body, typically requiring airway management and monitoring of vital functions.",
-      "relevant_doc_ids": ["Anesthesia,_general", "Anesthesia,_local"]
+      "ground_truth": "Local (or regional) anesthesia involves injecting or applying an anesthetic drug (such as lidocaine, procaine, or tetracaine) to a specific area of the body to temporarily block nerve impulses and pain sensation in that region while the patient remains conscious. In contrast, general anesthesia uses inhaled gases or intravenous drugs (such as propofol, thiopental, halothane, or isoflurane) to induce total unconsciousness, loss of pain sensation over the entire body, amnesia, and muscle relaxation, with continuous monitoring of breathing, heart rate, blood pressure, and brain activity.",
+      "relevant_doc_ids": [
+        "Anesthesia,_general",
+        "Anesthesia,_local"
+      ]
     },
     {
       "id": "P13",
@@ -474,8 +567,11 @@
       "is_emergency": false,
       "query": "What are the side effects, contraindications, and drug interactions of beta-blockers and aspirin?",
       "question_type": "Relational",
-      "ground_truth": "Beta blockers commonly cause dizziness, drowsiness, lightheadedness, sleep problems, unusual tiredness or weakness, and decreased sexual ability; serious effects include breathing problems and slow heartbeat. They require caution with conditions such as diabetes, pulmonary disease, kidney or liver disease, cardiovascular disease, and bradycardia, and can interact with calcium-channel blockers, other blood-pressure drugs, diabetes medicines, bronchodilators, and several other drugs. Aspirin can irritate the stomach and cause ulcers or bleeding, and susceptible people with asthma, rhinitis, or nasal polyps may have breathing difficulty. Combining aspirin with warfarin or dicumarol increases the risk of excessive bleeding, and aspirin can also counteract beta blockers.",
-      "relevant_doc_ids": ["Beta_blockers", "Aspirin"]
+      "ground_truth": "Beta blockers commonly cause dizziness, drowsiness, lightheadedness, sleep problems, unusual tiredness or weakness, and decreased sexual ability, with serious effects including breathing problems, slow heartbeat, and cold hands and feet. They require caution in patients with bronchitis or emphysema, slow heartbeat, diabetes, kidney or liver disease, heart disease, or depression, and interact with calcium-channel blockers, other antihypertensives, diabetes drugs, bronchodilators, cimetidine, and monoamine oxidase inhibitors. Aspirin can cause stomach irritation, heartburn, ulcers, bleeding, ringing in the ears, and breathing difficulty in people with asthma, rhinitis, or nasal polyps; it is contraindicated in children or teenagers with flu-like illness or chickenpox (due to Reye syndrome) and in late pregnancy or bleeding disorders, increases bleeding risk with anticoagulants like warfarin or dicumarol, and can counteract the effects of beta blockers.",
+      "relevant_doc_ids": [
+        "Beta_blockers",
+        "Aspirin"
+      ]
     },
     {
       "id": "P14",
@@ -485,8 +581,11 @@
       "is_emergency": false,
       "query": "What antiviral drugs are available and how do they inhibit viral replication?",
       "question_type": "Factual",
-      "ground_truth": "Antiviral drugs treat or control particular viral infections. Examples include acyclovir, famciclovir, and valacyclovir for herpesvirus infections, and oseltamivir or zanamivir for influenza. The source explains that antivirals typically inactivate enzymes needed for viral replication; antiretroviral drugs can block steps such as reverse transcription in HIV.",
-      "relevant_doc_ids": ["Antiviral_drugs", "Antiretroviral_drugs"]
+      "ground_truth": "Antiviral drugs control specific viral infections—including acyclovir, famciclovir, and valacyclovir for herpesviruses; amantadine, rimantadine, oseltamivir, and zanamivir for influenza; cidofovir, foscarnet, and ganciclovir for cytomegalovirus; and ribavirin for respiratory syncytial virus—by inactivating enzymes required for viral replication so viral growth is reduced. For retroviruses such as HIV, antiretroviral drugs block replication steps, notably nucleoside and non-nucleoside reverse transcriptase inhibitors (such as zidovudine, lamivudine, didanosine, and nevirapine) that inhibit the reverse transcriptase enzyme needed to copy viral RNA into DNA.",
+      "relevant_doc_ids": [
+        "Antiviral_drugs",
+        "Antiretroviral_drugs"
+      ]
     },
     {
       "id": "P15",
@@ -497,7 +596,10 @@
       "query": "Why should patients with asthma exercise caution when taking aspirin?",
       "question_type": "Factual",
       "ground_truth": "Aspirin can worsen asthma symptoms. The aspirin entry states that people with a history of asthma, nasal polyps, or both are more likely to be allergic to aspirin, and that people with asthma, rhinitis, or nasal polyps may have trouble breathing after taking it. A person with these conditions should check with a physician before using aspirin.",
-      "relevant_doc_ids": ["Aspirin", "Asthma"]
+      "relevant_doc_ids": [
+        "Aspirin",
+        "Asthma"
+      ]
     },
     {
       "id": "G01",
@@ -507,8 +609,10 @@
       "is_emergency": false,
       "query": "What are the classic symptoms and clinical signs of acute appendicitis?",
       "question_type": "Factual",
-      "ground_truth": "Acute appendicitis classically begins with vague or periumbilical abdominal pain that migrates to the right lower quadrant, with localized tenderness near McBurney's point. Associated findings commonly include loss of appetite, nausea, vomiting, low-grade fever, guarding, and pain worsened by movement or coughing.",
-      "relevant_doc_ids": ["Appendicitis"]
+      "ground_truth": "Acute appendicitis classically begins with pain around or above the navel that moves to the right lower corner of the abdomen, where it becomes steadier and more severe and worsens with movement or coughing. Clinical signs and associated symptoms include abdominal rigidity and tenderness to the touch, loss of appetite, nausea and vomiting, occasional constipation or diarrhea, and a normal or slightly elevated temperature (with fever, high white blood cell count, and fast heart rate suggesting rupture).",
+      "relevant_doc_ids": [
+        "Appendicitis"
+      ]
     },
     {
       "id": "G02",
@@ -519,7 +623,10 @@
       "query": "How is appendicitis diagnosed and what is an appendectomy?",
       "question_type": "Factual",
       "ground_truth": "Appendicitis is diagnosed from the symptom history and physical examination, supported by a white-blood-cell count and urinalysis; CT or ultrasound may be used when the diagnosis is uncertain. An appendectomy is surgical removal of the appendix to treat appendicitis and may be performed through a traditional open incision or laparoscopically.",
-      "relevant_doc_ids": ["Appendicitis", "Appendectomy"]
+      "relevant_doc_ids": [
+        "Appendicitis",
+        "Appendectomy"
+      ]
     },
     {
       "id": "G03",
@@ -530,7 +637,9 @@
       "query": "What is an abdominal ultrasound and what abdominal organs does it examine?",
       "question_type": "Factual",
       "ground_truth": "Abdominal ultrasound sends high-frequency sound waves into the body, receives the echoes from tissues and organs, and uses a computer to translate them into an image. It can study the major abdominal organs and is used to evaluate the liver and bile ducts, pancreas, gallbladder, spleen, kidneys, and abdominal aorta, as well as abdominal masses, trauma, pain, and urinary blockage.",
-      "relevant_doc_ids": ["Abdominal_ultrasound"]
+      "relevant_doc_ids": [
+        "Abdominal_ultrasound"
+      ]
     },
     {
       "id": "G04",
@@ -541,7 +650,10 @@
       "query": "What are the causes, diagnostic procedures, and surgical treatments for acute appendicitis versus peritonitis?",
       "question_type": "Analytical",
       "ground_truth": "Appendicitis is inflammation of the appendix that can follow obstruction, ulceration, or bacterial invasion. Diagnosis uses the history and physical examination, white-blood-cell count and urinalysis, with CT or ultrasound when the diagnosis is uncertain; treatment is prompt surgical removal by open or laparoscopic appendectomy. If the appendix ruptures, infected contents can cause peritonitis, a generalized abdominal infection. The source describes treatment of peritonitis from a ruptured appendix as removal of the remaining appendix, placement of drains, and antibiotics.",
-      "relevant_doc_ids": ["Appendicitis", "Appendectomy"]
+      "relevant_doc_ids": [
+        "Appendicitis",
+        "Appendectomy"
+      ]
     },
     {
       "id": "G05",
@@ -551,8 +663,11 @@
       "is_emergency": false,
       "query": "What is an abscess and how is incision and drainage performed?",
       "question_type": "Factual",
-      "ground_truth": "An abscess is a localized collection of pus caused by infection, characterized by swelling, redness, and pain. Incision and drainage (I&D) involves making a surgical incision over the abscess to allow the pus to escape, followed by thorough irrigation of the cavity and, if necessary, placement of a drain to facilitate further drainage and prevent re-accumulation.",
-      "relevant_doc_ids": ["Abscess", "Abscess_incision_&_drainage"]
+      "ground_truth": "An abscess is an enclosed collection of liquefied tissue (pus) formed during the body's defensive reaction to an infection or foreign material, characterized by heat, swelling, redness, and pain. In incision and drainage, the physician cuts into the abscess lining to let the pus escape, thoroughly cleans and irrigates the cavity with saline, and either packs the wound with gauze for 24–48 hours or inserts a drainage tube with a sterile dressing so pus can continue draining and the abscess does not reform.",
+      "relevant_doc_ids": [
+        "Abscess",
+        "Abscess_incision_&_drainage"
+      ]
     },
     {
       "id": "G06",
@@ -562,8 +677,10 @@
       "is_emergency": false,
       "query": "What causes achalasia and what swallowing difficulties does it produce?",
       "question_type": "Factual",
-      "ground_truth": "Achalasia occurs when nerve cells that normally signal relaxation of the lower esophageal sphincter degenerate, so the sphincter fails to relax and normal peristalsis is interrupted. This causes difficulty swallowing liquids and solids, a feeling that food is stuck, and sometimes chest pain or regurgitation.",
-      "relevant_doc_ids": ["Achalasia"]
+      "ground_truth": "Achalasia is caused by degeneration of the nerve cells that signal the lower esophageal sphincter to relax, leaving the sphincter contracted and interrupting normal esophageal peristalsis so food cannot enter the stomach. It causes dysphagia (difficulty swallowing both liquid and solid foods), a sensation that food gets stuck on the way down, chest pain, heartburn, difficulty belching, and sometimes nighttime cough or recurrent pneumonia.",
+      "relevant_doc_ids": [
+        "Achalasia"
+      ]
     },
     {
       "id": "G07",
@@ -573,8 +690,10 @@
       "is_emergency": false,
       "query": "What is biliary atresia and what symptoms does it cause in newborns?",
       "question_type": "Multi-hop",
-      "ground_truth": "Biliary atresia is a congenital condition characterized by the obstruction or absence of the bile ducts, leading to cholestasis. Symptoms in newborns include jaundice (yellowing of the skin and eyes), pale stools, dark urine, and poor weight gain.",
-      "relevant_doc_ids": ["Biliary_atresia"]
+      "ground_truth": "Biliary atresia is a congenital condition in which a fetus fails to develop an adequate pathway of bile ducts to drain bile from the liver to the intestine. Affected infants appear normal at birth, but after two weeks newborn jaundice persists (yellowing from excess bilirubin), stools become clay-colored due to lack of bile, the abdomen begins to swell, and without surgical treatment the infant becomes progressively more ill and develops liver failure.",
+      "relevant_doc_ids": [
+        "Biliary_atresia"
+      ]
     },
     {
       "id": "G08",
@@ -584,8 +703,10 @@
       "is_emergency": false,
       "query": "What are the symptoms and risk factors for bile duct cancer (cholangiocarcinoma)?",
       "question_type": "Factual",
-      "ground_truth": "Bile duct cancer can obstruct bile flow, causing jaundice, dark urine, pale stools, generalized itching, and sometimes abdominal symptoms. The source identifies liver-fluke infection as a risk factor, particularly in Southeast Asia.",
-      "relevant_doc_ids": ["Bile_duct_cancer"]
+      "ground_truth": "Bile duct cancer (cholangiocarcinoma) obstructs bile flow, most commonly causing jaundice (yellowing of the skin and eyes), dark urine, generalized itching, and pale stools, along with less common symptoms such as abdominal pain, fatigue, weight loss, and poor appetite. Risk factors identified in the source include primary sclerosing cholangitis, choledochal cysts, hepatolithiasis (liver stones), parasitic infection with liver flukes, and past exposure to the radiographic contrast agent Thorotrast.",
+      "relevant_doc_ids": [
+        "Bile_duct_cancer"
+      ]
     },
     {
       "id": "G09",
@@ -595,8 +716,10 @@
       "is_emergency": false,
       "query": "What is the purpose of an acid phosphatase test?",
       "question_type": "Factual",
-      "ground_truth": "The acid phosphatase test is primarily used to detect the presence of prostatic cancer by measuring the level of acid phosphatase enzyme in the blood, as elevated levels can indicate metastatic disease, particularly in the prostate.",
-      "relevant_doc_ids": ["Acid_phosphatase_test"]
+      "ground_truth": "The acid phosphatase test measures blood levels of the enzyme acid phosphatase—particularly prostatic acid phosphatase (PAP)—to determine whether prostate cancer has spread (metastasized) to other parts of the body, especially the bone, and to monitor the effectiveness of prostate cancer treatment.",
+      "relevant_doc_ids": [
+        "Acid_phosphatase_test"
+      ]
     },
     {
       "id": "G10",
@@ -607,7 +730,9 @@
       "query": "lower right abdomen pain and fever",
       "question_type": "Factual",
       "ground_truth": "Lower right abdomen pain and fever are clinical signs suggestive of acute appendicitis, which may require diagnostic imaging (such as an ultrasound or CT scan) and often necessitates surgical intervention (appendectomy).",
-      "relevant_doc_ids": ["Appendicitis"]
+      "relevant_doc_ids": [
+        "Appendicitis"
+      ]
     },
     {
       "id": "G11",
@@ -615,10 +740,12 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are abdominal wall defects such as gastroschisis and omphalocele?",
+      "query": "What are congenital abdominal wall defects, and how are they diagnosed and treated?",
       "question_type": "Factual",
-      "ground_truth": "Gastroschisis and omphalocele are congenital abdominal-wall defects in which abdominal organs protrude through an opening because the wall did not close normally during fetal development.",
-      "relevant_doc_ids": ["Abdominal_wall_defects"]
+      "ground_truth": "Congenital abdominal wall defects are birth defects in which the umbilical opening is too large or develops improperly during fetal development, allowing the stomach or intestines (viscera) to remain outside or protrude through the abdominal wall. They may be detected before birth by ultrasound examination and are obvious at birth because the base of the umbilical cord bulges or contains internal organs. They are treated with surgical repair to place the functional organs back into the abdominal cavity and close and strengthen the abdominal wall opening.",
+      "relevant_doc_ids": [
+        "Abdominal_wall_defects"
+      ]
     },
     {
       "id": "G12",
@@ -628,8 +755,11 @@
       "is_emergency": false,
       "query": "What are the complications of a ruptured appendix?",
       "question_type": "Factual",
-      "ground_truth": "Complications of a ruptured appendix include peritonitis, abscess formation, sepsis, and bowel obstruction due to adhesions or inflammation.",
-      "relevant_doc_ids": ["Appendicitis"]
+      "ground_truth": "When an appendix ruptures, infected contents spill into the abdominal cavity and can cause peritonitis (a generalized, potentially fatal abdominal infection), intra-abdominal abscess formation, wound infections, fibrous adhesions that can lead to intestinal obstruction, fistula formation between the cecum and skin, slower recovery, or death.",
+      "relevant_doc_ids": [
+        "Appendicitis",
+        "Appendectomy"
+      ]
     },
     {
       "id": "G13",
@@ -640,7 +770,9 @@
       "query": "How should a patient prepare for an abdominal ultrasound examination?",
       "question_type": "Factual",
       "ground_truth": "The source recommends fasting for at least eight hours before an abdominal ultrasound so the stomach is empty, the intestines and bowel are relatively inactive, and the gallbladder can be seen before it contracts after eating. In some cases the patient should arrive with a full bladder, which can move gas-filled intestinal folds out of the way. These preparations are especially useful when the gallbladder, ovaries, or veins are examined.",
-      "relevant_doc_ids": ["Abdominal_ultrasound"]
+      "relevant_doc_ids": [
+        "Abdominal_ultrasound"
+      ]
     },
     {
       "id": "G14",
@@ -650,8 +782,11 @@
       "is_emergency": false,
       "query": "What are the clinical presentation, risks, and recovery process after an abscess incision and drainage?",
       "question_type": "Factual",
-      "ground_truth": "An abscess is a localized collection of pus that may require incision and drainage. After drainage, the wound is cleaned and dressed and may need ongoing drainage; the abscess can recur or spread if infection is not controlled. Prognosis for the drained abscess is generally good, while overall recovery depends on the underlying condition.",
-      "relevant_doc_ids": ["Abscess_incision_&_drainage", "Abscess"]
+      "ground_truth": "An abscess presents as an enclosed collection of pus with localized heat, redness, swelling, pain, and tenderness, sometimes accompanied by fever and chills. After incision, saline irrigation, and gauze packing or drainage-tube placement, pain subsides quickly and healing is usually rapid, with heat, elevation, and antibiotics used as needed. Risks include scarring, tissue damage in vital organs, or serious spread of infection (such as septicemia) if not properly drained, while prognosis after proper drainage is generally excellent.",
+      "relevant_doc_ids": [
+        "Abscess_incision_&_drainage",
+        "Abscess"
+      ]
     },
     {
       "id": "G15",
@@ -661,8 +796,10 @@
       "is_emergency": false,
       "query": "What causes beriberi (thiamine vitamin B1 deficiency) and what are its symptoms?",
       "question_type": "Multi-hop",
-      "ground_truth": "Beriberi is caused by a deficiency of thiamine (vitamin B1), often due to inadequate dietary intake, malabsorption, or increased demand, commonly seen in chronic alcoholism. Symptoms include peripheral neuropathy, muscle weakness, edema, and cardiovascular issues such as tachycardia and heart failure (wet beriberi) or neurological symptoms like confusion and ataxia (dry beriberi).",
-      "relevant_doc_ids": ["Beriberi"]
+      "ground_truth": "Beriberi is caused by a deficiency of thiamine (vitamin B1), resulting from diets high in polished white rice or unenriched carbohydrates, chronic alcoholism (which impairs thiamine intake and absorption), digestive malabsorption, prolonged diarrhea, liver disease, dialysis, or increased demand during fever, pregnancy, or breastfeeding. Symptoms include gastrointestinal complaints (loss of appetite, indigestion, severe constipation), dry beriberi affecting the nervous system (fatigue, irritability, poor memory, peripheral neuropathy with numb or burning feet, leg cramps, unsteady walk, muscle weakness and atrophy, loss of reflexes, and footdrop), and wet beriberi affecting the cardiovascular system (rapid heartbeat, sweating, leg edema, weakened heart muscle, and heart failure).",
+      "relevant_doc_ids": [
+        "Beriberi"
+      ]
     },
     {
       "id": "N01",
@@ -672,8 +809,10 @@
       "is_emergency": false,
       "query": "What are the symptoms and diagnostic criteria for bipolar disorder?",
       "question_type": "Factual",
-      "ground_truth": "Symptoms of bipolar disorder include episodes of mania (elevated mood, increased energy, decreased need for sleep, grandiosity) and depression (persistent sadness, loss of interest, fatigue). Diagnostic criteria include the presence of at least one manic episode, with possible depressive episodes, as outlined in the DSM-5.",
-      "relevant_doc_ids": ["Bipolar_disorder"]
+      "ground_truth": "Bipolar disorder causes alternating episodes of mania (euphoria or irritability, inflated self-esteem, decreased need for sleep, talkativeness, racing thoughts, distractibility, hyperactivity, risk-taking, and in severe cases hallucinations or grandiose illusions) and depression (despair, low energy, extreme fatigue, difficulty concentrating, and psychomotor retardation). Under DSM-IV criteria cited in the source, a manic episode requires an abnormally elevated or irritable mood lasting at least one week with at least three manic symptoms (four if mood is only irritable), whereas hypomania in bipolar II disorder requires at least four days of symptoms alongside major depressive episodes.",
+      "relevant_doc_ids": [
+        "Bipolar_disorder"
+      ]
     },
     {
       "id": "N02",
@@ -683,8 +822,11 @@
       "is_emergency": false,
       "query": "What causes acne vulgaris and what topical treatments are effective?",
       "question_type": "Factual",
-      "ground_truth": "Acne vulgaris is primarily caused by the overproduction of sebum, follicular hyperkeratinization, and the proliferation of Cutibacterium acnes bacteria, often influenced by hormonal changes. Effective topical treatments include retinoids (tretinoin), benzoyl peroxide, and topical antibiotics (clindamycin).",
-      "relevant_doc_ids": ["Acne", "Antiacne_drugs"]
+      "ground_truth": "Acne occurs when skin pores or sebaceous follicles become clogged with excess oil (sebum), dead skin cells, and bacteria, forming comedones (whiteheads and blackheads) and inflamed pimples, pustules, nodules, or cysts, often influenced by hormonal changes (androgens), heredity, stress, certain medications, and oil-based cosmetics. Effective topical treatments include comedolytic and antibacterial agents such as tretinoin, benzoyl peroxide, adapalene, salicylic acid, azelaic acid, resorcinol, and sulfur, as well as topical antibiotics such as clindamycin, erythromycin, and meclocycline.",
+      "relevant_doc_ids": [
+        "Acne",
+        "Antiacne_drugs"
+      ]
     },
     {
       "id": "N03",
@@ -694,8 +836,10 @@
       "is_emergency": false,
       "query": "What is an acoustic neuroma and what hearing symptoms does it cause?",
       "question_type": "Multi-hop",
-      "ground_truth": "An acoustic neuroma, or vestibular schwannoma, is a benign tumor that arises from the Schwann cells of the vestibulocochlear nerve (cranial nerve VIII), leading to symptoms such as unilateral hearing loss, tinnitus (ringing in the ear), and balance disturbances.",
-      "relevant_doc_ids": ["Acoustic_neuroma_Definition"]
+      "ground_truth": "An acoustic neuroma (vestibular schwannoma) is a slow-growing, benign tumor arising from cells of the myelin sheath surrounding the vestibulocochlear nerve (eighth cranial nerve). Its primary hearing symptoms are unilateral or asymmetrical hearing loss—typically gradual (such as difficulty hearing on the phone or perceiving musical tones) but occasionally sudden—and tinnitus (ringing in the affected ear), often accompanied by vertigo and balance problems (dysequilibrium).",
+      "relevant_doc_ids": [
+        "Acoustic_neuroma_Definition"
+      ]
     },
     {
       "id": "N04",
@@ -705,8 +849,10 @@
       "is_emergency": false,
       "query": "What is achondroplasia and how does this genetic condition affect bone growth?",
       "question_type": "Factual",
-      "ground_truth": "Achondroplasia is a genetic disorder caused by a mutation in the FGFR3 gene, leading to impaired endochondral ossification, which results in disproportionate short stature and characteristic skeletal abnormalities, including shortened long bones and a normal-sized trunk.",
-      "relevant_doc_ids": ["Achondroplasia"]
+      "ground_truth": "Achondroplasia is an autosomal dominant genetic disorder (frequently caused by a new gene mutation) and the most common cause of dwarfism. It disturbs the normal process by which cartilage is converted into bone, preventing the bones—especially those of the arms and legs—from growing to normal length while causing them to become abnormally broad and thickened, resulting in short limbs with a normal-sized trunk, a prominent forehead, saddle nose, sway back, and narrowing of the foramen magnum and spinal canal.",
+      "relevant_doc_ids": [
+        "Achondroplasia"
+      ]
     },
     {
       "id": "N05",
@@ -717,7 +863,9 @@
       "query": "How does biofeedback therapy help patients control physiological functions?",
       "question_type": "Factual",
       "ground_truth": "Biofeedback therapy helps patients control physiological functions by using electronic monitoring devices to provide real-time feedback on bodily processes (such as heart rate, muscle tension, and skin temperature), enabling individuals to learn self-regulation techniques to manage stress, anxiety, and other conditions.",
-      "relevant_doc_ids": ["Biofeedback"]
+      "relevant_doc_ids": [
+        "Biofeedback"
+      ]
     },
     {
       "id": "N06",
@@ -727,8 +875,10 @@
       "is_emergency": false,
       "query": "What are the characteristics and diagnostic criteria for autism spectrum disorder?",
       "question_type": "Factual",
-      "ground_truth": "Autism spectrum disorder (ASD) is characterized by persistent deficits in social communication and interaction, alongside restricted, repetitive patterns of behavior, interests, or activities. Diagnostic criteria include symptoms present in early developmental periods, significant impairment in functioning, and exclusion of other intellectual disabilities or global developmental delays.",
-      "relevant_doc_ids": ["Autism"]
+      "ground_truth": "Autism (and related autistic spectrum disorders such as Asperger syndrome and childhood disintegrative disorder) is a brain disorder usually evident in the first three years of life, characterized by impaired social interaction (avoiding eye contact and physical affection), language and communication difficulties, ritualistic or repetitive behaviors, and unusual sensory responses. Because there is no medical test, diagnosis is made by observing behavior and ruling out conditions like fragile X syndrome, tuberous sclerosis, and phenylketonuria, using criteria that include problems developing friendships, problems with make-believe or social play, endlessly repeated words, difficulty carrying on a conversation, obsession with rituals or restricted patterns, and preoccupation with parts of objects.",
+      "relevant_doc_ids": [
+        "Autism"
+      ]
     },
     {
       "id": "N07",
@@ -738,8 +888,10 @@
       "is_emergency": false,
       "query": "What is binge-eating disorder and what psychological treatments are used?",
       "question_type": "Factual",
-      "ground_truth": "Binge-eating disorder is characterized by recurrent episodes of eating large quantities of food, often accompanied by a sense of loss of control and distress, without compensatory behaviors like purging. Psychological treatments include cognitive-behavioral therapy (CBT), interpersonal therapy (IPT), and dialectical behavior therapy (DBT), which focus on addressing underlying emotional issues and developing healthier eating patterns.",
-      "relevant_doc_ids": ["Binge-eating_disorder"]
+      "ground_truth": "Binge-eating disorder (BED) is characterized by recurrent episodes of rapidly consuming unnaturally large amounts of food with a sense of lost control, followed by depression and guilt, without compensatory weight-reducing behaviors such as vomiting, laxative misuse, or excessive exercise. Psychological treatments include cognitive-behavioral therapy (CBT), group therapy, and interpersonal psychotherapy to normalize meal patterns and address the emotional motives, distorted thinking, and behavioral patterns behind binge eating.",
+      "relevant_doc_ids": [
+        "Binge-eating_disorder"
+      ]
     },
     {
       "id": "N08",
@@ -747,11 +899,12 @@
       "query_type": "simple",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "What are common birth defects and what prenatal factors increase their risk?",
+      "query": "What are birth defects, how common are they in infants and young children, and how are major defects, minor defects, syndromes, and associations defined?",
       "question_type": "Factual",
-      "ground_truth": "The restored Birth_defects article is interrupted by unrelated text and does not provide the requested examples of common defects or specific prenatal risk factors. This question is excluded from answer scoring until a complete source is restored or the question and answer are revised.",
-      "relevant_doc_ids": ["Birth_defects"],
-      "ground_truth_status": "source_missing"
+      "ground_truth": "Birth defects (congenital abnormalities) are physical abnormalities present at birth, with more than 3,000 identified. They are detected in 2% to 3% of newborn infants, doubling in the first year and reaching 10% by age five as more defects become evident, and they account for nearly 20% of newborn deaths. Major defects are structural abnormalities that affect appearance and require medical or surgical treatment, whereas minor defects do not cause serious health or social problems. Multiple birth defects occurring together with a shared cause are called syndromes, whereas two or more defects that tend to appear together without sharing the same cause are called associations.",
+      "relevant_doc_ids": [
+        "Birth_defects"
+      ]
     },
     {
       "id": "N09",
@@ -761,8 +914,11 @@
       "is_emergency": false,
       "query": "What medications are used as mood stabilizers in the treatment of bipolar disorder?",
       "question_type": "Factual",
-      "ground_truth": "Mood stabilizers for bipolar disorder include lithium, anticonvulsants such as valproate and lamotrigine, and atypical antipsychotics like quetiapine and aripiprazole.",
-      "relevant_doc_ids": ["Bipolar_disorder", "Antipsychotic_drugs"]
+      "ground_truth": "Medications used as mood stabilizers and to control manic and depressive episodes in bipolar disorder include lithium (lithium carbonate), anticonvulsants such as valproate (divalproex/valproic acid), carbamazepine, and lamotrigine, and atypical antipsychotics such as risperidone, olanzapine, and clozapine.",
+      "relevant_doc_ids": [
+        "Bipolar_disorder",
+        "Antipsychotic_drugs"
+      ]
     },
     {
       "id": "N10",
@@ -772,8 +928,10 @@
       "is_emergency": false,
       "query": "severe throbbing headache and light sensitivity",
       "question_type": "Factual",
-      "ground_truth": "Severe throbbing headache accompanied by light sensitivity (photophobia) is characteristic of migraine headaches, which may also present with nausea and aura symptoms.",
-      "relevant_doc_ids": ["Antimigraine_drugs"]
+      "ground_truth": "A throbbing headache (typically on one side of the head) accompanied by increased sensitivity to light and sound is characteristic of a migraine headache, which may also cause nausea, vomiting, dizziness, and warning signals called an aura (such as flashing lights or tingling), and can be treated at symptom onset with antimigraine drugs such as triptans or ergotamine.",
+      "relevant_doc_ids": [
+        "Antimigraine_drugs"
+      ]
     },
     {
       "id": "N11",
@@ -784,7 +942,9 @@
       "query": "How do antimigraine drugs like triptans relieve acute migraine attacks?",
       "question_type": "Factual",
       "ground_truth": "Antimigraine drugs such as sumatriptan and other triptans can relieve an acute migraine. The source explains that these drugs are believed to correct chemical and electrical imbalances and tighten widened blood vessels in the brain, reducing pain and related symptoms when taken early in an attack.",
-      "relevant_doc_ids": ["Antimigraine_drugs"]
+      "relevant_doc_ids": [
+        "Antimigraine_drugs"
+      ]
     },
     {
       "id": "N12",
@@ -794,8 +954,10 @@
       "is_emergency": false,
       "query": "What is anthrax infection and what are its cutaneous and inhalation symptoms?",
       "question_type": "Factual",
-      "ground_truth": "Anthrax infection is caused by the bacterium Bacillus anthracis and can present in cutaneous, gastrointestinal, or inhalation forms. Cutaneous anthrax typically manifests as a painless ulcer with a characteristic black necrotic eschar, while inhalation anthrax presents with flu-like symptoms, including fever, cough, and severe respiratory distress, potentially progressing to shock and respiratory failure.",
-      "relevant_doc_ids": ["Anthrax"]
+      "ground_truth": "Anthrax is an infection caused by the spore-forming bacterium Bacillus anthracis that can affect the skin (cutaneous), lungs (inhalation), or intestines. Cutaneous anthrax begins as an itchy, raised bump like an insect bite that develops inflammation and a blister around dying tissue that turns black in the center, sometimes with shivering and chills. Inhalation (pulmonary) anthrax starts with flu-like symptoms—fever, fatigue, headache, muscle aches, and shortness of breath—before rapidly worsening to bronchitis, severe breathing difficulty, and shock.",
+      "relevant_doc_ids": [
+        "Anthrax"
+      ]
     },
     {
       "id": "N13",
@@ -803,10 +965,13 @@
       "query_type": "complex",
       "expect_rejection": false,
       "is_emergency": false,
-      "query": "Compare the clinical features, triggers, and medications for migraine headaches versus tension headaches.",
+      "query": "Compare the purpose, mechanism of action, and major drug classes of antimigraine drugs versus general analgesics.",
       "question_type": "Analytical",
-      "ground_truth": "Migraine headaches are characterized by unilateral throbbing pain, often accompanied by nausea, vomiting, and photophobia, with triggers including hormonal changes, stress, certain foods, and environmental factors; treatment typically involves triptans (e.g., sumatriptan) and preventive medications like beta-blockers. In contrast, tension headaches present as bilateral, pressing or tightening pain without nausea, often triggered by stress, muscle tension, or poor posture, and are commonly managed with analgesics (e.g., ibuprofen) and lifestyle modifications.",
-      "relevant_doc_ids": ["Antimigraine_drugs", "Analgesics"]
+      "ground_truth": "Antimigraine drugs are used specifically to relieve acute migraine headaches once pain begins (and should not be used for headaches caused by stress or alcohol), working by correcting electrical and chemical imbalances in the brain and tightening widened cerebral blood vessels that trigger inflammation and pain. Major acute antimigraine medications include ergotamine (alone or combined with caffeine), triptans (sumatriptan, naratriptan, rizatriptan, almotriptan, zolmitriptan), methysergide, and combination analgesics/sedatives such as Fioricet (acetaminophen, caffeine, and a barbiturate), while anticonvulsants (such as sodium valproate), antidepressants, calcium channel blockers, and beta-blockers are used for migraine prevention. In contrast, general analgesics provide symptomatic pain relief across acute pain (such as injury, surgery, or childbirth) and chronic pain without treating the underlying cause (except NSAIDs, which also reduce inflammation), acting at the nerve level by blocking peripheral pain signals or distorting central nervous system pain interpretation. Primary analgesic classes are narcotic (opioid) analgesics (such as morphine, codeine, meperidine, and propoxyphene), nonsteroidal anti-inflammatory drugs (NSAIDs, including salicylates, ketorolac, and COX-2 inhibitors celecoxib and rofecoxib), acetaminophen, and topical agents (capsaicin, methylsalicylate, transdermal lidocaine, and transdermal fentanyl).",
+      "relevant_doc_ids": [
+        "Antimigraine_drugs",
+        "Analgesics"
+      ]
     },
     {
       "id": "N14",
@@ -816,8 +981,11 @@
       "is_emergency": false,
       "query": "What physical and psychological signs indicate child or elder abuse?",
       "question_type": "Factual",
-      "ground_truth": "Physical signs of abuse may include unexplained bruises, burns, cuts, fractures, or internal injuries. Emotional or behavioral changes may include fear, withdrawal, or other serious behavioral problems; signs depend on the person and type of abuse.",
-      "relevant_doc_ids": ["Battered_child_syndrome", "Abuse"]
+      "ground_truth": "Physical signs of child or elder abuse include unexplained bruises (such as marks shaped like a hand, fist, or belt), cuts, cigarette or scald burns, bite marks, fractures, internal or retinal hemorrhages, injuries at different stages of healing, poor hygiene, unfilled prescriptions, and delayed medical care or inconsistent explanations for injuries. Psychological and behavioral signs include fear (such as an elderly person's fear or behavior change around a caretaker), anxiety, depression, low self-esteem, nightmares, aggression, hostility, post-traumatic stress disorder, suicidal behavior, eating disorders, or encopresis in abused children.",
+      "relevant_doc_ids": [
+        "Battered_child_syndrome",
+        "Abuse"
+      ]
     },
     {
       "id": "N15",
@@ -827,8 +995,10 @@
       "is_emergency": false,
       "query": "What is the purpose and clinical significance of the Beta-2 microglobulin test?",
       "question_type": "Factual",
-      "ground_truth": "The Beta-2 microglobulin test is used to assess renal function and to evaluate certain hematologic malignancies, such as multiple myeloma and lymphoma, as elevated levels can indicate increased cell turnover or impaired renal clearance, serving as a prognostic marker.",
-      "relevant_doc_ids": ["Beta2-microglobulin_test_Definition"]
+      "ground_truth": "The Beta2-microglobulin test measures blood or urine levels of a cell-surface protein plentiful on white blood cells to evaluate white-blood-cell cancers—such as multiple myeloma, chronic lymphocytic leukemia, and non-Hodgkin's lymphoma—and to assess kidney disease. Elevated blood levels reflect increased cell production or destruction and indicate disease stage and poorer prognosis in multiple myeloma, while comparing blood and urine levels helps distinguish glomerular from tubular kidney damage, detect early kidney transplant rejection or heavy-metal (cadmium or mercury) kidney injury, and track advancing HIV or cytomegalovirus infection.",
+      "relevant_doc_ids": [
+        "Beta2-microglobulin_test_Definition"
+      ]
     },
     {
       "id": "EM01",
