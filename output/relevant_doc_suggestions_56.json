@@ -273,15 +273,19 @@
       "query": "What are the main causes and symptoms of allergic conjunctivitis?",
       "ground_truth_status": "verified",
       "suggested_relevant_doc_ids": [
+        "Allergies",
         "Allergic_rhinitis"
       ],
       "confidence": "high",
       "review_note": "The 'Adenovirus_infections' document directly mentions conjunctivitis as a symptom of adenovirus infections, which is a cause of allergic conjunctivitis. The 'Allergic_rhinitis' document provides information about nasal symptoms that often accompany allergic conjunctivitis, which is relevant to the question.",
       "selected_sources": [
         {
+          "doc_id": "Allergies",
+          "source": "Data\\markdown_output\\Allergies.md"
+        },
+        {
           "doc_id": "Allergic_rhinitis",
-          "source": "Data\\markdown_output\\Allergic_rhinitis.md",
-          "excerpt": "# Allergic rhinitis This illustration depicts excessive mucus production in the nose after inhalation of airborne pollen. (Photo Researchers, Inc. Reproduced by permission.) ### Definition Allergic rhinitis, more commonly referred to as hay fever, is an inflammation of the nasal passages caused by allergic reaction to airborne substances. ### Description Allergic rhinitis (AR) is the most common allergic condition and one of the most common of al ... efinition Allergic rhinitis, more commonly referred to as hay fever, is an inflammation of the nasal passages caused by allergic reaction to airborne substances. ### Description Allergic rhinitis (AR) is the most common allergic condition and one of the most common of all minor afflictions. It affects between 10-20% of all people in the United States, and is responsible for 2.5% of all doctor visits. Antihistamines and other drugs used to treat allergic rhinitis make up a significant fraction of both prescription and over-the-counter drug sales each year. There ar"
+          "source": "Data\\markdown_output\\Allergic_rhinitis.md"
         }
       ],
       "candidate_doc_ids": [
@@ -294,7 +298,7 @@
         "Adenovirus_infections",
         "Anti-itch_drugs"
       ],
-      "review_status": "approved",
+      "review_status": "source_audited",
       "review_flags": [
         "possible_allergic_vs_infectious_topic_mismatch"
       ],
@@ -302,11 +306,12 @@
         "Adenovirus_infections",
         "Allergic_rhinitis"
       ],
-      "review_note_status": "qwen_note_may_be_stale_after_review",
+      "review_note_status": "stale_after_source_audit",
       "reviewed_doc_ids_as_entered": [
         "Allergic_rhinitis"
       ],
-      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00",
+      "source_audit_updated": true
     },
     {
       "id": "R10",
@@ -555,15 +560,19 @@
       "query": "What are the mechanisms, indications, and side effects of anticoagulant drugs versus antiplatelet agents like aspirin?",
       "ground_truth_status": "source_missing",
       "suggested_relevant_doc_ids": [
-        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs"
+        "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
+        "Aspirin"
       ],
       "confidence": "high",
       "review_note": "The article provides a direct comparison of anticoagulant drugs and antiplatelet agents, covering mechanisms, indications, and side effects. It explains the categories of anticoagulant drugs and their purpose, which aligns with the question.",
       "selected_sources": [
         {
           "doc_id": "Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs",
-          "source": "Data\\markdown_output\\Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs.md",
-          "excerpt": "# Anticoa <mark>g</mark> ulant and anti <mark>p</mark> latelet <mark>drugs</mark> ### Definition Anticoagulants are drugs used to prevent clot formation or to prevent a clot that has formed from enlarging. They inhibit clot formation by blocking the action of clotting factors or platelets. Anticoagulant drugs fall into three categories: inhibitors of clotting factor synthesis, inhibitors of thrombin and antiplatelet drugs. ### Purpose Anticoagula ... ot that has formed from enlarging. They inhibit clot formation by blocking the action of clotting factors or platelets. Anticoagulant drugs fall into three categories: inhibitors of clotting factor synthesis, inhibitors of thrombin and antiplatelet drugs. ### Purpose Anticoagulant drugs reduce the ability of the blood to form clots. Although blood clotting is essential to prevent serious bleeding in the case of skin cuts, clots inside the blood vessels block the flow of blood to major organs and cause heart attacks and strokes. Although these drugs are sometimes c"
+          "source": "Data\\markdown_output\\Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs.md"
+        },
+        {
+          "doc_id": "Aspirin",
+          "source": "Data\\markdown_output\\Aspirin.md"
         }
       ],
       "candidate_doc_ids": [
@@ -576,7 +585,7 @@
         "Antirheumatic_drugs",
         "Anticonvulsant_drugs"
       ],
-      "review_status": "approved",
+      "review_status": "source_audited",
       "review_flags": [
         "ground_truth_source_missing",
         "corrupt_source_filename_check_content"
@@ -584,7 +593,9 @@
       "reviewed_doc_ids_as_entered": [
         "Anticoagulant_and_antiplatelet_drugs"
       ],
-      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00"
+      "reviewed_at_utc": "2026-10-26T16:35:08.787816+00:00",
+      "review_note_status": "stale_after_source_audit",
+      "source_audit_updated": true
     },
     {
       "id": "C05",

@@ -19,7 +19,6 @@ Safety features:
 
 from __future__ import annotations
 
-import re
 import time
 from typing import Optional
 
@@ -50,6 +49,7 @@ from src.post_retrieval.post_retrieval_pipeline import PostRetrievalPipeline
 from src.observability.langfuse_tracker import get_tracer
 # pyrefly: ignore [missing-import]
 from src.observability.cost_calculator import CostCalculator, TokenUsage
+from src.emergency import is_emergency
 
 
 # ── Medical System Prompt ─────────────────────────────────────────────────────
@@ -93,13 +93,6 @@ It does not constitute medical advice. Always consult a qualified healthcare pro
 """
 
 # ── Emergency Keywords ────────────────────────────────────────────────────────
-_EMERGENCY_PATTERNS = [
-    r"\b(suicide|suicidal|kill (my)?self|end (my )?life|want to die)\b",
-    r"\b(chest pain|heart attack|stroke|can't breathe|difficulty breathing|seizure)\b",
-    r"\b(overdose|poisoning|unconscious|unresponsive|severe allergic reaction|anaphylaxis)\b",
-    r"\b(severe bleeding|hemorrhage|choking|drowning|electric shock)\b",
-]
-
 _EMERGENCY_RESPONSE = """\
 🚨 **EMERGENCY ALERT**
 
@@ -246,11 +239,7 @@ class RAGPipeline:
 
     def _is_emergency(self, query: str) -> bool:
         """Detect potential medical emergency in user query."""
-        query_lower = query.lower()
-        for pattern in _EMERGENCY_PATTERNS:
-            if re.search(pattern, query_lower, re.IGNORECASE):
-                return True
-        return False
+        return is_emergency(query)
 
     # ------------------------------------------------------------------
     # Main query method

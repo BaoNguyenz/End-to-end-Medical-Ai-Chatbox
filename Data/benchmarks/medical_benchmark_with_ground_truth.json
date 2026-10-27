@@ -10,7 +10,7 @@
       "is_emergency": false,
       "query": "What are the primary symptoms and clinical signs of asthma?",
       "question_type": "Factual",
-      "ground_truth": "Primary symptoms of asthma include recurrent wheezing, shortness of breath (dyspnea), persistent coughing (especially at night), and chest tightness caused by chronic airway inflammation and reversible bronchial constriction.",
+      "ground_truth": "Asthma commonly causes wheezing, shortness of breath, coughing, and chest tightness. During an attack, examination may show narrowed airways and increased effort to breathe, including use of neck muscles.",
       "relevant_doc_ids": ["Asthma"]
     },
     {
@@ -32,7 +32,7 @@
       "is_emergency": false,
       "query": "What bronchodilator and corticosteroid medications are used to manage asthma?",
       "question_type": "Factual",
-      "ground_truth": "Asthma management utilizes bronchodilators such as short-acting beta-agonists (Albuterol) for immediate relief, and daily inhaled corticosteroids (fluticasone, budesonide) as anti-inflammatory controller medications.",
+      "ground_truth": "Bronchodilators, including beta-receptor agonists such as albuterol, open the airways and provide quick relief during asthma attacks. Corticosteroids reduce airway inflammation and, when used regularly, help prevent attacks; they may be inhaled.",
       "relevant_doc_ids": ["Antiasthmatic_drugs_Definition", "Asthma"]
     },
     {
@@ -54,7 +54,7 @@
       "is_emergency": false,
       "query": "How is asthma diagnosed and evaluated in pediatric patients?",
       "question_type": "Factual",
-      "ground_truth": "Asthma diagnosis involves medical history, clinical examination, spirometry measuring FEV1 and FVC before and after bronchodilator inhalation, and peak expiratory flow (PEF) monitoring.",
+      "ground_truth": "Asthma diagnosis considers typical symptoms and signs, personal or family allergy history, and spirometry. Repeating spirometry after a bronchodilator can show reversible airway narrowing; a peak flow meter can help monitor severity at home.",
       "relevant_doc_ids": ["Asthma"]
     },
     {
@@ -98,8 +98,8 @@
       "is_emergency": false,
       "query": "What are the main causes and symptoms of allergic conjunctivitis?",
       "question_type": "Multi-hop",
-      "ground_truth": "Allergic conjunctivitis is primarily caused by exposure to allergens such as pollen, dust mites, pet dander, and mold. Symptoms include itching, redness, tearing, and swelling of the conjunctiva, often accompanied by nasal symptoms like sneezing and nasal congestion.",
-      "relevant_doc_ids": ["Allergic_rhinitis"]
+      "ground_truth": "Airborne allergens can inflame the conjunctiva. Allergic conjunctivitis causes red, irritated, itchy, and watery eyes; it may occur with allergic rhinitis symptoms such as sneezing and a runny nose.",
+      "relevant_doc_ids": ["Allergies", "Allergic_rhinitis"]
     },
     {
       "id": "R10",
@@ -153,7 +153,7 @@
       "is_emergency": false,
       "query": "How is berylliosis diagnosed and what occupational exposures cause it?",
       "question_type": "Factual",
-      "ground_truth": "Berylliosis is diagnosed through a combination of clinical evaluation, occupational history, and confirmatory tests such as bronchoalveolar lavage showing lymphocytic alveolitis or a lung biopsy revealing non-caseating granulomas. Occupational exposures include working in industries involving beryllium extraction, aerospace, electronics, and nuclear applications.",
+      "ground_truth": "Berylliosis follows inhalation of beryllium-containing dust or fumes, including occupational exposure in aerospace and manufacturing. Diagnosis includes exposure history and the beryllium lymphocyte proliferation test (BeLPT), which detects beryllium sensitivity in blood or lung-wash cells.",
       "relevant_doc_ids": ["Berylliosis"]
     },
     {
@@ -186,7 +186,7 @@
       "is_emergency": false,
       "query": "How do antihypertensive drugs help lower elevated blood pressure?",
       "question_type": "Factual",
-      "ground_truth": "Antihypertensive drugs lower elevated blood pressure by various mechanisms, including reducing cardiac output (beta-blockers), decreasing vascular resistance (ACE inhibitors, angiotensin II receptor blockers), promoting vasodilation (calcium channel blockers), and enhancing renal excretion of sodium and water (diuretics).",
+      "ground_truth": "Antihypertensive drugs lower blood pressure through different mechanisms. Diuretics promote sodium loss and reduce blood volume and peripheral resistance; calcium-channel blockers reduce contraction of heart and arterial muscle; vasodilators relax blood vessels; and adrenergic blockers reduce nerve stimulation of the heart and vessels.",
       "relevant_doc_ids": ["Antihypertensive_drugs"]
     },
     {
@@ -208,9 +208,8 @@
       "is_emergency": false,
       "query": "What are the mechanisms, indications, and side effects of anticoagulant drugs versus antiplatelet agents like aspirin?",
       "question_type": "Analytical",
-      "ground_truth": "The restored corpus contains only an antiplatelet-drug cross-reference and does not contain the referenced anticoagulant article needed to support a complete comparison. This question must not be scored for answer correctness or retrieval until that source article is restored.",
-      "ground_truth_status": "source_missing",
-      "relevant_doc_ids": ["Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs"]
+      "ground_truth": "Anticoagulant drugs prevent new clots or keep existing clots from growing by inhibiting clotting-factor synthesis or thrombin activity; they are used, for example, after heart-valve replacement or to reduce stroke risk. Antiplatelet drugs such as aspirin instead prevent platelets from aggregating and are used to prevent harmful arterial clots. Both can increase bleeding risk; aspirin can also irritate the stomach and increase bleeding when combined with anticoagulants.",
+      "relevant_doc_ids": ["Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs", "Aspirin"]
     },
     {
       "id": "C05",
@@ -220,7 +219,7 @@
       "is_emergency": false,
       "query": "What causes atherosclerosis and how does plaque buildup restrict blood flow?",
       "question_type": "Factual",
-      "ground_truth": "Atherosclerosis is caused by a combination of factors including endothelial injury, hyperlipidemia, hypertension, and inflammation, leading to the accumulation of lipids, inflammatory cells, and fibrous tissue in the arterial wall. Plaque buildup narrows the lumen of the arteries, restricting blood flow and potentially resulting in ischemia to downstream tissues.",
+      "ground_truth": "Atherosclerosis involves buildup of fatty and fibrous plaque within the inner lining of arteries. Risk factors include high blood cholesterol, high blood pressure, smoking, diabetes, and inactivity. As plaque thickens the arterial wall and narrows its diameter, blood flow is restricted.",
       "relevant_doc_ids": ["Atherosclerosis"]
     },
     {
@@ -231,7 +230,7 @@
       "is_emergency": false,
       "query": "What are cardiac arrhythmias and what antiarrhythmic medications are used to treat them?",
       "question_type": "Factual",
-      "ground_truth": "Cardiac arrhythmias are irregular heartbeats resulting from abnormal electrical activity in the heart, which can manifest as tachycardia, bradycardia, or fibrillation. Antiarrhythmic medications used to treat them include Class I agents (e.g., lidocaine, flecainide), Class II agents (beta-blockers), Class III agents (amiodarone, sotalol), and Class IV agents (calcium channel blockers like diltiazem).",
+      "ground_truth": "Arrhythmias are abnormal heart rhythms caused by disturbances in the heart's electrical signaling; the heartbeat may be too slow, too fast, or irregular. Drugs used to manage serious arrhythmias include beta-blockers, calcium-channel blockers, quinidine, digitalis preparations, and procainamide.",
       "relevant_doc_ids": ["Arrhythmias", "Antiarrhythmic_drugs"]
     },
     {
@@ -253,7 +252,7 @@
       "is_emergency": false,
       "query": "How is coronary angiography performed and what conditions does it diagnose?",
       "question_type": "Factual",
-      "ground_truth": "Coronary angiography is performed by inserting a catheter through the femoral or radial artery into the coronary arteries, followed by the injection of a contrast dye to visualize blood flow and identify blockages or abnormalities via X-ray imaging. It is primarily used to diagnose conditions such as coronary artery disease, myocardial ischemia, and coronary artery anomalies.",
+      "ground_truth": "Coronary angiography uses a catheter and injected contrast material to produce X-ray images of the coronary arteries. It helps identify narrowed or blocked arteries and other abnormalities in coronary blood flow.",
       "relevant_doc_ids": ["Angiography"]
     },
     {
@@ -264,8 +263,9 @@
       "is_emergency": false,
       "query": "What are the clinical signs and symptoms of athletic heart syndrome?",
       "question_type": "Factual",
-      "ground_truth": "Clinical signs and symptoms of athletic heart syndrome include bradycardia, increased left ventricular wall thickness, and enhanced stroke volume, often accompanied by exercise-induced changes in electrocardiogram (ECG) such as sinus bradycardia and ST-segment changes.",
-      "relevant_doc_ids": ["Athletic_heart_syndrome"]
+      "ground_truth": "The restored Athletic_heart_syndrome article describes exercise-related heart enlargement and ECG changes but does not substantiate the specific clinical signs listed in the reference answer. This question is excluded from answer scoring until the missing clinical source is restored or the question and answer are revised.",
+      "relevant_doc_ids": ["Athletic_heart_syndrome"],
+      "ground_truth_status": "source_missing"
     },
     {
       "id": "C10",
@@ -286,7 +286,7 @@
       "is_emergency": false,
       "query": "What are the side effects and contraindications of beta-blocker medications?",
       "question_type": "Relational",
-      "ground_truth": "Common beta-blocker side effects include dizziness, drowsiness, lightheadedness, sleep problems, unusual tiredness or weakness, and decreased sexual ability. More serious effects include breathing problems, slow heartbeat, cold hands and feet, and depression. A physician should know about allergies, diabetes, pregnancy or breastfeeding, bronchitis or emphysema, kidney or liver disease, heart or blood-vessel disease, unusually slow heartbeat, myasthenia gravis, or depression before treatment. Beta blockers should not be stopped abruptly because the treated condition may worsen and heart-attack risk may increase.",
+      "ground_truth": "Beta blockers may cause dizziness, lightheadedness, fatigue, cold hands and feet, or a slower heartbeat. Before treatment, clinicians should review conditions such as breathing problems, diabetes, slow heartbeat, and pregnancy, as well as possible drug interactions; beta blockers should not be stopped abruptly without medical advice.",
       "relevant_doc_ids": ["Beta_blockers"]
     },
     {
@@ -330,7 +330,7 @@
       "is_emergency": false,
       "query": "How do antiarrhythmic drugs regulate abnormal electrical activity in the heart?",
       "question_type": "Factual",
-      "ground_truth": "Antiarrhythmic drugs regulate abnormal electrical activity in the heart by modulating ion channel function, altering conduction velocity, and restoring normal rhythm through mechanisms such as sodium channel blockade (e.g., lidocaine), calcium channel blockade (e.g., verapamil), and potassium channel blockade (e.g., amiodarone).",
+      "ground_truth": "The heart's rhythm is controlled by electrical signals. Antiarrhythmic drugs help correct irregular heartbeats and slow hearts that beat too fast, restoring a steadier rhythm; examples in the source include disopyramide, procainamide, and quinidine.",
       "relevant_doc_ids": ["Antiarrhythmic_drugs"]
     },
     {
@@ -418,8 +418,9 @@
       "is_emergency": false,
       "query": "What are anticonvulsant drugs and what types of seizures do they control?",
       "question_type": "Factual",
-      "ground_truth": "Anticonvulsant drugs are medications used to prevent or control seizures by stabilizing neuronal membranes and inhibiting excessive neuronal firing; they are effective for various seizure types, including generalized tonic-clonic seizures, absence seizures, and focal seizures.",
-      "relevant_doc_ids": ["Anticonvulsant_drugs"]
+      "ground_truth": "The Anticonvulsant_drugs article says different medicines may be prescribed for different seizures, but it does not identify which named seizure types they control. This question is excluded from answer scoring until a source covering seizure types is restored or the question and answer are revised.",
+      "relevant_doc_ids": ["Anticonvulsant_drugs"],
+      "ground_truth_status": "source_missing"
     },
     {
       "id": "P09",
@@ -440,7 +441,7 @@
       "is_emergency": false,
       "query": "What are antifungal drugs and what fungal infections do they treat?",
       "question_type": "Factual",
-      "ground_truth": "Antifungal drugs are medications used to treat infections caused by fungi, including superficial infections like athlete's foot and candidiasis, as well as systemic infections such as cryptococcal meningitis and aspergillosis. Common antifungal classes include azoles (e.g., fluconazole), echinocandins (e.g., caspofungin), and polyenes (e.g., amphotericin B).",
+      "ground_truth": "Antifungal drugs treat infections caused by fungi. Systemic antifungal medicines are taken by mouth or injection for deeper infections, including candidiasis, histoplasmosis, blastomycosis, and aspergillosis; superficial fungal infections may be treated locally.",
       "relevant_doc_ids": ["Antifungal_drugs,_systemic"]
     },
     {
@@ -484,7 +485,7 @@
       "is_emergency": false,
       "query": "What antiviral drugs are available and how do they inhibit viral replication?",
       "question_type": "Factual",
-      "ground_truth": "Antiviral drugs include nucleoside analogs (e.g., acyclovir, zidovudine) that inhibit viral replication by interfering with nucleic acid synthesis, protease inhibitors (e.g., ritonavir, saquinavir) that block viral protein processing, and neuraminidase inhibitors (e.g., oseltamivir, zanamivir) that prevent viral release from infected cells.",
+      "ground_truth": "Antiviral drugs treat or control particular viral infections. Examples include acyclovir, famciclovir, and valacyclovir for herpesvirus infections, and oseltamivir or zanamivir for influenza. The source explains that antivirals typically inactivate enzymes needed for viral replication; antiretroviral drugs can block steps such as reverse transcription in HIV.",
       "relevant_doc_ids": ["Antiviral_drugs", "Antiretroviral_drugs"]
     },
     {
@@ -561,7 +562,7 @@
       "is_emergency": false,
       "query": "What causes achalasia and what swallowing difficulties does it produce?",
       "question_type": "Factual",
-      "ground_truth": "Achalasia is an esophageal motility disorder caused by degeneration of ganglion cells in Auerbach's plexus, characterized by impaired lower esophageal sphincter relaxation and peristalsis leading to dysphagia, regurgitation, and weight loss.",
+      "ground_truth": "Achalasia occurs when nerve cells that normally signal relaxation of the lower esophageal sphincter degenerate, so the sphincter fails to relax and normal peristalsis is interrupted. This causes difficulty swallowing liquids and solids, a feeling that food is stuck, and sometimes chest pain or regurgitation.",
       "relevant_doc_ids": ["Achalasia"]
     },
     {
@@ -583,7 +584,7 @@
       "is_emergency": false,
       "query": "What are the symptoms and risk factors for bile duct cancer (cholangiocarcinoma)?",
       "question_type": "Factual",
-      "ground_truth": "Symptoms of bile duct cancer (cholangiocarcinoma) include jaundice, abdominal pain, weight loss, itching, and dark urine. Risk factors include primary sclerosing cholangitis, liver fluke infection, chronic hepatitis B or C infection, and exposure to certain chemicals such as asbestos.",
+      "ground_truth": "Bile duct cancer can obstruct bile flow, causing jaundice, dark urine, pale stools, generalized itching, and sometimes abdominal symptoms. The source identifies liver-fluke infection as a risk factor, particularly in Southeast Asia.",
       "relevant_doc_ids": ["Bile_duct_cancer"]
     },
     {
@@ -616,7 +617,7 @@
       "is_emergency": false,
       "query": "What are abdominal wall defects such as gastroschisis and omphalocele?",
       "question_type": "Factual",
-      "ground_truth": "Abdominal wall defects like gastroschisis and omphalocele are congenital anomalies where the abdominal contents protrude through an opening in the abdominal wall; gastroschisis involves a defect to the right of the umbilicus with exposed intestines, while omphalocele is characterized by herniation of abdominal organs into the umbilical cord covered by a membrane.",
+      "ground_truth": "Gastroschisis and omphalocele are congenital abdominal-wall defects in which abdominal organs protrude through an opening because the wall did not close normally during fetal development.",
       "relevant_doc_ids": ["Abdominal_wall_defects"]
     },
     {
@@ -649,7 +650,7 @@
       "is_emergency": false,
       "query": "What are the clinical presentation, risks, and recovery process after an abscess incision and drainage?",
       "question_type": "Factual",
-      "ground_truth": "Clinical presentation of an abscess includes localized pain, swelling, erythema, and fluctuance over the affected area. Risks associated with incision and drainage include infection, bleeding, and recurrence of the abscess. Recovery typically involves wound care, pain management, and monitoring for signs of infection, with most patients resuming normal activities within a few days, depending on the abscess size and location.",
+      "ground_truth": "An abscess is a localized collection of pus that may require incision and drainage. After drainage, the wound is cleaned and dressed and may need ongoing drainage; the abscess can recur or spread if infection is not controlled. Prognosis for the drained abscess is generally good, while overall recovery depends on the underlying condition.",
       "relevant_doc_ids": ["Abscess_incision_&_drainage", "Abscess"]
     },
     {
@@ -748,8 +749,9 @@
       "is_emergency": false,
       "query": "What are common birth defects and what prenatal factors increase their risk?",
       "question_type": "Factual",
-      "ground_truth": "Common birth defects include neural tube defects, congenital heart defects, and cleft lip/palate. Prenatal factors that increase their risk include maternal diabetes, obesity, advanced maternal age, exposure to teratogens (such as alcohol and certain medications), and nutritional deficiencies (notably folic acid).",
-      "relevant_doc_ids": ["Birth_defects"]
+      "ground_truth": "The restored Birth_defects article is interrupted by unrelated text and does not provide the requested examples of common defects or specific prenatal risk factors. This question is excluded from answer scoring until a complete source is restored or the question and answer are revised.",
+      "relevant_doc_ids": ["Birth_defects"],
+      "ground_truth_status": "source_missing"
     },
     {
       "id": "N09",
@@ -781,7 +783,7 @@
       "is_emergency": false,
       "query": "How do antimigraine drugs like triptans relieve acute migraine attacks?",
       "question_type": "Factual",
-      "ground_truth": "Antimigraine drugs like triptans relieve acute migraine attacks by selectively agonizing serotonin (5-HT) receptors, leading to vasoconstriction of dilated intracranial blood vessels and inhibition of pro-inflammatory neuropeptide release, thereby alleviating headache symptoms.",
+      "ground_truth": "Antimigraine drugs such as sumatriptan and other triptans can relieve an acute migraine. The source explains that these drugs are believed to correct chemical and electrical imbalances and tighten widened blood vessels in the brain, reducing pain and related symptoms when taken early in an attack.",
       "relevant_doc_ids": ["Antimigraine_drugs"]
     },
     {
@@ -814,7 +816,7 @@
       "is_emergency": false,
       "query": "What physical and psychological signs indicate child or elder abuse?",
       "question_type": "Factual",
-      "ground_truth": "Physical signs of child or elder abuse may include unexplained injuries, bruises in various stages of healing, malnutrition, and poor hygiene, while psychological signs can manifest as withdrawal, fearfulness, anxiety, depression, or sudden changes in behavior.",
+      "ground_truth": "Physical signs of abuse may include unexplained bruises, burns, cuts, fractures, or internal injuries. Emotional or behavioral changes may include fear, withdrawal, or other serious behavioral problems; signs depend on the person and type of abuse.",
       "relevant_doc_ids": ["Battered_child_syndrome", "Abuse"]
     },
     {

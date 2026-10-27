@@ -6,14 +6,14 @@ R05	How is asthma diagnosed and evaluated in pediatric patients?	Asthma	approved
 R06	What causes atelectasis (collapsed lung) and what are its symptoms?	Atelectasis	approved	source_file_contains_mixed_entries
 R07	What is asbestosis and how does asbestos exposure cause lung damage?	Asbestosis	approved	source_file_contains_mixed_entries
 R08	How do antihistamines work to alleviate allergic symptoms?	Antihistamines	approved	
-R09	What are the main causes and symptoms of allergic conjunctivitis?	Allergic_rhinitis	approved	possible_allergic_vs_infectious_topic_mismatch
+R09	What are the main causes and symptoms of allergic conjunctivitis?	Allergies; Allergic_rhinitis	source_audited	possible_allergic_vs_infectious_topic_mismatch; source_audit_updated
 R10	wheezing and breathing difficulty	Asthma; Anaphylaxis_Definition	approved	
 R11	What are the symptoms and transmission routes of avian influenza (bird flu)?	Bird_flu	approved	
 R13	What are the common allergens that trigger severe allergic reactions?	Allergies; Anaphylaxis_Definition	approved	many_sources_check_minimality
 R14	How is berylliosis diagnosed and what occupational exposures cause it?	Berylliosis	approved	
 C01	What is angina pectoris and what causes chest pain during exertion?	Angina	approved	redirect_stub_removed
 C02	How do antihypertensive drugs help lower elevated blood pressure?	Antihypertensive_drugs	approved	many_sources_check_minimality; corrupt_source_filename_check_content
-C04	What are the mechanisms, indications, and side effects of anticoagulant drugs versus antiplatelet agents like aspirin?	Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs	approved	ground_truth_source_missing; corrupt_source_filename_check_content
+C04	What are the mechanisms, indications, and side effects of anticoagulant drugs versus antiplatelet agents like aspirin?	Anticoa_markgmark_ulant_and_anti_markpmark_latelet_markdrugs; Aspirin	source_audited	ground_truth_source_missing; corrupt_source_filename_check_content; source_audit_updated
 C05	What causes atherosclerosis and how does plaque buildup restrict blood flow?	Atherosclerosis	approved	
 C06	What are cardiac arrhythmias and what antiarrhythmic medications are used to treat them?	Arrhythmias; Antiarrhythmic_drugs	approved	
 C07	What is an abdominal aortic aneurysm and what are its symptoms?	Aortic_aneurysm	approved	
