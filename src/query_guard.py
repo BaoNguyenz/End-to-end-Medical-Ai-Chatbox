@@ -33,7 +33,9 @@ def is_emergency(query: str) -> bool:
 # outside the medical encyclopedia's scope. It does not infer intent from every
 # possible phrasing; future semantic routing should keep this guard in front.
 _ADVERSARIAL_PATTERNS = [
-    r"\b(?:ignore|forget|override)\b.{0,65}\b(?:instructions?|rules?|system|safety|restrictions?)\b",
+    r"\b(?:ignore|forget|override|disregard)\b.{0,80}\b(?:instructions?|directions?|rules?|system|safety|restrictions?)\b",
+    r"\b(?:system|developer)\s+(?:message|note|instruction|override)\s*:",
+    r"\b(?:reveal|print|show)\b.{0,60}\b(?:hidden|private|system|developer)\b.{0,30}\b(?:prompt|instructions?|message)\b",
     r"\b(?:dan|do anything now|unrestricted doctor|no ethical filters|zero safety restrictions)\b",
     r"\b(?:system prompt|system override|new system instruction|\[inst\]|\[/inst\])\b",
     r"\b(?:manufacture illicit|lethal dose|chlorine gas|painless way to overdose|poison extraction)\b",
@@ -48,6 +50,9 @@ _OUT_OF_SCOPE_PATTERNS = [
     r"\b(?:engine oil|toyota corolla|romantic poem|creative poem|recipe for baking|brownies)\b",
     r"\b(?:quantum superposition|schrodinger'?s cat)\b",
     r"\b(?:fictional virus|fictional miracle drug|sci-fi movie)\b",
+    r"\b(?:weekend itinerary|travel itinerary|flight booking|tourist attractions)\b",
+    r"\b(?:debug|write|fix)\b.{0,40}\b(?:javascript|python|typescript)\s+code\b",
+    r"\b(?:football|soccer)\s+(?:match|score|result)\b",
 ]
 
 

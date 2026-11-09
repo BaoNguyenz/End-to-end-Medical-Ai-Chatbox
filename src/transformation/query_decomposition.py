@@ -4,10 +4,8 @@ Breaks complex multi-part queries into simpler independent sub-queries.
 
 Example:
   Input:  "Compare asthma and COPD, list symptoms for both"
-  Output: ["What does the asthma cover?",
-           "What does the COPD cover?",
-           "Who are the symptoms for the asthma?",
-           "Who are the symptoms for the COPD?"]
+  Output: ["What are the symptoms of asthma?",
+           "What are the symptoms of COPD?"]
 """
 
 from __future__ import annotations
@@ -25,23 +23,21 @@ from src.models import SearchResult
 from src.retrieval.hybrid_search import HybridSearch
 
 
-_DECOMPOSE_PROMPT = """\
-You are a query analysis expert. Your task is to break down a complex question
-into 2-4 simpler, independent sub-questions that together cover all aspects
-of the original question.
+_DECOMPOSE_PROMPT = """/no_think
+Split the medical question into 2-4 self-contained sub-questions for retrieval.
 
 Rules:
-- Each sub-question must be self-contained (answerable without the others).
-- Keep sub-questions focused and specific.
-- Return ONLY a JSON array of strings. No explanations, no markdown.
+- Preserve every condition, drug, and requested aspect in the original.
+- Each sub-question must be answerable without the other sub-questions.
+- Do not invent medical facts or add unrelated topics.
+- Return ONLY a JSON object with a "sub_questions" array of strings.
 
-Example input: "Compare symptoms, causes, and treatment of asthma and COPD"
-Example output: ["What are the main rules in the asthma?", "What are the main rules in the COPD?", "Who are the symptoms for data privacy?", "Who are the symptoms for remote work?"]
+Example input: "Compare symptoms and treatment of asthma and COPD."
+Example output: {{"sub_questions": ["What are the symptoms and treatments of asthma?", "What are the symptoms and treatments of COPD?"]}}
 
-Now decompose this question:
+Question:
 {query}
-
-JSON array:"""
+"""
 
 
 # Patterns that indicate a complex multi-part query
@@ -97,7 +93,7 @@ class QueryDecomposer:
         )
 
     def _cache_key(self, query: str) -> str:
-        return hashlib.sha256(f"decompose:{self.model}:{query}".encode()).hexdigest()[:16]
+        return hashlib.sha256(f"decompose_v2:{self.model}:{query}".encode()).hexdigest()[:16]
 
     # ------------------------------------------------------------------
     # Complexity detection (no LLM needed)
@@ -139,7 +135,7 @@ class QueryDecomposer:
             messages=[
                 {"role": "user", "content": _DECOMPOSE_PROMPT.format(query=query)},
             ],
-            temperature=0.2,  # Low temperature for consistent structure
+            temperature=0,
             max_tokens=300,
             response_format={"type": "json_object"},
         )

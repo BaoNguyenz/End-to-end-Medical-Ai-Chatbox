@@ -284,6 +284,7 @@ class VectorStore:
         wanted = list(dict.fromkeys(chunk_id for chunk_id in chunk_ids if chunk_id))
         if not wanted:
             return []
+        wanted_set = set(wanted)
 
         # Payload lookup avoids relying on Python's process-randomized hash,
         # which is currently used as the Qdrant point ID during indexing.

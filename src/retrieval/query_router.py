@@ -3,6 +3,9 @@ query_router.py
 Medical AI Query Router - Classifies incoming medical queries and
 routes them to the optimal search strategy.
 
+Legacy search-weight experiment. The production RAGPipeline uses the local
+Qwen TransformationRouter for simple/complex/vague classification instead.
+
 Query types recognized:
 - KEYWORD  → Drug names, ICD codes, dosages → BM25-weighted search
 - SEMANTIC → Symptom descriptions, conceptual questions → Vector-weighted search
